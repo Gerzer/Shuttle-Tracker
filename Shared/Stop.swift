@@ -25,7 +25,9 @@ extension Stop: CustomAnnotation {
 	
 	var annotationView: MKAnnotationView {
 		get {
-			return MKPinAnnotationView(annotation: self, reuseIdentifier: nil)
+			let pinAnnotationView = MKPinAnnotationView(annotation: self, reuseIdentifier: nil)
+			pinAnnotationView.canShowCallout = true
+			return pinAnnotationView
 		}
 	}
 	
@@ -33,7 +35,7 @@ extension Stop: CustomAnnotation {
 
 extension Stop: MKAnnotation {
 	
-	var subtitle: String? {
+	var title: String? {
 		get {
 			return self.name
 		}
