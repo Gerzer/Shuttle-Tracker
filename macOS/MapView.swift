@@ -13,8 +13,6 @@ struct MapView: NSViewRepresentable {
 	private var mapView = MKMapView(frame: .zero)
 	private let mapViewDelegate = MapViewDelegate()
 	
-//	@State private var buses = Set<Bus>()
-//	@State private var routes = [Route]()
 	@EnvironmentObject var mapState: MapState
 	
 	func makeNSView(context: Context) -> MKMapView {

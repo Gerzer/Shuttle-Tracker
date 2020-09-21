@@ -12,9 +12,8 @@ class Route: NSObject, Collection, Identifiable {
 	
 	let startIndex = 0
 	lazy var endIndex = self.mapPoints.count - 1
-	var mapPoints: [MKMapPoint]
+	let mapPoints: [MKMapPoint]
 	var color: Color
-	var buses = [Bus]()
 	var last: MKMapPoint? {
 		get {
 			return self.mapPoints.last
