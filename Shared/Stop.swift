@@ -12,16 +12,21 @@ class Stop: NSObject, Identifiable {
 	let id: Int
 	let coordinate: CLLocationCoordinate2D
 	let name: String
-	var pinAnnotationView: MKPinAnnotationView {
-		get {
-			return MKPinAnnotationView(annotation: self, reuseIdentifier: nil)
-		}
-	}
 	
 	init(id: Int, coordinate: CLLocationCoordinate2D, name: String) {
 		self.id = id
 		self.coordinate = coordinate
 		self.name = name
+	}
+	
+}
+
+extension Stop: CustomAnnotation {
+	
+	var annotationView: MKAnnotationView {
+		get {
+			return MKPinAnnotationView(annotation: self, reuseIdentifier: nil)
+		}
 	}
 	
 }

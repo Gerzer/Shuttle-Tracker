@@ -11,10 +11,8 @@ import MapKit
 class MapViewDelegate: NSObject, MKMapViewDelegate {
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-		if let bus = annotation as? Bus {
-			return bus.markerAnnotationView
-		} else if let stop = annotation as? Stop {
-			return stop.pinAnnotationView
+		if let customAnnotation = annotation as? CustomAnnotation {
+			return customAnnotation.annotationView
 		}
 		return nil
 	}

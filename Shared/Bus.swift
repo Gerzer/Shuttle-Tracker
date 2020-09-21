@@ -12,7 +12,18 @@ class Bus: NSObject, Identifiable {
 	let id: Int
 	var coordinate: CLLocationCoordinate2D
 	var heading: Double
-	var markerAnnotationView: MKMarkerAnnotationView {
+	
+	init(id: Int, coordinate: CLLocationCoordinate2D, heading: Double) {
+		self.id = id
+		self.coordinate = coordinate
+		self.heading = heading
+	}
+	
+}
+
+extension Bus: CustomAnnotation {
+	
+	var annotationView: MKAnnotationView {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView(annotation: self, reuseIdentifier: nil)
 			#if os(macOS)
@@ -22,12 +33,6 @@ class Bus: NSObject, Identifiable {
 			#endif
 			return markerAnnotationView
 		}
-	}
-	
-	init(id: Int, coordinate: CLLocationCoordinate2D, heading: Double) {
-		self.id = id
-		self.coordinate = coordinate
-		self.heading = heading
 	}
 	
 }
