@@ -50,16 +50,16 @@ extension Set where Element == Bus {
 			if let data = data, let rawString = String(data: data, encoding: .utf8) {
 				rawString.split(separator: "\r\n").dropFirst().dropLast().forEach { (rawLine) in
 					guard let idRange = rawLine.range(of: #"(?<=(Vehicle\sID:))\d+"#, options: [.regularExpression]), let id = Int(rawLine[idRange]) else {
-						fatalError()
+						return
 					}
 					guard let latitudeRange = rawLine.range(of: #"(?<=(lat:))-?\d+\.\d+"#, options: [.regularExpression]), let latitude = Double(rawLine[latitudeRange]) else {
-						fatalError()
+						return
 					}
 					guard let longitudeRange = rawLine.range(of: #"(?<=(lon:))-?\d+\.\d+"#, options: [.regularExpression]), let longitude = Double(rawLine[longitudeRange]) else {
-						fatalError()
+						return
 					}
 					guard let headingRange = rawLine.range(of: #"(?<=(dir:))-?\d+(\.\d+)?"#, options: [.regularExpression]), let heading = Double(rawLine[headingRange]) else {
-						fatalError()
+						return
 					}
 					let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
 					busCallback(Bus(id: id, coordinate: coordinate, heading: heading))
