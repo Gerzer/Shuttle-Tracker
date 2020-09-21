@@ -10,6 +10,7 @@ import Combine
 class MapState: ObservableObject {
 	
 	@Published var buses = Set<Bus>()
+	@Published var stops = Set<Stop>()
 	@Published var routes = [Route]()
 	
 }

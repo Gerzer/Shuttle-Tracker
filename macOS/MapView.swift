@@ -10,8 +10,8 @@ import MapKit
 
 struct MapView: NSViewRepresentable {
 	
-	private var mapView = MKMapView(frame: .zero)
-	private let mapViewDelegate = MapViewDelegate()
+	let mapView = MKMapView(frame: .zero)
+	let mapViewDelegate = MapViewDelegate()
 	
 	@EnvironmentObject var mapState: MapState
 	
@@ -24,6 +24,11 @@ struct MapView: NSViewRepresentable {
 				self.mapState.buses.insert(bus)
 			}
 		}
+		Set<Stop>.download { (stop) in
+			DispatchQueue.main.async {
+				self.mapState.stops.insert(stop)
+			}
+		}
 		[Route].download { (route) in
 			DispatchQueue.main.async {
 				self.mapState.routes.append(route)
@@ -33,7 +38,15 @@ struct MapView: NSViewRepresentable {
 	}
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
+		let allStopIDSets = self.mapState.routes.map { (route) -> Set<Int> in
+			return route.stopIDs
+		}
+		let allStopIDs = Set.generateUnion(of: allStopIDSets)
+		let relevantStops = self.mapState.stops.filter { (stop) -> Bool in
+			return allStopIDs.contains(stop.id)
+		}
 		nsView.addAnnotations(Array(self.mapState.buses))
+		nsView.addAnnotations(Array(relevantStops))
 		nsView.addOverlays(self.mapState.routes)
 	}
 	

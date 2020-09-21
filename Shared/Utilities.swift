@@ -17,3 +17,15 @@ func configureLocationManager() {
 	locationManager.delegate = locationManagerDelegate
 	locationManager.requestWhenInUseAuthorization()
 }
+
+extension Set {
+	
+	static func generateUnion(of sets: [Set]) -> Set {
+		var newSet = Set()
+		sets.forEach { (set) in
+			newSet.formUnion(set)
+		}
+		return newSet
+	}
+	
+}

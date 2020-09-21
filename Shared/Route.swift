@@ -13,7 +13,8 @@ class Route: NSObject, Collection, Identifiable {
 	let startIndex = 0
 	lazy var endIndex = self.mapPoints.count - 1
 	let mapPoints: [MKMapPoint]
-	var color: Color
+	let stopIDs: Set<Int>
+	let color: Color
 	var last: MKMapPoint? {
 		get {
 			return self.mapPoints.last
@@ -35,8 +36,9 @@ class Route: NSObject, Collection, Identifiable {
 		}
 	}
 	
-	init(_  mapPoints: [MKMapPoint] = [], color: Color) {
+	init(_  mapPoints: [MKMapPoint] = [], stopIDs: Set<Int>, color: Color) {
 		self.mapPoints = mapPoints
+		self.stopIDs = stopIDs
 		self.color = color
 	}
 	
@@ -90,7 +92,7 @@ extension Array where Element == Route {
 		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
 			if let data = data {
 				try! (JSONSerialization.jsonObject(with: data) as! [[String: Any]]).forEach { (rawRoute) in
-					guard let routeName = rawRoute["name"] as? String else {
+					guard let routeName = rawRoute["name"] as? String, let stopIDs = rawRoute["stop_ids"] as? [Int], let rawPoints = rawRoute["points"] as? [[String: Double]] else {
 						return
 					}
 					var color: Color!
@@ -102,13 +104,10 @@ extension Array where Element == Route {
 					default:
 						return
 					}
-					guard let rawPoints = rawRoute["points"] as? [[String: Double]] else {
-						return
-					}
 					let mapPoints = rawPoints.map { (rawPoint) in
 						return MKMapPoint(CLLocationCoordinate2D(latitude: rawPoint["latitude"]!, longitude: rawPoint["longitude"]!))
 					}
-					routeCallback(Route(mapPoints, color: color))
+					routeCallback(Route(mapPoints, stopIDs: Set(stopIDs), color: color))
 				}
 			}
 		}
