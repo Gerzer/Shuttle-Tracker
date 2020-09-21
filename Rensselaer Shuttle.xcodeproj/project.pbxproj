@@ -1,0 +1,506 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C01527E22517CFA60069092C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527E12517CFA60069092C /* MapView.swift */; };
+		C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
+		C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
+		C01527F72517DCAF0069092C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
+		C01527F82517DCAF0069092C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
+		C015280B2517DEBE0069092C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015280A2517DEBE0069092C /* MapView.swift */; };
+		C01528142517E1E00069092C /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
+		C01528152517E1E00069092C /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
+		C015281D2517F68F0069092C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
+		C015281E2517F68F0069092C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
+		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
+		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
+		C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
+		C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
+		C0FFD6E8250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */; };
+		C0FFD6E9250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */; };
+		C0FFD6EC250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
+		C0FFD6ED250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C01527E12517CFA60069092C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C01527EB2517D5D40069092C /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
+		C01527F62517DCAF0069092C /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		C015280A2517DEBE0069092C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C01528132517E1E00069092C /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
+		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
+		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
+		C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RensselaerShuttleApp.swift; sourceTree = "<group>"; };
+		C0FFD6D7250C33C900945F01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C0FFD6DC250C33C900945F01 /* Rensselaer Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rensselaer Shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FFD6DF250C33C900945F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0FFD6E4250C33C900945F01 /* Rensselaer Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rensselaer Shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FFD6E6250C33C900945F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0FFD6E7250C33C900945F01 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		C0FFD6F6250C33E700945F01 /* Rensselaer Shuttle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rensselaer Shuttle.entitlements"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C0FFD6D9250C33C900945F01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0FFD6E1250C33C900945F01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C01528102517E1160069092C /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
+				C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		C0FFD6CF250C33C800945F01 = {
+			isa = PBXGroup;
+			children = (
+				C0FFD6F6250C33E700945F01 /* Rensselaer Shuttle.entitlements */,
+				C0FFD6D4250C33C800945F01 /* Shared */,
+				C0FFD6DE250C33C900945F01 /* iOS */,
+				C0FFD6E5250C33C900945F01 /* macOS */,
+				C0FFD6DD250C33C900945F01 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C0FFD6D4250C33C800945F01 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */,
+				C01528132517E1E00069092C /* Bus.swift */,
+				C08E838C250D2BF000F0E2E9 /* Route.swift */,
+				C015281C2517F68F0069092C /* MapState.swift */,
+				C01527F62517DCAF0069092C /* Utilities.swift */,
+				C01528102517E1160069092C /* Delegates */,
+				C0FFD6D7250C33C900945F01 /* Assets.xcassets */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		C0FFD6DD250C33C900945F01 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0FFD6DC250C33C900945F01 /* Rensselaer Shuttle.app */,
+				C0FFD6E4250C33C900945F01 /* Rensselaer Shuttle.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C0FFD6DE250C33C900945F01 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				C01527E12517CFA60069092C /* MapView.swift */,
+				C0FFD6DF250C33C900945F01 /* Info.plist */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		C0FFD6E5250C33C900945F01 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				C015280A2517DEBE0069092C /* MapView.swift */,
+				C0FFD6E6250C33C900945F01 /* Info.plist */,
+				C0FFD6E7250C33C900945F01 /* macOS.entitlements */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C0FFD6DB250C33C900945F01 /* Rensselaer Shuttle (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0FFD6F0250C33C900945F01 /* Build configuration list for PBXNativeTarget "Rensselaer Shuttle (iOS)" */;
+			buildPhases = (
+				C0FFD6D8250C33C900945F01 /* Sources */,
+				C0FFD6D9250C33C900945F01 /* Frameworks */,
+				C0FFD6DA250C33C900945F01 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Rensselaer Shuttle (iOS)";
+			productName = "Rennselaer Shuttle (iOS)";
+			productReference = C0FFD6DC250C33C900945F01 /* Rensselaer Shuttle.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C0FFD6E3250C33C900945F01 /* Rensselaer Shuttle (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0FFD6F3250C33C900945F01 /* Build configuration list for PBXNativeTarget "Rensselaer Shuttle (macOS)" */;
+			buildPhases = (
+				C0FFD6E0250C33C900945F01 /* Sources */,
+				C0FFD6E1250C33C900945F01 /* Frameworks */,
+				C0FFD6E2250C33C900945F01 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Rensselaer Shuttle (macOS)";
+			productName = "Rennselaer Shuttle (macOS)";
+			productReference = C0FFD6E4250C33C900945F01 /* Rensselaer Shuttle.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C0FFD6D0250C33C800945F01 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					C0FFD6DB250C33C900945F01 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					C0FFD6E3250C33C900945F01 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+				};
+			};
+			buildConfigurationList = C0FFD6D3250C33C800945F01 /* Build configuration list for PBXProject "Rensselaer Shuttle" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C0FFD6CF250C33C800945F01;
+			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C0FFD6DB250C33C900945F01 /* Rensselaer Shuttle (iOS) */,
+				C0FFD6E3250C33C900945F01 /* Rensselaer Shuttle (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C0FFD6DA250C33C900945F01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0FFD6EC250C33C900945F01 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0FFD6E2250C33C900945F01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0FFD6ED250C33C900945F01 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C0FFD6D8250C33C900945F01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C015281D2517F68F0069092C /* MapState.swift in Sources */,
+				C01528142517E1E00069092C /* Bus.swift in Sources */,
+				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
+				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
+				C0FFD6E8250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C01527E22517CFA60069092C /* MapView.swift in Sources */,
+				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
+				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0FFD6E0250C33C900945F01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C015281E2517F68F0069092C /* MapState.swift in Sources */,
+				C01528152517E1E00069092C /* Bus.swift in Sources */,
+				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
+				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
+				C0FFD6E9250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
+				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
+				C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C0FFD6EE250C33C900945F01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C0FFD6EF250C33C900945F01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		C0FFD6F1250C33C900945F01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Rensselaer Shuttle.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = SYBLH277NF;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
+				PRODUCT_NAME = "Rensselaer Shuttle";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Debug;
+		};
+		C0FFD6F2250C33C900945F01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Rensselaer Shuttle.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = SYBLH277NF;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
+				PRODUCT_NAME = "Rensselaer Shuttle";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C0FFD6F4250C33C900945F01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = SYBLH277NF;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
+				PRODUCT_NAME = "Rensselaer Shuttle";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C0FFD6F5250C33C900945F01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = SYBLH277NF;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
+				PRODUCT_NAME = "Rensselaer Shuttle";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0FFD6D3250C33C800945F01 /* Build configuration list for PBXProject "Rensselaer Shuttle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0FFD6EE250C33C900945F01 /* Debug */,
+				C0FFD6EF250C33C900945F01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0FFD6F0250C33C900945F01 /* Build configuration list for PBXNativeTarget "Rensselaer Shuttle (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0FFD6F1250C33C900945F01 /* Debug */,
+				C0FFD6F2250C33C900945F01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0FFD6F3250C33C900945F01 /* Build configuration list for PBXNativeTarget "Rensselaer Shuttle (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0FFD6F4250C33C900945F01 /* Debug */,
+				C0FFD6F5250C33C900945F01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C0FFD6D0250C33C800945F01 /* Project object */;
+}
