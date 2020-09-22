@@ -3,7 +3,7 @@ import Fluent
 
 func routes(_ app: Application) throws {
 	app.get { (request) in
-		return "It works!"
+		return "It doesn't work."
 	}
 	app.get("hello") { (request) in
 		return "Hello, world!"
