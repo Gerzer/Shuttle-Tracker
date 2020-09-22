@@ -75,7 +75,7 @@ extension Set where Element == Bus {
 		let _ = app.client.get("https://shuttles.rpi.edu/datafeed")
 			.map { (response) in
 				guard let length = response.body?.readableBytes, let data = response.body?.getData(at: 0, length: length), let rawString = String(data: data, encoding: .utf8) else {
-					fatalError()
+					return
 				}
 				let buses = rawString.split(separator: "\r\n").dropFirst().dropLast().compactMap { (rawLine) -> Bus? in
 					guard let idRange = rawLine.range(of: #"(?<=(Vehicle\sID:))\d+"#, options: [.regularExpression]), let id = Int(rawLine[idRange]) else {
