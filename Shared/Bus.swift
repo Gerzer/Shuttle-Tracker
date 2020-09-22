@@ -11,12 +11,11 @@ class Bus: NSObject, Identifiable {
 	
 	let id: Int
 	var coordinate: CLLocationCoordinate2D
-	var heading: Double
 	
-	init(id: Int, coordinate: CLLocationCoordinate2D, heading: Double) {
+	
+	init(id: Int, coordinate: CLLocationCoordinate2D) {
 		self.id = id
 		self.coordinate = coordinate
-		self.heading = heading
 	}
 	
 }
@@ -63,11 +62,8 @@ extension Set where Element == Bus {
 					guard let longitudeRange = rawLine.range(of: #"(?<=(lon:))-?\d+\.\d+"#, options: [.regularExpression]), let longitude = Double(rawLine[longitudeRange]) else {
 						return
 					}
-					guard let headingRange = rawLine.range(of: #"(?<=(dir:))-?\d+(\.\d+)?"#, options: [.regularExpression]), let heading = Double(rawLine[headingRange]) else {
-						return
-					}
 					let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-					busCallback(Bus(id: id, coordinate: coordinate, heading: heading))
+					busCallback(Bus(id: id, coordinate: coordinate))
 				}
 			}
 		}

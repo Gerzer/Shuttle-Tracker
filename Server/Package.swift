@@ -20,6 +20,11 @@ let package = Package(
 		.package(
 			url:"https://github.com/vapor/fluent-sqlite-driver.git",
 			from: "4.0.0"
+		),
+		.package(
+			name: "QueuesFluentDriver",
+			url: "https://github.com/m-barthelemy/vapor-queues-fluent-driver.git",
+			from: "1.0.0-rc.2"
 		)
 	],
 	targets: [
@@ -27,7 +32,11 @@ let package = Package(
 			name: "App",
 			dependencies: [
 				.product(
-					 name: "Fluent",
+					name: "Vapor",
+					package: "vapor"
+				),
+				.product(
+					name: "Fluent",
 					package: "fluent"
 				),
 				.product(
@@ -35,8 +44,8 @@ let package = Package(
 					package: "fluent-sqlite-driver"
 				),
 				.product(
-					name: "Vapor",
-					package: "vapor"
+					name: "QueuesFluentDriver",
+					package: "QueuesFluentDriver"
 				)
 			],
 			swiftSettings: [
