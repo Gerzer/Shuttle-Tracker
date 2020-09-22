@@ -71,10 +71,12 @@ extension Bus.Location.Coordinate {
 
 extension Set where Element == Bus {
 	
-	static func download(_ busesCallback:  @escaping (_ buses: Set<Bus>) -> Void) {
-		let url = URL(string: "https://shuttles.rpi.edu/datafeed")!
-		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-			if let data = data, let rawString = String(data: data, encoding: .utf8) {
+	static func download(application app: Application, _ busesCallback:  @escaping (_ buses: Set<Bus>) -> Void) {
+		let _ = app.client.get("https://shuttles.rpi.edu/datafeed")
+			.map { (response) in
+				guard let length = response.body?.readableBytes, let data = response.body?.getData(at: 0, length: length), let rawString = String(data: data, encoding: .utf8) else {
+					fatalError()
+				}
 				let buses = rawString.split(separator: "\r\n").dropFirst().dropLast().compactMap { (rawLine) -> Bus? in
 					guard let idRange = rawLine.range(of: #"(?<=(Vehicle\sID:))\d+"#, options: [.regularExpression]), let id = Int(rawLine[idRange]) else {
 						return nil
@@ -91,8 +93,6 @@ extension Set where Element == Bus {
 				}
 				busesCallback(Set(buses))
 			}
-		}
-		task.resume()
 	}
 	
 	mutating func merge(with otherSet: Self) {

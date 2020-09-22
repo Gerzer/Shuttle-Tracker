@@ -11,7 +11,7 @@ import Queues
 struct BusJob: ScheduledJob {
 	
 	func run(context: QueueContext) -> EventLoopFuture<Void> {
-		Set<Bus>.download { (buses) in
+		Set<Bus>.download(application: context.application) { (buses) in
 			var newBuses = buses
 			let _ = Bus.query(on: context.application.db)
 				.all()
@@ -31,7 +31,7 @@ struct BusJob: ScheduledJob {
 			.all()
 			.mapEach { (bus) in
 				let oldLocations = bus.locations.filter { (location) -> Bool in
-					return Date() - location.date > 300
+					return location.date.timeIntervalSinceNow < -300
 				}
 				oldLocations.forEach { (location) in
 					bus.locations.remove(location)
@@ -39,14 +39,6 @@ struct BusJob: ScheduledJob {
 				let _ = bus.update(on: context.application.db)
 			}
 		return context.eventLoop.future()
-	}
-	
-}
-
-extension Date {
-	
-	static func - (_ leftDate: Date, _ rightDate: Date) -> TimeInterval {
-		return rightDate.distance(to: leftDate)
 	}
 	
 }
