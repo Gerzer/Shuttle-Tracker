@@ -23,7 +23,7 @@ public func configure(_ app: Application) throws {
 		.wait()
 	try app.queues.startInProcessJobs()
 	try app.queues.startScheduledJobs()
-	try? app.http.server.configuration.tlsConfiguration = .forServer(
+	try app.http.server.configuration.tlsConfiguration = .forServer(
 		certificateChain: [
 			.certificate(
 				.init(
