@@ -105,7 +105,9 @@ extension Array where Element == Bus {
 			}
 			let decoder = JSONDecoder()
 			decoder.dateDecodingStrategy = .iso8601
-			busesCallback(try! decoder.decode(self, from: data))
+			if let buses = try? decoder.decode(self, from: data) {
+				busesCallback(buses)
+			}
 		}
 		task.resume()
 	}

@@ -33,6 +33,7 @@ import MapKit
 	@State var statusText = StatusText.mapRefresh
 	@State var sheet = Sheet.board
 	@State var doShowSheet = false
+	@State var doDisableButton: Bool = true
 	@State var busID: Int?
 	@State var locationID: UUID?
 	
@@ -82,11 +83,13 @@ import MapKit
 										self.statusText = .mapRefresh
 									}
 								}
+								self.updateButtonState()
 							} label: {
 								Text(self.buttonText)
 									.padding(10)
 							}
 								.buttonStyle(BlockButtonStyle())
+								.disabled(self.doDisableButton)
 							Text(self.statusText.rawValue)
 						}
 							.padding()
@@ -126,6 +129,7 @@ import MapKit
 									self.doShowSheet = false
 									self.travelState = .onWestRoute
 									self.statusText = .locationData
+									self.updateButtonState()
 									self.findClosestBus()
 								} label: {
 									Text("West Route")
@@ -137,6 +141,7 @@ import MapKit
 									self.doShowSheet = false
 									self.travelState = .onNorthRoute
 									self.statusText = .locationData
+									self.updateButtonState()
 									self.findClosestBus()
 								} label: {
 									Text("North Route")
@@ -166,6 +171,7 @@ import MapKit
 		[Bus].download { (buses) in
 			DispatchQueue.main.async {
 				self.mapState.buses = buses
+				self.updateButtonState()
 			}
 		}
 //		if let location = locationManager.location {
@@ -193,6 +199,10 @@ import MapKit
 		}
 		self.busID = closestBus?.id
 		self.locationID = UUID()
+	}
+	
+	func updateButtonState() {
+		self.doDisableButton = locationManager.location == nil || self.mapState.buses.count == 0 && self.travelState == .notOnBus
 	}
 	
 }
