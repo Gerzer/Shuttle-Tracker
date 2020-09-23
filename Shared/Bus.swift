@@ -7,15 +7,33 @@
 
 import MapKit
 
-class Bus: NSObject, Identifiable {
+class Bus: NSObject, Codable {
+	
+	struct Location: Codable {
+		
+		struct Coordinate: Codable {
+			
+			var latitude: Double
+			var longitude: Double
+			
+		}
+		
+		var id: UUID
+		var date: Date
+		var coordinate: Coordinate
+		
+	}
 	
 	let id: Int
-	var coordinate: CLLocationCoordinate2D
+	var location: Location
 	
-	
-	init(id: Int, coordinate: CLLocationCoordinate2D) {
+	init(id: Int, location: Location) {
 		self.id = id
-		self.coordinate = coordinate
+		self.location = location
+	}
+	
+	static func == (_ leftBus: Bus, _ rightBus: Bus) -> Bool {
+		return leftBus.id == rightBus.id
 	}
 	
 }
@@ -24,7 +42,8 @@ extension Bus: CustomAnnotation {
 	
 	var annotationView: MKAnnotationView {
 		get {
-			let markerAnnotationView = MKMarkerAnnotationView(annotation: self, reuseIdentifier: nil)
+			let markerAnnotationView = MKMarkerAnnotationView()
+			markerAnnotationView.displayPriority = .required
 			#if os(macOS)
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: "bus", accessibilityDescription: nil)
 			#else
@@ -38,6 +57,12 @@ extension Bus: CustomAnnotation {
 
 extension Bus: MKAnnotation {
 	
+	var coordinate: CLLocationCoordinate2D {
+		get {
+			return self.location.coordinate.convertForCoreLocation()
+		}
+	}
+	
 	var subtitle: String? {
 		get {
 			return "Bus \(self.id)"
@@ -46,26 +71,41 @@ extension Bus: MKAnnotation {
 	
 }
 
-extension Set where Element == Bus {
+extension Bus.Location {
 	
-	static func download(_ busCallback:  @escaping (_ bus: Bus) -> Void) {
-		let url = URL(string: "https://shuttles.rpi.edu/datafeed")!
-		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-			if let data = data, let rawString = String(data: data, encoding: .utf8) {
-				rawString.split(separator: "\r\n").dropFirst().dropLast().forEach { (rawLine) in
-					guard let idRange = rawLine.range(of: #"(?<=(Vehicle\sID:))\d+"#, options: [.regularExpression]), let id = Int(rawLine[idRange]) else {
-						return
-					}
-					guard let latitudeRange = rawLine.range(of: #"(?<=(lat:))-?\d+\.\d+"#, options: [.regularExpression]), let latitude = Double(rawLine[latitudeRange]) else {
-						return
-					}
-					guard let longitudeRange = rawLine.range(of: #"(?<=(lon:))-?\d+\.\d+"#, options: [.regularExpression]), let longitude = Double(rawLine[longitudeRange]) else {
-						return
-					}
-					let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-					busCallback(Bus(id: id, coordinate: coordinate))
-				}
+	func convertForCoreLocation() -> CLLocation {
+		return CLLocation(coordinate: self.coordinate.convertForCoreLocation(), altitude: .nan, horizontalAccuracy: .nan, verticalAccuracy: .nan, timestamp: self.date)
+	}
+	
+}
+
+extension Bus.Location.Coordinate {
+	
+	func convertForCoreLocation() -> CLLocationCoordinate2D {
+		return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+	}
+	
+}
+
+extension CLLocationCoordinate2D {
+	
+	func convertToBusCoordinate() -> Bus.Location.Coordinate {
+		return Bus.Location.Coordinate(latitude: self.latitude, longitude: self.longitude)
+	}
+	
+}
+
+extension Array where Element == Bus {
+	
+	static func download(_ busesCallback:  @escaping (_ buses: [Bus]) -> Void) {
+		let url = URL(string: "https://shuttle.gerzer.software/buses")!
+		let task = URLSession.shared.dataTask(with: url) { (data, _, _) in
+			guard let data = data else {
+				return
 			}
+			let decoder = JSONDecoder()
+			decoder.dateDecodingStrategy = .iso8601
+			busesCallback(try! decoder.decode(self, from: data))
 		}
 		task.resume()
 	}

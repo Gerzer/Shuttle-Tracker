@@ -18,6 +18,14 @@ func configureLocationManager() {
 	locationManager.requestWhenInUseAuthorization()
 }
 
+enum TravelState {
+	
+	case notOnBus
+	case onWestRoute
+	case onNorthRoute
+	
+}
+
 extension Set {
 	
 	static func generateUnion(of sets: [Set]) -> Set {

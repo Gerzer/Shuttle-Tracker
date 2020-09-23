@@ -87,10 +87,11 @@ extension Route: MKOverlay {
 
 extension Array where Element == Route {
 	
-	static func download(_ routeCallback: @escaping (_ route: Route) -> Void) {
+	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
 		let url = URL(string: "https://shuttles.rpi.edu/routes")!
 		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
 			if let data = data {
+				var routes = [Route]()
 				try! (JSONSerialization.jsonObject(with: data) as! [[String: Any]]).forEach { (rawRoute) in
 					guard let routeName = rawRoute["name"] as? String, let stopIDs = rawRoute["stop_ids"] as? [Int], let rawPoints = rawRoute["points"] as? [[String: Double]] else {
 						return
@@ -107,8 +108,9 @@ extension Array where Element == Route {
 					let mapPoints = rawPoints.map { (rawPoint) in
 						return MKMapPoint(CLLocationCoordinate2D(latitude: rawPoint["latitude"]!, longitude: rawPoint["longitude"]!))
 					}
-					routeCallback(Route(mapPoints, stopIDs: Set(stopIDs), color: color))
+					routes.append(Route(mapPoints, stopIDs: Set(stopIDs), color: color))
 				}
+				routesCallback(routes)
 			}
 		}
 		task.resume()

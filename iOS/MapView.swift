@@ -17,27 +17,31 @@ struct MapView: UIViewRepresentable {
 	
 	func makeUIView(context: Context) -> MKMapView {
 		self.mapView.delegate = self.mapViewDelegate
+		self.mapView.showsUserLocation = true
+		self.mapView.showsCompass = false
 		self.mapView.setVisibleMapRect(mapRect, animated: true)
 		configureLocationManager()
-		Set<Bus>.download { (bus) in
+		[Bus].download { (buses) in
 			DispatchQueue.main.async {
-				self.mapState.buses.insert(bus)
+				self.mapState.buses = buses
 			}
 		}
-		Set<Stop>.download { (stop) in
+		[Stop].download { (stops) in
 			DispatchQueue.main.async {
-				self.mapState.stops.insert(stop)
+				self.mapState.stops = stops
 			}
 		}
-		[Route].download { (route) in
+		[Route].download { (routes) in
 			DispatchQueue.main.async {
-				self.mapState.routes.append(route)
+				self.mapState.routes = routes
 			}
 		}
 		return self.mapView
 	}
 	
 	func updateUIView(_ uiView: MKMapView, context: Context) {
+		uiView.delegate = self.mapViewDelegate
+		uiView.removeAnnotations(uiView.annotations)
 		let allStopIDSets = self.mapState.routes.map { (route) -> Set<Int> in
 			return route.stopIDs
 		}
