@@ -63,6 +63,10 @@ extension Bus.Location {
 
 extension Bus.Location.Coordinate {
 	
+	static func * (_ coordinate: Self, _ factor: Double) -> Self {
+		return self.init(latitude: coordinate.latitude * factor, longitude: coordinate.longitude * factor)
+	}
+	
 	static func += (_ leftCoordinate: inout Self, _ rightCoordinate: Self) {
 		leftCoordinate.latitude += rightCoordinate.latitude
 		leftCoordinate.longitude += rightCoordinate.longitude
@@ -119,19 +123,26 @@ extension Collection where Element == Bus.Location {
 	
 	var meanCoordinate: Element.Coordinate {
 		get {
-			var coordinate = self.reduce(into: Bus.Location.Coordinate(latitude: 0, longitude: 0)) { (coordinate, location) in
-				coordinate += location.coordinate
+			let oldestLocation = self.min { (firstLocation, secondLocation) in
+				return firstLocation.date.compare(secondLocation.date) == .orderedAscending
 			}
-			coordinate /= Double(self.count)
+			let longestInterval = (oldestLocation?.date.timeIntervalSinceNow ?? -600) * -1
+			var divisor: Double = 0
+			var coordinate = self.reduce(into: Bus.Location.Coordinate(latitude: 0, longitude: 0)) { (coordinate, location) in
+				let factor = longestInterval - location.date.timeIntervalSinceNow * -1
+				coordinate += location.coordinate * factor
+				divisor += factor
+			}
+			coordinate /= divisor
 			return coordinate
 		}
 	}
 	var meanLocation: Element {
 		get {
-			let mostRecentLocation = self.min { (firstLocation, secondLocation) in
+			let newestLocation = self.max { (firstLocation, secondLocation) in
 				return firstLocation.date.compare(secondLocation.date) == .orderedAscending
 			}
-			return Element(id: UUID(), date: mostRecentLocation?.date ?? Date(), coordinate: self.meanCoordinate)
+			return Element(id: UUID(), date: newestLocation?.date ?? Date(), coordinate: self.meanCoordinate)
 		}
 	}
 	
