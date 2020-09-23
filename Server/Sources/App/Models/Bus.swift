@@ -34,11 +34,11 @@ final class Bus: Hashable, Model, Content {
 	}
 	
 	@ID(custom: "id", generatedBy: .user) var id: Int?
-	@Field(key: "locations") var locations: Set<Location>
+	@Field(key: "locations") var locations: [Location]
 	
 	init() { }
 	
-	init(id: Int, locations: Set<Location> = Set<Location>()) {
+	init(id: Int, locations: [Location] = []) {
 		self.id = id
 		self.locations = locations
 	}
@@ -137,12 +137,13 @@ extension Collection where Element == Bus.Location {
 	
 }
 
-extension Set where Element == Bus.Location {
+extension Array where Element == Bus.Location {
 	
-	mutating func merge(with otherSet: Self) {
-		otherSet.forEach { (location) in
-			self.remove(location)
-			self.insert(location)
+	mutating func merge(with otherArray: Self) {
+		otherArray.forEach { (location) in
+			if !self.contains(location) {
+				self.append(location)
+			}
 		}
 	}
 	

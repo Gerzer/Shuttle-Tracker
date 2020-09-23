@@ -11,6 +11,10 @@
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
 		C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
+		C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DDF25192AA50020574D /* VisualEffectView.swift */; };
+		C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DE525192AEA0020574D /* VisualEffectView.swift */; };
+		C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
+		C0019DED251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
 		C01527E22517CFA60069092C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527E12517CFA60069092C /* MapView.swift */; };
 		C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
 		C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
@@ -34,6 +38,9 @@
 /* Begin PBXFileReference section */
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
+		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		C0019DE525192AEA0020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		C0019DEB251A3EFC0020574D /* BlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
 		C01527E12517CFA60069092C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C01527EB2517D5D40069092C /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
 		C01527F62517DCAF0069092C /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -94,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */,
+				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
 				C01528132517E1E00069092C /* Bus.swift */,
 				C0019DCD251910E80020574D /* Stop.swift */,
@@ -119,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				C01527E12517CFA60069092C /* MapView.swift */,
+				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0FFD6DF250C33C900945F01 /* Info.plist */,
 			);
 			path = iOS;
@@ -128,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				C015280A2517DEBE0069092C /* MapView.swift */,
+				C0019DE525192AEA0020574D /* VisualEffectView.swift */,
 				C0FFD6E6250C33C900945F01 /* Info.plist */,
 				C0FFD6E7250C33C900945F01 /* macOS.entitlements */,
 			);
@@ -237,10 +247,12 @@
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C0FFD6E8250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
+				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,10 +266,12 @@
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				C0FFD6E9250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
 				C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */,
+				C0019DED251A3EFC0020574D /* BlockButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

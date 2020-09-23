@@ -30,11 +30,14 @@ struct BusJob: ScheduledJob {
 		let _ = Bus.query(on: context.application.db)
 			.all()
 			.mapEach { (bus) in
-				let oldLocations = bus.locations.filter { (location) -> Bool in
+				let oldLocations = bus.locations.filter { (location) in
 					return location.date.timeIntervalSinceNow < -300
 				}
-				oldLocations.forEach { (location) in
-					bus.locations.remove(location)
+				let oldLocationsIndicies = oldLocations.compactMap { (location) in
+					return bus.locations.firstIndex(of: location)
+				}
+				oldLocationsIndicies.forEach { (index) in
+					bus.locations.remove(at: index)
 				}
 				let _ = bus.update(on: context.application.db)
 			}

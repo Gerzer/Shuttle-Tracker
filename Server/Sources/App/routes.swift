@@ -58,7 +58,7 @@ func routes(_ app: Application) throws {
 					}
 			}
 	}
-	app.patch("buses", ":id") { (request) -> EventLoopFuture<Set<Bus.Location>> in
+	app.patch("buses", ":id") { (request) -> EventLoopFuture<[Bus.Location]> in
 		guard let id = request.parameters.get("id", as: Int.self) else {
 			throw Abort(.badRequest)
 		}
@@ -72,7 +72,7 @@ func routes(_ app: Application) throws {
 				return bus
 			}
 			.map { (bus) in
-				return bus?.locations ?? Set()
+				return bus?.locations ?? []
 			}
 	}
 }
