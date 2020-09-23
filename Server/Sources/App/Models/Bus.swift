@@ -27,6 +27,12 @@ final class Bus: Hashable, Model, Content {
 	
 	static let schema = "buses"
 	
+	var response: BusResponse {
+		get {
+			return BusResponse(id: self.id ?? 0, location: self.locations.meanLocation)
+		}
+	}
+	
 	@ID(custom: "id", generatedBy: .user) var id: Int?
 	@Field(key: "locations") var locations: Set<Location>
 	
@@ -118,6 +124,14 @@ extension Collection where Element == Bus.Location {
 			}
 			coordinate /= Double(self.count)
 			return coordinate
+		}
+	}
+	var meanLocation: Element {
+		get {
+			let mostRecentLocation = self.min { (firstLocation, secondLocation) in
+				return firstLocation.date.compare(secondLocation.date) == .orderedAscending
+			}
+			return Element(id: UUID(), date: mostRecentLocation?.date ?? Date(), coordinate: self.meanCoordinate)
 		}
 	}
 	

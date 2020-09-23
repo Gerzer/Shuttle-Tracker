@@ -15,6 +15,9 @@ func routes(_ app: Application) throws {
 	app.get("buses") { (request) in
 		return Bus.query(on: request.db)
 			.all()
+			.mapEach { (bus) in
+				return bus.response
+			}
 	}
 	app.get("buses", ":id") { (request) -> EventLoopFuture<Bus.Location.Coordinate> in
 		guard let id = request.parameters.get("id", as: Int.self) else {
@@ -30,7 +33,7 @@ func routes(_ app: Application) throws {
 				return locations.meanCoordinate
 			}
 	}
-	app.post("buses", ":id") { (request) -> EventLoopFuture<EventLoopFuture<Bus>> in
+	app.post("buses", ":id") { (request) -> EventLoopFuture<EventLoopFuture<BusResponse>> in
 		guard let id = request.parameters.get("id", as: Int.self) else {
 			throw Abort(.badRequest)
 		}
@@ -45,13 +48,13 @@ func routes(_ app: Application) throws {
 						.filter(\.$id == id)
 						.first()
 						.map { (bus) in
-							return bus!
+							return bus!.response
 						}
 				}
 				let bus = Bus(id: id)
 				return bus.create(on: request.db)
 					.map { (_) in
-						return bus
+						return bus.response
 					}
 			}
 	}
@@ -72,6 +75,13 @@ func routes(_ app: Application) throws {
 				return bus?.locations ?? Set()
 			}
 	}
+}
+
+struct BusResponse: Content {
+	
+	var id: Int
+	var location: Bus.Location
+	
 }
 
 extension Set: Content, RequestDecodable, ResponseEncodable where Element: Codable { }
