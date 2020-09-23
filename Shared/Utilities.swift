@@ -16,6 +16,7 @@ var mapRect = MKMapRect(origin: MKMapPoint(originCoordinate), size: MKMapSize(wi
 func configureLocationManager() {
 	locationManager.delegate = locationManagerDelegate
 	locationManager.requestWhenInUseAuthorization()
+	locationManager.startUpdatingLocation()
 }
 
 enum TravelState {

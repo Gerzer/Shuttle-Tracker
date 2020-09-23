@@ -9,6 +9,8 @@ import CoreLocation
 
 class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
-	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) { }
+	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+		manager.startUpdatingLocation()
+	}
 	
 }
