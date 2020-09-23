@@ -23,5 +23,18 @@ public func configure(_ app: Application) throws {
 		.wait()
 	try app.queues.startInProcessJobs()
 	try app.queues.startScheduledJobs()
+	try? app.http.server.configuration.tlsConfiguration = .forServer(
+		certificateChain: [
+			.certificate(
+				.init(
+					file: "/etc/letsencrypt/live/shuttle.gerzer.software/fullchain.pem",
+					format: .pem
+				)
+			)
+		],
+		privateKey: .file(
+			"/etc/letsencrypt/live/shuttle.gerzer.software/privkey.pem"
+		)
+	)
 	try routes(app)
 }
