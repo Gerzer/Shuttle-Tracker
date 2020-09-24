@@ -64,10 +64,17 @@ extension Bus: MKAnnotation {
 			return self.location.coordinate.convertForCoreLocation()
 		}
 	}
-	
-	var subtitle: String? {
+	var title: String? {
 		get {
 			return "Bus \(self.id)"
+		}
+	}
+	var subtitle: String? {
+		get {
+			let formatter = RelativeDateTimeFormatter()
+			formatter.dateTimeStyle = .named
+			formatter.formattingContext = .standalone
+			return formatter.localizedString(for: self.location.date, relativeTo: Date())
 		}
 	}
 	
