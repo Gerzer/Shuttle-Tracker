@@ -18,7 +18,7 @@ fi
 echo "Updating package lists..." >> /dev/stdout
 apt-get update -y >> /var/log/shuttle_install.log
 echo "Installing dependencies..." >> /dev/stdout
-apt-get install -y wget clang libtinfo5 libpython2.7-dev libncurses5 git supervisor certbot >> /var/log/shuttle_install.log
+apt-get install -y wget clang libtinfo5 libpython2.7-dev libncurses5 libcurl4 git supervisor certbot >> /var/log/shuttle_install.log
 cd /tmp/
 echo "Downloading Swift..." >> /dev/stdout
 wget "https://swift.org/builds/swift-5.3-release/ubuntu1804/swift-5.3-RELEASE/swift-5.3-RELEASE-ubuntu18.04.tar.gz" >> /var/log/shuttle_install.log
