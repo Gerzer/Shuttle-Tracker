@@ -9,54 +9,61 @@ import Vapor
 import Fluent
 
 func routes(_ app: Application) throws {
-	app.get { (request) in
+	app.get { (request) -> Response in
 		return request.redirect(to: "https://testflight.apple.com/join/Wzc4xn2h")
 	}
-	app.get("buses") { (request) in
+	app.get("buses") { (request) -> EventLoopFuture<[BusResponse]> in
 		return Bus.query(on: request.db)
 			.all()
-			.mapEach { (bus) in
-				return bus.response
+			.flatMapEachCompactThrowing { (bus) -> BusResponse? in
+				guard let response = bus.response else {
+					return nil
+				}
+				return response
 			}
 	}
-	app.get("buses", ":id") { (request) -> EventLoopFuture<Bus.Location.Coordinate> in
+	app.get("buses", ":id") { (request) -> EventLoopFuture<Bus.Location> in
 		guard let id = request.parameters.get("id", as: Int.self) else {
 			throw Abort(.badRequest)
 		}
 		return Bus.query(on: request.db)
 			.filter(\.$id == id)
 			.all()
-			.map { (buses) in
-				let locations = buses.flatMap { (bus) in
+			.flatMapThrowing { (buses) -> Bus.Location in
+				let locations = buses.flatMap { (bus) -> [Bus.Location] in
 					return bus.locations
 				}
-				return locations.meanCoordinate
+				guard let location = locations.resolvedLocation else {
+					throw Abort(.notFound)
+				}
+				return location
 			}
 	}
-	app.post("buses", ":id") { (request) -> EventLoopFuture<EventLoopFuture<BusResponse>> in
+	app.post("buses", ":id") { (request) -> VoidResponse in
 		guard let id = request.parameters.get("id", as: Int.self) else {
 			throw Abort(.badRequest)
 		}
-		return Bus.query(on: request.db)
+		_ = Bus.query(on: request.db)
 			.all()
 			.map { (buses) in
-				let isUnique = buses.allSatisfy { (bus) in
+				let isUnique = buses.allSatisfy { (bus) -> Bool in
 					return bus.id != id
 				}
 				if !isUnique {
-					return Bus.query(on: request.db)
+					_ = Bus.query(on: request.db)
 						.filter(\.$id == id)
 						.first()
-						.map { (bus) in
-							return bus!.response
+						.flatMapThrowing { (bus) in
+							throw Abort(.noContent)
 						}
 				}
 				let bus = Bus(id: id)
-				return bus.create(on: request.db)
-					.map { (_) in
-						return bus.response
+				_ = bus.create(on: request.db)
+					.flatMapThrowing { (_) in
+						throw Abort(.created)
 					}
 			}
+		return VoidResponse()
 	}
 	app.patch("buses", ":id") { (request) -> EventLoopFuture<[Bus.Location]> in
 		guard let id = request.parameters.get("id", as: Int.self) else {
@@ -68,14 +75,16 @@ func routes(_ app: Application) throws {
 			.first()
 			.optionalMap { (bus) -> Bus in
 				bus.locations.merge(with: [newLocation])
-				let _ = bus.update(on: request.db)
+				_ = bus.update(on: request.db)
 				return bus
 			}
-			.map { (bus) in
+			.map { (bus) -> [Bus.Location] in
 				return bus?.locations ?? []
 			}
 	}
 }
+
+struct VoidResponse: Content { }
 
 struct BusResponse: Content {
 	

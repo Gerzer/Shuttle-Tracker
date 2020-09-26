@@ -8,28 +8,39 @@
 import Vapor
 import Fluent
 
-final class Bus: Hashable, Model, Content {
+final class Bus: Model {
 	
-	struct Location: Hashable, Content {
+	struct Location: Content {
 		
-		struct Coordinate: Hashable, Content {
+		struct Coordinate: Equatable, Codable {
 			
 			var latitude: Double
 			var longitude: Double
 			
 		}
 		
+		enum LocationType: Int, Codable {
+			
+			case system
+			case user
+			
+		}
+		
 		var id: UUID
 		var date: Date
 		var coordinate: Coordinate
+		var type: LocationType
 		
 	}
 	
 	static let schema = "buses"
 	
-	var response: BusResponse {
+	var response: BusResponse? {
 		get {
-			return BusResponse(id: self.id ?? 0, location: self.locations.meanLocation)
+			guard let location = self.locations.resolvedLocation else {
+				return nil
+			}
+			return BusResponse(id: self.id ?? 0, location: location)
 		}
 	}
 	
@@ -43,6 +54,10 @@ final class Bus: Hashable, Model, Content {
 		self.locations = locations
 	}
 	
+}
+
+extension Bus: Hashable {
+	
 	static func == (_ leftBus: Bus, _ rightBus: Bus) -> Bool {
 		return leftBus.id == rightBus.id
 	}
@@ -53,9 +68,9 @@ final class Bus: Hashable, Model, Content {
 	
 }
 
-extension Bus.Location {
+extension Bus.Location: Equatable {
 	
-	static func == (_ leftLocation: Self, _ rightLocation: Self) -> Bool {
+	static func == (_ leftLocation: Bus.Location, _ rightLocation: Bus.Location) -> Bool {
 		return leftLocation.id == rightLocation.id
 	}
 	
@@ -63,16 +78,12 @@ extension Bus.Location {
 
 extension Bus.Location.Coordinate {
 	
-	static func * (_ coordinate: Self, _ factor: Double) -> Self {
-		return self.init(latitude: coordinate.latitude * factor, longitude: coordinate.longitude * factor)
-	}
-	
-	static func += (_ leftCoordinate: inout Self, _ rightCoordinate: Self) {
+	static func += (_ leftCoordinate: inout Bus.Location.Coordinate, _ rightCoordinate: Bus.Location.Coordinate) {
 		leftCoordinate.latitude += rightCoordinate.latitude
 		leftCoordinate.longitude += rightCoordinate.longitude
 	}
 	
-	static func /= (_ coordinate: inout Self, _ divisor: Double) {
+	static func /= (_ coordinate: inout Bus.Location.Coordinate, _ divisor: Double) {
 		coordinate.latitude /= divisor
 		coordinate.longitude /= divisor
 	}
@@ -82,7 +93,7 @@ extension Bus.Location.Coordinate {
 extension Set where Element == Bus {
 	
 	static func download(application app: Application, _ busesCallback:  @escaping (_ buses: Set<Bus>) -> Void) {
-		let _ = app.client.get("https://shuttles.rpi.edu/datafeed")
+		_ = app.client.get("https://shuttles.rpi.edu/datafeed")
 			.map { (response) in
 				guard let length = response.body?.readableBytes, let data = response.body?.getData(at: 0, length: length), let rawString = String(data: data, encoding: .utf8) else {
 					return
@@ -98,15 +109,19 @@ extension Set where Element == Bus {
 						return nil
 					}
 					let coordinate = Bus.Location.Coordinate(latitude: latitude, longitude: longitude)
-					let location = Bus.Location(id: UUID(), date: Date(), coordinate: coordinate)
+					let location = Bus.Location(id: UUID(), date: Date(), coordinate: coordinate, type: .system)
 					return Bus(id: id, locations: [location])
 				}
 				busesCallback(Set(buses))
 			}
 	}
 	
-	mutating func merge(with otherSet: Self) {
-		otherSet.forEach { (bus) in
+}
+
+extension Set: Mergable where Element == Bus {
+	
+	mutating func merge(with otherBuses: Set<Bus>) {
+		otherBuses.forEach { (bus) in
 			if !self.insert(bus).inserted {
 				guard let existingBus = self.remove(bus) else {
 					fatalError()
@@ -121,41 +136,55 @@ extension Set where Element == Bus {
 
 extension Collection where Element == Bus.Location {
 	
-	var meanCoordinate: Element.Coordinate {
+	var systemLocation: Bus.Location? {
 		get {
-			let oldestLocation = self.min { (firstLocation, secondLocation) in
-				return firstLocation.date.compare(secondLocation.date) == .orderedAscending
+			return self.reversed().first { (location) -> Bool in
+				return location.type == .system
 			}
-			let longestInterval = (oldestLocation?.date.timeIntervalSinceNow ?? -600) * -1
-			var divisor: Double = 0
-			var coordinate = self.reduce(into: Bus.Location.Coordinate(latitude: 0, longitude: 0)) { (coordinate, location) in
-				let factor = longestInterval - location.date.timeIntervalSinceNow * -1
-				coordinate += location.coordinate * factor
-				divisor += factor
-			}
-			coordinate /= divisor
-			return coordinate
 		}
 	}
-	var meanLocation: Element {
+	var userLocation: Bus.Location? {
 		get {
-			let newestLocation = self.max { (firstLocation, secondLocation) in
+			let userLocations = self.filter { (location) -> Bool in
+				return location.type == .user
+			}
+			let newestLocation = userLocations.max { (firstLocation, secondLocation) -> Bool in
 				return firstLocation.date.compare(secondLocation.date) == .orderedAscending
 			}
-			return Element(id: UUID(), date: newestLocation?.date ?? Date(), coordinate: self.meanCoordinate)
+			let zeroCoordinate = Bus.Location.Coordinate(latitude: 0, longitude: 0)
+			var coordinate = userLocations.reduce(into: zeroCoordinate) { (coordinate, location) in
+				coordinate += location.coordinate
+			}
+			coordinate /= Double(self.count)
+			guard let userCoordinate = coordinate == zeroCoordinate ? nil : coordinate else {
+				return nil
+			}
+			return Element(id: UUID(), date: newestLocation?.date ?? Date(), coordinate: userCoordinate, type: .user)
+		}
+	}
+	var resolvedLocation: Bus.Location? {
+		get {
+			return self.userLocation ?? self.systemLocation
 		}
 	}
 	
 }
 
-extension Array where Element == Bus.Location {
+extension Array: Mergable where Element == Bus.Location {
 	
-	mutating func merge(with otherArray: Self) {
-		otherArray.forEach { (location) in
-			if !self.contains(location) {
-				self.append(location)
+	mutating func merge(with otherLocations: [Bus.Location]) {
+		otherLocations.forEach { (location) in
+			if let index = self.firstIndex(of: location) {
+				self.remove(at: index)
 			}
+			self.append(location)
 		}
 	}
+	
+}
+
+protocol Mergable: Collection {
+	
+	mutating func merge(with: Self);
 	
 }
