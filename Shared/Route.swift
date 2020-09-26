@@ -105,7 +105,7 @@ extension Array where Element == Route {
 					default:
 						return
 					}
-					let mapPoints = rawPoints.map { (rawPoint) in
+					let mapPoints = rawPoints.map { (rawPoint) -> MKMapPoint in
 						return MKMapPoint(CLLocationCoordinate2D(latitude: rawPoint["latitude"]!, longitude: rawPoint["longitude"]!))
 					}
 					routes.append(Route(mapPoints, stopIDs: Set(stopIDs), color: color))
