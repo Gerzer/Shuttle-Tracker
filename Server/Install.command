@@ -7,7 +7,7 @@ if [ $(id -u) -ne 0 ]; then
 fi
 if [ -z $email ]; then
 	echo "ERROR: Email not set" >> /dev/stderr
-	echo "Specify your email address (needed to register for an SSL certificate) in the \`email\` environment variable." >> /dev/stdout
+	echo "Specify your email address (needed to register for an SSL certificate) in the \`email\` environment variable, which you should set with the \'export\' command." >> /dev/stdout
 	exit
 fi
 if [ -z $domain ]; then
