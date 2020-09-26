@@ -1,12 +1,13 @@
 #/bin/bash
 
+source ~/.bashrc
 if [ $(id -u) -ne 0 ]; then
 	echo "ERROR: This script must be run as root." >> /dev/stderr
 	exit
 fi
 if [ -z $domain ]; then
 	echo "ERROR: Domain not set" >> /dev/stderr
-	echo "Specify your preferred domain (e.g., \"shuttle.gerzer.software\") in the \$domain environment variable" >> /dev/stdout
+	echo "Specify your preferred domain (e.g., \"shuttle.gerzer.software\") in the \`domain\` environment variable, which you should set with the \`export\` command in your \`~/.bashrc\` file." >> /dev/stdout
 	exit
 fi
 echo "Updating package lists..." >> /dev/stdout
@@ -42,4 +43,4 @@ chmod +x /etc/letsencrypt/renewal-hooks/pre/shuttle.command
 chmod +x /etc/letsencrypt/renewal-hooks/post/shuttle.command
 echo "Starting daemon..." >> /dev/stdout
 supervisorctl add shuttle >> /var/log/shuttle_install.log
-echo "The shuttle server has been installed! You can check out the installation log in `/var/log/shuttle_install.log`. Execute `$(pwd)/Update.command` at any time to update the server to the latest version." >> /dev/stdout
+echo "The shuttle server has been installed! You can check out the installation log in \`/var/log/shuttle_install.log\`. Execute \`$(pwd)/Update.command\` at any time to update the server to the latest version." >> /dev/stdout
