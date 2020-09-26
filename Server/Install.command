@@ -5,6 +5,11 @@ if [ $(id -u) -ne 0 ]; then
 	echo "ERROR: This script must be run as root." >> /dev/stderr
 	exit
 fi
+if [ -z $email ]; then
+	echo "ERROR: Email not set" >> /dev/stderr
+	echo "Specify your email address (needed to register for an SSL certificate) in the \`email\` environment variable." >> /dev/stdout
+	exit
+fi
 if [ -z $domain ]; then
 	echo "ERROR: Domain not set" >> /dev/stderr
 	echo "Specify your preferred domain (e.g., \"shuttle.gerzer.software\") in the \`domain\` environment variable, which you should set with the \`export\` command in your \`~/.bashrc\` file." >> /dev/stdout
@@ -36,7 +41,7 @@ address=$(wget "http://ipecho.net/plain" -O - -q)
 echo -e "[program:shuttle]\ncommand=$(pwd)/.build/release/Run serve --bind $address:443\ndirectory=$(pwd)\nstdout_logfile=/var/log/supervisor/shuttle_out.log\nstderr_logfile=/var/log/supervisor/shuttle_err.log" > /etc/supervisor/conf.d/shuttle.conf
 supervisorctl reread >> /var/log/shuttle_install.log
 echo "Generating SSL certificate..." >> /dev/stdout
-certbot certonly -n --standalone --domains $domain >> /var/log/shuttle_install.log
+certbot certonly --non-interactive --standalone --agree-tos --email $email --domains $domain >> /var/log/shuttle_install.log
 echo -e "#!/bin/bash\n\nsupervisorctl stop shuttle" > /etc/letsencrypt/renewal-hooks/pre/shuttle.command
 echo -e "#!/bin/bash\n\nsupervisorctl start shuttle" > /etc/letsencrypt/renewal-hooks/post/shuttle.command
 chmod +x /etc/letsencrypt/renewal-hooks/pre/shuttle.command
