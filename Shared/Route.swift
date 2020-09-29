@@ -46,6 +46,10 @@ class Route: NSObject, Collection, Identifiable {
 		return self.mapPoints[position]
 	}
 	
+	static func == (_ leftRoute: Route, _ rightRoute: Route) -> Bool {
+		return leftRoute.mapPoints == rightRoute.mapPoints
+	}
+	
 	func index(after oldIndex: Int) -> Int {
 		return oldIndex + 1
 	}
@@ -114,6 +118,22 @@ extension Array where Element == Route {
 			}
 		}
 		task.resume()
+	}
+	
+}
+
+extension MKMapPoint: Equatable {
+	
+	public static func == (_ leftMapPoint: MKMapPoint, _ rightMapPoint: MKMapPoint) -> Bool {
+		return leftMapPoint.coordinate == rightMapPoint.coordinate
+	}
+	
+}
+
+extension CLLocationCoordinate2D: Equatable {
+	
+	public static func == (_ leftCoordinate: CLLocationCoordinate2D, _ rightCoordinate: CLLocationCoordinate2D) -> Bool {
+		return leftCoordinate.latitude == rightCoordinate.latitude && leftCoordinate.longitude == rightCoordinate.longitude
 	}
 	
 }
