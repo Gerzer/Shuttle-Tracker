@@ -14,12 +14,7 @@ struct LocationRemovalJob: ScheduledJob {
 			.all()
 			.mapEach { (bus) in
 				let oldLocations = bus.locations.filter { (location) in
-					switch location.type {
-					case .system:
-						return location.date.timeIntervalSinceNow < -300
-					case .user:
-						return location.date.timeIntervalSinceNow < -30
-					}
+					return location.type == .user && location.date.timeIntervalSinceNow < -30
 				}
 				let oldLocationsIndicies = oldLocations.compactMap { (location) in
 					return bus.locations.firstIndex(of: location)
