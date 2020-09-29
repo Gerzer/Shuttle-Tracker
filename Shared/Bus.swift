@@ -18,9 +18,17 @@ class Bus: NSObject, Codable {
 			
 		}
 		
+		enum LocationType: String, Codable {
+			
+			case system = "system"
+			case user = "user"
+			
+		}
+		
 		var id: UUID
 		var date: Date
 		var coordinate: Coordinate
+		var type: LocationType
 		
 	}
 	
@@ -45,7 +53,12 @@ extension Bus: CustomAnnotation {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
 			markerAnnotationView.canShowCallout = true
-			markerAnnotationView.markerTintColor = self.location.date.timeIntervalSinceNow > -60 ? .systemGreen : .systemRed
+			switch self.location.type {
+			case .system:
+				markerAnnotationView.markerTintColor = .systemRed
+			case .user:
+				markerAnnotationView.markerTintColor = .systemGreen
+			}
 			#if os(macOS)
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: "bus", accessibilityDescription: nil)
 			#else
