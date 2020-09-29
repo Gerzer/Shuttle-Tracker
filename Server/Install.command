@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 source ~/.bashrc
 if [ $(id -u) -ne 0 ]; then

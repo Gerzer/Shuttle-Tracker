@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Stopping daemon..." /dev/stdout
+echo "Stopping daemon..." >> /dev/stdout
 supervisorctl stop shuttle >> /var/log/shuttle_update.log
 echo "Downloading shuttle server..." >> /dev/stdout
 git pull >> /var/log/shuttle_update.log
