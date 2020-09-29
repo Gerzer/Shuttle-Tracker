@@ -156,6 +156,9 @@ extension Collection where Element == Bus.Location {
 			let userLocations = self.filter { (location) -> Bool in
 				return location.type == .user
 			}
+			guard userLocations.count > 0 else {
+				return nil
+			}
 			let newestLocation = userLocations.max { (firstLocation, secondLocation) -> Bool in
 				return firstLocation.date.compare(secondLocation.date) == .orderedAscending
 			}
