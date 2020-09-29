@@ -163,11 +163,11 @@ extension Collection where Element == Bus.Location {
 			var coordinate = userLocations.reduce(into: zeroCoordinate) { (coordinate, location) in
 				coordinate += location.coordinate
 			}
-			coordinate /= Double(self.count)
+			coordinate /= Double(userLocations.count)
 			guard let userCoordinate = coordinate == zeroCoordinate ? nil : coordinate else {
 				return nil
 			}
-			return Element(id: UUID(), date: newestLocation?.date ?? Date(), coordinate: userCoordinate, type: .user)
+			return Bus.Location(id: UUID(), date: newestLocation?.date ?? Date(), coordinate: userCoordinate, type: .user)
 		}
 	}
 	var resolvedLocation: Bus.Location? {
