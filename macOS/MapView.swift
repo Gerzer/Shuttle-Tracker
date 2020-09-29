@@ -18,7 +18,7 @@ struct MapView: NSViewRepresentable {
 	func makeNSView(context: Context) -> MKMapView {
 		self.mapView.delegate = self.mapViewDelegate
 		self.mapView.showsUserLocation = true
-		self.mapView.showsCompass = false
+		self.mapView.showsCompass = true
 		self.mapView.setVisibleMapRect(mapRect, animated: true)
 		configureLocationManager()
 		[Bus].download { (buses) in
@@ -40,6 +40,7 @@ struct MapView: NSViewRepresentable {
 	}
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
+		self.mapView.delegate = self.mapViewDelegate
 		let allStopIDSets = self.mapState.routes.map { (route) -> Set<Int> in
 			return route.stopIDs
 		}
@@ -47,9 +48,21 @@ struct MapView: NSViewRepresentable {
 		let relevantStops = self.mapState.stops.filter { (stop) -> Bool in
 			return allStopIDs.contains(stop.id)
 		}
+		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) -> Bool in
+			return nsView.overlays.contains { (overlay) -> Bool in
+				if let existingRoute = overlay as? Route, existingRoute == route {
+					return true
+				}
+				return false
+			}
+		}
+		nsView.removeAnnotations(nsView.annotations)
 		nsView.addAnnotations(Array(self.mapState.buses))
 		nsView.addAnnotations(Array(relevantStops))
-		nsView.addOverlays(self.mapState.routes)
+		if !allRoutesOnMap {
+			nsView.removeOverlays(nsView.overlays)
+			nsView.addOverlays(self.mapState.routes)
+		}
 	}
 	
 }

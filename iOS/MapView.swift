@@ -11,14 +11,13 @@ import MapKit
 struct MapView: UIViewRepresentable {
 	
 	let mapView = MKMapView(frame: .zero)
-	let mapViewDelegate = MapViewDelegate()
 	
 	@EnvironmentObject var mapState: MapState
 	
-	func makeUIView(context: Context) -> MKMapView {
-		self.mapView.delegate = self.mapViewDelegate
+	func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
+		self.mapView.delegate = context.coordinator
 		self.mapView.showsUserLocation = true
-		self.mapView.showsCompass = false
+		self.mapView.showsCompass = true
 		self.mapView.setVisibleMapRect(mapRect, animated: true)
 		configureLocationManager()
 		[Bus].download { (buses) in
@@ -39,9 +38,8 @@ struct MapView: UIViewRepresentable {
 		return self.mapView
 	}
 	
-	func updateUIView(_ uiView: MKMapView, context: Context) {
-		uiView.delegate = self.mapViewDelegate
-		uiView.removeAnnotations(uiView.annotations)
+	func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<MapView>) {
+		self.mapView.delegate = context.coordinator
 		let allStopIDSets = self.mapState.routes.map { (route) -> Set<Int> in
 			return route.stopIDs
 		}
@@ -49,9 +47,25 @@ struct MapView: UIViewRepresentable {
 		let relevantStops = self.mapState.stops.filter { (stop) -> Bool in
 			return allStopIDs.contains(stop.id)
 		}
+		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) -> Bool in
+			return uiView.overlays.contains { (overlay) -> Bool in
+				if let existingRoute = overlay as? Route, existingRoute == route {
+					return true
+				}
+				return false
+			}
+		}
+		uiView.removeAnnotations(uiView.annotations)
 		uiView.addAnnotations(Array(self.mapState.buses))
 		uiView.addAnnotations(Array(relevantStops))
-		uiView.addOverlays(self.mapState.routes)
+		if !allRoutesOnMap {
+			uiView.removeOverlays(uiView.overlays)
+			uiView.addOverlays(self.mapState.routes)
+		}
+	}
+	
+	func makeCoordinator() -> MapViewDelegate {
+		return MapViewDelegate()
 	}
 	
 }
