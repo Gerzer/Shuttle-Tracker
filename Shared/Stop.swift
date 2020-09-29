@@ -27,6 +27,7 @@ extension Stop: CustomAnnotation {
 		get {
 			let pinAnnotationView = MKPinAnnotationView(annotation: self, reuseIdentifier: nil)
 			pinAnnotationView.canShowCallout = true
+			pinAnnotationView.pinTintColor = MKPinAnnotationView.purplePinColor()
 			return pinAnnotationView
 		}
 	}

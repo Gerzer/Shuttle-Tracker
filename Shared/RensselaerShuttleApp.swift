@@ -10,12 +10,6 @@ import MapKit
 
 @main struct RensselaerShuttleApp: App {
 	
-	#if os(macOS)
-	static let barPlacement = ToolbarItemPlacement.automatic
-	#else
-	static let barPlacement = ToolbarItemPlacement.bottomBar
-	#endif
-	
 	let mapState = MapState()
 	let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
 	var buttonText: String {
@@ -40,20 +34,13 @@ import MapKit
 	var body: some Scene {
 		WindowGroup {
 			ZStack {
-				MapView()
+				self.mapView
 					.environmentObject(self.mapState)
 					.ignoresSafeArea()
-					.toolbar {
-						ToolbarItem(placement: Self.barPlacement) {
-							Button(action: self.refreshBuses) {
-								Image(systemName: "arrow.clockwise.circle.fill")
-							}
-						}
-					}
 					.onReceive(self.timer) { (_) in
 						if let busID = self.busID, let locationID = self.locationID, let coordinate = locationManager.location?.coordinate {
 							let url = URL(string: "https://shuttle.gerzer.software/buses/\(busID)")!
-							let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertToBusCoordinate())
+							let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertToBusCoordinate(), type: .user)
 							let encoder = JSONEncoder()
 							encoder.dateEncodingStrategy = .iso8601
 							var request = URLRequest(url: url)
@@ -66,6 +53,7 @@ import MapKit
 					}
 				#if !os(macOS)
 				VStack {
+					Spacer()
 					HStack {
 						Spacer()
 						VStack(alignment: .leading) {
@@ -90,7 +78,13 @@ import MapKit
 							}
 								.buttonStyle(BlockButtonStyle())
 								.disabled(self.doDisableButton)
-							Text(self.statusText.rawValue)
+							HStack {
+								Text(self.statusText.rawValue)
+									.layoutPriority(1)
+								Spacer()
+								self.refreshButton
+									.frame(width: 30)
+							}
 						}
 							.padding()
 							.background(self.visualEffectView)
@@ -98,7 +92,6 @@ import MapKit
 						Spacer()
 					}
 						.padding()
-					Spacer()
 				}
 				#endif
 			}
@@ -157,11 +150,32 @@ import MapKit
 		}
 	}
 	
+	var refreshButton: some View {
+		Button(action: self.refreshBuses) {
+			Image(systemName: "arrow.clockwise.circle.fill")
+				.resizable()
+				.aspectRatio(1, contentMode: .fit)
+		}
+	}
+	
 	#if os(macOS)
+	var mapView: some View {
+		MapView()
+			.toolbar {
+				ToolbarItem {
+					self.refreshButton
+				}
+			}
+	}
+	
 	var visualEffectView: some View {
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
 	}
 	#else
+	var mapView: some View {
+		MapView()
+	}
+	
 	var visualEffectView: some View {
 		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 	}
