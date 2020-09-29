@@ -38,7 +38,8 @@ echo "Building shuttle server..." >> /dev/stdout
 swift build -c release >> /var/log/shuttle_install.log
 echo "Configuring daemon..." >> /dev/stdout
 address=$(wget "http://ipecho.net/plain" -O - -q)
-echo -e "[program:shuttle]\ncommand=$(pwd)/.build/release/Run serve --bind $address:443\ndirectory=$(pwd)\nstdout_logfile=/var/log/supervisor/shuttle_out.log\nstderr_logfile=/var/log/supervisor/shuttle_err.log" > /etc/supervisor/conf.d/shuttle.conf
+bashrc=~/.bashrc
+echo -e "[program:shuttle]\ncommand=source $bashrc; $(pwd)/.build/release/Run serve --bind $address:443\ndirectory=$(pwd)\nstdout_logfile=/var/log/supervisor/shuttle_out.log\nstderr_logfile=/var/log/supervisor/shuttle_err.log" > /etc/supervisor/conf.d/shuttle.conf
 supervisorctl reread >> /var/log/shuttle_install.log
 echo "Generating SSL certificate..." >> /dev/stdout
 certbot certonly --non-interactive --standalone --agree-tos --email $email --domains $domain >> /var/log/shuttle_install.log
