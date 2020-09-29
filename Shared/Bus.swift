@@ -128,7 +128,10 @@ extension Array where Element == Bus {
 			let decoder = JSONDecoder()
 			decoder.dateDecodingStrategy = .iso8601
 			if let buses = try? decoder.decode(self, from: data) {
-				busesCallback(buses)
+				let recentBuses = buses.filter { (bus) -> Bool in
+					return bus.location.date.timeIntervalSinceNow > -300
+				}
+				busesCallback(recentBuses)
 			}
 		}
 		task.resume()
