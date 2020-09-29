@@ -19,10 +19,10 @@ final class Bus: Model {
 			
 		}
 		
-		enum LocationType: Int, Codable {
+		enum LocationType: String, Codable {
 			
-			case system
-			case user
+			case system = "system"
+			case user = "user"
 			
 		}
 		
