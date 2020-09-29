@@ -108,8 +108,16 @@ extension Set where Element == Bus {
 					guard let longitudeRange = rawLine.range(of: #"(?<=(lon:))-?\d+\.\d+"#, options: [.regularExpression]), let longitude = Double(rawLine[longitudeRange]) else {
 						return nil
 					}
+					guard let timeRange = rawLine.range(of: #"(?<=(time:))\d{6}"#, options: [.regularExpression]), let dateRange = rawLine.range(of: #"(?<=(date:))\d{8}"#, options: [.regularExpression]) else {
+						return nil
+					}
+					let formatter = DateFormatter()
+					formatter.dateFormat = "HHmmss'|'MMddyyyy"
+					formatter.timeZone = TimeZone(abbreviation: "UTC")!
+					let dateString = "\(rawLine[timeRange])|\(rawLine[dateRange])"
+					let date = formatter.date(from: dateString)!
 					let coordinate = Bus.Location.Coordinate(latitude: latitude, longitude: longitude)
-					let location = Bus.Location(id: UUID(), date: Date(), coordinate: coordinate, type: .system)
+					let location = Bus.Location(id: UUID(), date: date, coordinate: coordinate, type: .system)
 					return Bus(id: id, locations: [location])
 				}
 				busesCallback(Set(buses))
