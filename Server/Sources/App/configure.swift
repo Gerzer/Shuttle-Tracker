@@ -11,6 +11,7 @@ import Queues
 import QueuesFluentDriver
 
 public func configure(_ app: Application) throws {
+	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 	app.databases.use(.sqlite(), as: .sqlite)
 	app.migrations.add(CreateBuses())
 	app.migrations.add(JobModelMigrate())

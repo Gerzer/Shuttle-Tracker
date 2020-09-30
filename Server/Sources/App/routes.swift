@@ -10,6 +10,9 @@ import Fluent
 
 func routes(_ app: Application) throws {
 	app.get { (request) -> Response in
+		return request.redirect(to: "/index.html")
+	}
+	app.get("testflight") { (request) -> Response in
 		return request.redirect(to: "https://testflight.apple.com/join/Wzc4xn2h")
 	}
 	app.get("buses") { (request) -> EventLoopFuture<[BusResponse]> in
