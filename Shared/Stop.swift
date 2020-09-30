@@ -25,10 +25,24 @@ extension Stop: CustomAnnotation {
 	
 	var annotationView: MKAnnotationView {
 		get {
-			let pinAnnotationView = MKPinAnnotationView(annotation: self, reuseIdentifier: nil)
-			pinAnnotationView.canShowCallout = true
-			pinAnnotationView.pinTintColor = MKPinAnnotationView.purplePinColor()
-			return pinAnnotationView
+			let annotationView = MKAnnotationView()
+			annotationView.canShowCallout = true
+			#if os(macOS)
+			annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?.withTintColor(.white)
+			annotationView.layer?.borderColor = .black
+			annotationView.layer?.borderWidth = 2
+			annotationView.layer?.cornerRadius = annotationView.frame.width / 2
+			#else
+			let image = UIImage(systemName: "circle.fill")!
+			let imageView = UIImageView(image: image)
+			imageView.tintColor = .white
+			imageView.layer.borderColor = UIColor.black.cgColor
+			imageView.layer.borderWidth = 2
+			imageView.layer.cornerRadius = imageView.frame.width / 2
+			imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
+			annotationView.addSubview(imageView)
+			#endif
+			return annotationView
 		}
 	}
 	
