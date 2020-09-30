@@ -1,6 +1,6 @@
 //
 //  Route.swift
-//  Rennselaer Shuttle
+//  Rensselaer Shuttle
 //
 //  Created by Gabriel Jacoby-Cooper on 9/12/20.
 //

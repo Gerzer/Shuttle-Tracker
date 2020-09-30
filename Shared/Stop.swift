@@ -12,6 +12,11 @@ class Stop: NSObject, Identifiable {
 	let id: Int
 	let coordinate: CLLocationCoordinate2D
 	let name: String
+	var location: CLLocation {
+		get {
+			return CLLocation(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude)
+		}
+	}
 	
 	init(id: Int, coordinate: CLLocationCoordinate2D, name: String) {
 		self.id = id

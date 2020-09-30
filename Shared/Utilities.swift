@@ -27,6 +27,26 @@ enum TravelState {
 	
 }
 
+enum StatusText: String {
+	
+	case mapRefresh = "The map automatically refreshes every 5 seconds."
+	case locationData = "You're helping out other users with real-time bus location data."
+	case thanks = "Thanks for helping other users with real-time bus location data!"
+	
+}
+
+enum SheetType {
+	
+	case board
+	
+}
+
+enum AlertType {
+	
+	case noNearbyBus
+	
+}
+
 extension Set {
 	
 	static func generateUnion(of sets: [Set]) -> Set {
