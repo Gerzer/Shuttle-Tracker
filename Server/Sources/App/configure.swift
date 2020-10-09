@@ -42,3 +42,9 @@ public func configure(_ app: Application) throws {
 	}
 	try routes(app)
 }
+
+protocol Mergable: Collection {
+	
+	mutating func merge(with: Self);
+	
+}

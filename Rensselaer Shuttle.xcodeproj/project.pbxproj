@@ -25,6 +25,12 @@
 		C01528152517E1E00069092C /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
 		C015281D2517F68F0069092C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		C015281E2517F68F0069092C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
+		C025ED342527C18600524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED332527C18600524144 /* Moya */; };
+		C025ED392527C19300524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED382527C19300524144 /* Moya */; };
+		C025ED3E2527C19B00524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED3D2527C19B00524144 /* Moya */; };
+		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */; };
@@ -89,6 +95,7 @@
 		C015280A2517DEBE0069092C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C01528132517E1E00069092C /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
 		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
+		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08FC1D4252509E6008589C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -116,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C025ED342527C18600524144 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C025ED3E2527C19B00524144 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C025ED392527C19300524144 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +211,7 @@
 				C0019DCD251910E80020574D /* Stop.swift */,
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				C015281C2517F68F0069092C /* MapState.swift */,
+				C025ED422527C1D500524144 /* API.swift */,
 				C01527F62517DCAF0069092C /* Utilities.swift */,
 				C0FFD6D7250C33C900945F01 /* Assets.xcassets */,
 				C01528102517E1160069092C /* Delegates */,
@@ -253,6 +264,9 @@
 			dependencies = (
 			);
 			name = "App Clip";
+			packageProductDependencies = (
+				C025ED332527C18600524144 /* Moya */,
+			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
 			productType = "com.apple.product-type.application.on-demand-install-capable";
@@ -272,6 +286,9 @@
 				C0A232A22525080600FAAD50 /* PBXTargetDependency */,
 			);
 			name = iOS;
+			packageProductDependencies = (
+				C025ED3D2527C19B00524144 /* Moya */,
+			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Rensselaer Shuttle.app */;
 			productType = "com.apple.product-type.application";
@@ -289,6 +306,9 @@
 			dependencies = (
 			);
 			name = macOS;
+			packageProductDependencies = (
+				C025ED382527C19300524144 /* Moya */,
+			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Rensselaer Shuttle.app */;
 			productType = "com.apple.product-type.application";
@@ -322,6 +342,9 @@
 				Base,
 			);
 			mainGroup = C0FFD6CF250C33C800945F01;
+			packageReferences = (
+				C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -372,6 +395,7 @@
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
+				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
@@ -392,6 +416,7 @@
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C0FFD6E8250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C025ED432527C1D500524144 /* API.swift in Sources */,
 				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
@@ -412,6 +437,7 @@
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				C0FFD6E9250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
@@ -748,6 +774,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C025ED332527C18600524144 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		C025ED382527C19300524144 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		C025ED3D2527C19B00524144 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C0FFD6D0250C33C800945F01 /* Project object */;
 }

@@ -60,7 +60,7 @@ let package = Package(
 			]
 		),
 		.target(
-			name: "Run",
+			name: "Runner",
 			dependencies: [
 				.target(
 					name: "App"

@@ -17,6 +17,16 @@ final class Bus: Model {
 			var latitude: Double
 			var longitude: Double
 			
+			static func += (_ leftCoordinate: inout Bus.Location.Coordinate, _ rightCoordinate: Bus.Location.Coordinate) {
+				leftCoordinate.latitude += rightCoordinate.latitude
+				leftCoordinate.longitude += rightCoordinate.longitude
+			}
+			
+			static func /= (_ coordinate: inout Bus.Location.Coordinate, _ divisor: Double) {
+				coordinate.latitude /= divisor
+				coordinate.longitude /= divisor
+			}
+			
 		}
 		
 		enum LocationType: String, Codable {
@@ -46,6 +56,7 @@ final class Bus: Model {
 	
 	@ID(custom: "id", generatedBy: .user) var id: Int?
 	@Field(key: "locations") var locations: [Location]
+	@OptionalField(key: "congestion") var congestion: Int?
 	
 	init() { }
 	
@@ -72,20 +83,6 @@ extension Bus.Location: Equatable {
 	
 	static func == (_ leftLocation: Bus.Location, _ rightLocation: Bus.Location) -> Bool {
 		return leftLocation.id == rightLocation.id
-	}
-	
-}
-
-extension Bus.Location.Coordinate {
-	
-	static func += (_ leftCoordinate: inout Bus.Location.Coordinate, _ rightCoordinate: Bus.Location.Coordinate) {
-		leftCoordinate.latitude += rightCoordinate.latitude
-		leftCoordinate.longitude += rightCoordinate.longitude
-	}
-	
-	static func /= (_ coordinate: inout Bus.Location.Coordinate, _ divisor: Double) {
-		coordinate.latitude /= divisor
-		coordinate.longitude /= divisor
 	}
 	
 }
@@ -122,22 +119,6 @@ extension Set where Element == Bus {
 				}
 				busesCallback(Set(buses))
 			}
-	}
-	
-}
-
-extension Set: Mergable where Element == Bus {
-	
-	mutating func merge(with otherBuses: Set<Bus>) {
-		otherBuses.forEach { (bus) in
-			if !self.insert(bus).inserted {
-				guard let existingBus = self.remove(bus) else {
-					fatalError()
-				}
-				existingBus.locations.merge(with: bus.locations)
-				self.insert(existingBus)
-			}
-		}
 	}
 	
 }
@@ -191,11 +172,5 @@ extension Array: Mergable where Element == Bus.Location {
 			self.append(location)
 		}
 	}
-	
-}
-
-protocol Mergable: Collection {
-	
-	mutating func merge(with: Self);
 	
 }

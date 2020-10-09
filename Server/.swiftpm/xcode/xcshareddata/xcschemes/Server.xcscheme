@@ -14,37 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Run"
-               BuildableName = "Run"
-               BlueprintName = "Run"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AppTests"
-               BuildableName = "AppTests"
-               BlueprintName = "AppTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "App"
-               BuildableName = "App"
-               BlueprintName = "App"
+               BlueprintIdentifier = "Runner"
+               BuildableName = "Runner"
+               BlueprintName = "Runner"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AppTests"
-               BuildableName = "AppTests"
-               BlueprintName = "AppTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -83,9 +45,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Run"
-            BuildableName = "Run"
-            BlueprintName = "Run"
+            BlueprintIdentifier = "Runner"
+            BuildableName = "Runner"
+            BlueprintName = "Runner"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -100,9 +62,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Run"
-            BuildableName = "Run"
-            BlueprintName = "Run"
+            BlueprintIdentifier = "Runner"
+            BuildableName = "Runner"
+            BlueprintName = "Runner"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>

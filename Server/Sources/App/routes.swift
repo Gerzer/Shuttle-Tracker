@@ -19,10 +19,7 @@ func routes(_ app: Application) throws {
 		return Bus.query(on: request.db)
 			.all()
 			.flatMapEachCompactThrowing { (bus) -> BusResponse? in
-				guard let response = bus.response else {
-					return nil
-				}
-				return response
+				return bus.response
 			}
 	}
 	app.get("buses", ":id") { (request) -> EventLoopFuture<Bus.Location> in
@@ -42,32 +39,6 @@ func routes(_ app: Application) throws {
 				return location
 			}
 	}
-	app.post("buses", ":id") { (request) -> VoidResponse in
-		guard let id = request.parameters.get("id", as: Int.self) else {
-			throw Abort(.badRequest)
-		}
-		_ = Bus.query(on: request.db)
-			.all()
-			.map { (buses) in
-				let isUnique = buses.allSatisfy { (bus) -> Bool in
-					return bus.id != id
-				}
-				if !isUnique {
-					_ = Bus.query(on: request.db)
-						.filter(\.$id == id)
-						.first()
-						.flatMapThrowing { (bus) in
-							throw Abort(.noContent)
-						}
-				}
-				let bus = Bus(id: id)
-				_ = bus.create(on: request.db)
-					.flatMapThrowing { (_) in
-						throw Abort(.created)
-					}
-			}
-		return VoidResponse()
-	}
 	app.patch("buses", ":id") { (request) -> EventLoopFuture<[Bus.Location]> in
 		guard let id = request.parameters.get("id", as: Int.self) else {
 			throw Abort(.badRequest)
@@ -81,13 +52,46 @@ func routes(_ app: Application) throws {
 				_ = bus.update(on: request.db)
 				return bus
 			}
-			.map { (bus) -> [Bus.Location] in
-				return bus?.locations ?? []
+			.flatMapThrowing { (bus) -> [Bus.Location] in
+				guard let locations = bus?.locations else {
+					throw Abort(.notFound)
+				}
+				return locations
+			}
+	}
+	app.put("buses", ":id", "board") { (request) -> EventLoopFuture<Int?> in
+		guard let id = request.parameters.get("id", as: Int.self) else {
+			throw Abort(.badRequest)
+		}
+		return Bus.query(on: request.db)
+			.filter(\.$id == id)
+			.first()
+			.flatMapThrowing { (bus) -> Int? in
+				guard let bus = bus else {
+					throw Abort(.notFound)
+				}
+				bus.congestion = (bus.congestion ?? 0) + 1
+				_ = bus.update(on: request.db)
+				return bus.congestion
+			}
+	}
+	app.put("buses", ":id", "leave") { (request) -> EventLoopFuture<Int?> in
+		guard let id = request.parameters.get("id", as: Int.self) else {
+			throw Abort(.badRequest)
+		}
+		return Bus.query(on: request.db)
+			.filter(\.$id == id)
+			.first()
+			.flatMapThrowing { (bus) -> Int? in
+				guard let bus = bus else {
+					throw Abort(.notFound)
+				}
+				bus.congestion = (bus.congestion ?? 1) - 1
+				_ = bus.update(on: request.db)
+				return bus.congestion
 			}
 	}
 }
-
-struct VoidResponse: Content { }
 
 struct BusResponse: Content {
 	
@@ -95,5 +99,7 @@ struct BusResponse: Content {
 	var location: Bus.Location
 	
 }
+
+extension Optional: Content, RequestDecodable, ResponseEncodable where Wrapped: Codable { }
 
 extension Set: Content, RequestDecodable, ResponseEncodable where Element: Codable { }
