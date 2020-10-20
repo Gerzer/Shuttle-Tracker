@@ -93,13 +93,6 @@ func routes(_ app: Application) throws {
 	}
 }
 
-struct BusResponse: Content {
-	
-	var id: Int
-	var location: Bus.Location
-	
-}
-
 extension Optional: Content, RequestDecodable, ResponseEncodable where Wrapped: Codable { }
 
 extension Set: Content, RequestDecodable, ResponseEncodable where Element: Codable { }

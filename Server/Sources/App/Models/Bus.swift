@@ -12,23 +12,6 @@ final class Bus: Model {
 	
 	struct Location: Content {
 		
-		struct Coordinate: Equatable, Codable {
-			
-			var latitude: Double
-			var longitude: Double
-			
-			static func += (_ leftCoordinate: inout Bus.Location.Coordinate, _ rightCoordinate: Bus.Location.Coordinate) {
-				leftCoordinate.latitude += rightCoordinate.latitude
-				leftCoordinate.longitude += rightCoordinate.longitude
-			}
-			
-			static func /= (_ coordinate: inout Bus.Location.Coordinate, _ divisor: Double) {
-				coordinate.latitude /= divisor
-				coordinate.longitude /= divisor
-			}
-			
-		}
-		
 		enum LocationType: String, Codable {
 			
 			case system = "system"
@@ -64,6 +47,13 @@ final class Bus: Model {
 		self.id = id
 		self.locations = locations
 	}
+	
+}
+
+struct BusResponse: Content {
+	
+	var id: Int
+	var location: Bus.Location
 	
 }
 
@@ -113,7 +103,7 @@ extension Set where Element == Bus {
 					formatter.timeZone = TimeZone(abbreviation: "UTC")!
 					let dateString = "\(rawLine[timeRange])|\(rawLine[dateRange])"
 					let date = formatter.date(from: dateString)!
-					let coordinate = Bus.Location.Coordinate(latitude: latitude, longitude: longitude)
+					let coordinate = Coordinate(latitude: latitude, longitude: longitude)
 					let location = Bus.Location(id: UUID(), date: date, coordinate: coordinate, type: .system)
 					return Bus(id: id, locations: [location])
 				}
@@ -143,7 +133,7 @@ extension Collection where Element == Bus.Location {
 			let newestLocation = userLocations.max { (firstLocation, secondLocation) -> Bool in
 				return firstLocation.date.compare(secondLocation.date) == .orderedAscending
 			}
-			let zeroCoordinate = Bus.Location.Coordinate(latitude: 0, longitude: 0)
+			let zeroCoordinate = Coordinate(latitude: 0, longitude: 0)
 			var coordinate = userLocations.reduce(into: zeroCoordinate) { (coordinate, location) in
 				coordinate += location.coordinate
 			}
