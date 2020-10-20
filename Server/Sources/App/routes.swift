@@ -47,16 +47,11 @@ func routes(_ app: Application) throws {
 		return Bus.query(on: request.db)
 			.filter(\.$id == id)
 			.first()
-			.optionalMap { (bus) -> Bus in
+			.unwrap(or: Abort(.notFound))
+			.map { (bus) -> [Bus.Location] in
 				bus.locations.merge(with: [newLocation])
 				_ = bus.update(on: request.db)
-				return bus
-			}
-			.flatMapThrowing { (bus) -> [Bus.Location] in
-				guard let locations = bus?.locations else {
-					throw Abort(.notFound)
-				}
-				return locations
+				return bus.locations
 			}
 	}
 	app.put("buses", ":id", "board") { (request) -> EventLoopFuture<Int?> in
@@ -66,10 +61,8 @@ func routes(_ app: Application) throws {
 		return Bus.query(on: request.db)
 			.filter(\.$id == id)
 			.first()
-			.flatMapThrowing { (bus) -> Int? in
-				guard let bus = bus else {
-					throw Abort(.notFound)
-				}
+			.unwrap(or: Abort(.notFound))
+			.map { (bus) -> Int? in
 				bus.congestion = (bus.congestion ?? 0) + 1
 				_ = bus.update(on: request.db)
 				return bus.congestion
@@ -82,10 +75,8 @@ func routes(_ app: Application) throws {
 		return Bus.query(on: request.db)
 			.filter(\.$id == id)
 			.first()
+			.unwrap(or: Abort(.notFound))
 			.flatMapThrowing { (bus) -> Int? in
-				guard let bus = bus else {
-					throw Abort(.notFound)
-				}
 				bus.congestion = (bus.congestion ?? 1) - 1
 				_ = bus.update(on: request.db)
 				return bus.congestion
