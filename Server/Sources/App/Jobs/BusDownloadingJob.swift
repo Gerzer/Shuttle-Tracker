@@ -12,7 +12,7 @@ struct BusDownloadingJob: ScheduledJob {
 	func run(context: QueueContext) -> EventLoopFuture<Void> {
 		Set<Bus>.download(application: context.application) { (buses) in
 			var newBuses = buses
-			_ = Bus.query(on: context.application.db)
+			Bus.query(on: context.application.db)
 				.all()
 				.mapEachCompact { (existingBus) in
 					if let newBus = newBuses.remove(existingBus) {
@@ -20,7 +20,7 @@ struct BusDownloadingJob: ScheduledJob {
 						_ = existingBus.update(on: context.application.db)
 					}
 				}
-				.map { (_) in
+				.whenSuccess { (_) in
 					newBuses.forEach { (newBus) in
 						_ = newBus.save(on: context.application.db)
 					}
