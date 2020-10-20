@@ -65,6 +65,15 @@
         }
       },
       {
+        "package": "JSONParser",
+        "repositoryURL": "https://github.com/Gerzer/JSONParser.git",
+        "state": {
+          "branch": "main",
+          "revision": "7b14bd8118ab13ee6d8bdeaff1aaddc797859597",
+          "version": null
+        }
+      },
+      {
         "package": "Moya",
         "repositoryURL": "git@github.com:Moya/Moya.git",
         "state": {

@@ -1,4 +1,5 @@
 // swift-tools-version:5.3
+
 import PackageDescription
 
 let package = Package(
@@ -25,6 +26,10 @@ let package = Package(
 			name: "QueuesFluentDriver",
 			url: "https://github.com/m-barthelemy/vapor-queues-fluent-driver.git",
 			from: "1.0.0-rc.2"
+		),
+		.package(
+			url: "https://github.com/Gerzer/JSONParser.git",
+			.branch("main")
 		)
 	],
 	targets: [
@@ -46,6 +51,10 @@ let package = Package(
 				.product(
 					name: "QueuesFluentDriver",
 					package: "QueuesFluentDriver"
+				),
+				.product(
+					name: "JSONParser",
+					package: "JSONParser"
 				)
 			],
 			swiftSettings: [

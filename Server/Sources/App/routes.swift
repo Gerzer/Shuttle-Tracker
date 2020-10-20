@@ -15,6 +15,10 @@ func routes(_ app: Application) throws {
 	app.get("testflight") { (request) -> Response in
 		return request.redirect(to: "https://testflight.apple.com/join/Wzc4xn2h")
 	}
+	app.get("routes") { (request) -> EventLoopFuture<[Route]> in
+		return Route.query(on: request.db)
+			.all()
+	}
 	app.get("buses") { (request) -> EventLoopFuture<[BusResponse]> in
 		return Bus.query(on: request.db)
 			.all()

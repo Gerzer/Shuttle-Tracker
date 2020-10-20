@@ -13,12 +13,14 @@ import QueuesFluentDriver
 public func configure(_ app: Application) throws {
 	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 	app.databases.use(.sqlite(), as: .sqlite)
-	app.migrations.add(CreateBuses())
-	app.migrations.add(JobModelMigrate())
+	app.migrations.add(CreateBuses(), CreateRoutes(), JobModelMigrate())
 	app.queues.use(.fluent(useSoftDeletes: false))
 	app.queues.schedule(BusDownloadingJob())
 		.minutely()
 		.at(0)
+	app.queues.schedule(RouteDownloadingJob())
+		.daily()
+		.at(.midnight)
 	app.queues.schedule(LocationRemovalJob())
 		.everySecond()
 	try app.autoMigrate()
@@ -40,6 +42,8 @@ public func configure(_ app: Application) throws {
 			)
 		)
 	}
+	_ = BusDownloadingJob().run(context: app.queues.queue.context)
+	_ = RouteDownloadingJob().run(context: app.queues.queue.context)
 	try routes(app)
 }
 
