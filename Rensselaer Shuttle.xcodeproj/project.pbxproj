@@ -155,6 +155,27 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		C086017025D83D8700C4F583 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C08FC22125251196008589C1 /* ContentView.swift */,
+				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
+				C01527E12517CFA60069092C /* MapView.swift */,
+				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C086017125D83D9900C4F583 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C01528132517E1E00069092C /* Bus.swift */,
+				C0019DCD251910E80020574D /* Stop.swift */,
+				C08E838C250D2BF000F0E2E9 /* Route.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		C08FC1D3252509E6008589C1 /* App Clip */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +205,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C0DA69BF25D83F2C0010C037 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C015280A2517DEBE0069092C /* MapView.swift */,
+				C0019DE525192AEA0020574D /* VisualEffectView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		C0FFD6CF250C33C800945F01 = {
 			isa = PBXGroup;
 			children = (
@@ -201,20 +231,15 @@
 		C0FFD6D4250C33C800945F01 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C086017125D83D9900C4F583 /* Models */,
+				C086017025D83D8700C4F583 /* Views */,
+				C01528102517E1160069092C /* Delegates */,
 				C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */,
-				C08FC22125251196008589C1 /* ContentView.swift */,
-				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
-				C01527E12517CFA60069092C /* MapView.swift */,
-				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
-				C01528132517E1E00069092C /* Bus.swift */,
-				C0019DCD251910E80020574D /* Stop.swift */,
-				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				C015281C2517F68F0069092C /* MapState.swift */,
 				C025ED422527C1D500524144 /* API.swift */,
 				C01527F62517DCAF0069092C /* Utilities.swift */,
 				C0FFD6D7250C33C900945F01 /* Assets.xcassets */,
-				C01528102517E1160069092C /* Delegates */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -240,8 +265,7 @@
 		C0FFD6E5250C33C900945F01 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				C015280A2517DEBE0069092C /* MapView.swift */,
-				C0019DE525192AEA0020574D /* VisualEffectView.swift */,
+				C0DA69BF25D83F2C0010C037 /* Views */,
 				C0FFD6E6250C33C900945F01 /* Info.plist */,
 				C0FFD6E7250C33C900945F01 /* macOS.entitlements */,
 			);

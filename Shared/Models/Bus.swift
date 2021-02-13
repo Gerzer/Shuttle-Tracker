@@ -13,8 +13,8 @@ class Bus: NSObject, Codable {
 		
 		struct Coordinate: Codable {
 			
-			var latitude: Double
-			var longitude: Double
+			let latitude: Double
+			let longitude: Double
 			
 		}
 		
@@ -25,15 +25,15 @@ class Bus: NSObject, Codable {
 			
 		}
 		
-		var id: UUID
-		var date: Date
-		var coordinate: Coordinate
-		var type: LocationType
+		let id: UUID
+		let date: Date
+		let coordinate: Coordinate
+		let type: LocationType
 		
 	}
 	
 	let id: Int
-	var location: Location
+	private(set) var location: Location
 	
 	init(id: Int, location: Location) {
 		self.id = id
@@ -120,21 +120,18 @@ extension CLLocationCoordinate2D {
 extension Array where Element == Bus {
 	
 	static func download(_ busesCallback:  @escaping (_ buses: [Bus]) -> Void) {
-		let url = URL(string: "https://shuttle.gerzer.software/buses")!
-		let task = URLSession.shared.dataTask(with: url) { (data, _, _) in
-			guard let data = data else {
-				return
-			}
+		API.provider.request(.readBuses) { (result) in
 			let decoder = JSONDecoder()
 			decoder.dateDecodingStrategy = .iso8601
-			if let buses = try? decoder.decode(self, from: data) {
-				let recentBuses = buses.filter { (bus) -> Bool in
+			guard let response = result.value else {
+				return
+			}
+			let buses = try? response.map([Bus].self, using: decoder)
+				.filter { (bus) -> Bool in
 					return bus.location.date.timeIntervalSinceNow > -300
 				}
-				busesCallback(recentBuses)
-			}
+			busesCallback(buses ?? [])
 		}
-		task.resume()
 	}
 	
 }

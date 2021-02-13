@@ -18,8 +18,7 @@ struct MapView: UIViewRepresentable {
 		self.mapView.delegate = context.coordinator
 		self.mapView.showsUserLocation = true
 		self.mapView.showsCompass = true
-		self.mapView.setVisibleMapRect(mapRect, animated: true)
-		configureLocationManager()
+		self.mapView.setVisibleMapRect(MapUtilities.mapRect, animated: true)
 		[Bus].download { (buses) in
 			DispatchQueue.main.async {
 				self.mapState.buses = buses

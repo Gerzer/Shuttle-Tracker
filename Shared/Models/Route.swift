@@ -11,7 +11,7 @@ import MapKit
 class Route: NSObject, Collection, Identifiable {
 	
 	let startIndex = 0
-	lazy var endIndex = self.mapPoints.count - 1
+	private(set) lazy var endIndex = self.mapPoints.count - 1
 	let mapPoints: [MKMapPoint]
 	let stopIDs: Set<Int>
 	let color: Color
@@ -36,7 +36,7 @@ class Route: NSObject, Collection, Identifiable {
 		}
 	}
 	
-	init(_  mapPoints: [MKMapPoint] = [], stopIDs: Set<Int>, color: Color) {
+	init(_ mapPoints: [MKMapPoint] = [], stopIDs: Set<Int>, color: Color) {
 		self.mapPoints = mapPoints
 		self.stopIDs = stopIDs
 		self.color = color
@@ -60,31 +60,33 @@ extension Route: MKOverlay {
 	
 	var coordinate: CLLocationCoordinate2D {
 		get {
-			return originCoordinate
+			return MapUtilities.originCoordinate
 		}
 	}
 	var boundingMapRect: MKMapRect {
-		let minX = self.reduce(into: self.first!.x) { (x, mapPoint) in
-			if mapPoint.x < x {
-				x = mapPoint.x
+		get {
+			let minX = self.reduce(into: self.first!.x) { (x, mapPoint) in
+				if mapPoint.x < x {
+					x = mapPoint.x
+				}
 			}
-		}
-		let maxX = self.reduce(into: self.first!.x) { (x, mapPoint) in
-			if mapPoint.x > x {
-				x = mapPoint.x
+			let maxX = self.reduce(into: self.first!.x) { (x, mapPoint) in
+				if mapPoint.x > x {
+					x = mapPoint.x
+				}
 			}
-		}
-		let minY = self.reduce(into: self.first!.y) { (y, mapPoint) in
-			if mapPoint.y < y {
-				y = mapPoint.y
+			let minY = self.reduce(into: self.first!.y) { (y, mapPoint) in
+				if mapPoint.y < y {
+					y = mapPoint.y
+				}
 			}
-		}
-		let maxY = self.reduce(into: self.first!.x) { (y, mapPoint) in
-			if mapPoint.y > y {
-				y = mapPoint.y
+			let maxY = self.reduce(into: self.first!.x) { (y, mapPoint) in
+				if mapPoint.y > y {
+					y = mapPoint.y
+				}
 			}
+			return MKMapRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
 		}
-		return MKMapRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
 	}
 	
 }
@@ -118,22 +120,6 @@ extension Array where Element == Route {
 			}
 		}
 		task.resume()
-	}
-	
-}
-
-extension MKMapPoint: Equatable {
-	
-	public static func == (_ leftMapPoint: MKMapPoint, _ rightMapPoint: MKMapPoint) -> Bool {
-		return leftMapPoint.coordinate == rightMapPoint.coordinate
-	}
-	
-}
-
-extension CLLocationCoordinate2D: Equatable {
-	
-	public static func == (_ leftCoordinate: CLLocationCoordinate2D, _ rightCoordinate: CLLocationCoordinate2D) -> Bool {
-		return leftCoordinate.latitude == rightCoordinate.latitude && leftCoordinate.longitude == rightCoordinate.longitude
 	}
 	
 }

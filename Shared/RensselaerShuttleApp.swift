@@ -11,8 +11,18 @@ import SwiftUI
 	
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+			self.contentView
 		}
+			.commands {
+				CommandGroup(before: .sidebar) {
+					Button("Refresh") {
+						self.contentView.refreshBuses()
+					}
+						.keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
+				}
+			}
 	}
+	
+	private var contentView = ContentView()
 	
 }

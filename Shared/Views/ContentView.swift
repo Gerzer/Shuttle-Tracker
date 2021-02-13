@@ -7,11 +7,33 @@
 
 import SwiftUI
 import MapKit
+import Moya
 
 struct ContentView: View {
 	
+	private enum SheetType: IdentifiableByHashValue {
+		
+		case board
+		
+	}
+	
+	private enum AlertType: IdentifiableByHashValue {
+		
+		case noNearbyBus
+		
+	}
+	
+	private enum StatusText: String {
+		
+		case mapRefresh = "The map automatically refreshes every 5 seconds."
+		case locationData = "You're helping out other users with real-time bus location data."
+		case thanks = "Thanks for helping other users with real-time bus location data!"
+		
+	}
+	
 	let mapState = MapState()
-	let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+	let timer = Timer.publish(every: 5, on: .main, in: .common)
+		.autoconnect()
 	var buttonText: String {
 		get {
 			switch self.travelState {
@@ -23,15 +45,13 @@ struct ContentView: View {
 		}
 	}
 	
-	@State var travelState = TravelState.notOnBus
-	@State var statusText = StatusText.mapRefresh
-	@State var sheetType = SheetType.board
-	@State var alertType = AlertType.noNearbyBus
-	@State var doShowSheet = false
-	@State var doShowAlert = false
-	@State var doDisableButton = true
-	@State var busID: Int?
-	@State var locationID: UUID?
+	@State private var travelState = TravelState.notOnBus
+	@State private var statusText = StatusText.mapRefresh
+	@State private var sheetType: SheetType?
+	@State private var alertType: AlertType?
+	@State private var doDisableButton = true
+	@State private var busID: Int?
+	@State private var locationID: UUID?
 	
 	var body: some View {
 		ZStack {
@@ -41,7 +61,7 @@ struct ContentView: View {
 				.onReceive(self.timer) { (_) in
 					switch self.travelState {
 					case .notOnBus:
-						guard let location = locationManager.location else {
+						guard let location = LocationUtilities.locationManager.location else {
 							break
 						}
 						let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
@@ -60,16 +80,19 @@ struct ContentView: View {
 							self.locationID = UUID()
 						}
 					case .onWestRoute, .onNorthRoute:
-						if let busID = self.busID, let locationID = self.locationID, let coordinate = locationManager.location?.coordinate {
-							let url = URL(string: "https://shuttle.gerzer.software/buses/\(busID)")!
+						if let busID = self.busID, let locationID = self.locationID, let coordinate = LocationUtilities.locationManager.location?.coordinate {
+//							let url = URL(string: "https://shuttle.gerzer.software/buses/\(busID)")!
 							let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertToBusCoordinate(), type: .user)
-							let encoder = JSONEncoder()
-							encoder.dateEncodingStrategy = .iso8601
-							var request = URLRequest(url: url)
-							request.httpMethod = "PATCH"
-							request.httpBody = try! encoder.encode(location)
-							request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-							URLSession.shared.dataTask(with: request).resume()
+							API.provider.request(.updateBus(busID, location: location)) { (_) in
+								return
+							}
+//							let encoder = JSONEncoder()
+//							encoder.dateEncodingStrategy = .iso8601
+//							var request = URLRequest(url: url)
+//							request.httpMethod = "PATCH"
+//							request.httpBody = try! encoder.encode(location)
+//							request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//							URLSession.shared.dataTask(with: request).resume()
 						}
 					}
 					self.refreshBuses()
@@ -86,10 +109,9 @@ struct ContentView: View {
 							switch self.travelState {
 							case .notOnBus:
 								if self.busID == nil {
-									self.doShowAlert = true
+									self.alertType = .noNearbyBus
 								} else {
 									self.sheetType = .board
-									self.doShowSheet = true
 								}
 							case .onWestRoute, .onNorthRoute:
 								self.busID = nil
@@ -127,21 +149,21 @@ struct ContentView: View {
 			}
 			#endif
 		}
-			.sheet(isPresented: self.$doShowSheet) {
+			.sheet(item: self.$sheetType) {
 				[Route].download { (routes) in
 					DispatchQueue.main.async {
 						self.mapState.routes = routes
 					}
 				}
-			} content: {
-				switch self.sheetType {
+			} content: { (sheetType) in
+				switch sheetType {
 				case .board:
 					ZStack {
 						VStack {
 							HStack {
 								Spacer()
 								Button("Close") {
-									self.doShowSheet = false
+									self.sheetType = nil
 								}
 									.padding()
 							}
@@ -151,7 +173,7 @@ struct ContentView: View {
 							Text("Which route did you board?")
 							HStack {
 								Button {
-									self.doShowSheet = false
+									self.sheetType = nil
 									self.travelState = .onWestRoute
 									self.statusText = .locationData
 									self.updateButtonState()
@@ -162,7 +184,7 @@ struct ContentView: View {
 									.buttonStyle(BlockButtonStyle(color: .blue))
 									.padding(.leading)
 								Button {
-									self.doShowSheet = false
+									self.sheetType = nil
 									self.travelState = .onNorthRoute
 									self.statusText = .locationData
 									self.updateButtonState()
@@ -177,15 +199,18 @@ struct ContentView: View {
 					}
 				}
 			}
-			.alert(isPresented: self.$doShowAlert) { () -> Alert in
-				let title = Text("No Nearby Stop")
-				let message = Text("You can't board a bus if you're not within ten meters of a stop.")
-				let dismissButton = Alert.Button.default(Text("Continue"))
-				return Alert(title: title, message: message, dismissButton: dismissButton)
+			.alert(item: self.$alertType) { (alertType) -> Alert in
+				switch alertType {
+				case .noNearbyBus:
+					let title = Text("No Nearby Stop")
+					let message = Text("You can't board a bus if you're not within ten meters of a stop.")
+					let dismissButton = Alert.Button.default(Text("Continue"))
+					return Alert(title: title, message: message, dismissButton: dismissButton)
+				}
 			}
 	}
 	
-	var refreshButton: some View {
+	private var refreshButton: some View {
 		Button(action: self.refreshBuses) {
 			Image(systemName: "arrow.clockwise.circle.fill")
 				.resizable()
@@ -194,7 +219,7 @@ struct ContentView: View {
 	}
 	
 	#if os(macOS)
-	var mapView: some View {
+	private var mapView: some View {
 		MapView()
 			.toolbar {
 				ToolbarItem {
@@ -203,15 +228,15 @@ struct ContentView: View {
 			}
 	}
 	
-	var visualEffectView: some View {
+	private var visualEffectView: some View {
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
 	}
 	#else
-	var mapView: some View {
+	private var mapView: some View {
 		MapView()
 	}
 	
-	var visualEffectView: some View {
+	private var visualEffectView: some View {
 		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 	}
 	#endif
@@ -238,7 +263,7 @@ struct ContentView: View {
 	}
 	
 	func updateButtonState() {
-		self.doDisableButton = locationManager.location == nil || self.mapState.buses.count == 0 && self.travelState == .notOnBus
+		self.doDisableButton = LocationUtilities.locationManager.location == nil || self.mapState.buses.count == 0 && self.travelState == .notOnBus
 	}
 	
 }

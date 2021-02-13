@@ -8,15 +8,38 @@
 import SwiftUI
 import MapKit
 
-var locationManager = CLLocationManager()
-let locationManagerDelegate = LocationManagerDelegate()
-let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
-var mapRect = MKMapRect(origin: MKMapPoint(originCoordinate), size: MKMapSize(width: 10000, height: 10000))
+fileprivate let locationManagerDelegate = LocationManagerDelegate()
 
-func configureLocationManager() {
-	locationManager.delegate = locationManagerDelegate
-	locationManager.requestWhenInUseAuthorization()
-	locationManager.startUpdatingLocation()
+enum LocationUtilities {
+	
+	private(set) static var locationManager: CLLocationManager = {
+		let locationManager = CLLocationManager()
+		#if os(macOS)
+		locationManager.requestWhenInUseAuthorization()
+		#else
+		locationManager.requestAlwaysAuthorization()
+		#endif
+		locationManager.startUpdatingLocation()
+		return locationManager
+	}() {
+		didSet {
+			self.locationManager.delegate = locationManagerDelegate
+		}
+	}
+	
+}
+
+enum MapUtilities {
+	
+	static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
+	static var mapRect: MKMapRect {
+		get {
+			let origin = MKMapPoint(self.originCoordinate)
+			let size = MKMapSize(width: 10000, height: 10000)
+			return MKMapRect(origin: origin, size: size)
+		}
+	}
+	
 }
 
 enum TravelState {
@@ -27,23 +50,35 @@ enum TravelState {
 	
 }
 
-enum StatusText: String {
+protocol IdentifiableByHashValue: Identifiable where ID == Int {
 	
-	case mapRefresh = "The map automatically refreshes every 5 seconds."
-	case locationData = "You're helping out other users with real-time bus location data."
-	case thanks = "Thanks for helping other users with real-time bus location data!"
+	var hashValue: Int { get }
 	
 }
 
-enum SheetType {
+extension IdentifiableByHashValue {
 	
-	case board
+	var id: Int {
+		get {
+			return self.hashValue
+		}
+	}
 	
 }
 
-enum AlertType {
+extension CLLocationCoordinate2D: Equatable {
 	
-	case noNearbyBus
+	public static func == (_ leftCoordinate: CLLocationCoordinate2D, _ rightCoordinate: CLLocationCoordinate2D) -> Bool {
+		return leftCoordinate.latitude == rightCoordinate.latitude && leftCoordinate.longitude == rightCoordinate.longitude
+	}
+	
+}
+
+extension MKMapPoint: Equatable {
+	
+	public static func == (_ leftMapPoint: MKMapPoint, _ rightMapPoint: MKMapPoint) -> Bool {
+		return leftMapPoint.coordinate == rightMapPoint.coordinate
+	}
 	
 }
 
