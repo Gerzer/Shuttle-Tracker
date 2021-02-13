@@ -24,9 +24,9 @@
 	<string>public.app-category.navigation</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Rensselaer Shuttle uses your location to provide shuttle-tracking features.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Rensselaer Shuttle uses your location to provide shuttle-tracking features.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Rensselaer Shuttle uses your location to provide shuttle-tracking features.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
