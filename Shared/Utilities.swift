@@ -14,7 +14,7 @@ enum LocationUtilities {
 	
 	private(set) static var locationManager: CLLocationManager = {
 		let locationManager = CLLocationManager()
-		#if os(macOS)
+		#if os(macOS) || APPCLIP
 		locationManager.requestWhenInUseAuthorization()
 		#else
 		locationManager.requestAlwaysAuthorization()
