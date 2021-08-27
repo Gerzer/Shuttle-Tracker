@@ -8,18 +8,24 @@
 import SwiftUI
 import MapKit
 
-class Route: NSObject, Collection, Identifiable {
+class Route: NSObject, Collection, Identifiable, MKOverlay {
 	
 	let startIndex = 0
+	
 	private(set) lazy var endIndex = self.mapPoints.count - 1
+	
 	let mapPoints: [MKMapPoint]
+	
 	let stopIDs: Set<Int>
+	
 	let color: Color
+	
 	var last: MKMapPoint? {
 		get {
 			return self.mapPoints.last
 		}
 	}
+	
 	var polylineRenderer: MKPolylineRenderer {
 		get {
 			let polyline = self.mapPoints.withUnsafeBufferPointer { (mapPointsPointer) -> MKPolyline in
@@ -36,33 +42,12 @@ class Route: NSObject, Collection, Identifiable {
 		}
 	}
 	
-	init(_ mapPoints: [MKMapPoint] = [], stopIDs: Set<Int>, color: Color) {
-		self.mapPoints = mapPoints
-		self.stopIDs = stopIDs
-		self.color = color
-	}
-	
-	subscript(position: Int) -> MKMapPoint {
-		return self.mapPoints[position]
-	}
-	
-	static func == (_ leftRoute: Route, _ rightRoute: Route) -> Bool {
-		return leftRoute.mapPoints == rightRoute.mapPoints
-	}
-	
-	func index(after oldIndex: Int) -> Int {
-		return oldIndex + 1
-	}
-	
-}
-
-extension Route: MKOverlay {
-	
 	var coordinate: CLLocationCoordinate2D {
 		get {
 			return MapUtilities.originCoordinate
 		}
 	}
+	
 	var boundingMapRect: MKMapRect {
 		get {
 			let minX = self.reduce(into: self.first!.x) { (x, mapPoint) in
@@ -87,6 +72,24 @@ extension Route: MKOverlay {
 			}
 			return MKMapRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
 		}
+	}
+	
+	init(_ mapPoints: [MKMapPoint] = [], stopIDs: Set<Int>, color: Color) {
+		self.mapPoints = mapPoints
+		self.stopIDs = stopIDs
+		self.color = color
+	}
+	
+	subscript(position: Int) -> MKMapPoint {
+		return self.mapPoints[position]
+	}
+	
+	static func == (_ leftRoute: Route, _ rightRoute: Route) -> Bool {
+		return leftRoute.mapPoints == rightRoute.mapPoints
+	}
+	
+	func index(after oldIndex: Int) -> Int {
+		return oldIndex + 1
 	}
 	
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 @main struct RensselaerShuttleApp: App {
 	
+	private var contentView = ContentView()
+	
 	var body: some Scene {
 		WindowGroup {
 			self.contentView
@@ -22,7 +24,5 @@ import SwiftUI
 				}
 			}
 	}
-	
-	private var contentView = ContentView()
 	
 }

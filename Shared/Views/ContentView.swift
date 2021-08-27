@@ -32,8 +32,10 @@ struct ContentView: View {
 	}
 	
 	let mapState = MapState()
+	
 	let timer = Timer.publish(every: 5, on: .main, in: .common)
 		.autoconnect()
+	
 	var buttonText: String {
 		get {
 			switch self.travelState {
@@ -46,11 +48,17 @@ struct ContentView: View {
 	}
 	
 	@State private var travelState = TravelState.notOnBus
+	
 	@State private var statusText = StatusText.mapRefresh
+	
 	@State private var sheetType: SheetType?
+	
 	@State private var alertType: AlertType?
+	
 	@State private var doDisableButton = true
+	
 	@State private var busID: Int?
+	
 	@State private var locationID: UUID?
 	
 	var body: some View {

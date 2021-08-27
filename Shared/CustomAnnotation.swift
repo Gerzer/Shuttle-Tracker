@@ -7,7 +7,7 @@
 
 import MapKit
 
-protocol CustomAnnotation where Self: MKAnnotation {
+protocol CustomAnnotation: MKAnnotation {
 	
 	var annotationView: MKAnnotationView { get }
 	

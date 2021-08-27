@@ -15,8 +15,9 @@ struct BlockButtonStyle: ButtonStyle {
 		
 		let configuration: BlockButtonStyle.Configuration
 		
-		@Environment(\.isEnabled) var isEnabled
 		@State var color: Color
+		
+		@Environment(\.isEnabled) var isEnabled
 		
 		var body: some View {
 			self.configuration.label
@@ -30,7 +31,7 @@ struct BlockButtonStyle: ButtonStyle {
 	}
 	
 	func makeBody(configuration: Configuration) -> some View {
-		BlockButton(configuration: configuration, color: self.color)
+		return BlockButton(configuration: configuration, color: self.color)
 	}
 	
 }
@@ -38,14 +39,14 @@ struct BlockButtonStyle: ButtonStyle {
 struct BlockButtonPreviews: PreviewProvider {
 	
 	static var previews: some View {
-		Button(action: self.handleButton) {
+		Button {
+			
+		} label: {
 			Text("Do Something")
 				.padding(10)
 		}
 			.buttonStyle(BlockButtonStyle())
 			.padding()
 	}
-	
-	static func handleButton() { }
 	
 }

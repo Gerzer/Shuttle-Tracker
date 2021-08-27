@@ -29,6 +29,7 @@ extension API: TargetType {
 			return URL(string: "https://shuttle.gerzer.software")!
 		}
 	}
+	
 	var path: String {
 		get {
 			switch self {
@@ -43,6 +44,7 @@ extension API: TargetType {
 			}
 		}
 	}
+	
 	public var method: HTTPMethod {
 		get {
 			switch self {
@@ -55,6 +57,7 @@ extension API: TargetType {
 			}
 		}
 	}
+	
 	var task: Task {
 		get {
 			switch self {
@@ -72,11 +75,13 @@ extension API: TargetType {
 			}
 		}
 	}
+	
 	var headers: [String: String]? {
 		get {
 			return [:]
 		}
 	}
+	
 	var sampleData: Data {
 		get {
 			return "{}".data(using: .utf8)!

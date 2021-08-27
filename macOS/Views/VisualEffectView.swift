@@ -10,6 +10,7 @@ import SwiftUI
 struct VisualEffectView: NSViewRepresentable {
 	
 	var blendingMode: NSVisualEffectView.BlendingMode
+	
 	var material: NSVisualEffectView.Material
 	
 	func makeNSView(context: Context) -> NSVisualEffectView {

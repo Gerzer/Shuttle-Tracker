@@ -10,7 +10,7 @@ import StoreKit
 
 @main struct RensselaerShuttleApp: App {
 	
-	@State var doShowAppStoreOverlay = true
+	@State private var doShowAppStoreOverlay = true
 	
 	var body: some Scene {
 		WindowGroup {

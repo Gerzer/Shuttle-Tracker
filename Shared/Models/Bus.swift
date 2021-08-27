@@ -7,14 +7,19 @@
 
 import MapKit
 
-class Bus: NSObject, Codable {
+class Bus: NSObject, Codable, CustomAnnotation {
 	
 	struct Location: Codable {
 		
 		struct Coordinate: Codable {
 			
 			let latitude: Double
+			
 			let longitude: Double
+			
+			func convertForCoreLocation() -> CLLocationCoordinate2D {
+				return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+			}
 			
 		}
 		
@@ -26,27 +31,43 @@ class Bus: NSObject, Codable {
 		}
 		
 		let id: UUID
+		
 		let date: Date
+		
 		let coordinate: Coordinate
+		
 		let type: LocationType
+		
+		func convertForCoreLocation() -> CLLocation {
+			return CLLocation(coordinate: self.coordinate.convertForCoreLocation(), altitude: .nan, horizontalAccuracy: .nan, verticalAccuracy: .nan, timestamp: self.date)
+		}
 		
 	}
 	
 	let id: Int
+	
 	private(set) var location: Location
 	
-	init(id: Int, location: Location) {
-		self.id = id
-		self.location = location
+	var coordinate: CLLocationCoordinate2D {
+		get {
+			return self.location.coordinate.convertForCoreLocation()
+		}
 	}
 	
-	static func == (_ leftBus: Bus, _ rightBus: Bus) -> Bool {
-		return leftBus.id == rightBus.id
+	var title: String? {
+		get {
+			return "Bus \(self.id)"
+		}
 	}
 	
-}
-
-extension Bus: CustomAnnotation {
+	var subtitle: String? {
+		get {
+			let formatter = RelativeDateTimeFormatter()
+			formatter.dateTimeStyle = .named
+			formatter.formattingContext = .standalone
+			return formatter.localizedString(for: self.location.date, relativeTo: Date())
+		}
+	}
 	
 	var annotationView: MKAnnotationView {
 		get {
@@ -68,43 +89,13 @@ extension Bus: CustomAnnotation {
 		}
 	}
 	
-}
-
-extension Bus: MKAnnotation {
-	
-	var coordinate: CLLocationCoordinate2D {
-		get {
-			return self.location.coordinate.convertForCoreLocation()
-		}
-	}
-	var title: String? {
-		get {
-			return "Bus \(self.id)"
-		}
-	}
-	var subtitle: String? {
-		get {
-			let formatter = RelativeDateTimeFormatter()
-			formatter.dateTimeStyle = .named
-			formatter.formattingContext = .standalone
-			return formatter.localizedString(for: self.location.date, relativeTo: Date())
-		}
+	init(id: Int, location: Location) {
+		self.id = id
+		self.location = location
 	}
 	
-}
-
-extension Bus.Location {
-	
-	func convertForCoreLocation() -> CLLocation {
-		return CLLocation(coordinate: self.coordinate.convertForCoreLocation(), altitude: .nan, horizontalAccuracy: .nan, verticalAccuracy: .nan, timestamp: self.date)
-	}
-	
-}
-
-extension Bus.Location.Coordinate {
-	
-	func convertForCoreLocation() -> CLLocationCoordinate2D {
-		return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+	static func == (_ leftBus: Bus, _ rightBus: Bus) -> Bool {
+		return leftBus.id == rightBus.id
 	}
 	
 }

@@ -8,9 +8,9 @@
 import SwiftUI
 import MapKit
 
-fileprivate let locationManagerDelegate = LocationManagerDelegate()
-
 enum LocationUtilities {
+	
+	private static let locationManagerDelegate = LocationManagerDelegate()
 	
 	private(set) static var locationManager: CLLocationManager = {
 		let locationManager = CLLocationManager()
@@ -23,7 +23,7 @@ enum LocationUtilities {
 		return locationManager
 	}() {
 		didSet {
-			self.locationManager.delegate = locationManagerDelegate
+			self.locationManager.delegate = self.locationManagerDelegate
 		}
 	}
 	
@@ -32,6 +32,7 @@ enum LocationUtilities {
 enum MapUtilities {
 	
 	static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
+	
 	static var mapRect: MKMapRect {
 		get {
 			let origin = MKMapPoint(self.originCoordinate)
@@ -50,11 +51,7 @@ enum TravelState {
 	
 }
 
-protocol IdentifiableByHashValue: Identifiable where ID == Int {
-	
-	var hashValue: Int { get }
-	
-}
+protocol IdentifiableByHashValue: Identifiable, Hashable { }
 
 extension IdentifiableByHashValue {
 	

@@ -11,6 +11,7 @@ import MapKit
 struct MapView: NSViewRepresentable {
 	
 	let mapView = MKMapView(frame: .zero)
+	
 	let mapViewDelegate = MapViewDelegate()
 	
 	@EnvironmentObject var mapState: MapState

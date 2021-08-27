@@ -7,58 +7,51 @@
 
 import MapKit
 
-class Stop: NSObject, Identifiable {
+class Stop: NSObject, Identifiable, CustomAnnotation {
 	
 	let id: Int
+	
 	let coordinate: CLLocationCoordinate2D
+	
 	let name: String
+	
 	var location: CLLocation {
 		get {
 			return CLLocation(latitude: self.coordinate.latitude, longitude: self.coordinate.longitude)
 		}
 	}
 	
-	init(id: Int, coordinate: CLLocationCoordinate2D, name: String) {
-		self.id = id
-		self.coordinate = coordinate
-		self.name = name
-	}
-	
-}
-
-extension Stop: CustomAnnotation {
-	
-	var annotationView: MKAnnotationView {
-		get {
-			let annotationView = MKAnnotationView()
-			annotationView.canShowCallout = true
-			#if os(macOS)
-			annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?.withTintColor(.white)
-			annotationView.layer?.borderColor = .black
-			annotationView.layer?.borderWidth = 2
-			annotationView.layer?.cornerRadius = annotationView.frame.width / 2
-			#else
-			let image = UIImage(systemName: "circle.fill")!
-			let imageView = UIImageView(image: image)
-			imageView.tintColor = .white
-			imageView.layer.borderColor = UIColor.black.cgColor
-			imageView.layer.borderWidth = 2
-			imageView.layer.cornerRadius = imageView.frame.width / 2
-			imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
-			annotationView.addSubview(imageView)
-			#endif
-			return annotationView
-		}
-	}
-	
-}
-
-extension Stop: MKAnnotation {
-	
 	var title: String? {
 		get {
 			return self.name
 		}
+	}
+	
+	let annotationView: MKAnnotationView = {
+		let annotationView = MKAnnotationView()
+		annotationView.canShowCallout = true
+		#if os(macOS)
+		annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?.withTintColor(.white)
+		annotationView.layer?.borderColor = .black
+		annotationView.layer?.borderWidth = 2
+		annotationView.layer?.cornerRadius = annotationView.frame.width / 2
+		#else
+		let image = UIImage(systemName: "circle.fill")!
+		let imageView = UIImageView(image: image)
+		imageView.tintColor = .white
+		imageView.layer.borderColor = UIColor.black.cgColor
+		imageView.layer.borderWidth = 2
+		imageView.layer.cornerRadius = imageView.frame.width / 2
+		imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
+		annotationView.addSubview(imageView)
+		#endif
+		return annotationView
+	}()
+	
+	init(id: Int, coordinate: CLLocationCoordinate2D, name: String) {
+		self.id = id
+		self.coordinate = coordinate
+		self.name = name
 	}
 	
 }

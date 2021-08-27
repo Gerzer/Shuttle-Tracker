@@ -149,8 +149,8 @@
 		C01528102517E1160069092C /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
-				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
 				C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */,
+				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -170,8 +170,8 @@
 			isa = PBXGroup;
 			children = (
 				C01528132517E1E00069092C /* Bus.swift */,
-				C0019DCD251910E80020574D /* Stop.swift */,
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
+				C0019DCD251910E80020574D /* Stop.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -234,10 +234,10 @@
 				C086017125D83D9900C4F583 /* Models */,
 				C086017025D83D8700C4F583 /* Views */,
 				C01528102517E1160069092C /* Delegates */,
-				C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */,
+				C025ED422527C1D500524144 /* API.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
 				C015281C2517F68F0069092C /* MapState.swift */,
-				C025ED422527C1D500524144 /* API.swift */,
+				C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */,
 				C01527F62517DCAF0069092C /* Utilities.swift */,
 				C0FFD6D7250C33C900945F01 /* Assets.xcassets */,
 			);
