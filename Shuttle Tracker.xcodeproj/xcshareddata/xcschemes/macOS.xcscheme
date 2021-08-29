@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C0FFD6E3250C33C900945F01"
-               BuildableName = "Rensselaer Shuttle.app"
+               BuildableName = "Shuttle Tracker.app"
                BlueprintName = "macOS"
                ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C0FFD6E3250C33C900945F01"
-            BuildableName = "Rensselaer Shuttle.app"
+            BuildableName = "Shuttle Tracker.app"
             BlueprintName = "macOS"
             ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C0FFD6E3250C33C900945F01"
-            BuildableName = "Rensselaer Shuttle.app"
+            BuildableName = "Shuttle Tracker.app"
             BlueprintName = "macOS"
             ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
          </BuildableReference>
