@@ -1,6 +1,6 @@
 //
 //  LocationManagerDelegate.swift
-//  Rennselaer Shuttle
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 9/11/20.
 //

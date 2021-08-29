@@ -1,6 +1,6 @@
 //
 //  API.swift
-//  Rensselaer Shuttle
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 10/2/20.
 //
@@ -26,7 +26,7 @@ extension API: TargetType {
 	
 	var baseURL: URL {
 		get {
-			return URL(string: "https://shuttle.gerzer.software")!
+			return URL(string: "https://shuttletracker.app")!
 		}
 	}
 	

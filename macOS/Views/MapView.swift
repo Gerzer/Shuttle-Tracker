@@ -1,6 +1,6 @@
 //
 //  MapView.swift
-//  Rensselaer Shuttle (macOS)
+//  Shuttle Tracker (macOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //

@@ -1,13 +1,13 @@
 //
-//  RensselaerShuttleApp.swift
-//  Rensselaer Shuttle
+//  ShuttleTrackerApp.swift
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 9/11/20.
 //
 
 import SwiftUI
 
-@main struct RensselaerShuttleApp: App {
+@main struct ShuttleTrackerApp: App {
 	
 	private var contentView = ContentView()
 	

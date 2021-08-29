@@ -43,7 +43,7 @@
 		C08FC22225251196008589C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC22125251196008589C1 /* ContentView.swift */; };
 		C08FC22325251196008589C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC22125251196008589C1 /* ContentView.swift */; };
 		C08FC22A252511E6008589C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC22125251196008589C1 /* ContentView.swift */; };
-		C08FC23225251252008589C1 /* RensselaerShuttleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC23125251252008589C1 /* RensselaerShuttleApp.swift */; };
+		C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */; };
 		C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
 		C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
 		C0A232A32525080600FAAD50 /* App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = C0A232942525080500FAAD50 /* App Clip.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -53,8 +53,8 @@
 		C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
 		C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
 		C0A232CA252508E000FAAD50 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
-		C0FFD6E8250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */; };
-		C0FFD6E9250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */; };
+		C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */; };
+		C0FFD6E9250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */; };
 		C0FFD6EC250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
 		C0FFD6ED250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -102,20 +102,20 @@
 		C08FC1D8252509E6008589C1 /* App Clip.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "App Clip.entitlements"; sourceTree = "<group>"; };
 		C08FC1DA252509E6008589C1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C08FC22125251196008589C1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		C08FC23125251252008589C1 /* RensselaerShuttleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RensselaerShuttleApp.swift; sourceTree = "<group>"; };
+		C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C08FC24C2525157D008589C1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		C08FC25E252515C8008589C1 /* AppClip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppClip.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/AppClip.framework; sourceTree = DEVELOPER_DIR; };
 		C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RensselaerShuttleApp.swift; sourceTree = "<group>"; };
+		C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C0FFD6D7250C33C900945F01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C0FFD6DC250C33C900945F01 /* Rensselaer Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rensselaer Shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuttle Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FFD6DF250C33C900945F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C0FFD6E4250C33C900945F01 /* Rensselaer Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rensselaer Shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuttle Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0FFD6E6250C33C900945F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0FFD6E7250C33C900945F01 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		C0FFD6F6250C33E700945F01 /* Rensselaer Shuttle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rensselaer Shuttle.entitlements"; sourceTree = "<group>"; };
+		C0FFD6F6250C33E700945F01 /* iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOS.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +179,7 @@
 		C08FC1D3252509E6008589C1 /* App Clip */ = {
 			isa = PBXGroup;
 			children = (
-				C08FC23125251252008589C1 /* RensselaerShuttleApp.swift */,
+				C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */,
 				C08FC1DA252509E6008589C1 /* Info.plist */,
 				C08FC1D8252509E6008589C1 /* App Clip.entitlements */,
 				C08FC1D4252509E6008589C1 /* Assets.xcassets */,
@@ -218,7 +218,6 @@
 			isa = PBXGroup;
 			children = (
 				C0A2328D2525060300FAAD50 /* Locations.gpx */,
-				C0FFD6F6250C33E700945F01 /* Rensselaer Shuttle.entitlements */,
 				C0FFD6D4250C33C800945F01 /* Shared */,
 				C0FFD6DE250C33C900945F01 /* iOS */,
 				C0FFD6E5250C33C900945F01 /* macOS */,
@@ -237,7 +236,7 @@
 				C025ED422527C1D500524144 /* API.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
 				C015281C2517F68F0069092C /* MapState.swift */,
-				C0FFD6D5250C33C800945F01 /* RensselaerShuttleApp.swift */,
+				C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */,
 				C01527F62517DCAF0069092C /* Utilities.swift */,
 				C0FFD6D7250C33C900945F01 /* Assets.xcassets */,
 			);
@@ -247,8 +246,8 @@
 		C0FFD6DD250C33C900945F01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C0FFD6DC250C33C900945F01 /* Rensselaer Shuttle.app */,
-				C0FFD6E4250C33C900945F01 /* Rensselaer Shuttle.app */,
+				C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */,
+				C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */,
 				C0A232942525080500FAAD50 /* App Clip.app */,
 			);
 			name = Products;
@@ -258,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				C0FFD6DF250C33C900945F01 /* Info.plist */,
+				C0FFD6F6250C33E700945F01 /* iOS.entitlements */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -314,7 +314,7 @@
 				C025ED3D2527C19B00524144 /* Moya */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
-			productReference = C0FFD6DC250C33C900945F01 /* Rensselaer Shuttle.app */;
+			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C0FFD6E3250C33C900945F01 /* macOS */ = {
@@ -334,7 +334,7 @@
 				C025ED382527C19300524144 /* Moya */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
-			productReference = C0FFD6E4250C33C900945F01 /* Rensselaer Shuttle.app */;
+			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -357,7 +357,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C0FFD6D3250C33C800945F01 /* Build configuration list for PBXProject "Rensselaer Shuttle" */;
+			buildConfigurationList = C0FFD6D3250C33C800945F01 /* Build configuration list for PBXProject "Shuttle Tracker" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -415,7 +415,7 @@
 			files = (
 				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
-				C08FC23225251252008589C1 /* RensselaerShuttleApp.swift in Sources */,
+				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
@@ -439,7 +439,7 @@
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
-				C0FFD6E8250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
 				C025ED432527C1D500524144 /* API.swift in Sources */,
 				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
@@ -460,7 +460,7 @@
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
-				C0FFD6E9250C33C900945F01 /* RensselaerShuttleApp.swift in Sources */,
+				C0FFD6E9250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
@@ -501,7 +501,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle.appclip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.appclip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG APPCLIP";
@@ -528,7 +528,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle.appclip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.appclip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
@@ -655,7 +655,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Rensselaer Shuttle.entitlements";
+				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = SYBLH277NF;
@@ -667,8 +667,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
-				PRODUCT_NAME = "Rensselaer Shuttle";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker;
+				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -683,7 +683,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Rensselaer Shuttle.entitlements";
+				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = SYBLH277NF;
@@ -695,8 +695,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
-				PRODUCT_NAME = "Rensselaer Shuttle";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker;
+				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -725,8 +725,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
-				PRODUCT_NAME = "Rensselaer Shuttle";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker;
+				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -751,8 +751,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.rensselaershuttle;
-				PRODUCT_NAME = "Rensselaer Shuttle";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker;
+				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -770,7 +770,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C0FFD6D3250C33C800945F01 /* Build configuration list for PBXProject "Rensselaer Shuttle" */ = {
+		C0FFD6D3250C33C800945F01 /* Build configuration list for PBXProject "Shuttle Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C0FFD6EE250C33C900945F01 /* Debug */,

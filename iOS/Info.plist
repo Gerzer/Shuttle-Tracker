@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Rensselaer Shuttle uses your location to provide shuttle-tracking features.</string>
+	<string>Shuttle Tracker uses your location to provide shuttle-tracking features.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Rensselaer Shuttle uses your location to provide shuttle-tracking features.</string>
+	<string>Shuttle Tracker uses your location to provide shuttle-tracking features.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

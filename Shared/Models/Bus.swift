@@ -1,6 +1,6 @@
 //
 //  Bus.swift
-//  Rensselaer Shuttle
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
