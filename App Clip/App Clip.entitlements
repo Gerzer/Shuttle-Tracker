@@ -4,6 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
+		<string>appclips:shuttletracker.app</string>
 		<string>appclips:shuttle.gerzer.software</string>
 	</array>
 	<key>com.apple.developer.parent-application-identifiers</key>
