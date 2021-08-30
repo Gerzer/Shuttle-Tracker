@@ -31,6 +31,10 @@
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		C03FD52426DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */; };
+		C03FD52526DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */; };
+		C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
+		C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */; };
@@ -96,6 +100,8 @@
 		C01528132517E1E00069092C /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
 		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
 		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSelectionSheet.swift; sourceTree = "<group>"; };
+		C053E98E26DD3B280057E808 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C08FC1D8252509E6008589C1 /* App Clip.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "App Clip.entitlements"; sourceTree = "<group>"; };
@@ -154,12 +160,21 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		C03FD52626DD6E6A00A2532E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C053E98E26DD3B280057E808 /* PrivacySheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		C086017025D83D8700C4F583 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				C08FC22125251196008589C1 /* ContentView.swift */,
 				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C01527E12517CFA60069092C /* MapView.swift */,
+				C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 			);
 			path = Views;
@@ -254,6 +269,7 @@
 		C0FFD6DE250C33C900945F01 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				C03FD52626DD6E6A00A2532E /* Views */,
 				C0FFD6DF250C33C900945F01 /* Info.plist */,
 				C0FFD6F6250C33E700945F01 /* iOS.entitlements */,
 			);
@@ -415,9 +431,11 @@
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
+				C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
+				C03FD52526DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
@@ -435,6 +453,8 @@
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
+				C03FD52426DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */,
+				C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,

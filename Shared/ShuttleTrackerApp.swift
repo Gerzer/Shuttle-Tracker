@@ -25,4 +25,9 @@ import SwiftUI
 			}
 	}
 	
+	init() {
+		let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
+		UserDefaults.standard.set(coldLaunchCount + 1, forKey: DefaultsKeys.coldLaunchCount)
+	}
+	
 }

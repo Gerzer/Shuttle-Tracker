@@ -11,19 +11,20 @@ import Moya
 
 struct ContentView: View {
 	
-	private enum SheetType: IdentifiableByHashValue {
+	enum SheetType: IdentifiableByHashValue {
 		
-		case board
+		case routeSelection
+		case privacy
 		
 	}
 	
-	private enum AlertType: IdentifiableByHashValue {
+	enum AlertType: IdentifiableByHashValue {
 		
 		case noNearbyBus
 		
 	}
 	
-	private enum StatusText: String {
+	enum StatusText: String {
 		
 		case mapRefresh = "The map automatically refreshes every 5 seconds."
 		case locationData = "You're helping out other users with real-time bus location data."
@@ -119,7 +120,7 @@ struct ContentView: View {
 								if self.busID == nil {
 									self.alertType = .noNearbyBus
 								} else {
-									self.sheetType = .board
+									self.sheetType = .routeSelection
 								}
 							case .onWestRoute, .onNorthRoute:
 								self.busID = nil
@@ -133,7 +134,8 @@ struct ContentView: View {
 							self.updateButtonState()
 						} label: {
 							Text(self.buttonText)
-								.padding(10)
+								.fontWeight(.semibold)
+								.padding(12)
 						}
 							.buttonStyle(BlockButtonStyle())
 							.disabled(self.doDisableButton)
@@ -165,45 +167,16 @@ struct ContentView: View {
 				}
 			} content: { (sheetType) in
 				switch sheetType {
-				case .board:
-					ZStack {
-						VStack {
-							HStack {
-								Spacer()
-								Button("Close") {
-									self.sheetType = nil
-								}
-									.padding()
-							}
-							Spacer()
-						}
-						VStack {
-							Text("Which route did you board?")
-							HStack {
-								Button {
-									self.sheetType = nil
-									self.travelState = .onWestRoute
-									self.statusText = .locationData
-									self.updateButtonState()
-								} label: {
-									Text("West Route")
-										.padding()
-								}
-									.buttonStyle(BlockButtonStyle(color: .blue))
-									.padding(.leading)
-								Button {
-									self.sheetType = nil
-									self.travelState = .onNorthRoute
-									self.statusText = .locationData
-									self.updateButtonState()
-								} label: {
-									Text("North Route")
-										.padding()
-								}
-									.buttonStyle(BlockButtonStyle(color: .red))
-									.padding(.trailing)
-							}
-						}
+				case .routeSelection:
+					RouteSelectionSheet(travelState: self.$travelState, parentSheetType: self.$sheetType, parentStatusText: self.$statusText) {
+						self.updateButtonState()
+					}
+				case .privacy:
+					if #available(iOS 15.0, *) {
+						PrivacySheet(parentSheetType: self.$sheetType)
+							.interactiveDismissDisabled()
+					} else {
+						PrivacySheet(parentSheetType: self.$sheetType)
 					}
 				}
 			}
@@ -214,6 +187,12 @@ struct ContentView: View {
 					let message = Text("You can't board a bus if you're not within ten meters of a stop.")
 					let dismissButton = Alert.Button.default(Text("Continue"))
 					return Alert(title: title, message: message, dismissButton: dismissButton)
+				}
+			}
+			.onAppear {
+				let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
+				if coldLaunchCount == 1 {
+					self.sheetType = .privacy
 				}
 			}
 	}
@@ -272,6 +251,14 @@ struct ContentView: View {
 	
 	func updateButtonState() {
 		self.doDisableButton = LocationUtilities.locationManager.location == nil || self.mapState.buses.count == 0 && self.travelState == .notOnBus
+	}
+	
+}
+
+struct ContentViewPreviews: PreviewProvider {
+	
+	static var previews: some View {
+		ContentView()
 	}
 	
 }

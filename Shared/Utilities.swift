@@ -43,6 +43,12 @@ enum MapUtilities {
 	
 }
 
+enum DefaultsKeys {
+	
+	static let coldLaunchCount = "ColdLaunchCount"
+	
+}
+
 enum TravelState {
 	
 	case notOnBus
