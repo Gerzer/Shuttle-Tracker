@@ -114,10 +114,8 @@ extension Array where Element == Bus {
 		API.provider.request(.readBuses) { (result) in
 			let decoder = JSONDecoder()
 			decoder.dateDecodingStrategy = .iso8601
-			guard let response = result.value else {
-				return
-			}
-			let buses = try? response.map([Bus].self, using: decoder)
+			let buses = try? result.value?
+				.map([Bus].self, using: decoder)
 				.filter { (bus) -> Bool in
 					return bus.location.date.timeIntervalSinceNow > -300
 				}

@@ -10,6 +10,13 @@ import MapKit
 
 class Route: NSObject, Collection, Identifiable, MKOverlay {
 	
+	enum InternalColor: Codable {
+
+		case red
+		case blue
+
+	}
+	
 	let startIndex = 0
 	
 	private(set) lazy var endIndex = self.mapPoints.count - 1
@@ -18,7 +25,16 @@ class Route: NSObject, Collection, Identifiable, MKOverlay {
 	
 	let stopIDs: Set<Int>
 	
-	let color: Color
+	var color: Color {
+		switch self.internalColor {
+		case .red:
+			return .red
+		case .blue:
+			return .blue
+		}
+	}
+	
+	fileprivate let internalColor: InternalColor
 	
 	var last: MKMapPoint? {
 		get {
@@ -97,32 +113,11 @@ class Route: NSObject, Collection, Identifiable, MKOverlay {
 extension Array where Element == Route {
 	
 	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
-		let url = URL(string: "http://shuttles.rpi.edu/routes")!
-		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-			if let data = data {
-				var routes = [Route]()
-				try? (JSONSerialization.jsonObject(with: data) as? [[String: Any]])?.forEach { (rawRoute) in
-					guard let routeName = rawRoute["name"] as? String, let stopIDs = rawRoute["stop_ids"] as? [Int], let rawPoints = rawRoute["points"] as? [[String: Double]] else {
-						return
-					}
-					var color: Color!
-					switch routeName {
-					case "NEW North Route":
-						color = .red
-					case "NEW West Route":
-						color = .blue
-					default:
-						return
-					}
-					let mapPoints = rawPoints.map { (rawPoint) -> MKMapPoint in
-						return MKMapPoint(CLLocationCoordinate2D(latitude: rawPoint["latitude"]!, longitude: rawPoint["longitude"]!))
-					}
-					routes.append(Route(mapPoints, stopIDs: Set(stopIDs), color: color))
-				}
-				routesCallback(routes)
-			}
+		API.provider.request(.readRoutes) { (result) in
+			let routes = try? result.value?
+				.map([Route].self)
+			routesCallback(routes ?? [])
 		}
-		task.resume()
 	}
 	
 }
