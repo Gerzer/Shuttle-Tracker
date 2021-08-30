@@ -59,7 +59,7 @@ class Stop: NSObject, Identifiable, CustomAnnotation {
 extension Array where Element == Stop {
 	
 	static func download(_ stopsCallback: @escaping (_ stops: Self) -> Void) {
-		let url = URL(string: "https://shuttles.rpi.edu/stops")!
+		let url = URL(string: "http://shuttles.rpi.edu/stops")!
 		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
 			if let data = data {
 				var stops = self.init()
@@ -68,7 +68,9 @@ extension Array where Element == Stop {
 						return
 					}
 					let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-					stops.append(Stop(id: id, coordinate: coordinate, name: name))
+					DispatchQueue.main.sync {
+						stops.append(Stop(id: id, coordinate: coordinate, name: name))
+					}
 				}
 				stopsCallback(stops)
 			}
