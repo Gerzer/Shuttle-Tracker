@@ -166,6 +166,7 @@ struct ContentView: View {
 					}
 				}
 			} content: { (sheetType) in
+				#if os(iOS)
 				switch sheetType {
 				case .routeSelection:
 					RouteSelectionSheet(travelState: self.$travelState, parentSheetType: self.$sheetType, parentStatusText: self.$statusText) {
@@ -179,6 +180,9 @@ struct ContentView: View {
 						PrivacySheet(parentSheetType: self.$sheetType)
 					}
 				}
+				#else
+				EmptyView()
+				#endif
 			}
 			.alert(item: self.$alertType) { (alertType) -> Alert in
 				switch alertType {
