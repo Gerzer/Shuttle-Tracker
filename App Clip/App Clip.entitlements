@@ -8,7 +8,7 @@
 	</array>
 	<key>com.apple.developer.parent-application-identifiers</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.gerzer.rensselaershuttle</string>
+		<string>$(AppIdentifierPrefix)com.gerzer.shuttletracker</string>
 	</array>
 </dict>
 </plist>
