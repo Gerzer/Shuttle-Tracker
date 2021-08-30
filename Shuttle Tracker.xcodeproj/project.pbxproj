@@ -97,7 +97,6 @@
 		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
 		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
-		C08FC1D4252509E6008589C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C08FC1D8252509E6008589C1 /* App Clip.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "App Clip.entitlements"; sourceTree = "<group>"; };
 		C08FC1DA252509E6008589C1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -182,7 +181,6 @@
 				C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */,
 				C08FC1DA252509E6008589C1 /* Info.plist */,
 				C08FC1D8252509E6008589C1 /* App Clip.entitlements */,
-				C08FC1D4252509E6008589C1 /* Assets.xcassets */,
 				C08FC1D5252509E6008589C1 /* Preview Content */,
 			);
 			path = "App Clip";
