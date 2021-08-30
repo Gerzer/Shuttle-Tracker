@@ -97,7 +97,7 @@ class Route: NSObject, Collection, Identifiable, MKOverlay {
 extension Array where Element == Route {
 	
 	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
-		let url = URL(string: "https://shuttles.rpi.edu/routes")!
+		let url = URL(string: "http://shuttles.rpi.edu/routes")!
 		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
 			if let data = data {
 				var routes = [Route]()
