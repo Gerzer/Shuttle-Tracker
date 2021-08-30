@@ -17,6 +17,8 @@ enum API {
 	case updateBus(_ id: Int, location: Bus.Location)
 	case boardBus(_ id: Int)
 	case leaveBus(_ id: Int)
+	case readRoutes
+	case readStops
 	
 	static let provider = MoyaProvider<API>()
 	
@@ -41,6 +43,10 @@ extension API: TargetType {
 				return "/buses/\(id)/board"
 			case .leaveBus(let id):
 				return "/buses/\(id)/leave"
+			case .readRoutes:
+				return "/routes"
+			case .readStops:
+				return "/stops"
 			}
 		}
 	}
@@ -48,7 +54,7 @@ extension API: TargetType {
 	public var method: HTTPMethod {
 		get {
 			switch self {
-			case .readBuses, .readBus:
+			case .readBuses, .readBus, .readRoutes, .readStops:
 				return .get
 			case .updateBus:
 				return .patch
@@ -61,7 +67,7 @@ extension API: TargetType {
 	var task: Task {
 		get {
 			switch self {
-			case .readBuses, .boardBus, .leaveBus:
+			case .readBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [
