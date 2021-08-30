@@ -101,7 +101,7 @@ extension Array where Element == Route {
 		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
 			if let data = data {
 				var routes = [Route]()
-				try! (JSONSerialization.jsonObject(with: data) as! [[String: Any]]).forEach { (rawRoute) in
+				try? (JSONSerialization.jsonObject(with: data) as? [[String: Any]])?.forEach { (rawRoute) in
 					guard let routeName = rawRoute["name"] as? String, let stopIDs = rawRoute["stop_ids"] as? [Int], let rawPoints = rawRoute["points"] as? [[String: Double]] else {
 						return
 					}

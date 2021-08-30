@@ -63,7 +63,7 @@ extension Array where Element == Stop {
 		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
 			if let data = data {
 				var stops = self.init()
-				try! (JSONSerialization.jsonObject(with: data) as! [[String: Any]]).forEach { (rawStop) in
+				try? (JSONSerialization.jsonObject(with: data) as? [[String: Any]])?.forEach { (rawStop) in
 					guard let id = rawStop["id"] as? Int, let name = rawStop["name"] as? String, let latitude = rawStop["latitude"] as? Double, let longitude = rawStop["longitude"] as? Double else {
 						return
 					}
