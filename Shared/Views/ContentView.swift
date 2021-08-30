@@ -110,7 +110,7 @@ struct ContentView: View {
 			VStack {
 				#if !APPCLIP
 				Spacer()
-				#endif
+				#endif // !APPCLIP
 				HStack {
 					Spacer()
 					VStack(alignment: .leading) {
@@ -155,9 +155,9 @@ struct ContentView: View {
 					.padding()
 				#if APPCLIP
 				Spacer()
-				#endif
+				#endif // APPCLIP
 			}
-			#endif
+			#endif // !os(macOS)
 		}
 			.sheet(item: self.$sheetType) {
 				[Route].download { (routes) in
@@ -180,9 +180,9 @@ struct ContentView: View {
 						PrivacySheet(parentSheetType: self.$sheetType)
 					}
 				}
-				#else
+				#else // os(iOS)
 				EmptyView()
-				#endif
+				#endif // os(iOS)
 			}
 			.alert(item: self.$alertType) { (alertType) -> Alert in
 				switch alertType {
@@ -222,7 +222,7 @@ struct ContentView: View {
 	private var visualEffectView: some View {
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
 	}
-	#else
+	#else // os(macOS)
 	private var mapView: some View {
 		MapView()
 	}
@@ -230,7 +230,7 @@ struct ContentView: View {
 	private var visualEffectView: some View {
 		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 	}
-	#endif
+	#endif // os(macOS)
 	
 	func refreshBuses() {
 		[Bus].download { (buses) in
