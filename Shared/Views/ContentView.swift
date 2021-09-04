@@ -114,7 +114,7 @@ struct ContentView: View {
 			VStack {
 				#if !APPCLIP
 				if self.doShowOnboardingToast {
-					OnboardingToast(headlineText: .tip, doShow: self.$doShowOnboardingToast)
+					OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
 						.padding()
 				}
 				Spacer()

@@ -30,6 +30,8 @@ struct OnboardingToast: View {
 					self.doShow = false
 				} label: {
 					Image(systemName: "xmark.circle.fill")
+						.resizable()
+						.frame(width: 25, height: 25)
 				}
 					.buttonStyle(.plain)
 			}
@@ -43,7 +45,7 @@ struct OnboardingToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				Text("Green buses have high-quality location data. They're usually very accurate.")
+				Text("Green buses have high-quality location data.")
 			}
 				.frame(height: 50)
 			Spacer()
@@ -58,7 +60,7 @@ struct OnboardingToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				Text("Red buses have low-quality location data. They're sometimes inaccurate.")
+				Text("Red buses have low-quality location data.")
 			}
 				.frame(height: 50)
 		}
