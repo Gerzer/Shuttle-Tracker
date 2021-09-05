@@ -10,7 +10,7 @@ import Moya
 
 typealias HTTPMethod = Moya.Method
 
-enum API {
+enum API: TargetType {
 	
 	case readBuses
 	case readBus(_ id: Int)
@@ -21,10 +21,6 @@ enum API {
 	case readStops
 	
 	static let provider = MoyaProvider<API>()
-	
-}
-
-extension API: TargetType {
 	
 	var baseURL: URL {
 		get {
