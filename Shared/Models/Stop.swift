@@ -7,13 +7,18 @@
 
 import MapKit
 
-class Stop: NSObject, Identifiable, CustomAnnotation {
+class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 	
-	let id: Int
-	
-	let coordinate: CLLocationCoordinate2D
+	enum CodingKeys: String, CodingKey {
+		
+		case name
+		case coordinate
+		
+	}
 	
 	let name: String
+	
+	let coordinate: CLLocationCoordinate2D
 	
 	var location: CLLocation {
 		get {
@@ -48,10 +53,10 @@ class Stop: NSObject, Identifiable, CustomAnnotation {
 		return annotationView
 	}()
 	
-	init(id: Int, coordinate: CLLocationCoordinate2D, name: String) {
-		self.id = id
-		self.coordinate = coordinate
-		self.name = name
+	required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.name = try container.decode(String.self, forKey: .name)
+		self.coordinate = try container.decode(Coordinate.self, forKey: .coordinate).convertedForCoreLocation()
 	}
 	
 }
@@ -59,23 +64,11 @@ class Stop: NSObject, Identifiable, CustomAnnotation {
 extension Array where Element == Stop {
 	
 	static func download(_ stopsCallback: @escaping (_ stops: Self) -> Void) {
-		let url = URL(string: "http://shuttles.rpi.edu/stops")!
-		let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-			if let data = data {
-				var stops = self.init()
-				try? (JSONSerialization.jsonObject(with: data) as? [[String: Any]])?.forEach { (rawStop) in
-					guard let id = rawStop["id"] as? Int, let name = rawStop["name"] as? String, let latitude = rawStop["latitude"] as? Double, let longitude = rawStop["longitude"] as? Double else {
-						return
-					}
-					let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-					DispatchQueue.main.sync {
-						stops.append(Stop(id: id, coordinate: coordinate, name: name))
-					}
-				}
-				stopsCallback(stops)
-			}
+		API.provider.request(.readStops) { (result) in
+			let stops = try? result.value?
+				.map([Stop].self)
+			stopsCallback(stops ?? [])
 		}
-		task.resume()
 	}
 	
 }

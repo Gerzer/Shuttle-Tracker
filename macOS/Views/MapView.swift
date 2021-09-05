@@ -41,13 +41,6 @@ struct MapView: NSViewRepresentable {
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
 		self.mapView.delegate = self.mapViewDelegate
-		let allStopIDSets = self.mapState.routes.map { (route) -> Set<Int> in
-			return route.stopIDs
-		}
-		let allStopIDs = Set.generateUnion(of: allStopIDSets)
-		let relevantStops = self.mapState.stops.filter { (stop) -> Bool in
-			return allStopIDs.contains(stop.id)
-		}
 		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) -> Bool in
 			return nsView.overlays.contains { (overlay) -> Bool in
 				if let existingRoute = overlay as? Route, existingRoute == route {
@@ -58,7 +51,7 @@ struct MapView: NSViewRepresentable {
 		}
 		nsView.removeAnnotations(nsView.annotations)
 		nsView.addAnnotations(Array(self.mapState.buses))
-		nsView.addAnnotations(Array(relevantStops))
+		nsView.addAnnotations(Array(self.mapState.stops))
 		if !allRoutesOnMap {
 			nsView.removeOverlays(nsView.overlays)
 			nsView.addOverlays(self.mapState.routes)

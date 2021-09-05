@@ -25,14 +25,15 @@
 		C01528152517E1E00069092C /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
 		C015281D2517F68F0069092C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		C015281E2517F68F0069092C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
+		C01F6D7926E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
+		C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
+		C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
 		C025ED342527C18600524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED332527C18600524144 /* Moya */; };
 		C025ED392527C19300524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED382527C19300524144 /* Moya */; };
 		C025ED3E2527C19B00524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED3D2527C19B00524144 /* Moya */; };
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
-		C03FD52426DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */; };
-		C03FD52526DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */; };
 		C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
@@ -99,8 +100,8 @@
 		C015280A2517DEBE0069092C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C01528132517E1E00069092C /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
 		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
+		C01F6D7826E44BE400D33656 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSelectionSheet.swift; sourceTree = "<group>"; };
 		C053E98E26DD3B280057E808 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -174,7 +175,6 @@
 				C08FC22125251196008589C1 /* ContentView.swift */,
 				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C01527E12517CFA60069092C /* MapView.swift */,
-				C03FD52326DD64DF00A2532E /* RouteSelectionSheet.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 			);
 			path = Views;
@@ -184,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				C01528132517E1E00069092C /* Bus.swift */,
+				C01F6D7826E44BE400D33656 /* Coordinate.swift */,
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				C0019DCD251910E80020574D /* Stop.swift */,
 			);
@@ -435,13 +436,13 @@
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
-				C03FD52526DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
 				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
 				C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */,
+				C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C08FC1F025250A73008589C1 /* LocationManagerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,7 +454,6 @@
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
-				C03FD52426DD64DF00A2532E /* RouteSelectionSheet.swift in Sources */,
 				C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
@@ -465,6 +465,7 @@
 				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C08FC22225251196008589C1 /* ContentView.swift in Sources */,
 				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
+				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -487,6 +488,7 @@
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
 				C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */,
 				C0019DED251A3EFC0020574D /* BlockButton.swift in Sources */,
+				C01F6D7926E44BE400D33656 /* Coordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

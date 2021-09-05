@@ -11,18 +11,6 @@ class Bus: NSObject, Codable, CustomAnnotation {
 	
 	struct Location: Codable {
 		
-		struct Coordinate: Codable {
-			
-			let latitude: Double
-			
-			let longitude: Double
-			
-			func convertForCoreLocation() -> CLLocationCoordinate2D {
-				return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
-			}
-			
-		}
-		
 		enum LocationType: String, Codable {
 			
 			case system = "system"
@@ -39,7 +27,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		let type: LocationType
 		
 		func convertForCoreLocation() -> CLLocation {
-			return CLLocation(coordinate: self.coordinate.convertForCoreLocation(), altitude: .nan, horizontalAccuracy: .nan, verticalAccuracy: .nan, timestamp: self.date)
+			return CLLocation(coordinate: self.coordinate.convertedForCoreLocation(), altitude: .nan, horizontalAccuracy: .nan, verticalAccuracy: .nan, timestamp: self.date)
 		}
 		
 	}
@@ -50,7 +38,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 	
 	var coordinate: CLLocationCoordinate2D {
 		get {
-			return self.location.coordinate.convertForCoreLocation()
+			return self.location.coordinate.convertedForCoreLocation()
 		}
 	}
 	
@@ -102,8 +90,8 @@ class Bus: NSObject, Codable, CustomAnnotation {
 
 extension CLLocationCoordinate2D {
 	
-	func convertToBusCoordinate() -> Bus.Location.Coordinate {
-		return Bus.Location.Coordinate(latitude: self.latitude, longitude: self.longitude)
+	func converedtToCoordinate() -> Coordinate {
+		return Coordinate(latitude: self.latitude, longitude: self.longitude)
 	}
 	
 }

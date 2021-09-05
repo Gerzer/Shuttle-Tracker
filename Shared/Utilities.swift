@@ -51,9 +51,8 @@ enum DefaultsKeys {
 
 enum TravelState {
 	
+	case onBus
 	case notOnBus
-	case onWestRoute
-	case onNorthRoute
 	
 }
 
@@ -78,6 +77,10 @@ extension CLLocationCoordinate2D: Equatable {
 }
 
 extension MKMapPoint: Equatable {
+	
+	init(_ coordinate: Coordinate) {
+		self.init(coordinate.convertedForCoreLocation())
+	}
 	
 	public static func == (_ leftMapPoint: MKMapPoint, _ rightMapPoint: MKMapPoint) -> Bool {
 		return leftMapPoint.coordinate == rightMapPoint.coordinate

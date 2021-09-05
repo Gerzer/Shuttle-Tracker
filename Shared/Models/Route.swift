@@ -8,13 +8,12 @@
 import SwiftUI
 import MapKit
 
-class Route: NSObject, Collection, Identifiable, MKOverlay {
+class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
-	enum InternalColor: Codable {
-
-		case red
-		case blue
-
+	enum CodingKeys: String, CodingKey {
+		
+		case coordinates
+		
 	}
 	
 	let startIndex = 0
@@ -22,19 +21,6 @@ class Route: NSObject, Collection, Identifiable, MKOverlay {
 	private(set) lazy var endIndex = self.mapPoints.count - 1
 	
 	let mapPoints: [MKMapPoint]
-	
-	let stopIDs: Set<Int>
-	
-	var color: Color {
-		switch self.internalColor {
-		case .red:
-			return .red
-		case .blue:
-			return .blue
-		}
-	}
-	
-	fileprivate let internalColor: InternalColor
 	
 	var last: MKMapPoint? {
 		get {
@@ -49,9 +35,9 @@ class Route: NSObject, Collection, Identifiable, MKOverlay {
 			}
 			let polylineRenderer = MKPolylineRenderer(polyline: polyline)
 			#if os(macOS)
-			polylineRenderer.strokeColor = NSColor(self.color).withAlphaComponent(0.5)
+			polylineRenderer.strokeColor = NSColor(.blue).withAlphaComponent(0.5)
 			#else
-			polylineRenderer.strokeColor = UIColor(self.color).withAlphaComponent(0.5)
+			polylineRenderer.strokeColor = UIColor(.blue).withAlphaComponent(0.5)
 			#endif
 			polylineRenderer.lineWidth = 3
 			return polylineRenderer
@@ -90,10 +76,12 @@ class Route: NSObject, Collection, Identifiable, MKOverlay {
 		}
 	}
 	
-	init(_ mapPoints: [MKMapPoint] = [], stopIDs: Set<Int>, color: Color) {
-		self.mapPoints = mapPoints
-		self.stopIDs = stopIDs
-		self.color = color
+	required init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.mapPoints = try container.decode([Coordinate].self, forKey: .coordinates)
+			.map { (coordinate) in
+				return MKMapPoint(coordinate)
+			}
 	}
 	
 	subscript(position: Int) -> MKMapPoint {

@@ -39,13 +39,6 @@ struct MapView: UIViewRepresentable {
 	
 	func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<MapView>) {
 		self.mapView.delegate = context.coordinator
-		let allStopIDSets = self.mapState.routes.map { (route) -> Set<Int> in
-			return route.stopIDs
-		}
-		let allStopIDs = Set.generateUnion(of: allStopIDSets)
-		let relevantStops = self.mapState.stops.filter { (stop) -> Bool in
-			return allStopIDs.contains(stop.id)
-		}
 		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) -> Bool in
 			return uiView.overlays.contains { (overlay) -> Bool in
 				if let existingRoute = overlay as? Route, existingRoute == route {
@@ -56,7 +49,7 @@ struct MapView: UIViewRepresentable {
 		}
 		uiView.removeAnnotations(uiView.annotations)
 		uiView.addAnnotations(Array(self.mapState.buses))
-		uiView.addAnnotations(Array(relevantStops))
+		uiView.addAnnotations(Array(self.mapState.stops))
 		if !allRoutesOnMap {
 			uiView.removeOverlays(uiView.overlays)
 			uiView.addOverlays(self.mapState.routes)

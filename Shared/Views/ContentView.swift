@@ -13,7 +13,6 @@ struct ContentView: View {
 	
 	enum SheetType: IdentifiableByHashValue {
 		
-		case routeSelection
 		case privacy
 		
 	}
@@ -40,10 +39,10 @@ struct ContentView: View {
 	var buttonText: String {
 		get {
 			switch self.travelState {
+			case .onBus:
+				return "Leave Bus"
 			case .notOnBus:
 				return "Board Bus"
-			case .onWestRoute, .onNorthRoute:
-				return "Leave Bus"
 			}
 		}
 	}
@@ -69,6 +68,13 @@ struct ContentView: View {
 				.ignoresSafeArea()
 				.onReceive(self.timer) { (_) in
 					switch self.travelState {
+					case .onBus:
+						if let busID = self.busID, let locationID = self.locationID, let coordinate = LocationUtilities.locationManager.location?.coordinate {
+							let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.converedtToCoordinate(), type: .user)
+							API.provider.request(.updateBus(busID, location: location)) { (_) in
+								return
+							}
+						}
 					case .notOnBus:
 						guard let location = LocationUtilities.locationManager.location else {
 							break
@@ -88,21 +94,6 @@ struct ContentView: View {
 							self.busID = closestBus?.id
 							self.locationID = UUID()
 						}
-					case .onWestRoute, .onNorthRoute:
-						if let busID = self.busID, let locationID = self.locationID, let coordinate = LocationUtilities.locationManager.location?.coordinate {
-//							let url = URL(string: "https://shuttle.gerzer.software/buses/\(busID)")!
-							let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertToBusCoordinate(), type: .user)
-							API.provider.request(.updateBus(busID, location: location)) { (_) in
-								return
-							}
-//							let encoder = JSONEncoder()
-//							encoder.dateEncodingStrategy = .iso8601
-//							var request = URLRequest(url: url)
-//							request.httpMethod = "PATCH"
-//							request.httpBody = try! encoder.encode(location)
-//							request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//							URLSession.shared.dataTask(with: request).resume()
-						}
 					}
 					self.refreshBuses()
 				}
@@ -116,19 +107,20 @@ struct ContentView: View {
 					VStack(alignment: .leading) {
 						Button {
 							switch self.travelState {
-							case .notOnBus:
-								if self.busID == nil {
-									self.alertType = .noNearbyBus
-								} else {
-									self.sheetType = .routeSelection
-								}
-							case .onWestRoute, .onNorthRoute:
+							case .onBus:
 								self.busID = nil
 								self.locationID = nil
 								self.travelState = .notOnBus
 								self.statusText = .thanks
 								DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 									self.statusText = .mapRefresh
+								}
+							case .notOnBus:
+								if self.busID == nil {
+									self.alertType = .noNearbyBus
+								} else {
+									self.travelState = .onBus
+									self.statusText = .locationData
 								}
 							}
 							self.updateButtonState()
@@ -168,10 +160,6 @@ struct ContentView: View {
 			} content: { (sheetType) in
 				#if os(iOS)
 				switch sheetType {
-				case .routeSelection:
-					RouteSelectionSheet(travelState: self.$travelState, parentSheetType: self.$sheetType, parentStatusText: self.$statusText) {
-						self.updateButtonState()
-					}
 				case .privacy:
 					if #available(iOS 15.0, *) {
 						PrivacySheet(parentSheetType: self.$sheetType)
