@@ -239,18 +239,18 @@ struct ContentView: View {
 				self.updateButtonState()
 			}
 		}
-		//		if let location = locationManager.location {
-		//			let locationMapPoint = MKMapPoint(location.coordinate)
-		//			let nearestStop = self.mapState.stops.min { (firstStop, secondStop) in
-		//				let firstStopDistance = MKMapPoint(firstStop.coordinate).distance(to: locationMapPoint)
-		//				let secondStopDistance = MKMapPoint(secondStop.coordinate).distance(to: locationMapPoint)
-		//				return firstStopDistance < secondStopDistance
-		//			}
-		//			let busPoints = self.mapState.buses.map { (bus) -> (bus: Bus, mapPoint: MKMapPoint) in
-		//
-		//			}
-		//			self.statusText = "The next bus is \("?") meters away from the nearest stop."
-		//		}
+//		if let location = locationManager.location {
+//			let locationMapPoint = MKMapPoint(location.coordinate)
+//			let nearestStop = self.mapState.stops.min { (firstStop, secondStop) in
+//				let firstStopDistance = MKMapPoint(firstStop.coordinate).distance(to: locationMapPoint)
+//				let secondStopDistance = MKMapPoint(secondStop.coordinate).distance(to: locationMapPoint)
+//				return firstStopDistance < secondStopDistance
+//			}
+//			let busPoints = self.mapState.buses.map { (bus) -> (bus: Bus, mapPoint: MKMapPoint) in
+//
+//			}
+//			self.statusText = "The next bus is \("?") meters away from the nearest stop."
+//		}
 	}
 	
 	func updateButtonState() {
