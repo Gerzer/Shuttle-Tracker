@@ -25,18 +25,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>shuttles.rpi.edu</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
+	<dict/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Shuttle Tracker uses your location to provide shuttle-tracking features.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
