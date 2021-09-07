@@ -16,7 +16,29 @@ struct OnboardingToast: View {
 		
 	}
 	
+	private static let highQualityString = "Green buses have high-quality location data."
+	
+	private static let lowQualityString = "Red buses have low-quality location data."
+	
 	let headlineText: HeadlineText?
+	
+	@available(iOS 15, *) private static let highQualityAttributedString: AttributedString = {
+			var attributedString = AttributedString(Self.highQualityString)
+			let greenRange = attributedString.range(of: "Green")!
+			let highQualityRange = attributedString.range(of: "high-quality")!
+			attributedString[greenRange].foregroundColor = .green
+			attributedString[highQualityRange].inlinePresentationIntent = .stronglyEmphasized
+			return attributedString
+	}()
+	
+	@available(iOS 15, *) private static let lowQualityAttributedString: AttributedString = {
+		var attributedString = AttributedString(Self.lowQualityString)
+		let redRange = attributedString.range(of: "Red")!
+		let lowQualityRange = attributedString.range(of: "low-quality")!
+		attributedString[redRange].foregroundColor = .red
+		attributedString[lowQualityRange].inlinePresentationIntent = .stronglyEmphasized
+		return attributedString
+	}()
 	
 	@Binding private(set) var doShow: Bool
 	
@@ -45,7 +67,11 @@ struct OnboardingToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				Text("Green buses have high-quality location data.")
+				if #available(iOS 15, *) {
+					Text(Self.highQualityAttributedString)
+				} else {
+					Text(Self.highQualityString)
+				}
 			}
 				.frame(height: 50)
 			Spacer()
@@ -60,7 +86,11 @@ struct OnboardingToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				Text("Red buses have low-quality location data.")
+				if #available(iOS 15, *) {
+					Text(Self.lowQualityAttributedString)
+				} else {
+					Text(Self.lowQualityString)
+				}
 			}
 				.frame(height: 50)
 		}
