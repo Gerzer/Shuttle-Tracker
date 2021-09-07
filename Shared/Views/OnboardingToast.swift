@@ -22,7 +22,7 @@ struct OnboardingToast: View {
 	
 	let headlineText: HeadlineText?
 	
-	@available(iOS 15, *) private static let highQualityAttributedString: AttributedString = {
+	@available(iOS 15, macOS 12, *) private static let highQualityAttributedString: AttributedString = {
 			var attributedString = AttributedString(Self.highQualityString)
 			let greenRange = attributedString.range(of: "Green")!
 			let highQualityRange = attributedString.range(of: "high-quality")!
@@ -31,7 +31,7 @@ struct OnboardingToast: View {
 			return attributedString
 	}()
 	
-	@available(iOS 15, *) private static let lowQualityAttributedString: AttributedString = {
+	@available(iOS 15, macOS 12, *) private static let lowQualityAttributedString: AttributedString = {
 		var attributedString = AttributedString(Self.lowQualityString)
 		let redRange = attributedString.range(of: "Red")!
 		let lowQualityRange = attributedString.range(of: "low-quality")!
@@ -67,7 +67,7 @@ struct OnboardingToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				if #available(iOS 15, *) {
+				if #available(iOS 15, macOS 12, *) {
 					Text(Self.highQualityAttributedString)
 				} else {
 					Text(Self.highQualityString)
@@ -86,7 +86,7 @@ struct OnboardingToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				if #available(iOS 15, *) {
+				if #available(iOS 15, macOS 12, *) {
 					Text(Self.lowQualityAttributedString)
 				} else {
 					Text(Self.lowQualityString)
@@ -96,9 +96,19 @@ struct OnboardingToast: View {
 		}
 			.layoutPriority(0)
 			.padding()
-			.background(VisualEffectView(effect: UIBlurEffect(style: .systemMaterial)))
+			.background(self.visualEffectView)
 			.cornerRadius(30)
 	}
+	
+	#if os(macOS)
+	private var visualEffectView: some View {
+		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
+	}
+	#else // os(macOS)
+	private var visualEffectView: some View {
+		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+	}
+	#endif // os(macOS)
 	
 }
 
