@@ -101,7 +101,20 @@ struct ContentView: View {
 					}
 					self.refreshBuses()
 				}
-			#if !os(macOS)
+			#if os(macOS)
+			VStack {
+				HStack {
+					if self.doShowOnboardingToast {
+						OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
+							.frame(maxWidth: 215, maxHeight: 100)
+							.padding(.top, 50)
+							.padding(.leading, 10)
+					}
+					Spacer()
+				}
+				Spacer()
+			}
+			#else // os(macOS)
 			VStack {
 				#if !APPCLIP
 				if self.doShowOnboardingToast {
@@ -157,7 +170,7 @@ struct ContentView: View {
 				Spacer()
 				#endif // APPCLIP
 			}
-			#endif // !os(macOS)
+			#endif // os(macOS)
 		}
 			.sheet(item: self.$sheetType) {
 				[Route].download { (routes) in

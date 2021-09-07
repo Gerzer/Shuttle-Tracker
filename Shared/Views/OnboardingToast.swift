@@ -20,6 +20,16 @@ struct OnboardingToast: View {
 	
 	private static let lowQualityString = "Red buses have low-quality location data."
 	
+	#if os(macOS)
+	private static let closeButtonDimension: CGFloat = 15
+	
+	private static let cornerRadius: CGFloat = 10
+	#else // os(macOS)
+	private static let closeButtonDimension: CGFloat = 25
+	
+	private static let cornerRadius: CGFloat = 30
+	#endif // os(macOS)
+	
 	let headlineText: HeadlineText?
 	
 	@available(iOS 15, macOS 12, *) private static let highQualityAttributedString: AttributedString = {
@@ -53,7 +63,7 @@ struct OnboardingToast: View {
 				} label: {
 					Image(systemName: "xmark.circle.fill")
 						.resizable()
-						.frame(width: 25, height: 25)
+						.frame(width: Self.closeButtonDimension, height: Self.closeButtonDimension)
 				}
 					.buttonStyle(.plain)
 			}
@@ -97,7 +107,7 @@ struct OnboardingToast: View {
 			.layoutPriority(0)
 			.padding()
 			.background(self.visualEffectView)
-			.cornerRadius(30)
+			.cornerRadius(Self.cornerRadius)
 	}
 	
 	#if os(macOS)
