@@ -34,6 +34,9 @@
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		C03EE72126DEAD1F00878D77 /* OnboardingToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* OnboardingToast.swift */; };
+		C03EE72226DEAD1F00878D77 /* OnboardingToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* OnboardingToast.swift */; };
+		C03EE72326DEAD1F00878D77 /* OnboardingToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* OnboardingToast.swift */; };
 		C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
@@ -102,6 +105,7 @@
 		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
 		C01F6D7826E44BE400D33656 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		C03EE72026DEAD1F00878D77 /* OnboardingToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingToast.swift; sourceTree = "<group>"; };
 		C053E98E26DD3B280057E808 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -175,6 +179,7 @@
 				C08FC22125251196008589C1 /* ContentView.swift */,
 				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C01527E12517CFA60069092C /* MapView.swift */,
+				C03EE72026DEAD1F00878D77 /* OnboardingToast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 			);
 			path = Views;
@@ -432,6 +437,7 @@
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
+				C03EE72326DEAD1F00878D77 /* OnboardingToast.swift in Sources */,
 				C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
@@ -454,6 +460,7 @@
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
+				C03EE72226DEAD1F00878D77 /* OnboardingToast.swift in Sources */,
 				C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
@@ -479,6 +486,7 @@
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
+				C03EE72126DEAD1F00878D77 /* OnboardingToast.swift in Sources */,
 				C0FFD6E9250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,

@@ -57,6 +57,10 @@ struct ContentView: View {
 	
 	@State private var doDisableButton = true
 	
+	@State private var doShowOnboardingToast = false
+	
+	@State private var onboardingToastHeadlineText: OnboardingToast.HeadlineText?
+	
 	@State private var busID: Int?
 	
 	@State private var locationID: UUID?
@@ -100,6 +104,10 @@ struct ContentView: View {
 			#if !os(macOS)
 			VStack {
 				#if !APPCLIP
+				if self.doShowOnboardingToast {
+					OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
+						.padding()
+				}
 				Spacer()
 				#endif // !APPCLIP
 				HStack {
@@ -183,8 +191,17 @@ struct ContentView: View {
 			}
 			.onAppear {
 				let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
-				if coldLaunchCount == 1 {
+				switch coldLaunchCount {
+				case 1:
 					self.sheetType = .privacy
+				case 2:
+					self.doShowOnboardingToast = true
+					self.onboardingToastHeadlineText = .tip
+				case 5:
+					self.doShowOnboardingToast = true
+					self.onboardingToastHeadlineText = .reminder
+				default:
+					break
 				}
 			}
 	}
