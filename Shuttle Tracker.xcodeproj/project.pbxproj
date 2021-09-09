@@ -61,6 +61,9 @@
 		C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
 		C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
 		C0A232CA252508E000FAAD50 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
+		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
+		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
+		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */; };
 		C0FFD6E9250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */; };
 		C0FFD6EC250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
@@ -118,6 +121,7 @@
 		C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C0FFD6D7250C33C900945F01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuttle Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +184,7 @@
 				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C01527E12517CFA60069092C /* MapView.swift */,
 				C03EE72026DEAD1F00878D77 /* OnboardingToast.swift */,
+				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 			);
 			path = Views;
@@ -440,6 +445,7 @@
 				C03EE72326DEAD1F00878D77 /* OnboardingToast.swift in Sources */,
 				C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
+				C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
@@ -464,6 +470,7 @@
 				C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
+				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
 				C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
 				C025ED432527C1D500524144 /* API.swift in Sources */,
 				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
@@ -483,6 +490,7 @@
 			files = (
 				C015281E2517F68F0069092C /* MapState.swift in Sources */,
 				C01528152517E1E00069092C /* Bus.swift in Sources */,
+				C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,

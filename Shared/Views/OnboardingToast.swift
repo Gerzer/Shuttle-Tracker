@@ -20,16 +20,6 @@ struct OnboardingToast: View {
 	
 	private static let lowQualityString = "Red buses have low-quality location data."
 	
-	#if os(macOS)
-	private static let closeButtonDimension: CGFloat = 15
-	
-	private static let cornerRadius: CGFloat = 10
-	#else // os(macOS)
-	private static let closeButtonDimension: CGFloat = 25
-	
-	private static let cornerRadius: CGFloat = 30
-	#endif // os(macOS)
-	
 	let headlineText: HeadlineText?
 	
 	@available(iOS 15, macOS 12, *) private static let highQualityAttributedString: AttributedString = {
@@ -53,20 +43,9 @@ struct OnboardingToast: View {
 	@Binding private(set) var doShow: Bool
 	
 	var body: some View {
-		VStack(alignment: .leading) {
-			HStack {
-				Text(self.headlineText?.rawValue ?? "Onboarding")
-					.font(.headline)
-				Spacer()
-				Button {
-					self.doShow = false
-				} label: {
-					Image(systemName: "xmark.circle.fill")
-						.resizable()
-						.frame(width: Self.closeButtonDimension, height: Self.closeButtonDimension)
-				}
-					.buttonStyle(.plain)
-			}
+		Toast(self.headlineText?.rawValue ?? "Onboarding") {
+			self.doShow = false
+		} content: {
 			HStack {
 				ZStack {
 					Circle()
@@ -104,21 +83,8 @@ struct OnboardingToast: View {
 			}
 				.frame(height: 50)
 		}
-			.layoutPriority(0)
-			.padding()
-			.background(self.visualEffectView)
-			.cornerRadius(Self.cornerRadius)
+
 	}
-	
-	#if os(macOS)
-	private var visualEffectView: some View {
-		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
-	#else // os(macOS)
-	private var visualEffectView: some View {
-		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-	}
-	#endif // os(macOS)
 	
 }
 

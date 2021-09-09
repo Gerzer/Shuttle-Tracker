@@ -8,6 +8,34 @@
 import SwiftUI
 import MapKit
 
+enum ViewUtilities {
+	
+	enum Toast {
+		
+		#if os(macOS)
+		static let closeButtonDimension: CGFloat = 15
+
+		static let cornerRadius: CGFloat = 10
+		#else // os(macOS)
+		static let closeButtonDimension: CGFloat = 25
+
+		static let cornerRadius: CGFloat = 30
+		#endif // os(macOS)
+		
+	}
+	
+	#if os(macOS)
+	static var standardVisualEffectView: some View {
+		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
+	}
+	#else // os(macOS)
+	static var standardVisualEffectView: some View {
+		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+	}
+	#endif // os(macOS)
+	
+}
+
 enum LocationUtilities {
 	
 	private static let locationManagerDelegate = LocationManagerDelegate()
