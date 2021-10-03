@@ -46,7 +46,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		imageView.tintColor = .white
 		imageView.layer.borderColor = UIColor.black.cgColor
 		imageView.layer.borderWidth = 2
-		imageView.layer.toastCornerRadius = imageView.frame.width / 2
+		imageView.layer.cornerRadius = imageView.frame.width / 2
 		imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
 		annotationView.addSubview(imageView)
 		#endif
