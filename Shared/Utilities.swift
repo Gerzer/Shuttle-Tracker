@@ -10,16 +10,16 @@ import MapKit
 
 enum ViewUtilities {
 	
-	enum Toast {
+	enum Constants {
 		
 		#if os(macOS)
-		static let closeButtonDimension: CGFloat = 15
+		static let toastCloseButtonDimension: CGFloat = 15
 
-		static let cornerRadius: CGFloat = 10
+		static let toastCornerRadius: CGFloat = 10
 		#else // os(macOS)
-		static let closeButtonDimension: CGFloat = 25
+		static let toastCloseButtonDimension: CGFloat = 25
 
-		static let cornerRadius: CGFloat = 30
+		static let toastCornerRadius: CGFloat = 30
 		#endif // os(macOS)
 		
 	}
@@ -59,11 +59,15 @@ enum LocationUtilities {
 
 enum MapUtilities {
 	
-	static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
+	enum Constants {
+		
+		static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
+		
+	}
 	
 	static var mapRect: MKMapRect {
 		get {
-			let origin = MKMapPoint(self.originCoordinate)
+			let origin = MKMapPoint(Constants.originCoordinate)
 			let size = MKMapSize(width: 10000, height: 10000)
 			return MKMapRect(origin: origin, size: size)
 		}
