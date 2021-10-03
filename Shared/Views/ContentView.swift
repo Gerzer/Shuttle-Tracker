@@ -235,6 +235,9 @@ struct ContentView: View {
 					self.refreshButton
 				}
 			}
+			.onAppear {
+				NSWindow.allowsAutomaticWindowTabbing = false
+			}
 	}
 	
 	private var visualEffectView: some View {
