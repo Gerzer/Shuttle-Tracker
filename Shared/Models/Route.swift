@@ -36,9 +36,9 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 			let polylineRenderer = MKPolylineRenderer(polyline: polyline)
 			#if os(macOS)
 			polylineRenderer.strokeColor = NSColor(.blue).withAlphaComponent(0.5)
-			#else
+			#else // os(macOS)
 			polylineRenderer.strokeColor = UIColor(.blue).withAlphaComponent(0.5)
-			#endif
+			#endif // os(macOS)
 			polylineRenderer.lineWidth = 3
 			return polylineRenderer
 		}
@@ -102,8 +102,7 @@ extension Array where Element == Route {
 	
 	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
 		API.provider.request(.readRoutes) { (result) in
-			let routes = try? result.value?
-				.map([Route].self)
+			let routes = try? result.value?.map([Route].self)
 			routesCallback(routes ?? [])
 		}
 	}

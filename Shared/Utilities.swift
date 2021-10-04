@@ -44,9 +44,9 @@ enum LocationUtilities {
 		let locationManager = CLLocationManager()
 		#if os(macOS) || APPCLIP
 		locationManager.requestWhenInUseAuthorization()
-		#else
+		#else // os(macOS) || APPCLIP
 		locationManager.requestAlwaysAuthorization()
-		#endif
+		#endif // os(macOS) || APPCLIP
 		locationManager.startUpdatingLocation()
 		return locationManager
 	}() {
@@ -146,4 +146,4 @@ extension NSImage {
 	}
 	
 }
-#endif
+#endif // os(macOS)

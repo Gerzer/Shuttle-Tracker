@@ -37,11 +37,12 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		annotationView.displayPriority = .defaultHigh
 		annotationView.canShowCallout = true
 		#if os(macOS)
-		annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?.withTintColor(.white)
+		annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?
+			.withTintColor(.white)
 		annotationView.layer?.borderColor = .black
 		annotationView.layer?.borderWidth = 2
 		annotationView.layer?.cornerRadius = annotationView.frame.width / 2
-		#else
+		#else // os(macOS)
 		let image = UIImage(systemName: "circle.fill")!
 		let imageView = UIImageView(image: image)
 		imageView.tintColor = .white
@@ -50,7 +51,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		imageView.layer.cornerRadius = imageView.frame.width / 2
 		imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
 		annotationView.addSubview(imageView)
-		#endif
+		#endif // os(macOS)
 		return annotationView
 	}()
 	
@@ -66,8 +67,7 @@ extension Array where Element == Stop {
 	
 	static func download(_ stopsCallback: @escaping (_ stops: Self) -> Void) {
 		API.provider.request(.readStops) { (result) in
-			let stops = try? result.value?
-				.map([Stop].self)
+			let stops = try? result.value?.map([Stop].self)
 			stopsCallback(stops ?? [])
 		}
 	}
