@@ -61,8 +61,6 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
-			markerAnnotationView.zPriority = .max
-			markerAnnotationView.selectedZPriority = .max
 			markerAnnotationView.canShowCallout = true
 			switch self.location.type {
 			case .system:

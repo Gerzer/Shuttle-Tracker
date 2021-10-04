@@ -34,6 +34,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 	
 	let annotationView: MKAnnotationView = {
 		let annotationView = MKAnnotationView()
+		annotationView.displayPriority = .defaultHigh
 		annotationView.canShowCallout = true
 		#if os(macOS)
 		annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?.withTintColor(.white)
