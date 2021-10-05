@@ -1,0 +1,19 @@
+//
+//  Config.xcconfig
+//  Shuttle Tracker
+//
+//  Created by Gabriel Jacoby-Cooper on 10/3/21.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include? "./Personal.xcconfig"
+
+CODE_SIGN_IDENTITY = Apple Development
+DEVELOPMENT_TEAM = SYBLH277NF
+CODE_SIGN_STYLE = Automatic
+ORGANIZATION_IDENTIFIER = com.gerzer
+DEVELOPER_ENTITLEMENTS = -dev
+PROVISIONING_PROFILE_SPECIFIER =
+PRODUCT_BUNDLE_IDENTIFIER = $(ORGANIZATION_IDENTIFIER).shuttletracker

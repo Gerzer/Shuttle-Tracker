@@ -95,3 +95,4 @@ Server/Serve.command
 /Icons/
 /Server/
 /Config.xcconfig
+/Config/Personal.xcconfig

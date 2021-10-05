@@ -108,7 +108,9 @@
 		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
 		C01F6D7826E44BE400D33656 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		C03EC6B2270A9A5F0004F9F8 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shared (App Clip).xcconfig"; sourceTree = "<group>"; };
+		C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
 		C03EE72026DEAD1F00878D77 /* OnboardingToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingToast.swift; sourceTree = "<group>"; };
 		C053E98E26DD3B280057E808 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
@@ -168,6 +170,16 @@
 				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
 			);
 			path = Delegates;
+			sourceTree = "<group>";
+		};
+		C03EC6BC270CF7F10004F9F8 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */,
+				C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */,
+				C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		C03FD52626DD6E6A00A2532E /* Views */ = {
@@ -242,8 +254,8 @@
 		C0FFD6CF250C33C800945F01 = {
 			isa = PBXGroup;
 			children = (
-				C03EC6B2270A9A5F0004F9F8 /* Config.xcconfig */,
 				C0A2328D2525060300FAAD50 /* Locations.gpx */,
+				C03EC6BC270CF7F10004F9F8 /* Config */,
 				C0FFD6D4250C33C800945F01 /* Shared */,
 				C0FFD6DE250C33C900945F01 /* iOS */,
 				C0FFD6E5250C33C900945F01 /* macOS */,
@@ -523,7 +535,7 @@
 /* Begin XCBuildConfiguration section */
 		C0A232A52525080600FAAD50 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C03EC6B2270A9A5F0004F9F8 /* Config.xcconfig */;
+			baseConfigurationReference = C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -576,7 +588,7 @@
 		};
 		C0FFD6EE250C33C900945F01 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C03EC6B2270A9A5F0004F9F8 /* Config.xcconfig */;
+			baseConfigurationReference = C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -688,7 +700,7 @@
 		};
 		C0FFD6F1250C33C900945F01 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C03EC6B2270A9A5F0004F9F8 /* Config.xcconfig */;
+			baseConfigurationReference = C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -743,7 +755,7 @@
 		};
 		C0FFD6F4250C33C900945F01 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C03EC6B2270A9A5F0004F9F8 /* Config.xcconfig */;
+			baseConfigurationReference = C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
