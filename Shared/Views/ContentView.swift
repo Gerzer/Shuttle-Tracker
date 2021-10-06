@@ -31,14 +31,12 @@ struct ContentView: View {
 		
 	}
 	
-	let mapState = MapState()
-	
 	let timer = Timer.publish(every: 5, on: .main, in: .common)
 		.autoconnect()
 	
 	var buttonText: String {
 		get {
-			switch self.travelState {
+			switch self.mapState.travelState {
 			case .onBus:
 				return "Leave Bus"
 			case .notOnBus:
@@ -46,8 +44,6 @@ struct ContentView: View {
 			}
 		}
 	}
-	
-	@State private var travelState = TravelState.notOnBus
 	
 	@State private var statusText = StatusText.mapRefresh
 	
@@ -61,46 +57,13 @@ struct ContentView: View {
 	
 	@State private var onboardingToastHeadlineText: OnboardingToast.HeadlineText?
 	
-	@State private var busID: Int?
-	
-	@State private var locationID: UUID?
+	@EnvironmentObject private var mapState: MapState
 	
 	var body: some View {
 		ZStack {
 			self.mapView
 				.environmentObject(self.mapState)
 				.ignoresSafeArea()
-				.onReceive(self.timer) { (_) in
-					switch self.travelState {
-					case .onBus:
-						if let busID = self.busID, let locationID = self.locationID, let coordinate = LocationUtilities.locationManager.location?.coordinate {
-							let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.converedtToCoordinate(), type: .user)
-							API.provider.request(.updateBus(busID, location: location)) { (_) in
-								return
-							}
-						}
-					case .notOnBus:
-						guard let location = LocationUtilities.locationManager.location else {
-							break
-						}
-						let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
-							let firstBusDistance = firstBus.location.convertForCoreLocation().distance(from: location)
-							let secondBusDistance = secondBus.location.convertForCoreLocation().distance(from: location)
-							return firstBusDistance < secondBusDistance
-						}
-						let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-							let newDistance = stop.location.distance(from: location)
-							if newDistance < distance {
-								distance = newDistance
-							}
-						}
-						if closestStopDistance < 10 {
-							self.busID = closestBus?.id
-							self.locationID = UUID()
-						}
-					}
-					self.refreshBuses()
-				}
 			#if os(macOS)
 			VStack {
 				HStack {
@@ -127,21 +90,23 @@ struct ContentView: View {
 					Spacer()
 					VStack(alignment: .leading) {
 						Button {
-							switch self.travelState {
+							switch self.mapState.travelState {
 							case .onBus:
-								self.busID = nil
-								self.locationID = nil
-								self.travelState = .notOnBus
+								self.mapState.busID = nil
+								self.mapState.locationID = nil
+								self.mapState.travelState = .notOnBus
 								self.statusText = .thanks
 								DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 									self.statusText = .mapRefresh
 								}
+								LocationUtilities.locationManager.stopUpdatingLocation()
 							case .notOnBus:
-								if self.busID == nil {
+								if self.mapState.busID == nil {
 									self.alertType = .noNearbyBus
 								} else {
-									self.travelState = .onBus
+									self.mapState.travelState = .onBus
 									self.statusText = .locationData
+									LocationUtilities.locationManager.startUpdatingLocation()
 								}
 							}
 							self.updateButtonState()
@@ -217,6 +182,36 @@ struct ContentView: View {
 					break
 				}
 			}
+			.onReceive(self.timer) { (_) in
+				switch self.mapState.travelState {
+				case .onBus:
+					guard let coordinate = LocationUtilities.locationManager.location?.coordinate else {
+						LoggingUtilities.logger.log(level: .info, "User location unavailable")
+						break
+					}
+					LocationUtilities.sendToServer(coordinate: coordinate)
+				case .notOnBus:
+					guard let location = LocationUtilities.locationManager.location else {
+						break
+					}
+					let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
+						let firstBusDistance = firstBus.location.convertForCoreLocation().distance(from: location)
+						let secondBusDistance = secondBus.location.convertForCoreLocation().distance(from: location)
+						return firstBusDistance < secondBusDistance
+					}
+					let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+						let newDistance = stop.location.distance(from: location)
+						if newDistance < distance {
+							distance = newDistance
+						}
+					}
+					if closestStopDistance < 100 {
+						self.mapState.busID = closestBus?.id
+						self.mapState.locationID = UUID()
+					}
+				}
+				self.refreshBuses()
+			}
 	}
 	
 	private var refreshButton: some View {
@@ -275,7 +270,7 @@ struct ContentView: View {
 	}
 	
 	func updateButtonState() {
-		self.doDisableButton = LocationUtilities.locationManager.location == nil || self.mapState.buses.count == 0 && self.travelState == .notOnBus
+		self.doDisableButton = LocationUtilities.locationManager.location == nil || self.mapState.buses.count == 0 && self.mapState.travelState == .notOnBus
 	}
 	
 }

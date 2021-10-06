@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import OSLog
 
 enum ViewUtilities {
 	
@@ -40,18 +41,20 @@ enum LocationUtilities {
 	
 	private static let locationManagerDelegate = LocationManagerDelegate()
 	
-	private(set) static var locationManager: CLLocationManager = {
-		let locationManager = CLLocationManager()
-		#if os(macOS) || APPCLIP
-		locationManager.requestWhenInUseAuthorization()
-		#else // os(macOS) || APPCLIP
-		locationManager.requestAlwaysAuthorization()
-		#endif // os(macOS) || APPCLIP
-		locationManager.startUpdatingLocation()
-		return locationManager
-	}() {
+	static var locationManager: CLLocationManager! {
 		didSet {
 			self.locationManager.delegate = self.locationManagerDelegate
+		}
+	}
+	
+	static func sendToServer(coordinate: CLLocationCoordinate2D) {
+		guard let busID = MapState.sharedInstance.busID, let locationID = MapState.sharedInstance.locationID else {
+			LoggingUtilities.logger.log(level: .fault, "Required bus and location identifiers not found")
+			return
+		}
+		let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertedToCoordinate(), type: .user)
+		API.provider.request(.updateBus(busID, location: location)) { (_) in
+			return
 		}
 	}
 	
@@ -72,6 +75,12 @@ enum MapUtilities {
 			return MKMapRect(origin: origin, size: size)
 		}
 	}
+	
+}
+
+enum LoggingUtilities {
+	
+	static let logger = Logger()
 	
 }
 

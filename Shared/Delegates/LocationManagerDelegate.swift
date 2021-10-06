@@ -9,8 +9,11 @@ import CoreLocation
 
 class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
-	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-		manager.startUpdatingLocation()
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+		guard MapState.sharedInstance.travelState == .onBus else {
+			return
+		}
+		LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
 	}
 	
 }
