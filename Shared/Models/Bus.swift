@@ -90,7 +90,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 
 extension CLLocationCoordinate2D {
 	
-	func converedtToCoordinate() -> Coordinate {
+	func convertedToCoordinate() -> Coordinate {
 		return Coordinate(latitude: self.latitude, longitude: self.longitude)
 	}
 	

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 @main struct ShuttleTrackerApp: App {
 	
@@ -14,6 +15,7 @@ import SwiftUI
 	var body: some Scene {
 		WindowGroup {
 			self.contentView
+				.environmentObject(MapState.sharedInstance)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
@@ -28,6 +30,14 @@ import SwiftUI
 	init() {
 		let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
 		UserDefaults.standard.set(coldLaunchCount + 1, forKey: DefaultsKeys.coldLaunchCount)
+		LocationUtilities.locationManager = CLLocationManager()
+		#if os(macOS)
+		LocationUtilities.locationManager.requestWhenInUseAuthorization()
+		#else // os(macOS)
+		LocationUtilities.locationManager.requestAlwaysAuthorization()
+		#endif // os(macOS)
+		LocationUtilities.locationManager.activityType = .automotiveNavigation
+		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 	}
 	
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import StoreKit
+import CoreLocation
 
 @main struct ShuttleTrackerApp: App {
 	
@@ -15,10 +16,18 @@ import StoreKit
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
+				.environmentObject(MapState.sharedInstance)
 //				.appStoreOverlay(isPresented: self.$doShowAppStoreOverlay) { () -> SKOverlay.Configuration in
 //					return SKOverlay.AppClipConfiguration(position: .bottomRaised)
 //				}
 		}
+	}
+	
+	init() {
+		LocationUtilities.locationManager = CLLocationManager()
+		LocationUtilities.locationManager.requestWhenInUseAuthorization()
+		LocationUtilities.locationManager.activityType = .automotiveNavigation
+		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 	}
 	
 }
