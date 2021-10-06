@@ -205,7 +205,7 @@ struct ContentView: View {
 							distance = newDistance
 						}
 					}
-					if closestStopDistance < 100 {
+					if closestStopDistance < 10 {
 						self.mapState.busID = closestBus?.id
 						self.mapState.locationID = UUID()
 					}
