@@ -35,9 +35,9 @@ import CoreLocation
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		#else // os(macOS)
 		LocationUtilities.locationManager.requestAlwaysAuthorization()
+		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 		#endif // os(macOS)
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
-		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 	}
 	
 }
