@@ -27,7 +27,6 @@ import CoreLocation
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
-		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 	}
 	
 }
