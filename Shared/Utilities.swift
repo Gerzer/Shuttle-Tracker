@@ -14,10 +14,14 @@ enum ViewUtilities {
 	enum Constants {
 		
 		#if os(macOS)
+		static let sheetCloseButtonDimension: CGFloat = 15
+		
 		static let toastCloseButtonDimension: CGFloat = 15
 
 		static let toastCornerRadius: CGFloat = 10
 		#else // os(macOS)
+		static let sheetCloseButtonDimension: CGFloat = 30
+		
 		static let toastCloseButtonDimension: CGFloat = 25
 
 		static let toastCornerRadius: CGFloat = 30
@@ -29,9 +33,17 @@ enum ViewUtilities {
 	static var standardVisualEffectView: some View {
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
 	}
+	
+	static var chromeVisualEffectView: some View {
+		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
+	}
 	#else // os(macOS)
 	static var standardVisualEffectView: some View {
 		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+	}
+	
+	static var chromeVisualEffectView: some View {
+		VisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterial))
 	}
 	#endif // os(macOS)
 	

@@ -17,6 +17,7 @@ import CoreLocation
 		WindowGroup {
 			ContentView()
 				.environmentObject(MapState.sharedInstance)
+				.environmentObject(NavigationState.sharedInstance)
 //				.appStoreOverlay(isPresented: self.$doShowAppStoreOverlay) { () -> SKOverlay.Configuration in
 //					return SKOverlay.AppClipConfiguration(position: .bottomRaised)
 //				}
