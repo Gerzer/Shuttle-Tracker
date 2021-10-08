@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
+import SwiftUI
 import MapKit
 
 class Bus: NSObject, Codable, CustomAnnotation {
@@ -62,16 +63,21 @@ class Bus: NSObject, Codable, CustomAnnotation {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
 			markerAnnotationView.canShowCallout = true
+			let colorBlindMode = UserDefaults.standard.bool(forKey: "colorBlindMode")
+			let colorBlindSymbolName: String
 			switch self.location.type {
 			case .system:
-				markerAnnotationView.markerTintColor = .systemRed
+				markerAnnotationView.markerTintColor = colorBlindMode ? .systemPurple : .systemRed
+				colorBlindSymbolName = "circle.dotted"
 			case .user:
 				markerAnnotationView.markerTintColor = .systemGreen
+				colorBlindSymbolName = "scope"
 			}
+			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
 			#if os(macOS)
-			markerAnnotationView.glyphImage = NSImage(systemSymbolName: "bus", accessibilityDescription: nil)
+			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
 			#else // os(macOS)
-			markerAnnotationView.glyphImage = UIImage(systemName: "bus")
+			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
 			#endif // os(macOS)
 			return markerAnnotationView
 		}

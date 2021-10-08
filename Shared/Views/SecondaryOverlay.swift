@@ -14,7 +14,6 @@ struct SecondaryOverlay: View {
 	var body: some View {
 		VStack {
 			Button {
-				print("YAY")
 				self.navigationState.sheetType = .settings
 			} label: {
 				Image(systemName: "gearshape")

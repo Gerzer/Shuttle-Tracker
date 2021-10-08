@@ -59,8 +59,6 @@ struct ContentView: View {
 							.padding(.leading, 10)
 					}
 					Spacer()
-					SecondaryOverlay()
-						.padding()
 				}
 				Spacer()
 			}
@@ -150,11 +148,11 @@ struct ContentView: View {
 					EmptyView()
 					#endif // os(iOS)
 				case .settings:
-					#if os(iOS)
+					#if os(iOS) && !APPCLIP
 					SettingsSheet()
-					#else // os(iOS)
+					#else // os(iOS) && !APPCLIP
 					EmptyView()
-					#endif // os(iOS)
+					#endif // os(iOS) && !APPCLIP
 				}
 			}
 			.alert(item: self.$navigationState.alertType) { (alertType) -> Alert in
