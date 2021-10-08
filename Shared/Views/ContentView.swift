@@ -14,7 +14,7 @@ struct ContentView: View {
 	enum SheetType: IdentifiableByHashValue {
 		
 		case privacy
-        case info
+		case info
 		
 	}
 	
@@ -154,8 +154,8 @@ struct ContentView: View {
 					} else {
 						PrivacySheet(parentSheetType: self.$sheetType)
 					}
-                case .info:
-                    InfoSheet(parentSheetType: self.$sheetType)
+				case .info:
+					InfoSheet(parentSheetType: self.$sheetType)
 				}
 				#else // os(iOS)
 				EmptyView()
