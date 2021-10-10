@@ -11,6 +11,14 @@ struct VisualEffectView: UIViewRepresentable {
 	
 	var effect: UIVisualEffect?
 	
+	init(_ effect: UIVisualEffect) {
+		self.effect = effect
+	}
+	
+	init(_ style: UIBlurEffect.Style) {
+		self.init(UIBlurEffect(style: style))
+	}
+	
 	func makeUIView(context: Context) -> UIVisualEffectView {
 		return UIVisualEffectView()
 	}

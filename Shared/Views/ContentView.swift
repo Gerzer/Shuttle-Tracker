@@ -64,6 +64,9 @@ struct ContentView: View {
 			}
 			#else // os(macOS)
 			VStack {
+				VisualEffectView(.systemUltraThinMaterial)
+					.ignoresSafeArea()
+					.frame(height: 0)
 				#if !APPCLIP
 				if self.doShowOnboardingToast {
 					OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
@@ -71,7 +74,8 @@ struct ContentView: View {
 				} else {
 					HStack {
 						SecondaryOverlay()
-							.padding()
+							.padding(.top, 5)
+							.padding(.leading, 10)
 						Spacer()
 					}
 				}
@@ -117,7 +121,7 @@ struct ContentView: View {
 						}
 					}
 						.padding()
-						.background(self.visualEffectView)
+						.background(ViewUtilities.standardVisualEffectView)
 						.cornerRadius(20)
 					Spacer()
 				}
@@ -231,17 +235,9 @@ struct ContentView: View {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
 	}
-	
-	private var visualEffectView: some View {
-		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
 	#else // os(macOS)
 	private var mapView: some View {
 		MapView()
-	}
-	
-	private var visualEffectView: some View {
-		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 	}
 	#endif // os(macOS)
 	

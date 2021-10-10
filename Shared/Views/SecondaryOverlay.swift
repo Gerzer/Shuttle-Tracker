@@ -16,16 +16,17 @@ struct SecondaryOverlay: View {
 			Button {
 				self.navigationState.sheetType = .settings
 			} label: {
-				Image(systemName: "gearshape")
+				Image(systemName: "gearshape.fill")
 					.resizable()
 					.aspectRatio(1, contentMode: .fit)
 					.opacity(0.5)
+					.frame(width: 20)
 			}
 				.buttonStyle(.plain)
+				.frame(width: 45, height: 45)
+				.contentShape(Rectangle())
 		}
-			.frame(width: 20)
-			.padding()
-			.background(ViewUtilities.standardVisualEffectView)
+			.background(VisualEffectView(.systemThickMaterial))
 			.cornerRadius(10)
 			.shadow(radius: 5)
 	}
@@ -36,6 +37,7 @@ struct SecondaryOverlayPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		SecondaryOverlay()
+			.environmentObject(NavigationState.sharedInstance)
 	}
 	
 }

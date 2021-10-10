@@ -33,17 +33,9 @@ enum ViewUtilities {
 	static var standardVisualEffectView: some View {
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
 	}
-	
-	static var chromeVisualEffectView: some View {
-		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
 	#else // os(macOS)
 	static var standardVisualEffectView: some View {
-		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-	}
-	
-	static var chromeVisualEffectView: some View {
-		VisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterial))
+		VisualEffectView(UIBlurEffect(style: .systemMaterial))
 	}
 	#endif // os(macOS)
 	

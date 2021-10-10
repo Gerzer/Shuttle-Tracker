@@ -67,7 +67,6 @@
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
-		C0C9D3C8270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3CA270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */; };
@@ -549,7 +548,6 @@
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
-				C0C9D3C8270F797400AE58BE /* SecondaryOverlay.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
 				C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */,
