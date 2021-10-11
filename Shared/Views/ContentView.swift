@@ -11,19 +11,6 @@ import Moya
 
 struct ContentView: View {
 	
-	enum SheetType: IdentifiableByHashValue {
-		
-		case privacy
-		case info
-		
-	}
-	
-	enum AlertType: IdentifiableByHashValue {
-		
-		case noNearbyBus
-		
-	}
-	
 	enum StatusText: String {
 		
 		case mapRefresh = "The map automatically refreshes every 5 seconds."
@@ -48,31 +35,29 @@ struct ContentView: View {
 	
 	@State private var statusText = StatusText.mapRefresh
 	
-	@State private var sheetType: SheetType?
-	
-	@State private var alertType: AlertType?
-	
 	@State private var doDisableButton = true
 	
-	@State private var doShowOnboardingToast = false
-	
-	@State private var onboardingToastHeadlineText: OnboardingToast.HeadlineText?
+	@State private var onboardingToastHeadlineText: LegendToast.HeadlineText?
 	
 	@EnvironmentObject private var mapState: MapState
+	
+	@EnvironmentObject private var navigationState: NavigationState
 	
 	var body: some View {
 		ZStack {
 			self.mapView
-				.environmentObject(self.mapState)
 				.ignoresSafeArea()
 			#if os(macOS)
 			VStack {
 				HStack {
-					if self.doShowOnboardingToast {
-						OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
-							.frame(maxWidth: 215, maxHeight: 100)
+					switch self.navigationState.toastType {
+					case .some(.legend):
+						LegendToast(headlineText: self.onboardingToastHeadlineText)
+							.frame(maxWidth: 250, maxHeight: 100)
 							.padding(.top, 50)
 							.padding(.leading, 10)
+					case .none:
+						EmptyView()
 					}
 					Spacer()
 				}
@@ -80,10 +65,21 @@ struct ContentView: View {
 			}
 			#else // os(macOS)
 			VStack {
+				VisualEffectView(.systemUltraThinMaterial)
+					.ignoresSafeArea()
+					.frame(height: 0)
 				#if !APPCLIP
-				if self.doShowOnboardingToast {
-					OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
+				switch self.navigationState.toastType {
+				case .some(.legend):
+					LegendToast(headlineText: self.onboardingToastHeadlineText)
 						.padding()
+				case .none:
+					HStack {
+						SecondaryOverlay()
+							.padding(.top, 5)
+							.padding(.leading, 10)
+						Spacer()
+					}
 				}
 				Spacer()
 				#endif // !APPCLIP
@@ -103,7 +99,7 @@ struct ContentView: View {
 								LocationUtilities.locationManager.stopUpdatingLocation()
 							case .notOnBus:
 								if self.mapState.busID == nil {
-									self.alertType = .noNearbyBus
+									self.navigationState.alertType = .noNearbyBus
 								} else {
 									self.mapState.travelState = .onBus
 									self.statusText = .locationData
@@ -127,7 +123,7 @@ struct ContentView: View {
 						}
 					}
 						.padding()
-						.background(self.visualEffectView)
+						.background(ViewUtilities.standardVisualEffectView)
 						.cornerRadius(20)
 					Spacer()
 				}
@@ -138,30 +134,40 @@ struct ContentView: View {
 			}
 			#endif // os(macOS)
 		}
-			.sheet(item: self.$sheetType) {
+			.sheet(item: self.$navigationState.sheetType) {
 				[Route].download { (routes) in
 					DispatchQueue.main.async {
 						self.mapState.routes = routes
 					}
 				}
 			} content: { (sheetType) in
-				#if os(iOS)
 				switch sheetType {
 				case .privacy:
+					#if os(iOS)
 					if #available(iOS 15.0, *) {
-						PrivacySheet(parentSheetType: self.$sheetType)
+						PrivacySheet()
 							.interactiveDismissDisabled()
 					} else {
-						PrivacySheet(parentSheetType: self.$sheetType)
+						PrivacySheet()
 					}
+					#else // os(iOS)
+					EmptyView()
+					#endif // os(iOS)
+				case .settings:
+					#if os(iOS) && !APPCLIP
+					SettingsSheet()
+					#else // os(iOS) && !APPCLIP
+					EmptyView()
+					#endif // os(iOS) && !APPCLIP
 				case .info:
-					InfoSheet(parentSheetType: self.$sheetType)
+					#if os(iOS) && !APPCLIP
+					InfoSheet()
+					#else // os(iOS) && !APPCLIP
+					EmptyView()
+					#endif // os(iOS) && !APPCLIP
 				}
-				#else // os(iOS)
-				EmptyView()
-				#endif // os(iOS)
 			}
-			.alert(item: self.$alertType) { (alertType) -> Alert in
+			.alert(item: self.$navigationState.alertType) { (alertType) -> Alert in
 				switch alertType {
 				case .noNearbyBus:
 					let title = Text("No Nearby Stop")
@@ -174,12 +180,12 @@ struct ContentView: View {
 				let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
 				switch coldLaunchCount {
 				case 1:
-					self.sheetType = .privacy
+					self.navigationState.sheetType = .privacy
 				case 2:
-					self.doShowOnboardingToast = true
+					self.navigationState.toastType = .legend
 					self.onboardingToastHeadlineText = .tip
 				case 5:
-					self.doShowOnboardingToast = true
+					self.navigationState.toastType = .legend
 					self.onboardingToastHeadlineText = .reminder
 				default:
 					break
@@ -237,17 +243,9 @@ struct ContentView: View {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
 	}
-	
-	private var visualEffectView: some View {
-		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
 	#else // os(macOS)
 	private var mapView: some View {
 		MapView()
-	}
-	
-	private var visualEffectView: some View {
-		VisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 	}
 	#endif // os(macOS)
 	
@@ -282,6 +280,8 @@ struct ContentViewPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		ContentView()
+			.environmentObject(MapState.sharedInstance)
+			.environmentObject(NavigationState.sharedInstance)
 	}
 	
 }

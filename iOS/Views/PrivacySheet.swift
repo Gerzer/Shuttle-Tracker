@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PrivacySheet: View {
 	
-	@Binding private(set) var parentSheetType: ContentView.SheetType?
+	@EnvironmentObject private var navigationState: NavigationState
 	
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -29,7 +29,7 @@ struct PrivacySheet: View {
 			Text("Shuttle Tracker sends your location data every 5 seconds to our server only when you tap “Board Bus” and stops sending these data when you tap “Leave Bus”. Your location data are associated with an anonymous, random identifier that rotates every time you start a new shuttle trip. These data aren’t associated with your name, Apple ID, RCS ID, or any other identifying information. We continuously purge location data that are more than 15 minutes old from our server.")
 			Spacer()
 			Button {
-				self.parentSheetType = nil
+				self.navigationState.sheetType = nil
 			} label: {
 				Text("Continue")
 					.fontWeight(.semibold)
@@ -45,7 +45,7 @@ struct PrivacySheet: View {
 struct PrivacySheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
-		PrivacySheet(parentSheetType: .constant(.privacy))
+		PrivacySheet()
 	}
 	
 }

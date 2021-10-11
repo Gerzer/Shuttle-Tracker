@@ -9,8 +9,6 @@ import SwiftUI
 
 struct InfoSheet: View {
 	
-	@Binding private(set) var parentSheetType: ContentView.SheetType?
-	
 	var body: some View {
 		VStack(alignment: .leading) {
 			ScrollView(.vertical) {
@@ -23,7 +21,7 @@ struct InfoSheet: View {
 							.multilineTextAlignment(.center)
 						Spacer()
 					}
-					.padding(.bottom)
+						.padding(.bottom)
 					Text("Shuttle Tracker shows you the real-time locations of the RPI campus shuttles, powered by crowd-sourced location data.")
 						.padding(.bottom)
 					Text("Schedule")
@@ -46,9 +44,10 @@ struct InfoSheet: View {
 	}
 }
 
-struct InfoSheet_Previews: PreviewProvider {
+struct InfoSheetPreviews: PreviewProvider {
+	
 	static var previews: some View {
-		InfoSheet(parentSheetType: .constant(.info))
+		InfoSheet()
 	}
+	
 }
-

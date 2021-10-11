@@ -1,8 +1,8 @@
 //
 //  ShuttleTrackerApp.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (macOS)
 //
-//  Created by Gabriel Jacoby-Cooper on 9/11/20.
+//  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
 import SwiftUI
@@ -16,6 +16,7 @@ import CoreLocation
 		WindowGroup {
 			self.contentView
 				.environmentObject(MapState.sharedInstance)
+				.environmentObject(NavigationState.sharedInstance)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
@@ -25,19 +26,21 @@ import CoreLocation
 						.keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
 				}
 			}
+		Settings {
+			SettingsView()
+				.padding()
+				.frame(width: 400, height: 100)
+				.environmentObject(NavigationState.sharedInstance)
+		}
 	}
 	
 	init() {
 		let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
 		UserDefaults.standard.set(coldLaunchCount + 1, forKey: DefaultsKeys.coldLaunchCount)
 		LocationUtilities.locationManager = CLLocationManager()
-		#if os(macOS)
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
-		#else // os(macOS)
-		LocationUtilities.locationManager.requestAlwaysAuthorization()
-		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
-		#endif // os(macOS)
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 	}
 	
 }
+
