@@ -159,6 +159,12 @@ struct ContentView: View {
 					#else // os(iOS) && !APPCLIP
 					EmptyView()
 					#endif // os(iOS) && !APPCLIP
+				case .info:
+					#if os(iOS) && !APPCLIP
+					InfoSheet()
+					#else // os(iOS) && !APPCLIP
+					EmptyView()
+					#endif // os(iOS) && !APPCLIP
 				}
 			}
 			.alert(item: self.$navigationState.alertType) { (alertType) -> Alert in

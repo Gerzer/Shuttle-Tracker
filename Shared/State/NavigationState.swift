@@ -16,6 +16,8 @@ class NavigationState: ObservableObject {
 		
 		case settings
 		
+		case info
+		
 	}
 
 	enum AlertType: IdentifiableByHashValue {
