@@ -37,9 +37,7 @@ struct ContentView: View {
 	
 	@State private var doDisableButton = true
 	
-	@State private var doShowOnboardingToast = false
-	
-	@State private var onboardingToastHeadlineText: OnboardingToast.HeadlineText?
+	@State private var onboardingToastHeadlineText: LegendToast.HeadlineText?
 	
 	@EnvironmentObject private var mapState: MapState
 	
@@ -52,11 +50,14 @@ struct ContentView: View {
 			#if os(macOS)
 			VStack {
 				HStack {
-					if self.doShowOnboardingToast {
-						OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
-							.frame(maxWidth: 215, maxHeight: 100)
+					switch self.navigationState.toastType {
+					case .some(.legend):
+						LegendToast(headlineText: self.onboardingToastHeadlineText)
+							.frame(maxWidth: 250, maxHeight: 100)
 							.padding(.top, 50)
 							.padding(.leading, 10)
+					case .none:
+						EmptyView()
 					}
 					Spacer()
 				}
@@ -68,10 +69,11 @@ struct ContentView: View {
 					.ignoresSafeArea()
 					.frame(height: 0)
 				#if !APPCLIP
-				if self.doShowOnboardingToast {
-					OnboardingToast(headlineText: self.onboardingToastHeadlineText, doShow: self.$doShowOnboardingToast)
+				switch self.navigationState.toastType {
+				case .some(.legend):
+					LegendToast(headlineText: self.onboardingToastHeadlineText)
 						.padding()
-				} else {
+				case .none:
 					HStack {
 						SecondaryOverlay()
 							.padding(.top, 5)
@@ -174,10 +176,10 @@ struct ContentView: View {
 				case 1:
 					self.navigationState.sheetType = .privacy
 				case 2:
-					self.doShowOnboardingToast = true
+					self.navigationState.toastType = .legend
 					self.onboardingToastHeadlineText = .tip
 				case 5:
-					self.doShowOnboardingToast = true
+					self.navigationState.toastType = .legend
 					self.onboardingToastHeadlineText = .reminder
 				default:
 					break

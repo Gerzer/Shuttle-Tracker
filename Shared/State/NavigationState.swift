@@ -10,26 +10,34 @@ import Combine
 
 class NavigationState: ObservableObject {
 	
+	enum SheetType: IdentifiableByHashValue {
+		
+		case privacy
+		
+		case settings
+		
+	}
+
+	enum AlertType: IdentifiableByHashValue {
+		
+		case noNearbyBus
+		
+	}
+
+	enum ToastType: IdentifiableByHashValue {
+		
+		case legend
+		
+	}
+	
 	static let sharedInstance = NavigationState()
 	
 	@Published var sheetType: SheetType?
 	
 	@Published var alertType: AlertType?
 	
+	@Published var toastType: ToastType?
+	
 	private init() { }
-	
-}
-
-enum SheetType: IdentifiableByHashValue {
-	
-	case privacy
-	
-	case settings
-	
-}
-
-enum AlertType: IdentifiableByHashValue {
-	
-	case noNearbyBus
 	
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
 	
+	@EnvironmentObject private var navigationState: NavigationState
+	
 	@AppStorage("colorBlindMode") private var colorBlindMode = false
 	
 	var body: some View {
@@ -20,9 +22,14 @@ struct SettingsView: View {
 				Text("Modifies bus markers so that they're distinguishable by icon in addition to color.")
 			}
 			#elseif os(macOS) // os(iOS)
-			Toggle("Distinguish bus markers by icon in addition to color", isOn: self.$colorBlindMode)
+			Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
 			#endif // os(macOS)
 		}
+			.onChange(of: self.colorBlindMode) { (_) in
+				withAnimation {
+					self.navigationState.toastType = .legend
+				}
+			}
 	}
 	
 }

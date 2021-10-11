@@ -30,6 +30,7 @@ import CoreLocation
 			SettingsView()
 				.padding()
 				.frame(width: 400, height: 100)
+				.environmentObject(NavigationState.sharedInstance)
 		}
 	}
 	
