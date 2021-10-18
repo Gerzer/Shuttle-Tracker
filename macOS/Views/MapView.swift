@@ -10,11 +10,11 @@ import MapKit
 
 struct MapView: NSViewRepresentable {
 	
-	let mapView = MKMapView(frame: .zero)
+	private let mapView = MKMapView(frame: .zero)
 	
-	let mapViewDelegate = MapViewDelegate()
+	private let mapViewDelegate = MapViewDelegate()
 	
-	@EnvironmentObject var mapState: MapState
+	@EnvironmentObject private var mapState: MapState
 	
 	func makeNSView(context: Context) -> MKMapView {
 		self.mapView.delegate = self.mapViewDelegate

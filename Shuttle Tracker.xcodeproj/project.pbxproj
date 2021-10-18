@@ -35,13 +35,15 @@
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		C033EFCD271E026B00592436 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C033EFCC271E026B00592436 /* OnboardingKit */; };
+		C033EFCF271E02CB00592436 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C033EFCE271E02CB00592436 /* OnboardingKit */; };
+		C033EFD1271E02D100592436 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C033EFD0271E02D100592436 /* OnboardingKit */; };
 		C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */; };
 		C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
 		C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
-		C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
@@ -70,9 +72,9 @@
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */; };
-		C0C9D3D0270FA70C00AE58BE /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* NavigationState.swift */; };
-		C0C9D3D1270FA70C00AE58BE /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* NavigationState.swift */; };
-		C0C9D3D2270FA70C00AE58BE /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* NavigationState.swift */; };
+		C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
+		C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
+		C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
 		C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */; };
 		C0FFD6EC250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
 		C0FFD6ED250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
@@ -138,7 +140,7 @@
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
 		C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
-		C0C9D3CF270FA70C00AE58BE /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationState.swift; sourceTree = "<group>"; };
+		C0C9D3CF270FA70C00AE58BE /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 		C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C0FFD6D7250C33C900945F01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuttle Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C033EFD1271E02D100592436 /* OnboardingKit in Frameworks */,
 				C025ED342527C18600524144 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C033EFCD271E026B00592436 /* OnboardingKit in Frameworks */,
 				C025ED3E2527C19B00524144 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C033EFCF271E02CB00592436 /* OnboardingKit in Frameworks */,
 				C025ED392527C19300524144 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,7 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				C015281C2517F68F0069092C /* MapState.swift */,
-				C0C9D3CF270FA70C00AE58BE /* NavigationState.swift */,
+				C0C9D3CF270FA70C00AE58BE /* ViewState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -357,6 +362,7 @@
 			name = "App Clip";
 			packageProductDependencies = (
 				C025ED332527C18600524144 /* Moya */,
+				C033EFD0271E02D100592436 /* OnboardingKit */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -379,6 +385,7 @@
 			name = iOS;
 			packageProductDependencies = (
 				C025ED3D2527C19B00524144 /* Moya */,
+				C033EFCC271E026B00592436 /* OnboardingKit */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -399,6 +406,7 @@
 			name = macOS;
 			packageProductDependencies = (
 				C025ED382527C19300524144 /* Moya */,
+				C033EFCE271E02CB00592436 /* OnboardingKit */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -435,6 +443,7 @@
 			mainGroup = C0FFD6CF250C33C800945F01;
 			packageReferences = (
 				C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */,
+				C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */,
 			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
@@ -485,9 +494,8 @@
 				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
 				C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */,
-				C03FD52726DD6E9B00A2532E /* PrivacySheet.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
-				C0C9D3D2270FA70C00AE58BE /* NavigationState.swift in Sources */,
+				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
@@ -515,7 +523,7 @@
 				C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
-				C0C9D3D1270FA70C00AE58BE /* NavigationState.swift in Sources */,
+				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
 				C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
 				C025ED432527C1D500524144 /* API.swift in Sources */,
@@ -543,7 +551,7 @@
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
-				C0C9D3D0270FA70C00AE58BE /* NavigationState.swift in Sources */,
+				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
@@ -887,6 +895,14 @@
 				minimumVersion = 13.0.0;
 			};
 		};
+		C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Gerzer/OnboardingKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -904,6 +920,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		C033EFCC271E026B00592436 /* OnboardingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			productName = OnboardingKit;
+		};
+		C033EFCE271E02CB00592436 /* OnboardingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			productName = OnboardingKit;
+		};
+		C033EFD0271E02D100592436 /* OnboardingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			productName = OnboardingKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

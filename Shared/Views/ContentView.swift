@@ -37,11 +37,9 @@ struct ContentView: View {
 	
 	@State private var doDisableButton = true
 	
-	@State private var onboardingToastHeadlineText: LegendToast.HeadlineText?
-	
 	@EnvironmentObject private var mapState: MapState
 	
-	@EnvironmentObject private var navigationState: NavigationState
+	@EnvironmentObject private var viewState: ViewState
 	
 	var body: some View {
 		ZStack {
@@ -50,9 +48,9 @@ struct ContentView: View {
 			#if os(macOS)
 			VStack {
 				HStack {
-					switch self.navigationState.toastType {
+					switch self.viewState.toastType {
 					case .some(.legend):
-						LegendToast(headlineText: self.onboardingToastHeadlineText)
+						LegendToast()
 							.frame(maxWidth: 250, maxHeight: 100)
 							.padding(.top, 50)
 							.padding(.leading, 10)
@@ -69,9 +67,9 @@ struct ContentView: View {
 					.ignoresSafeArea()
 					.frame(height: 0)
 				#if !APPCLIP
-				switch self.navigationState.toastType {
+				switch self.viewState.toastType {
 				case .some(.legend):
-					LegendToast(headlineText: self.onboardingToastHeadlineText)
+					LegendToast()
 						.padding()
 				case .none:
 					HStack {
@@ -99,7 +97,7 @@ struct ContentView: View {
 								LocationUtilities.locationManager.stopUpdatingLocation()
 							case .notOnBus:
 								if self.mapState.busID == nil {
-									self.navigationState.alertType = .noNearbyBus
+									self.viewState.alertType = .noNearbyBus
 								} else {
 									self.mapState.travelState = .onBus
 									self.statusText = .locationData
@@ -134,7 +132,7 @@ struct ContentView: View {
 			}
 			#endif // os(macOS)
 		}
-			.sheet(item: self.$navigationState.sheetType) {
+			.sheet(item: self.$viewState.sheetType) {
 				[Route].download { (routes) in
 					DispatchQueue.main.async {
 						self.mapState.routes = routes
@@ -143,16 +141,16 @@ struct ContentView: View {
 			} content: { (sheetType) in
 				switch sheetType {
 				case .privacy:
-					#if os(iOS)
+					#if os(iOS) && !APPCLIP
 					if #available(iOS 15.0, *) {
 						PrivacySheet()
 							.interactiveDismissDisabled()
 					} else {
 						PrivacySheet()
 					}
-					#else // os(iOS)
+					#else // os(iOS) && !APPCLIP
 					EmptyView()
-					#endif // os(iOS)
+					#endif // os(iOS) && !APPCLIP
 				case .settings:
 					#if os(iOS) && !APPCLIP
 					SettingsSheet()
@@ -167,28 +165,13 @@ struct ContentView: View {
 					#endif // os(iOS) && !APPCLIP
 				}
 			}
-			.alert(item: self.$navigationState.alertType) { (alertType) -> Alert in
+			.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
 				switch alertType {
 				case .noNearbyBus:
 					let title = Text("No Nearby Stop")
 					let message = Text("You can't board a bus if you're not within ten meters of a stop.")
 					let dismissButton = Alert.Button.default(Text("Continue"))
 					return Alert(title: title, message: message, dismissButton: dismissButton)
-				}
-			}
-			.onAppear {
-				let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
-				switch coldLaunchCount {
-				case 1:
-					self.navigationState.sheetType = .privacy
-				case 2:
-					self.navigationState.toastType = .legend
-					self.onboardingToastHeadlineText = .tip
-				case 5:
-					self.navigationState.toastType = .legend
-					self.onboardingToastHeadlineText = .reminder
-				default:
-					break
 				}
 			}
 			.onReceive(self.timer) { (_) in
@@ -281,7 +264,7 @@ struct ContentViewPreviews: PreviewProvider {
 	static var previews: some View {
 		ContentView()
 			.environmentObject(MapState.sharedInstance)
-			.environmentObject(NavigationState.sharedInstance)
+			.environmentObject(ViewState.sharedInstance)
 	}
 	
 }

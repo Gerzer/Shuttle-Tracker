@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
 	
-	@EnvironmentObject private var navigationState: NavigationState
+	@EnvironmentObject private var viewState: ViewState
 	
 	@AppStorage("colorBlindMode") private var colorBlindMode = false
 	
@@ -27,7 +27,8 @@ struct SettingsView: View {
 		}
 			.onChange(of: self.colorBlindMode) { (_) in
 				withAnimation {
-					self.navigationState.toastType = .legend
+					self.viewState.toastType = .legend
+					self.viewState.onboardingToastHeadlineText = nil
 				}
 			}
 	}
