@@ -9,12 +9,12 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
-	@EnvironmentObject private var navigationState: NavigationState
+	@EnvironmentObject private var viewState: ViewState
 	
 	var body: some View {
 		VStack(spacing: 0) {
 			Button {
-				self.navigationState.sheetType = .settings
+				self.viewState.sheetType = .settings
 			} label: {
 				Image(systemName: "gearshape.fill")
 					.styledForSecondaryOverlay()
@@ -23,7 +23,7 @@ struct SecondaryOverlay: View {
 			Divider()
 				.frame(width: 45, height: 0)
 			Button {
-				self.navigationState.sheetType = .info
+				self.viewState.sheetType = .info
 			} label: {
 				Image(systemName: "info.circle.fill")
 					.styledForSecondaryOverlay()
@@ -41,7 +41,7 @@ struct SecondaryOverlayPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		SecondaryOverlay()
-			.environmentObject(NavigationState.sharedInstance)
+			.environmentObject(ViewState.sharedInstance)
 	}
 	
 }

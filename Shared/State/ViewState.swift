@@ -1,5 +1,5 @@
 //
-//  NavigationState.swift
+//  ViewState.swift
 //  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
@@ -7,8 +7,9 @@
 
 import Foundation
 import Combine
+import OnboardingKit
 
-class NavigationState: ObservableObject {
+final class ViewState: OnboardingFlags {
 	
 	enum SheetType: IdentifiableByHashValue {
 		
@@ -32,13 +33,15 @@ class NavigationState: ObservableObject {
 		
 	}
 	
-	static let sharedInstance = NavigationState()
+	static let sharedInstance = ViewState()
 	
 	@Published var sheetType: SheetType?
 	
 	@Published var alertType: AlertType?
 	
 	@Published var toastType: ToastType?
+	
+	@Published var onboardingToastHeadlineText: LegendToast.HeadlineText?
 	
 	private init() { }
 	

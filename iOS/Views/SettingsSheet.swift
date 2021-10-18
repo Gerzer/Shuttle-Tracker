@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsSheet: View {
 	
-	@EnvironmentObject private var navigationState: NavigationState
+	@EnvironmentObject private var viewState: ViewState
 	
 	var body: some View {
 		NavigationView {
@@ -17,7 +17,7 @@ struct SettingsSheet: View {
 				.navigationTitle("Settings")
 				.toolbar {
 					Button {
-						self.navigationState.sheetType = nil
+						self.viewState.sheetType = nil
 					} label: {
 						if #available(iOS 15.0, macOS 12.0, *) {
 							Image(systemName: "xmark.circle.fill")

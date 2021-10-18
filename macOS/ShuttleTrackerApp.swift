@@ -7,16 +7,34 @@
 
 import SwiftUI
 import CoreLocation
+import OnboardingKit
 
 @main struct ShuttleTrackerApp: App {
 	
 	private var contentView = ContentView()
 	
+	private let onboardingManager: OnboardingManager<ViewState> = {
+		OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
+			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
+				OnboardingConditions.ColdLaunch(threshold: 1)
+			}
+			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .tip) {
+				OnboardingConditions.ColdLaunch(threshold: 1)
+			}
+			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
+				OnboardingConditions.ColdLaunch(threshold: 3)
+			}
+			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .reminder) {
+				OnboardingConditions.ColdLaunch(threshold: 3)
+			}
+		}
+	}()
+	
 	var body: some Scene {
 		WindowGroup {
 			self.contentView
 				.environmentObject(MapState.sharedInstance)
-				.environmentObject(NavigationState.sharedInstance)
+				.environmentObject(ViewState.sharedInstance)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
@@ -30,13 +48,11 @@ import CoreLocation
 			SettingsView()
 				.padding()
 				.frame(width: 400, height: 100)
-				.environmentObject(NavigationState.sharedInstance)
+				.environmentObject(ViewState.sharedInstance)
 		}
 	}
 	
 	init() {
-		let coldLaunchCount = UserDefaults.standard.integer(forKey: DefaultsKeys.coldLaunchCount)
-		UserDefaults.standard.set(coldLaunchCount + 1, forKey: DefaultsKeys.coldLaunchCount)
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation

@@ -10,9 +10,9 @@ import MapKit
 
 struct MapView: UIViewRepresentable {
 	
-	let mapView = MKMapView(frame: .zero)
+	private let mapView = MKMapView(frame: .zero)
 	
-	@EnvironmentObject var mapState: MapState
+	@EnvironmentObject private var mapState: MapState
 	
 	func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
 		self.mapView.delegate = context.coordinator

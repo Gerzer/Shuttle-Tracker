@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LegendToast: View {
 	
-	@EnvironmentObject private var navigationState: NavigationState
+	@EnvironmentObject private var viewState: ViewState
 	
 	@AppStorage("colorBlindMode") private var colorBlindMode = false
 	
@@ -31,8 +31,6 @@ struct LegendToast: View {
 			return self.colorBlindMode ? "The dotted-circle icon indicates low-quality location data." : "Red buses have low-quality location data."
 		}
 	}
-	
-	let headlineText: HeadlineText?
 	
 	@available(iOS 15, macOS 12, *) private var highQualityAttributedString: AttributedString {
 		get {
@@ -67,9 +65,9 @@ struct LegendToast: View {
 	}
 	
 	var body: some View {
-		Toast(self.headlineText?.rawValue ?? "Legend") {
+		Toast(self.viewState.onboardingToastHeadlineText?.rawValue ?? "Legend") {
 			withAnimation {
-				self.navigationState.toastType = nil
+				self.viewState.toastType = nil
 			}
 		} content: {
 			HStack {
@@ -117,7 +115,7 @@ struct LegendToast: View {
 struct OnboardingToastPreviews: PreviewProvider {
 	
 	static var previews: some View {
-		LegendToast(headlineText: nil)
+		LegendToast()
 	}
 	
 }
