@@ -19,7 +19,7 @@ struct SettingsSheet: View {
 					Button {
 						self.viewState.sheetType = nil
 					} label: {
-						if #available(iOS 15.0, macOS 12.0, *) {
+						if #available(iOS 15.0, *) {
 							Image(systemName: "xmark.circle.fill")
 								.symbolRenderingMode(.hierarchical)
 								.resizable()

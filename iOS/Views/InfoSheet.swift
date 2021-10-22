@@ -17,7 +17,7 @@ struct InfoSheet: View {
 						Spacer()
 						Text("Shuttle Tracker 🚐")
 							.font(.largeTitle)
-							.fontWeight(.bold)
+							.bold()
 							.multilineTextAlignment(.center)
 						Spacer()
 					}

@@ -107,8 +107,7 @@ struct ContentView: View {
 							self.updateButtonState()
 						} label: {
 							Text(self.buttonText)
-								.fontWeight(.semibold)
-								.padding(12)
+								.bold()
 						}
 							.buttonStyle(BlockButtonStyle())
 							.disabled(self.doDisableButton)

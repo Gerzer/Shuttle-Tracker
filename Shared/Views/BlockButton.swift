@@ -21,6 +21,7 @@ struct BlockButtonStyle: ButtonStyle {
 		
 		var body: some View {
 			self.configuration.label
+				.padding(12)
 				.frame(maxWidth: .infinity)
 				.background(self.isEnabled ? self.color : Color.gray)
 				.foregroundColor(.white)
@@ -40,10 +41,10 @@ struct BlockButtonPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		Button {
-			
+			print("Tapped!")
 		} label: {
 			Text("Do Something")
-				.padding(10)
+				.fontWeight(.semibold)
 		}
 			.buttonStyle(BlockButtonStyle())
 			.padding()
