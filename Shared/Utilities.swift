@@ -133,6 +133,12 @@ extension MKMapPoint: Equatable {
 	
 }
 
+extension Notification.Name {
+	
+	static let refreshBuses = Notification.Name("RefreshBuses")
+	
+}
+
 extension Set {
 	
 	static func generateUnion(of sets: [Set]) -> Set {

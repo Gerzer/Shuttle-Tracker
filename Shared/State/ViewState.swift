@@ -19,17 +19,29 @@ final class ViewState: OnboardingFlags {
 		
 		case info
 		
+		case busSelection
+		
 	}
 
 	enum AlertType: IdentifiableByHashValue {
 		
-		case noNearbyBus
+		case noNearbyStop
 		
 	}
 
 	enum ToastType: IdentifiableByHashValue {
 		
 		case legend
+		
+	}
+	
+	enum StatusText: String {
+		
+		case mapRefresh = "The map automatically refreshes every 5 seconds."
+		
+		case locationData = "You're helping out other users with real-time bus location data."
+		
+		case thanks = "Thanks for helping other users with real-time bus location data!"
 		
 	}
 	
@@ -40,6 +52,8 @@ final class ViewState: OnboardingFlags {
 	@Published var alertType: AlertType?
 	
 	@Published var toastType: ToastType?
+	
+	@Published var statusText = StatusText.mapRefresh
 	
 	@Published var onboardingToastHeadlineText: LegendToast.HeadlineText?
 	
