@@ -111,7 +111,7 @@ struct ContentView: View {
 				switch alertType {
 				case .noNearbyStop:
 					let title = Text("No Nearby Stop")
-					let message = Text("You can't board a bus if you're not within ten meters of a stop.")
+					let message = Text("You can't board a bus if you're not within 20 meters of a stop.")
 					let dismissButton = Alert.Button.default(Text("Continue"))
 					return Alert(title: title, message: message, dismissButton: dismissButton)
 				}
