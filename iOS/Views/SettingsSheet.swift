@@ -9,28 +9,14 @@ import SwiftUI
 
 struct SettingsSheet: View {
 	
-	@EnvironmentObject private var viewState: ViewState
-	
 	var body: some View {
 		NavigationView {
 			SettingsView()
 				.navigationTitle("Settings")
 				.toolbar {
-					Button {
-						self.viewState.sheetType = nil
-					} label: {
-						if #available(iOS 15.0, *) {
-							Image(systemName: "xmark.circle.fill")
-								.symbolRenderingMode(.hierarchical)
-								.resizable()
-								.opacity(0.5)
-								.frame(width: ViewUtilities.Constants.sheetCloseButtonDimension, height: ViewUtilities.Constants.sheetCloseButtonDimension)
-						} else {
-							Text("Close")
-								.fontWeight(.semibold)
-						}
+					ToolbarItem(placement: .navigationBarTrailing) {
+						CloseButton()
 					}
-						.buttonStyle(.plain)
 				}
 		}
 	}

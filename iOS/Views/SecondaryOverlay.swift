@@ -9,26 +9,12 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
-	@EnvironmentObject private var viewState: ViewState
-	
 	var body: some View {
 		VStack(spacing: 0) {
-			Button {
-				self.viewState.sheetType = .settings
-			} label: {
-				Image(systemName: "gearshape.fill")
-					.styledForSecondaryOverlay()
-			}
-				.styledForSecondaryOverlay()
+			SecondaryOverlayButton(iconSystemName: "gearshape.fill", sheetType: .settings)
 			Divider()
 				.frame(width: 45, height: 0)
-			Button {
-				self.viewState.sheetType = .info
-			} label: {
-				Image(systemName: "info.circle.fill")
-					.styledForSecondaryOverlay()
-			}
-				.styledForSecondaryOverlay()
+			SecondaryOverlayButton(iconSystemName: "info.circle.fill", sheetType: .info)
 		}
 			.background(VisualEffectView(.systemThickMaterial))
 			.cornerRadius(10)
@@ -41,30 +27,6 @@ struct SecondaryOverlayPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		SecondaryOverlay()
-			.environmentObject(ViewState.sharedInstance)
-	}
-	
-}
-
-fileprivate extension Button {
-	
-	func styledForSecondaryOverlay() -> some View {
-		return self
-			.buttonStyle(.plain)
-			.frame(width: 45, height: 45)
-			.contentShape(Rectangle())
-	}
-	
-}
-
-fileprivate extension Image {
-	
-	func styledForSecondaryOverlay() -> some View {
-		return self
-			.resizable()
-			.aspectRatio(1, contentMode: .fit)
-			.opacity(0.5)
-			.frame(width: 20)
 	}
 	
 }

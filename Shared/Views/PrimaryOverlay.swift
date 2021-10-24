@@ -77,8 +77,9 @@ struct PrimaryOverlay: View {
 				}
 			}
 				.padding()
-				.background(ViewUtilities.standardVisualEffectView)
+				.background(VisualEffectView(.systemMaterial))
 				.cornerRadius(20)
+				.shadow(radius: 5)
 			Spacer()
 		}
 			.padding()

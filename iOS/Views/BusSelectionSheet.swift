@@ -11,6 +11,8 @@ struct BusSelectionSheet: View {
 	
 	@State private var allBusIDs: [BusID]?
 	
+	@State private var suggestedBusID: BusID?
+	
 	@State private var selectedBusID: BusID?
 	
 	@EnvironmentObject private var mapState: MapState
@@ -34,30 +36,41 @@ struct BusSelectionSheet: View {
 									.font(.callout)
 								Spacer()
 							}
-							LazyVGrid(columns: [GridItem](repeating: GridItem(.flexible()), count: 3)) {
-								ForEach(allBusIDs.sorted()) { (busID) in
-									Text("\(busID.rawValue)")
-										.bold()
-										.frame(maxWidth: .infinity, idealHeight: 100)
-										.innerShadow(
-											using: RoundedRectangle(cornerRadius: 10),
-											color: .primary,
-											width: busID == self.selectedBusID ? 5 : 0
+							if let suggestedBusID = self.suggestedBusID {
+								HStack {
+									Label("Suggested", systemImage: "sparkles")
+										.font(
+											.caption
+												.italic()
 										)
-										.overlay(
-											RoundedRectangle(cornerRadius: 10)
-												.stroke(
-													busID == self.selectedBusID ? .blue : .primary,
-													lineWidth: busID == self.selectedBusID ? 5 : 2
-												)
-										)
-										.onTapGesture {
-											withAnimation {
-												self.selectedBusID = busID
-											}
+										.foregroundColor(.secondary)
+									VStack {
+										if #available(iOS 15.0, *) {
+											Divider()
+												.background(.secondary)
+										} else {
+											Divider()
+												.background(Color.secondary)
 										}
+									}
+								}
+								BusOption(suggestedBusID, selectedBusID: self.$selectedBusID)
+								if #available(iOS 15.0, *) {
+									Divider()
+										.background(.secondary)
+										.padding(.vertical, 10)
+								} else {
+									Divider()
+										.background(Color.secondary)
+										.padding(.vertical, 10)
 								}
 							}
+							LazyVGrid(columns: [GridItem](repeating: GridItem(.flexible()), count: 3)) {
+								ForEach(allBusIDs.sorted()) { (busID) in
+									BusOption(busID, selectedBusID: self.$selectedBusID)
+								}
+							}
+							Spacer(minLength: 20)
 						}
 							.padding(.horizontal)
 					}
@@ -68,21 +81,7 @@ struct BusSelectionSheet: View {
 				.navigationTitle("Bus Selection")
 				.toolbar {
 					ToolbarItem(placement: .navigationBarTrailing) {
-						Button {
-							self.viewState.sheetType = nil
-						} label: {
-							if #available(iOS 15.0, *) {
-								Image(systemName: "xmark.circle.fill")
-									.symbolRenderingMode(.hierarchical)
-									.resizable()
-									.opacity(0.5)
-									.frame(width: ViewUtilities.Constants.sheetCloseButtonDimension, height: ViewUtilities.Constants.sheetCloseButtonDimension)
-							} else {
-								Text("Close")
-									.fontWeight(.semibold)
-							}
-						}
-							.buttonStyle(.plain)
+						CloseButton()
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
@@ -108,6 +107,22 @@ struct BusSelectionSheet: View {
 						.map { (id) in
 							return BusID(id)
 						}
+					guard let location = LocationUtilities.locationManager.location else {
+						return
+					}
+					let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
+						let firstBusDistance = firstBus.location.convertForCoreLocation().distance(from: location)
+						let secondBusDistance = secondBus.location.convertForCoreLocation().distance(from: location)
+						return firstBusDistance < secondBusDistance
+					}
+					guard let rawID = closestBus?.id else {
+						return
+					}
+					let closestBusID = BusID(rawID)
+					self.allBusIDs?.removeAll { (element) in
+						return element == closestBusID
+					}
+					self.suggestedBusID = closestBusID
 				}
 			}
 	}
@@ -115,36 +130,9 @@ struct BusSelectionSheet: View {
 }
 
 struct BusSelectionSheetPreviews: PreviewProvider {
+	
 	static var previews: some View {
 		BusSelectionSheet()
-			.preferredColorScheme(.dark)
-	}
-}
-
-fileprivate final class BusID: Equatable, Comparable, Identifiable, RawRepresentable {
-	
-	let id: Int
-	
-	var rawValue: Int {
-		get {
-			return self.id
-		}
-	}
-	
-	init(_ id: Int) {
-		self.id = id
-	}
-	
-	required init(rawValue: Int) {
-		self.id = rawValue
-	}
-	
-	static func == (_ leftBusID: BusID, _ rightBusID: BusID) -> Bool {
-		return leftBusID.id == rightBusID.id
-	}
-	
-	static func < (_ leftBusID: BusID, _ rightBusID: BusID) -> Bool {
-		return leftBusID.id < rightBusID.id
 	}
 	
 }
