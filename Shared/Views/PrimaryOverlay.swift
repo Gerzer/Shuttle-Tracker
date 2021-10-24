@@ -52,7 +52,7 @@ struct PrimaryOverlay: View {
 								distance = newDistance
 							}
 						}
-						if closestStopDistance < 100 {
+						if closestStopDistance < 20 {
 							self.mapState.locationID = UUID()
 							self.viewState.sheetType = .busSelection
 						} else {
