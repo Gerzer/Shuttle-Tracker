@@ -13,11 +13,19 @@ typealias HTTPMethod = Moya.Method
 enum API: TargetType {
 	
 	case readBuses
+	
+	case readAllBuses
+	
 	case readBus(_ id: Int)
+	
 	case updateBus(_ id: Int, location: Bus.Location)
+	
 	case boardBus(_ id: Int)
+	
 	case leaveBus(_ id: Int)
+	
 	case readRoutes
+	
 	case readStops
 	
 	static let provider = MoyaProvider<API>()
@@ -33,6 +41,8 @@ enum API: TargetType {
 			switch self {
 			case .readBuses:
 				return "/buses"
+			case .readAllBuses:
+				return "/buses/all"
 			case .readBus(let id), .updateBus(let id, _):
 				return "/buses/\(id)"
 			case .boardBus(let id):
@@ -50,7 +60,7 @@ enum API: TargetType {
 	public var method: HTTPMethod {
 		get {
 			switch self {
-			case .readBuses, .readBus, .readRoutes, .readStops:
+			case .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
 				return .get
 			case .updateBus:
 				return .patch
@@ -63,7 +73,7 @@ enum API: TargetType {
 	var task: Task {
 		get {
 			switch self {
-			case .readBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
+			case .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [

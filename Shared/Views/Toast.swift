@@ -21,6 +21,27 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 				Text(self.headlineString)
 					.font(.headline)
 				Spacer()
+				#if os(iOS)
+				if #available(iOS 15.0, *) {
+					Button {
+						self.dismissalHandler()
+					} label: {
+						Image(systemName: "xmark.circle.fill")
+							.resizable()
+							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
+					}
+						.tint(.primary)
+				} else {
+					Button {
+						self.dismissalHandler()
+					} label: {
+						Image(systemName: "xmark.circle.fill")
+							.resizable()
+							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
+					}
+						.buttonStyle(.plain)
+				}
+				#else // os(iOS)
 				Button {
 					self.dismissalHandler()
 				} label: {
@@ -29,6 +50,7 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 						.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
 				}
 					.buttonStyle(.plain)
+				#endif // os(iOS)
 			}
 			self.content
 		}

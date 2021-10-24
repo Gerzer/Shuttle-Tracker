@@ -133,6 +133,12 @@ extension MKMapPoint: Equatable {
 	
 }
 
+extension Notification.Name {
+	
+	static let refreshBuses = Notification.Name("RefreshBuses")
+	
+}
+
 extension Set {
 	
 	static func generateUnion(of sets: [Set]) -> Set {
@@ -141,6 +147,22 @@ extension Set {
 			newSet.formUnion(set)
 		}
 		return newSet
+	}
+	
+}
+
+extension View {
+	
+	func innerShadow<S: Shape>(using shape: S, color: Color = .black, width: CGFloat = 5) -> some View {
+		let offsetFactor = CGFloat(cos(0 - Float.pi / 2)) * 0.6 * width
+		return self
+			.overlay(
+				shape
+					.stroke(color, lineWidth: width)
+					.offset(x: offsetFactor, y: offsetFactor)
+					.blur(radius: width)
+					.mask(shape)
+			)
 	}
 	
 }

@@ -17,7 +17,7 @@ struct PrivacySheet: View {
 				Spacer()
 				Text("Welcome to Shuttle Tracker!")
 					.font(.largeTitle)
-					.fontWeight(.bold)
+					.bold()
 					.multilineTextAlignment(.center)
 				Spacer()
 			}
@@ -32,8 +32,7 @@ struct PrivacySheet: View {
 				self.viewState.sheetType = nil
 			} label: {
 				Text("Continue")
-					.fontWeight(.semibold)
-					.padding(12)
+					.bold()
 			}
 				.buttonStyle(BlockButtonStyle())
 		}
