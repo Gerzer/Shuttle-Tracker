@@ -34,14 +34,7 @@ struct PrimaryOverlay: View {
 				Button {
 					switch self.mapState.travelState {
 					case .onBus:
-						self.mapState.busID = nil
-						self.mapState.locationID = nil
-						self.mapState.travelState = .notOnBus
-						self.viewState.statusText = .thanks
-						DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-							self.viewState.statusText = .mapRefresh
-						}
-						LocationUtilities.locationManager.stopUpdatingLocation()
+						LocationUtilities.leaveBus()
 					case .notOnBus:
 						guard let location = LocationUtilities.locationManager.location else {
 							break
@@ -52,7 +45,7 @@ struct PrimaryOverlay: View {
 								distance = newDistance
 							}
 						}
-						if closestStopDistance < 20 {
+						if closestStopDistance < 200 {
 							self.mapState.locationID = UUID()
 							self.viewState.sheetType = .busSelection
 						} else {

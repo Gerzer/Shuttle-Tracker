@@ -62,6 +62,19 @@ enum LocationUtilities {
 		}
 	}
 	
+	static func leaveBus() {
+		DispatchQueue.main.async {
+			MapState.sharedInstance.busID = nil
+			MapState.sharedInstance.locationID = nil
+			MapState.sharedInstance.travelState = .notOnBus
+			ViewState.sharedInstance.statusText = .thanks
+			DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+				ViewState.sharedInstance.statusText = .mapRefresh
+			}
+		}
+		LocationUtilities.locationManager.stopUpdatingLocation()
+	}
+	
 }
 
 enum MapUtilities {
@@ -79,6 +92,26 @@ enum MapUtilities {
 			return MKMapRect(origin: origin, size: size)
 		}
 	}
+	
+}
+
+enum NotificationUtilities {
+	
+	enum Constants {
+		
+		static let leaveBusActionIdentifier = "LeaveBus"
+		
+		static let longTripCategoryIdentifier = "LongTrip"
+		
+	}
+	
+	static let userNotificationCenterDelegate: UNUserNotificationCenterDelegate = {
+		if #available(iOS 15, *) {
+			return UserNotificationCenterDelegate()
+		} else {
+			return LegacyUserNotificationCenterDelegate()
+		}
+	}()
 	
 }
 
@@ -129,6 +162,53 @@ extension MKMapPoint: Equatable {
 	
 	public static func == (_ leftMapPoint: MKMapPoint, _ rightMapPoint: MKMapPoint) -> Bool {
 		return leftMapPoint.coordinate == rightMapPoint.coordinate
+	}
+	
+}
+
+extension UNUserNotificationCenter {
+	
+	static var current: UNUserNotificationCenter {
+		get {
+			return self.current()
+		}
+	}
+	
+}
+
+extension UNMutableNotificationContent {
+	
+	convenience init(title: String, subtitle: String = "", body: String, badge: NSNumber? = nil, sound: UNNotificationSound? = nil, launchImageName: String = "", userInfo: [AnyHashable: Any] = [:], attachments: [UNNotificationAttachment] = [], categoryIdentifier: String = "", threadIdentifier: String = "", targetContentIdentifier: String? = nil) {
+		self.init()
+		self.title = title
+		self.subtitle = subtitle
+		self.body = body
+		self.badge = badge
+		self.sound = sound
+		self.launchImageName = launchImageName
+		self.userInfo = userInfo
+		self.attachments = attachments
+		self.categoryIdentifier = categoryIdentifier
+		self.threadIdentifier = threadIdentifier
+		self.targetContentIdentifier = targetContentIdentifier
+	}
+	
+	@available(iOS 15, *) convenience init(title: String, subtitle: String = "", body: String, badge: NSNumber? = nil, sound: UNNotificationSound? = nil, launchImageName: String = "", userInfo: [AnyHashable: Any] = [:], attachments: [UNNotificationAttachment] = [], categoryIdentifier: String = "", threadIdentifier: String = "", targetContentIdentifier: String? = nil, interruptionLevel: UNNotificationInterruptionLevel = .active, relevanceScore: Double = 0) {
+		self.init(
+			title: title,
+			subtitle: subtitle,
+			body: body,
+			badge: badge,
+			sound: sound,
+			launchImageName: launchImageName,
+			userInfo: userInfo,
+			attachments: attachments,
+			categoryIdentifier: categoryIdentifier,
+			threadIdentifier: threadIdentifier,
+			targetContentIdentifier: targetContentIdentifier
+		)
+		self.interruptionLevel = interruptionLevel
+		self.relevanceScore = relevanceScore
 	}
 	
 }

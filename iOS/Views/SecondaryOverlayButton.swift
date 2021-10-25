@@ -16,7 +16,7 @@ struct SecondaryOverlayButton: View {
 	@EnvironmentObject private var viewState: ViewState
 	
 	var body: some View {
-		if #available(iOS 15.0, *) {
+		if #available(iOS 15, *) {
 			Button {
 				self.viewState.sheetType = self.sheetType
 			} label: {

@@ -73,6 +73,8 @@
 		C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */; };
 		C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
 		C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
+		C0965B6427261426003C2090 /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0965B6327261426003C2090 /* UserNotificationCenterDelegate.swift */; };
+		C0965B6527261426003C2090 /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0965B6327261426003C2090 /* UserNotificationCenterDelegate.swift */; };
 		C0A232A32525080600FAAD50 /* App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = C0A232942525080500FAAD50 /* App Clip.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C0A232B6252508C800FAAD50 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
 		C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
@@ -154,6 +156,7 @@
 		C08FC24C2525157D008589C1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		C08FC25E252515C8008589C1 /* AppClip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppClip.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/AppClip.framework; sourceTree = DEVELOPER_DIR; };
 		C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
+		C0965B6327261426003C2090 /* UserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -206,6 +209,7 @@
 			children = (
 				C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */,
 				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
+				C0965B6327261426003C2090 /* UserNotificationCenterDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -532,6 +536,7 @@
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C02C38772722388C00CCB712 /* BusSelectionSheet.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
+				C0965B6527261426003C2090 /* UserNotificationCenterDelegate.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
 				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
@@ -548,6 +553,7 @@
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
+				C0965B6427261426003C2090 /* UserNotificationCenterDelegate.swift in Sources */,
 				C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */,
 				C02C3879272368EA00CCB712 /* PrimaryOverlay.swift in Sources */,

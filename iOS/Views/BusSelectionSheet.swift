@@ -32,7 +32,7 @@ struct BusSelectionSheet: View {
 							}
 							Spacer()
 							HStack {
-								Text("Select the number that's printed on the side of the bus:")
+								Text("Select the number that‘s printed on the side of the bus:")
 									.font(.callout)
 								Spacer()
 							}
@@ -45,7 +45,7 @@ struct BusSelectionSheet: View {
 										)
 										.foregroundColor(.secondary)
 									VStack {
-										if #available(iOS 15.0, *) {
+										if #available(iOS 15, *) {
 											Divider()
 												.background(.secondary)
 										} else {
@@ -55,7 +55,7 @@ struct BusSelectionSheet: View {
 									}
 								}
 								BusOption(suggestedBusID, selectedBusID: self.$selectedBusID)
-								if #available(iOS 15.0, *) {
+								if #available(iOS 15, *) {
 									Divider()
 										.background(.secondary)
 										.padding(.vertical, 10)
@@ -75,7 +75,11 @@ struct BusSelectionSheet: View {
 							.padding(.horizontal)
 					}
 				} else {
-					ProgressView("Loading...")
+					ProgressView {
+						Text("Loading")
+							.font(.caption2)
+							.textCase(.uppercase)
+					}
 				}
 			}
 				.navigationTitle("Bus Selection")
@@ -90,6 +94,47 @@ struct BusSelectionSheet: View {
 							self.viewState.statusText = .locationData
 							self.viewState.sheetType = nil
 							LocationUtilities.locationManager.startUpdatingLocation()
+							if #available(iOS 15, *) {
+								let request = UNNotificationRequest(
+									identifier: UUID()
+										.uuidString,
+									content: UNMutableNotificationContent(
+										title: "Shuttle Trip",
+										body: "Did you forget to tap “Leave Bus”?",
+										sound: .default,
+										categoryIdentifier: NotificationUtilities.Constants.longTripCategoryIdentifier,
+										interruptionLevel: .timeSensitive
+									),
+									trigger: UNTimeIntervalNotificationTrigger(
+										timeInterval: 10,
+										repeats: false
+									)
+								)
+								Task(priority: .low) {
+									try await UNUserNotificationCenter.current.add(request)
+								}
+							} else {
+								let request = UNNotificationRequest(
+									identifier: UUID()
+										.uuidString,
+									content: UNMutableNotificationContent(
+										title: "Shuttle Trip",
+										body: "Did you forget to tap “Leave Bus”?",
+										badge: 1,
+										sound: .default,
+										categoryIdentifier: NotificationUtilities.Constants.longTripCategoryIdentifier
+									),
+									trigger: UNTimeIntervalNotificationTrigger(
+										timeInterval: 900,
+										repeats: false
+									)
+								)
+								UNUserNotificationCenter.current.add(request) { (error) in
+									if let error = error {
+										LoggingUtilities.logger.log(level: .error, "\(error.localizedDescription)")
+									}
+								}
+							}
 						} label: {
 							Text("Continue")
 								.bold()

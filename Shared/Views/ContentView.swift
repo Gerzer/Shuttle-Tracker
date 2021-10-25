@@ -73,7 +73,7 @@ struct ContentView: View {
 				switch sheetType {
 				case .privacy:
 					#if os(iOS) && !APPCLIP
-					if #available(iOS 15.0, *) {
+					if #available(iOS 15, *) {
 						PrivacySheet()
 							.interactiveDismissDisabled()
 					} else {
@@ -96,7 +96,7 @@ struct ContentView: View {
 					#endif // os(iOS) && !APPCLIP
 				case .busSelection:
 					#if os(iOS)
-					if #available(iOS 15.0, *) {
+					if #available(iOS 15, *) {
 						BusSelectionSheet()
 							.interactiveDismissDisabled()
 					} else {
