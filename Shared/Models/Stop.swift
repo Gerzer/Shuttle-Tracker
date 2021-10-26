@@ -65,10 +65,13 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 
 extension Array where Element == Stop {
 	
-	static func download(_ stopsCallback: @escaping (_ stops: Self) -> Void) {
-		API.provider.request(.readStops) { (result) in
-			let stops = try? result.value?.map([Stop].self)
-			stopsCallback(stops ?? [])
+	static func download() async -> [Stop] {
+		return await withCheckedContinuation { (continuation) in
+			API.provider.request(.readStops) { (result) in
+				let stops = try? result.get()
+					.map([Stop].self)
+				continuation.resume(returning: stops ?? [])
+			}
 		}
 	}
 	

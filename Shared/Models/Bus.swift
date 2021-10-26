@@ -104,16 +104,18 @@ extension CLLocationCoordinate2D {
 
 extension Array where Element == Bus {
 	
-	static func download(_ busesCallback:  @escaping (_ buses: [Bus]) -> Void) {
-		API.provider.request(.readBuses) { (result) in
-			let decoder = JSONDecoder()
-			decoder.dateDecodingStrategy = .iso8601
-			let buses = try? result.value?
-				.map([Bus].self, using: decoder)
-				.filter { (bus) -> Bool in
-					return bus.location.date.timeIntervalSinceNow > -300
-				}
-			busesCallback(buses ?? [])
+	static func download() async -> [Bus] {
+		return await withCheckedContinuation { (continuation) in
+			API.provider.request(.readBuses) { (result) in
+				let decoder = JSONDecoder()
+				decoder.dateDecodingStrategy = .iso8601
+				let buses = try? result.get()
+					.map([Bus].self, using: decoder)
+					.filter { (bus) -> Bool in
+						return bus.location.date.timeIntervalSinceNow > -300
+					}
+				continuation.resume(returning: buses ?? [])
+			}
 		}
 	}
 	

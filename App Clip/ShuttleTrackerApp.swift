@@ -18,6 +18,9 @@ import CoreLocation
 			ContentView()
 				.environmentObject(MapState.sharedInstance)
 				.environmentObject(ViewState.sharedInstance)
+				.refreshable {
+					MapState.sharedInstance.buses = await [Bus].download()
+				}
 //				.appStoreOverlay(isPresented: self.$doShowAppStoreOverlay) { () -> SKOverlay.Configuration in
 //					return SKOverlay.AppClipConfiguration(position: .bottomRaised)
 //				}

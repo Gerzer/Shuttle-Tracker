@@ -19,20 +19,10 @@ struct MapView: UIViewRepresentable {
 		self.mapView.showsUserLocation = true
 		self.mapView.showsCompass = true
 		self.mapView.setVisibleMapRect(MapUtilities.mapRect, animated: true)
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-			}
-		}
-		[Stop].download { (stops) in
-			DispatchQueue.main.async {
-				self.mapState.stops = stops
-			}
-		}
-		[Route].download { (routes) in
-			DispatchQueue.main.async {
-				self.mapState.routes = routes
-			}
+		Task {
+			self.mapState.buses = await [Bus].download()
+			self.mapState.stops = await [Stop].download()
+			self.mapState.routes = await [Route].download()
 		}
 		return self.mapView
 	}

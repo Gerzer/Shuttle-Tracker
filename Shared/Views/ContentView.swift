@@ -5,15 +5,17 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
+import Foundation
 import SwiftUI
 import MapKit
-import Moya
 
 struct ContentView: View {
 	
 	@EnvironmentObject private var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
+	
+	@Environment(\.refresh) private var refresh: RefreshAction?
 	
 	var body: some View {
 		ZStack {
@@ -64,10 +66,8 @@ struct ContentView: View {
 			#endif // os(macOS)
 		}
 			.sheet(item: self.$viewState.sheetType) {
-				[Route].download { (routes) in
-					DispatchQueue.main.async {
-						self.mapState.routes = routes
-					}
+				Task {
+					await self.refresh?()
 				}
 			} content: { (sheetType) in
 				switch sheetType {
@@ -139,19 +139,15 @@ struct ContentView: View {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
 			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
-				self.refreshBuses()
+				Task {
+					await self.refresh?()
+				}
 			}
 			.onReceive(self.timer) { (_) in
-				self.refreshBuses()
+				Task {
+					await self.refresh?()
+				}
 			}
-	}
-	
-	private func refreshBuses() {
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-			}
-		}
 	}
 	#else // os(macOS)
 	private var mapView: some View {

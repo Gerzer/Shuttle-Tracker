@@ -27,6 +27,8 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@Environment(\.refresh) private var refresh
+	
 	var body: some View {
 		HStack {
 			Spacer()
@@ -68,7 +70,11 @@ struct PrimaryOverlay: View {
 					Text(self.viewState.statusText.rawValue)
 						.layoutPriority(1)
 					Spacer()
-					Button(action: self.refreshBuses) {
+					Button {
+						Task {
+							await self.refresh?()
+						}
+					} label: {
 						Image(systemName: "arrow.clockwise.circle.fill")
 							.resizable()
 							.aspectRatio(1, contentMode: .fit)
@@ -84,7 +90,9 @@ struct PrimaryOverlay: View {
 		}
 			.padding()
 			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
-				self.refreshBuses()
+				Task {
+					await self.refresh?()
+				}
 			}
 			.onReceive(self.timer) { (_) in
 				switch self.mapState.travelState {
@@ -97,28 +105,10 @@ struct PrimaryOverlay: View {
 				case .notOnBus:
 					break
 				}
-				self.refreshBuses()
+				Task {
+					await self.refresh?()
+				}
 			}
-	}
-	
-	func refreshBuses() {
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-			}
-		}
-//		if let location = locationManager.location {
-//			let locationMapPoint = MKMapPoint(location.coordinate)
-//			let nearestStop = self.mapState.stops.min { (firstStop, secondStop) in
-//				let firstStopDistance = MKMapPoint(firstStop.coordinate).distance(to: locationMapPoint)
-//				let secondStopDistance = MKMapPoint(secondStop.coordinate).distance(to: locationMapPoint)
-//				return firstStopDistance < secondStopDistance
-//			}
-//			let busPoints = self.mapState.buses.map { (bus) -> (bus: Bus, mapPoint: MKMapPoint) in
-//
-//			}
-//			self.statusText = "The next bus is \("?") meters away from the nearest stop."
-//		}
 	}
 	
 }

@@ -38,6 +38,9 @@ import OnboardingKit
 			self.contentView
 				.environmentObject(MapState.sharedInstance)
 				.environmentObject(ViewState.sharedInstance)
+				.refreshable {
+					MapState.sharedInstance.buses = await [Bus].download()
+				}
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
