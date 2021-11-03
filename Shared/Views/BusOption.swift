@@ -17,9 +17,11 @@ struct BusOption: View {
 	
 	var body: some View {
 		Button {
-			withAnimation {
-				self.feedbackGenerator.selectionChanged()
-				self.selectedBusID = self.busID
+			if self.selectedBusID != self.busID {
+				withAnimation {
+					self.feedbackGenerator.selectionChanged()
+					self.selectedBusID = self.busID
+				}
 			}
 		} label: {
 			Text("\(self.busID.rawValue)")
