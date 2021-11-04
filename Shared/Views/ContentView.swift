@@ -73,7 +73,7 @@ struct ContentView: View {
 				switch sheetType {
 				case .privacy:
 					#if os(iOS) && !APPCLIP
-					if #available(iOS 15.0, *) {
+					if #available(iOS 15, *) {
 						PrivacySheet()
 							.interactiveDismissDisabled()
 					} else {
@@ -96,7 +96,7 @@ struct ContentView: View {
 					#endif // os(iOS) && !APPCLIP
 				case .busSelection:
 					#if os(iOS)
-					if #available(iOS 15.0, *) {
+					if #available(iOS 15, *) {
 						BusSelectionSheet()
 							.interactiveDismissDisabled()
 					} else {
@@ -110,10 +110,32 @@ struct ContentView: View {
 			.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
 				switch alertType {
 				case .noNearbyStop:
-					let title = Text("No Nearby Stop")
-					let message = Text("You can't board a bus if you're not within 20 meters of a stop.")
-					let dismissButton = Alert.Button.default(Text("Continue"))
-					return Alert(title: title, message: message, dismissButton: dismissButton)
+					return Alert(
+						title: Text("No Nearby Stop"),
+						message: Text("You can‘t board a bus if you‘re not within 20 meters of a stop."),
+						dismissButton: .default(Text("Continue"))
+					)
+				case .updateAvailable:
+					return Alert(
+						title: Text("Update Available"),
+						message: Text("An update to the app is available. Please update to the latest version to continue using Shuttle Tracker."),
+						dismissButton: .default(Text("Update")) {
+							let url = URL(string: "itms-apps://apps.apple.com/us/app/shuttle-tracker/id1583503452")!
+							#if os(macOS)
+							NSWorkspace.shared.open(url)
+							#else // os(macOS)
+							UIApplication.shared.open(url)
+							#endif // os(macOS)
+						}
+					)
+				}
+			}
+			.onAppear {
+				API.provider.request(.version) { (result) in
+					let version = try? result.value?.map(Int.self) ?? -1
+					if version != API.lastVersion {
+						self.viewState.alertType = .updateAvailable
+					}
 				}
 			}
 	}

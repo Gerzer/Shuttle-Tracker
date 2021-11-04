@@ -12,6 +12,8 @@ typealias HTTPMethod = Moya.Method
 
 enum API: TargetType {
 	
+	case version
+	
 	case readBuses
 	
 	case readAllBuses
@@ -30,6 +32,8 @@ enum API: TargetType {
 	
 	static let provider = MoyaProvider<API>()
 	
+	static let lastVersion = 0
+	
 	var baseURL: URL {
 		get {
 			return URL(string: "https://shuttletracker.app")!
@@ -39,6 +43,8 @@ enum API: TargetType {
 	var path: String {
 		get {
 			switch self {
+			case .version:
+				return "/version"
 			case .readBuses:
 				return "/buses"
 			case .readAllBuses:
@@ -60,7 +66,7 @@ enum API: TargetType {
 	public var method: HTTPMethod {
 		get {
 			switch self {
-			case .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
+			case .version, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
 				return .get
 			case .updateBus:
 				return .patch
@@ -73,7 +79,7 @@ enum API: TargetType {
 	var task: Task {
 		get {
 			switch self {
-			case .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
+			case .version, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [

@@ -13,19 +13,13 @@ final class ViewState: OnboardingFlags {
 	
 	enum SheetType: IdentifiableByHashValue {
 		
-		case privacy
-		
-		case settings
-		
-		case info
-		
-		case busSelection
+		case privacy, settings, info, busSelection
 		
 	}
 
 	enum AlertType: IdentifiableByHashValue {
 		
-		case noNearbyStop
+		case noNearbyStop, updateAvailable
 		
 	}
 
@@ -39,7 +33,7 @@ final class ViewState: OnboardingFlags {
 		
 		case mapRefresh = "The map automatically refreshes every 5 seconds."
 		
-		case locationData = "You're helping out other users with real-time bus location data."
+		case locationData = "You‘re helping out other users with real-time bus location data."
 		
 		case thanks = "Thanks for helping other users with real-time bus location data!"
 		
