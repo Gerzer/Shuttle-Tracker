@@ -132,7 +132,7 @@ struct ContentView: View {
 			}
 			.onAppear {
 				API.provider.request(.version) { (result) in
-					let version = try? result.value?.map(Int.self) ?? Int.max
+					let version = (try? result.value?.map(Int.self)) ?? Int.max
 					if version > API.lastVersion {
 						self.viewState.alertType = .updateAvailable
 					}
