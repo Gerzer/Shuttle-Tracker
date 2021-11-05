@@ -32,7 +32,7 @@ enum API: TargetType {
 	
 	static let provider = MoyaProvider<API>()
 	
-	static let lastVersion = 0
+	static let lastVersion = 1
 	
 	var baseURL: URL {
 		get {
