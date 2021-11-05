@@ -11,16 +11,22 @@ import CoreLocation
 
 @main struct ShuttleTrackerApp: App {
 	
-	@State private var doShowAppStoreOverlay = true
-	
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
 				.environmentObject(MapState.sharedInstance)
 				.environmentObject(ViewState.sharedInstance)
-//				.appStoreOverlay(isPresented: self.$doShowAppStoreOverlay) { () -> SKOverlay.Configuration in
-//					return SKOverlay.AppClipConfiguration(position: .bottomRaised)
-//				}
+				.onAppear {
+					let overlay = SKOverlay(
+						configuration: SKOverlay.AppClipConfiguration(position: .bottom)
+					)
+					for scene in UIApplication.shared.connectedScenes {
+						guard let windowScene = scene as? UIWindowScene else {
+							continue
+						}
+						overlay.present(in: windowScene)
+					}
+				}
 		}
 	}
 	
