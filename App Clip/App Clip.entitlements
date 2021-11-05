@@ -5,7 +5,8 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>appclips:shuttletracker.app</string>
-		<string>appclips:shuttle.gerzer.software</string>
+		<string>appclips:web.shuttletracker.app</string>
+		<string>appclip:shuttles.rpi.edu</string>
 	</array>
 	<key>com.apple.developer.parent-application-identifiers</key>
 	<array>
