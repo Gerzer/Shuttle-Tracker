@@ -112,7 +112,7 @@ struct ContentView: View {
 				case .noNearbyStop:
 					return Alert(
 						title: Text("No Nearby Stop"),
-						message: Text("You can‘t board a bus if you‘re not within 20 meters of a stop."),
+						message: Text("You can‘t board a bus if you’re not within 20 meters of a stop."),
 						dismissButton: .default(Text("Continue"))
 					)
 				case .updateAvailable:

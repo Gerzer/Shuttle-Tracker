@@ -15,7 +15,7 @@ struct LegendToast: View {
 	
 	enum HeadlineText: String {
 		
-		case tip = "Here's a tip!"
+		case tip = "Here’s a tip!"
 		case reminder = "Just in case you forgot..."
 		
 	}

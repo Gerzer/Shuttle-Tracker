@@ -33,7 +33,7 @@ final class ViewState: OnboardingFlags {
 		
 		case mapRefresh = "The map automatically refreshes every 5 seconds."
 		
-		case locationData = "You‘re helping out other users with real-time bus location data."
+		case locationData = "You’re helping out other users with real-time bus location data."
 		
 		case thanks = "Thanks for helping other users with real-time bus location data!"
 		

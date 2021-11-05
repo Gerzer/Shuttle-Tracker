@@ -19,7 +19,7 @@ struct SettingsView: View {
 			Section {
 				Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
 			} footer: {
-				Text("Modifies bus markers so that they're distinguishable by icon in addition to color.")
+				Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
 			}
 			#elseif os(macOS) // os(iOS)
 			Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)

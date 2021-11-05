@@ -32,7 +32,7 @@ struct BusSelectionSheet: View {
 							}
 							Spacer()
 							HStack {
-								Text("Select the number that's printed on the side of the bus:")
+								Text("Select the number that’s printed on the side of the bus:")
 									.font(.callout)
 								Spacer()
 							}
