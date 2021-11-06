@@ -12,12 +12,10 @@ struct MapView: NSViewRepresentable {
 	
 	private let mapView = MKMapView(frame: .zero)
 	
-	private let mapViewDelegate = MapViewDelegate()
-	
 	@EnvironmentObject private var mapState: MapState
 	
 	func makeNSView(context: Context) -> MKMapView {
-		self.mapView.delegate = self.mapViewDelegate
+		self.mapView.delegate = context.coordinator
 		self.mapView.showsUserLocation = true
 		self.mapView.showsCompass = true
 		self.mapView.setVisibleMapRect(MapUtilities.mapRect, animated: true)
@@ -40,7 +38,7 @@ struct MapView: NSViewRepresentable {
 	}
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
-		self.mapView.delegate = self.mapViewDelegate
+		self.mapView.delegate = context.coordinator
 		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) -> Bool in
 			return nsView.overlays.contains { (overlay) -> Bool in
 				if let existingRoute = overlay as? Route, existingRoute == route {
@@ -56,6 +54,10 @@ struct MapView: NSViewRepresentable {
 			nsView.removeOverlays(nsView.overlays)
 			nsView.addOverlays(self.mapState.routes)
 		}
+	}
+	
+	func makeCoordinator() -> MapViewDelegate {
+		return MapViewDelegate()
 	}
 	
 }
