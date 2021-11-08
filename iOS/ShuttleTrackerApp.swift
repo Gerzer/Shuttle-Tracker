@@ -51,9 +51,10 @@ import OnboardingKit
 	
 	init() {
 		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestAlwaysAuthorization()
-		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
+		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
+		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
+		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 	}
 	
 }

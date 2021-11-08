@@ -26,8 +26,6 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Shuttle Tracker uses your location to provide shuttle-tracking features.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Shuttle Tracker uses your location to provide shuttle-tracking features.</string>
 	<key>UIApplicationSceneManifest</key>
