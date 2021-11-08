@@ -5,6 +5,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>appclips:shuttletracker.app</string>
+		<string>appclips:web.shuttletracker.app</string>
 	</array>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
