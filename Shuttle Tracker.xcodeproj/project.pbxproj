@@ -35,8 +35,6 @@
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
-		C02C38762722388C00CCB712 /* BusSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02C38752722388C00CCB712 /* BusSelectionSheet.swift */; };
-		C02C38772722388C00CCB712 /* BusSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02C38752722388C00CCB712 /* BusSelectionSheet.swift */; };
 		C02C3879272368EA00CCB712 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02C3878272368E900CCB712 /* PrimaryOverlay.swift */; };
 		C02C387A272368EA00CCB712 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02C3878272368E900CCB712 /* PrimaryOverlay.swift */; };
 		C02C387C2723ABA500CCB712 /* BusID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02C387B2723ABA400CCB712 /* BusID.swift */; };
@@ -58,6 +56,8 @@
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
+		C05C81B52741B18700C13C5B /* BusSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05C81B42741B18700C13C5B /* BusSelectionSheet.swift */; };
+		C05C81B62741B18700C13C5B /* BusSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05C81B42741B18700C13C5B /* BusSelectionSheet.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */; };
@@ -132,7 +132,6 @@
 		C015281C2517F68F0069092C /* MapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapState.swift; sourceTree = "<group>"; };
 		C01F6D7826E44BE400D33656 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		C02C38752722388C00CCB712 /* BusSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BusSelectionSheet.swift; path = iOS/Views/BusSelectionSheet.swift; sourceTree = SOURCE_ROOT; };
 		C02C3878272368E900CCB712 /* PrimaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryOverlay.swift; sourceTree = "<group>"; };
 		C02C387B2723ABA400CCB712 /* BusID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusID.swift; sourceTree = "<group>"; };
 		C02C387F2723ABEE00CCB712 /* BusOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusOption.swift; sourceTree = "<group>"; };
@@ -145,6 +144,7 @@
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
 		C03EE72026DEAD1F00878D77 /* LegendToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendToast.swift; sourceTree = "<group>"; };
 		C053E98E26DD3B280057E808 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
+		C05C81B42741B18700C13C5B /* BusSelectionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSelectionSheet.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C08FC1D8252509E6008589C1 /* App Clip.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "App Clip.entitlements"; sourceTree = "<group>"; };
@@ -226,8 +226,8 @@
 				6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */,
 				C053E98E26DD3B280057E808 /* PrivacySheet.swift */,
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
-				C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */,
 				C02C38852724DF6C00CCB712 /* SecondaryOverlayButton.swift */,
+				C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -235,7 +235,7 @@
 		C086017025D83D8700C4F583 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C02C38752722388C00CCB712 /* BusSelectionSheet.swift */,
+				C05C81B42741B18700C13C5B /* BusSelectionSheet.swift */,
 				C02C387F2723ABEE00CCB712 /* BusOption.swift */,
 				C02C38822724DBF700CCB712 /* CloseButton.swift */,
 				C08FC22125251196008589C1 /* ContentView.swift */,
@@ -530,7 +530,7 @@
 				C02C38872724DF6C00CCB712 /* SecondaryOverlayButton.swift in Sources */,
 				C02C387E2723ABA500CCB712 /* BusID.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
-				C02C38772722388C00CCB712 /* BusSelectionSheet.swift in Sources */,
+				C05C81B62741B18700C13C5B /* BusSelectionSheet.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
@@ -545,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C05C81B52741B18700C13C5B /* BusSelectionSheet.swift in Sources */,
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
@@ -570,7 +571,6 @@
 				6B3B2B442710E5BB001D6C8E /* InfoSheet.swift in Sources */,
 				C08FC22225251196008589C1 /* ContentView.swift in Sources */,
 				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
-				C02C38762722388C00CCB712 /* BusSelectionSheet.swift in Sources */,
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */,
