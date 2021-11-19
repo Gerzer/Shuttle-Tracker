@@ -45,6 +45,9 @@ struct ContentView: View {
 				case .some(.legend):
 					LegendToast()
 						.padding()
+				case .some(.reminder):
+					ReminderToast()
+						.padding()
 				case .none:
 					HStack {
 						SecondaryOverlay()

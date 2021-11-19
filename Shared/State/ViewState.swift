@@ -25,7 +25,7 @@ final class ViewState: OnboardingFlags {
 
 	enum ToastType: IdentifiableByHashValue {
 		
-		case legend
+		case legend, reminder
 		
 	}
 	

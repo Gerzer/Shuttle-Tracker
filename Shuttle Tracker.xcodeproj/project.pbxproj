@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6B3B2B442710E5BB001D6C8E /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */; };
+		6BC6090927445B3500915BFE /* ReminderToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC6090827445B3500915BFE /* ReminderToast.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
@@ -119,6 +120,7 @@
 
 /* Begin PBXFileReference section */
 		6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
+		6BC6090827445B3500915BFE /* ReminderToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderToast.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				C038BEC4270FC91100A23A2B /* SettingsView.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
+				6BC6090827445B3500915BFE /* ReminderToast.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				C02C3879272368EA00CCB712 /* PrimaryOverlay.swift in Sources */,
 				C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */,
 				C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */,
+				6BC6090927445B3500915BFE /* ReminderToast.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C02C38802723ABEE00CCB712 /* BusOption.swift in Sources */,
