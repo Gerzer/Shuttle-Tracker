@@ -12,7 +12,9 @@ typealias HTTPMethod = Moya.Method
 
 enum API: TargetType {
 	
-	case version
+	case readVersion
+	
+	case readAnnouncements
 	
 	case readBuses
 	
@@ -43,8 +45,10 @@ enum API: TargetType {
 	var path: String {
 		get {
 			switch self {
-			case .version:
+			case .readVersion:
 				return "/version"
+			case .readAnnouncements:
+				return "/announcements"
 			case .readBuses:
 				return "/buses"
 			case .readAllBuses:
@@ -66,7 +70,7 @@ enum API: TargetType {
 	public var method: HTTPMethod {
 		get {
 			switch self {
-			case .version, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
 				return .get
 			case .updateBus:
 				return .patch
@@ -79,7 +83,7 @@ enum API: TargetType {
 	var task: Task {
 		get {
 			switch self {
-			case .version, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [

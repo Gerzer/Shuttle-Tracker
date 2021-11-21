@@ -13,12 +13,17 @@ struct SecondaryOverlayButton: View {
 	
 	let sheetType: ViewState.SheetType
 	
+	@Binding private(set) var badgeNumber: Int
+	
 	@EnvironmentObject private var viewState: ViewState
 	
 	var body: some View {
-		if #available(iOS 15.0, *) {
+		if #available(iOS 15, *) {
 			Button {
 				self.viewState.sheetType = self.sheetType
+				withAnimation {
+					self.badgeNumber = 0
+				}
 			} label: {
 				Group {
 					Image(systemName: self.iconSystemName)
@@ -28,6 +33,19 @@ struct SecondaryOverlayButton: View {
 						.frame(width: 20)
 				}
 					.frame(width: 45, height: 45)
+					.overlay {
+						if self.badgeNumber > 0 {
+							ZStack {
+								Circle()
+									.foregroundColor(.red)
+								Text("\(self.badgeNumber)")
+									.foregroundColor(.white)
+									.font(.caption)
+							}
+								.frame(width: 20, height: 20)
+								.offset(x: 20, y: -20)
+						}
+					}
 			}
 				.tint(.primary)
 		} else {
@@ -45,6 +63,12 @@ struct SecondaryOverlayButton: View {
 			}
 				.buttonStyle(.plain)
 		}
+	}
+	
+	init(iconSystemName: String, sheetType: ViewState.SheetType, badgeNumber: Binding<Int> = .constant(0)) {
+		self.iconSystemName = iconSystemName
+		self.sheetType = sheetType
+		self._badgeNumber = badgeNumber
 	}
 	
 }

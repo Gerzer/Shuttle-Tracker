@@ -13,7 +13,7 @@ final class ViewState: OnboardingFlags {
 	
 	enum SheetType: IdentifiableByHashValue {
 		
-		case privacy, settings, info, busSelection
+		case privacy, settings, info, busSelection, announcements
 		
 	}
 

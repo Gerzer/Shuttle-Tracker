@@ -42,6 +42,7 @@ import OnboardingKit
 						NotificationCenter.default.post(name: .refreshBuses, object: nil)
 					}
 						.keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
+					Divider()
 				}
 			}
 		Settings {
