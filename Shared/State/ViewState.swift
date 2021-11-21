@@ -11,18 +11,12 @@ import OnboardingKit
 
 final class ViewState: OnboardingFlags {
 	
-	enum SheetType: IdentifiableByHashValue {
-		
-		case privacy, settings, info, busSelection
-		
-	}
-
 	enum AlertType: IdentifiableByHashValue {
 		
 		case noNearbyStop, updateAvailable
 		
 	}
-
+	
 	enum ToastType: IdentifiableByHashValue {
 		
 		case legend
@@ -41,7 +35,14 @@ final class ViewState: OnboardingFlags {
 	
 	static let sharedInstance = ViewState()
 	
-	@Published var sheetType: SheetType?
+	var sheetType: SheetStack.SheetType? {
+		get {
+			return SheetStack.top
+		}
+		set {
+			SheetStack.top = newValue
+		}
+	}
 	
 	@Published var alertType: AlertType?
 	

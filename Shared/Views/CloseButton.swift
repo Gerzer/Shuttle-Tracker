@@ -9,12 +9,12 @@ import SwiftUI
 
 struct CloseButton: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	private let dismissHandler: (() -> Void)?
 	
 	var body: some View {
 		if #available(iOS 15.0, *) {
 			Button {
-				self.viewState.sheetType = nil
+				SheetStack.pop()
 			} label: {
 				Image(systemName: "xmark.circle.fill")
 					.symbolRenderingMode(.hierarchical)
@@ -25,13 +25,22 @@ struct CloseButton: View {
 				.tint(.primary)
 		} else {
 			Button {
-				self.viewState.sheetType = nil
+				if let dismissHandler = self.dismissHandler {
+					dismissHandler()
+				} else {
+					SheetStack.pop()
+				}
 			} label: {
 				Text("Close")
 					.bold()
 			}
 		}
 	}
+	
+	init(_ dismissHandler: (() -> Void)? = nil) {
+		self.dismissHandler = dismissHandler
+	}
+	
 }
 
 struct CloseButtonPreviews: PreviewProvider {

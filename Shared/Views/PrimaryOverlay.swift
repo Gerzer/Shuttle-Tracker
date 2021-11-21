@@ -54,7 +54,7 @@ struct PrimaryOverlay: View {
 						}
 						if closestStopDistance < 20 {
 							self.mapState.locationID = UUID()
-							self.viewState.sheetType = .busSelection
+							SheetStack.push(.busSelection)
 						} else {
 							self.viewState.alertType = .noNearbyStop
 						}

@@ -88,7 +88,7 @@ struct BusSelectionSheet: View {
 							self.mapState.busID = self.selectedBusID?.rawValue
 							self.mapState.travelState = .onBus
 							self.viewState.statusText = .locationData
-							self.viewState.sheetType = nil
+							SheetStack.pop()
 							LocationUtilities.locationManager.startUpdatingLocation()
 						} label: {
 							Text("Continue")

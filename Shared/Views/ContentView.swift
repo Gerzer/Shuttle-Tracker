@@ -63,7 +63,7 @@ struct ContentView: View {
 			}
 			#endif // os(macOS)
 		}
-			.sheet(item: self.$viewState.sheetType) {
+			.sheet(item: SheetStack.sheetType) {
 				[Route].download { (routes) in
 					DispatchQueue.main.async {
 						self.mapState.routes = routes
@@ -71,13 +71,13 @@ struct ContentView: View {
 				}
 			} content: { (sheetType) in
 				switch sheetType {
-				case .privacy:
+				case .welcome:
 					#if os(iOS) && !APPCLIP
 					if #available(iOS 15, *) {
-						PrivacySheet()
+						WelcomeSheet()
 							.interactiveDismissDisabled()
 					} else {
-						PrivacySheet()
+						WelcomeSheet()
 					}
 					#else // os(iOS) && !APPCLIP
 					EmptyView()
@@ -102,6 +102,12 @@ struct ContentView: View {
 					} else {
 						BusSelectionSheet()
 					}
+					#else // os(iOS)
+					EmptyView()
+					#endif // os(iOS)
+				case .privacy:
+					#if os(iOS)
+					PrivacySheet()
 					#else // os(iOS)
 					EmptyView()
 					#endif // os(iOS)

@@ -15,7 +15,7 @@ import OnboardingKit
 	
 	private var onboardingManager: OnboardingManager<ViewState> = {
 		OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
-			OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .privacy) {
+			OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .welcome) {
 				OnboardingConditions.ColdLaunch(threshold: 1)
 			}
 			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
