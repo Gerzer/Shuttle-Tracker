@@ -15,6 +15,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		enum LocationType: String, Codable {
 			
 			case system = "system"
+			
 			case user = "user"
 			
 		}
