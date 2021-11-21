@@ -156,17 +156,17 @@ struct ContentView: View {
 						Label("View Announcements", systemImage: "exclamationmark.bubble")
 					}
 				}
-        if self.isRefreshing {
-					ProgressView()
-        } else {
-          ToolbarItem {
-            Button {
-              NotificationCenter.default.post(name: .refreshBuses, object: nil)
-            } label: {
-              Label("Refresh", systemImage: "arrow.clockwise")
-            }
-          }
-        }
+				ToolbarItem {
+					if self.isRefreshing {
+						ProgressView()
+					} else {
+						Button {
+							NotificationCenter.default.post(name: .refreshBuses, object: nil)
+						} label: {
+							Label("Refresh", systemImage: "arrow.clockwise")
+						}
+					}
+				}
 			}
 			.onAppear {
 				NSWindow.allowsAutomaticWindowTabbing = false
