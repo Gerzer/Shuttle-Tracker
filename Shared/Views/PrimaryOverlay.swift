@@ -23,6 +23,8 @@ struct PrimaryOverlay: View {
 		}
 	}
 	
+	@State private var isRefreshing = false
+	
 	@EnvironmentObject private var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
@@ -68,10 +70,23 @@ struct PrimaryOverlay: View {
 					Text(self.viewState.statusText.rawValue)
 						.layoutPriority(1)
 					Spacer()
-					Button(action: self.refreshBuses) {
-						Image(systemName: "arrow.clockwise.circle.fill")
-							.resizable()
-							.aspectRatio(1, contentMode: .fit)
+					Group {
+						if self.isRefreshing {
+							ProgressView()
+						} else {
+							Button {
+								withAnimation {
+									self.isRefreshing = true
+								}
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+									self.refreshBuses()
+								}
+							} label: {
+								Image(systemName: "arrow.clockwise.circle.fill")
+									.resizable()
+									.aspectRatio(1, contentMode: .fit)
+							}
+						}
 					}
 						.frame(width: 30)
 				}
@@ -105,6 +120,9 @@ struct PrimaryOverlay: View {
 		[Bus].download { (buses) in
 			DispatchQueue.main.async {
 				self.mapState.buses = buses
+				withAnimation {
+					self.isRefreshing = false
+				}
 			}
 		}
 //		if let location = locationManager.location {

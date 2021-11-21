@@ -156,29 +156,43 @@ struct ContentView: View {
 						Label("View Announcements", systemImage: "exclamationmark.bubble")
 					}
 				}
-				ToolbarItem {
-					Button {
-						NotificationCenter.default.post(name: .refreshBuses, object: nil)
-					} label: {
-						Label("Refresh", systemImage: "arrow.clockwise")
-					}
-				}
+        if self.isRefreshing {
+					ProgressView()
+        } else {
+          ToolbarItem {
+            Button {
+              NotificationCenter.default.post(name: .refreshBuses, object: nil)
+            } label: {
+              Label("Refresh", systemImage: "arrow.clockwise")
+            }
+          }
+        }
 			}
 			.onAppear {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
 			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
-				self.refreshBuses()
+				withAnimation {
+					self.isRefreshing = true
+				}
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.refreshBuses()
+				}
 			}
 			.onReceive(self.timer) { (_) in
 				self.refreshBuses()
 			}
 	}
 	
+	@State private var isRefreshing = false
+	
 	private func refreshBuses() {
 		[Bus].download { (buses) in
 			DispatchQueue.main.async {
 				self.mapState.buses = buses
+				withAnimation {
+					self.isRefreshing = false
+				}
 			}
 		}
 	}
