@@ -14,7 +14,7 @@ import OnboardingKit
 	private var contentView = ContentView()
 	
 	private let onboardingManager: OnboardingManager<ViewState> = {
-		OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
+		return OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
 			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 				OnboardingConditions.ColdLaunch(threshold: 1)
 			}
@@ -26,6 +26,9 @@ import OnboardingKit
 			}
 			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .reminder) {
 				OnboardingConditions.ColdLaunch(threshold: 3)
+			}
+			OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .whatsNew) {
+				OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.1", threshold: 0, settingHandleAt: \.whatsNewHandle, in: flags, comparator: ==)
 			}
 		}
 	}()
@@ -42,6 +45,7 @@ import OnboardingKit
 						NotificationCenter.default.post(name: .refreshBuses, object: nil)
 					}
 						.keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
+					Divider()
 				}
 			}
 		Settings {

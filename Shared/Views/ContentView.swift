@@ -79,20 +79,14 @@ struct ContentView: View {
 					} else {
 						PrivacySheet()
 					}
-					#else // os(iOS) && !APPCLIP
-					EmptyView()
 					#endif // os(iOS) && !APPCLIP
 				case .settings:
 					#if os(iOS) && !APPCLIP
 					SettingsSheet()
-					#else // os(iOS) && !APPCLIP
-					EmptyView()
 					#endif // os(iOS) && !APPCLIP
 				case .info:
 					#if os(iOS) && !APPCLIP
 					InfoSheet()
-					#else // os(iOS) && !APPCLIP
-					EmptyView()
 					#endif // os(iOS) && !APPCLIP
 				case .busSelection:
 					#if os(iOS)
@@ -102,9 +96,17 @@ struct ContentView: View {
 					} else {
 						BusSelectionSheet()
 					}
-					#else // os(iOS)
-					EmptyView()
 					#endif // os(iOS)
+				case .announcements:
+					if #available(iOS 15, macOS 12, *) {
+						AnnouncementsSheet()
+							.frame(idealWidth: 500, idealHeight: 500)
+					}
+				case .whatsNew:
+					#if !APPCLIP
+					WhatsNewSheet()
+						.frame(idealWidth: 500, idealHeight: 500)
+					#endif // !APPCLIP
 				}
 			}
 			.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
@@ -131,7 +133,7 @@ struct ContentView: View {
 				}
 			}
 			.onAppear {
-				API.provider.request(.version) { (result) in
+				API.provider.request(.readVersion) { (result) in
 					let version = (try? result.value?.map(Int.self)) ?? Int.max
 					if version > API.lastVersion {
 						self.viewState.alertType = .updateAvailable
@@ -149,11 +151,16 @@ struct ContentView: View {
 			.toolbar {
 				ToolbarItem {
 					Button {
+						self.viewState.sheetType = .announcements
+					} label: {
+						Label("View Announcements", systemImage: "exclamationmark.bubble")
+					}
+				}
+				ToolbarItem {
+					Button {
 						NotificationCenter.default.post(name: .refreshBuses, object: nil)
 					} label: {
-						Image(systemName: "arrow.clockwise.circle.fill")
-							.resizable()
-							.aspectRatio(1, contentMode: .fit)
+						Label("Refresh", systemImage: "arrow.clockwise")
 					}
 				}
 			}

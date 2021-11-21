@@ -12,7 +12,7 @@ struct CloseButton: View {
 	@EnvironmentObject private var viewState: ViewState
 	
 	var body: some View {
-		if #available(iOS 15.0, *) {
+		if #available(iOS 15, macOS 12, *) {
 			Button {
 				self.viewState.sheetType = nil
 			} label: {

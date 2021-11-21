@@ -45,7 +45,7 @@ struct BusSelectionSheet: View {
 										)
 										.foregroundColor(.secondary)
 									VStack {
-										if #available(iOS 15.0, *) {
+										if #available(iOS 15, *) {
 											Divider()
 												.background(.secondary)
 										} else {
@@ -55,7 +55,7 @@ struct BusSelectionSheet: View {
 									}
 								}
 								BusOption(suggestedBusID, selectedBusID: self.$selectedBusID)
-								if #available(iOS 15.0, *) {
+								if #available(iOS 15, *) {
 									Divider()
 										.background(.secondary)
 										.padding(.vertical, 10)
@@ -75,7 +75,9 @@ struct BusSelectionSheet: View {
 							.padding(.horizontal)
 					}
 				} else {
-					ProgressView("Loading...")
+					ProgressView("Loading…")
+						.font(.callout)
+						.textCase(.uppercase)
 				}
 			}
 				.navigationTitle("Bus Selection")

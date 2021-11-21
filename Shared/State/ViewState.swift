@@ -13,7 +13,7 @@ final class ViewState: OnboardingFlags {
 	
 	enum SheetType: IdentifiableByHashValue {
 		
-		case privacy, settings, info, busSelection
+		case privacy, settings, info, busSelection, announcements, whatsNew
 		
 	}
 
@@ -40,6 +40,8 @@ final class ViewState: OnboardingFlags {
 	}
 	
 	static let sharedInstance = ViewState()
+	
+	var whatsNewHandle: OnboardingConditions.ManualCounter.Handle?
 	
 	@Published var sheetType: SheetType?
 	
