@@ -102,6 +102,11 @@ struct ContentView: View {
 						AnnouncementsSheet()
 							.frame(idealWidth: 500, idealHeight: 500)
 					}
+				case .whatsNew:
+					#if !APPCLIP
+					WhatsNewSheet()
+						.frame(idealWidth: 500, idealHeight: 500)
+					#endif // !APPCLIP
 				}
 			}
 			.alert(item: self.$viewState.alertType) { (alertType) -> Alert in

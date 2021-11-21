@@ -14,7 +14,7 @@ import OnboardingKit
 	private var contentView = ContentView()
 	
 	private var onboardingManager: OnboardingManager<ViewState> = {
-		OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
+		return OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
 			OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .privacy) {
 				OnboardingConditions.ColdLaunch(threshold: 1)
 			}
@@ -29,6 +29,9 @@ import OnboardingKit
 			}
 			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .reminder) {
 				OnboardingConditions.ColdLaunch(threshold: 5)
+			}
+			OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .whatsNew) {
+				OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.1", threshold: 0, settingHandleAt: \.whatsNewHandle, in: flags, comparator: ==)
 			}
 		}
 	}()

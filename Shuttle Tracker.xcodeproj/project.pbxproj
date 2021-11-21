@@ -83,6 +83,8 @@
 		C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
 		C0A1E730274A03BC00DBF248 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7272749EE3D00DBF248 /* Announcement.swift */; };
 		C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7272749EE3D00DBF248 /* Announcement.swift */; };
+		C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */; };
+		C0A1E734274A16F100DBF248 /* WhatsNewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */; };
 		C0A232A32525080600FAAD50 /* App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = C0A232942525080500FAAD50 /* App Clip.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C0A232B6252508C800FAAD50 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
 		C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
@@ -167,6 +169,7 @@
 		C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementsSheet.swift; sourceTree = "<group>"; };
 		C0A1E7272749EE3D00DBF248 /* Announcement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailView.swift; sourceTree = "<group>"; };
+		C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSheet.swift; sourceTree = "<group>"; };
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -261,6 +264,7 @@
 				C038BEC4270FC91100A23A2B /* SettingsView.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
+				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -596,6 +600,7 @@
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C0A1E72E274A03B500DBF248 /* AnnouncementsSheet.swift in Sources */,
+				C0A1E734274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,6 +622,7 @@
 				C02C387C2723ABA500CCB712 /* BusID.swift in Sources */,
 				C0A1E7292749F33C00DBF248 /* CloseButton.swift in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
+				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
@@ -966,7 +972,7 @@
 			repositoryURL = "https://github.com/Gerzer/OnboardingKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.1.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
