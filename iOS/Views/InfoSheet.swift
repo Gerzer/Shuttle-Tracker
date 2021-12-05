@@ -33,11 +33,9 @@ struct InfoSheet: View {
 			.padding()
 			.navigationTitle("Shuttle Tracker 🚐")
 			.toolbar {
-				#if !os(macOS)
 				ToolbarItem {
 					CloseButton()
 				}
-				#endif // !os(macOS)
 			}
 		}
 	}
