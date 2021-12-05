@@ -41,6 +41,7 @@ struct InfoSheet: View {
 			}
 		}
 	}
+	
 }
 
 struct InfoSheetPreviews: PreviewProvider {
