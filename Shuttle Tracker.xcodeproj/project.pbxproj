@@ -940,7 +940,7 @@
 			repositoryURL = "https://github.com/Gerzer/OnboardingKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.0;
+				minimumVersion = 1.3.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

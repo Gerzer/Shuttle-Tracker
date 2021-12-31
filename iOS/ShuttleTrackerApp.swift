@@ -27,9 +27,12 @@ import OnboardingKit
 		}
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .boardBus) {
 			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: ViewState.shared.handles, comparator: ==)
-//			if #available(iOS 15, *) {
-//				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
-//			}
+			OnboardingConditions.Disjunction {
+				OnboardingConditions.ColdLaunch(threshold: 3, comparator: >)
+				if #available(iOS 15, *) {
+					OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
+				}
+			}
 		}
 	}
 	
