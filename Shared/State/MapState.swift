@@ -10,7 +10,7 @@ import Combine
 
 class MapState: ObservableObject {
 	
-	static let sharedInstance = MapState()
+	static let shared = MapState()
 	
 	@Published var buses = [Bus]()
 	

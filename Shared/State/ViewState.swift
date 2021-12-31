@@ -45,7 +45,7 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	static let sharedInstance = ViewState()
+	static let shared = ViewState()
 	
 	@Published var sheetType: SheetType?
 	

@@ -14,7 +14,7 @@ import OnboardingKit
 	private var contentView = ContentView()
 	
 	private let onboardingManager: OnboardingManager<ViewState> = {
-		OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
+		return OnboardingManager(flags: ViewState.shared) { (flags) in
 			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 				OnboardingConditions.ColdLaunch(threshold: 1)
 			}
@@ -33,8 +33,8 @@ import OnboardingKit
 	var body: some Scene {
 		WindowGroup {
 			self.contentView
-				.environmentObject(MapState.sharedInstance)
-				.environmentObject(ViewState.sharedInstance)
+				.environmentObject(MapState.shared)
+				.environmentObject(ViewState.shared)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
@@ -48,7 +48,7 @@ import OnboardingKit
 			SettingsView()
 				.padding()
 				.frame(width: 400, height: 100)
-				.environmentObject(ViewState.sharedInstance)
+				.environmentObject(ViewState.shared)
 		}
 	}
 	

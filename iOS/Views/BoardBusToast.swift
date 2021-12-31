@@ -27,7 +27,7 @@ struct ReminderToastPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		BoardBusToast()
-			.environmentObject(ViewState.sharedInstance)
+			.environmentObject(ViewState.shared)
 	}
 	
 }

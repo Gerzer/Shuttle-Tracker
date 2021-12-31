@@ -52,7 +52,7 @@ enum LocationUtilities {
 	}
 	
 	static func sendToServer(coordinate: CLLocationCoordinate2D) {
-		guard let busID = MapState.sharedInstance.busID, let locationID = MapState.sharedInstance.locationID else {
+		guard let busID = MapState.shared.busID, let locationID = MapState.shared.locationID else {
 			LoggingUtilities.logger.log(level: .fault, "Required bus and location identifiers not found")
 			return
 		}
