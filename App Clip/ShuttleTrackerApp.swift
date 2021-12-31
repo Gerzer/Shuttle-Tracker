@@ -14,8 +14,8 @@ import CoreLocation
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
-				.environmentObject(MapState.sharedInstance)
-				.environmentObject(ViewState.sharedInstance)
+				.environmentObject(MapState.shared)
+				.environmentObject(ViewState.shared)
 				.onAppear {
 					let overlay = SKOverlay(
 						configuration: SKOverlay.AppClipConfiguration(position: .bottom)

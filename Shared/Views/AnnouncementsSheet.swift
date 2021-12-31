@@ -82,7 +82,7 @@ import SwiftUI
 	
 	static var previews: some View {
 		AnnouncementsSheet()
-			.environmentObject(ViewState.sharedInstance)
+			.environmentObject(ViewState.shared)
 	}
 	
 }

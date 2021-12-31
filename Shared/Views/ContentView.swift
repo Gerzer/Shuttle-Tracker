@@ -208,8 +208,8 @@ struct ContentViewPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		ContentView()
-			.environmentObject(MapState.sharedInstance)
-			.environmentObject(ViewState.sharedInstance)
+			.environmentObject(MapState.shared)
+			.environmentObject(ViewState.shared)
 	}
 	
 }

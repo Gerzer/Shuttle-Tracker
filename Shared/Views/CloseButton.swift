@@ -38,7 +38,7 @@ struct CloseButtonPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		CloseButton()
-			.environmentObject(ViewState.sharedInstance)
+			.environmentObject(ViewState.shared)
 	}
 	
 }

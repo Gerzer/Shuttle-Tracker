@@ -39,7 +39,7 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	static let sharedInstance = ViewState()
+	static let shared = ViewState()
 	
 	var whatsNewHandle: OnboardingConditions.ManualCounter.Handle?
 	

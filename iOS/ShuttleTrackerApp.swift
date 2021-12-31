@@ -14,7 +14,7 @@ import OnboardingKit
 	private var contentView = ContentView()
 	
 	private var onboardingManager: OnboardingManager<ViewState> = {
-		return OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
+		return OnboardingManager(flags: ViewState.shared) { (flags) in
 			OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .privacy) {
 				OnboardingConditions.ColdLaunch(threshold: 1)
 			}
@@ -39,8 +39,8 @@ import OnboardingKit
 	var body: some Scene {
 		WindowGroup {
 			self.contentView
-				.environmentObject(MapState.sharedInstance)
-				.environmentObject(ViewState.sharedInstance)
+				.environmentObject(MapState.shared)
+				.environmentObject(ViewState.shared)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
