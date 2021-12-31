@@ -28,7 +28,7 @@ struct SettingsView: View {
 			.onChange(of: self.colorBlindMode) { (_) in
 				withAnimation {
 					self.viewState.toastType = .legend
-					self.viewState.onboardingToastHeadlineText = nil
+					self.viewState.legendToastHeadlineText = nil
 				}
 			}
 	}

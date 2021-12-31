@@ -23,12 +23,12 @@ struct ContentView: View {
 			VStack {
 				HStack {
 					switch self.viewState.toastType {
-					case .some(.legend):
+					case .legend:
 						LegendToast()
 							.frame(maxWidth: 250, maxHeight: 100)
 							.padding(.top, 50)
 							.padding(.leading, 10)
-					case .none:
+					default:
 						EmptyView()
 					}
 					Spacer()
@@ -42,13 +42,13 @@ struct ContentView: View {
 					.frame(height: 0)
 				#if !APPCLIP
 				switch self.viewState.toastType {
-				case .some(.legend):
+				case .legend:
 					LegendToast()
 						.padding()
-				case .some(.reminder):
-					ReminderToast()
+				case .boardBus:
+					BoardBusToast()
 						.padding()
-				case .none:
+				default:
 					HStack {
 						SecondaryOverlay()
 							.padding(.top, 5)

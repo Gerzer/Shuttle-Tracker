@@ -13,25 +13,29 @@ import OnboardingKit
 	
 	private var contentView = ContentView()
 	
-	private var onboardingManager: OnboardingManager<ViewState> = {
-		OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
-			OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .privacy) {
-				OnboardingConditions.ColdLaunch(threshold: 1)
-			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
+	private let onboardingManager = OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
+		OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .privacy) {
+			OnboardingConditions.ColdLaunch(threshold: 1)
+		}
+		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
+			OnboardingConditions.Disjunction {
 				OnboardingConditions.ColdLaunch(threshold: 3)
-			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .tip) {
-				OnboardingConditions.ColdLaunch(threshold: 3)
-			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
-				OnboardingConditions.ColdLaunch(threshold: 5)
-			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .reminder) {
 				OnboardingConditions.ColdLaunch(threshold: 5)
 			}
 		}
-	}()
+		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .tip) {
+			OnboardingConditions.ColdLaunch(threshold: 3)
+		}
+		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .reminder) {
+			OnboardingConditions.ColdLaunch(threshold: 5)
+		}
+		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .boardBus) {
+			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: ViewState.sharedInstance.handles, comparator: ==)
+//			if #available(iOS 15, *) {
+//				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
+//			}
+		}
+	}
 	
 	var body: some Scene {
 		WindowGroup {

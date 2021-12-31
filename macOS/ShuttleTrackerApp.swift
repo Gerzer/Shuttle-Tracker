@@ -18,13 +18,13 @@ import OnboardingKit
 			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 				OnboardingConditions.ColdLaunch(threshold: 1)
 			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .tip) {
+			OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .tip) {
 				OnboardingConditions.ColdLaunch(threshold: 1)
 			}
 			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 				OnboardingConditions.ColdLaunch(threshold: 3)
 			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .reminder) {
+			OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .reminder) {
 				OnboardingConditions.ColdLaunch(threshold: 3)
 			}
 		}
