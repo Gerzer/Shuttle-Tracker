@@ -11,8 +11,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 	
 	enum CodingKeys: String, CodingKey {
 		
-		case name
-		case coordinate
+		case name, coordinate
 		
 	}
 	

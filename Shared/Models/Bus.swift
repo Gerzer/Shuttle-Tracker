@@ -89,16 +89,8 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		self.location = location
 	}
 	
-	static func == (_ leftBus: Bus, _ rightBus: Bus) -> Bool {
-		return leftBus.id == rightBus.id
-	}
-	
-}
-
-extension CLLocationCoordinate2D {
-	
-	func convertedToCoordinate() -> Coordinate {
-		return Coordinate(latitude: self.latitude, longitude: self.longitude)
+	static func == (_ left: Bus, _ right: Bus) -> Bool {
+		return left.id == right.id
 	}
 	
 }

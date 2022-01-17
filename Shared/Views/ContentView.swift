@@ -143,7 +143,10 @@ struct ContentView: View {
 	}
 	
 	#if os(macOS)
-	private let timer = Timer.publish(every: 5, on: .main, in: .common)
+	@State private var isRefreshing = false
+	
+	private let timer = Timer
+		.publish(every: 5, on: .main, in: .common)
 		.autoconnect()
 	
 	private var mapView: some View {
@@ -183,8 +186,6 @@ struct ContentView: View {
 				self.refreshBuses()
 			}
 	}
-	
-	@State private var isRefreshing = false
 	
 	private func refreshBuses() {
 		[Bus].download { (buses) in

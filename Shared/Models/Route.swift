@@ -35,9 +35,11 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 			}
 			let polylineRenderer = MKPolylineRenderer(polyline: polyline)
 			#if os(macOS)
-			polylineRenderer.strokeColor = NSColor(.blue).withAlphaComponent(0.5)
+			polylineRenderer.strokeColor = NSColor(.blue)
+				.withAlphaComponent(0.5)
 			#else // os(macOS)
-			polylineRenderer.strokeColor = UIColor(.blue).withAlphaComponent(0.5)
+			polylineRenderer.strokeColor = UIColor(.blue)
+				.withAlphaComponent(0.5)
 			#endif // os(macOS)
 			polylineRenderer.lineWidth = 3
 			return polylineRenderer
@@ -88,8 +90,8 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 		return self.mapPoints[position]
 	}
 	
-	static func == (_ leftRoute: Route, _ rightRoute: Route) -> Bool {
-		return leftRoute.mapPoints == rightRoute.mapPoints
+	static func == (_ left: Route, _ right: Route) -> Bool {
+		return left.mapPoints == right.mapPoints
 	}
 	
 	func index(after oldIndex: Int) -> Int {
