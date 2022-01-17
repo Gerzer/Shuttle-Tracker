@@ -1,6 +1,6 @@
 //
 //  BoardBusToast.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Andrew Emanuel on 11/16/21.
 //
