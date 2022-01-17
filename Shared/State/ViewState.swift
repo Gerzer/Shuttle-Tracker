@@ -11,6 +11,14 @@ import OnboardingKit
 
 final class ViewState: OnboardingFlags {
 	
+	final class Handles {
+		
+		var tripCount: OnboardingConditions.ManualCounter.Handle?
+		
+		var whatsNew: OnboardingConditions.ManualCounter.Handle?
+		
+	}
+	
 	enum SheetType: IdentifiableByHashValue {
 		
 		case privacy, settings, info, busSelection, announcements, whatsNew
@@ -25,7 +33,7 @@ final class ViewState: OnboardingFlags {
 
 	enum ToastType: IdentifiableByHashValue {
 		
-		case legend
+		case legend, boardBus
 		
 	}
 	
@@ -41,8 +49,6 @@ final class ViewState: OnboardingFlags {
 	
 	static let shared = ViewState()
 	
-	var whatsNewHandle: OnboardingConditions.ManualCounter.Handle?
-	
 	@Published var sheetType: SheetType?
 	
 	@Published var alertType: AlertType?
@@ -51,7 +57,9 @@ final class ViewState: OnboardingFlags {
 	
 	@Published var statusText = StatusText.mapRefresh
 	
-	@Published var onboardingToastHeadlineText: LegendToast.HeadlineText?
+	@Published var legendToastHeadlineText: LegendToast.HeadlineText?
+	
+	let handles = Handles()
 	
 	private init() { }
 	

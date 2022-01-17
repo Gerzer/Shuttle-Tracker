@@ -65,7 +65,7 @@ struct LegendToast: View {
 	}
 	
 	var body: some View {
-		Toast(self.viewState.onboardingToastHeadlineText?.rawValue ?? "Legend") {
+		Toast(self.viewState.legendToastHeadlineText?.rawValue ?? "Legend") {
 			withAnimation {
 				self.viewState.toastType = nil
 			}

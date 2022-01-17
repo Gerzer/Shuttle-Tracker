@@ -28,8 +28,8 @@ struct WhatsNewSheet: View {
 			Spacer()
 			#if !os(macOS)
 			Button {
-				self.viewState.whatsNewHandle?.increment()
 				self.viewState.sheetType = nil
+				self.viewState.handles.whatsNew?.increment()
 			} label: {
 				Text("Continue")
 					.bold()
@@ -42,8 +42,8 @@ struct WhatsNewSheet: View {
 				#if os(macOS)
 				ToolbarItem(placement: .confirmationAction) {
 					Button("Close") {
-						self.viewState.whatsNewHandle?.increment()
 						self.viewState.sheetType = nil
+						self.viewState.handles.whatsNew?.increment()
 					}
 				}
 				#endif // os(macOS)
