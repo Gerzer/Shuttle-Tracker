@@ -25,7 +25,7 @@ import OnboardingKit
 			OnboardingConditions.ColdLaunch(threshold: 3)
 		}
 		OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .whatsNew) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.1", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.2", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
 		}
 	}
 	
