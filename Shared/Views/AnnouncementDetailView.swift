@@ -13,11 +13,18 @@ struct AnnouncementDetailView: View {
 	
 	var body: some View {
 		ScrollView {
+			#if os(macOS)
+			HStack {
+				Text(self.announcement.subject)
+					.font(.headline)
+				Spacer()
+			}
+				.padding(.top)
+			#endif // os(macOS)
 			HStack {
 				Text(self.announcement.body)
 				Spacer()
 			}
-			Spacer()
 			HStack {
 				switch self.announcement.scheduleType {
 				case .none:
