@@ -63,6 +63,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
+			markerAnnotationView.animatesWhenAdded = true
 			markerAnnotationView.canShowCallout = true
 			let colorBlindMode = UserDefaults.standard.bool(forKey: "colorBlindMode")
 			let colorBlindSymbolName: String
@@ -103,8 +104,16 @@ extension Array where Element == Bus {
 			decoder.dateDecodingStrategy = .iso8601
 			let buses = try? result.value?
 				.map([Bus].self, using: decoder)
-				.filter { (bus) -> Bool in
+				.filter { (bus) in
 					return bus.location.date.timeIntervalSinceNow > -300
+				}
+				.filter { (bus) in
+					switch MapState.shared.travelState {
+					case .onBus:
+						return bus.id != MapState.shared.busID
+					case .notOnBus:
+						return true
+					}
 				}
 			busesCallback(buses ?? [])
 		}
