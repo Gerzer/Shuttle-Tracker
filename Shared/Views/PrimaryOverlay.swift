@@ -9,7 +9,8 @@ import SwiftUI
 
 struct PrimaryOverlay: View {
 	
-	private let timer = Timer.publish(every: 5, on: .main, in: .common)
+	private let timer = Timer
+		.publish(every: 5, on: .main, in: .common)
 		.autoconnect()
 	
 	private var buttonText: String {
