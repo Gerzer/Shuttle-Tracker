@@ -5,12 +5,22 @@
 //  Created by Gabriel Jacoby-Cooper on 10/2/20.
 //
 
-import Foundation
+import SwiftUI
 import Moya
 
 typealias HTTPMethod = Moya.Method
 
 enum API: TargetType {
+	
+	private struct SettingsContainer {
+		
+		static let shared = SettingsContainer()
+		
+		@AppStorage("BaseURL") private(set) var baseURL = URL(string: "https://shuttletracker.app")!
+		
+		private init() { }
+		
+	}
 	
 	case readVersion
 	
@@ -38,7 +48,7 @@ enum API: TargetType {
 	
 	var baseURL: URL {
 		get {
-			return URL(string: "https://shuttletracker.app")!
+			return SettingsContainer.shared.baseURL
 		}
 	}
 	

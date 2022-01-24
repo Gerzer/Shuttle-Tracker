@@ -29,6 +29,8 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	
 	var body: some View {
 		HStack {
 			Spacer()
@@ -54,7 +56,7 @@ struct PrimaryOverlay: View {
 								distance = newDistance
 							}
 						}
-						if closestStopDistance < 20 {
+						if closestStopDistance < Double(self.maximumStopDistance) {
 							self.mapState.locationID = UUID()
 							self.viewState.sheetType = .busSelection
 							if self.viewState.toastType == .boardBus {

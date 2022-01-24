@@ -159,6 +159,47 @@ extension View {
 	
 }
 
+extension URL {
+	
+	struct FormatStyle: ParseableFormatStyle {
+		
+		struct Strategy: ParseStrategy {
+			
+			enum ParseError: Error {
+				
+				case parseFailed
+				
+			}
+			
+			func parse(_ value: String) throws -> URL {
+				guard let url = URL(string: value) else {
+					throw ParseError.parseFailed
+				}
+				return url
+			}
+			
+		}
+		
+		var parseStrategy = Strategy()
+		
+		func format(_ value: URL) -> String {
+			return value.absoluteString
+		}
+		
+	}
+	
+}
+
+@available(iOS 15, macOS 12, *) extension ParseableFormatStyle where Self == URL.FormatStyle {
+	
+	static var url: URL.FormatStyle {
+		get {
+			return URL.FormatStyle()
+		}
+	}
+	
+}
+
 #if os(macOS)
 extension NSImage {
 	

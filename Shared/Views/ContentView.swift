@@ -15,6 +15,8 @@ struct ContentView: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	
 	var body: some View {
 		ZStack {
 			self.mapView
@@ -117,7 +119,7 @@ struct ContentView: View {
 				case .noNearbyStop:
 					return Alert(
 						title: Text("No Nearby Stop"),
-						message: Text("You can‘t board a bus if you’re not within 20 meters of a stop."),
+						message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
 						dismissButton: .default(Text("Continue"))
 					)
 				case .updateAvailable:

@@ -11,7 +11,7 @@ struct LegendToast: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@AppStorage("colorBlindMode") private var colorBlindMode = false
+	@AppStorage("ColorBlindMode") private var colorBlindMode = false
 	
 	enum HeadlineText: String {
 		
