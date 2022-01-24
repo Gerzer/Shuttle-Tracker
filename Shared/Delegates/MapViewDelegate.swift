@@ -11,7 +11,22 @@ import MapKit
 class MapViewDelegate: NSObject, MKMapViewDelegate {
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-		if let customAnnotation = annotation as? CustomAnnotation {
+		if annotation is MKUserLocation {
+			#if os(iOS)
+			switch MapState.shared.travelState {
+			case .onBus:
+				let markerAnnotationView = MKMarkerAnnotationView()
+				markerAnnotationView.annotation = annotation
+				markerAnnotationView.displayPriority = .required
+				markerAnnotationView.markerTintColor = .systemBlue
+				markerAnnotationView.animatesWhenAdded = true
+				markerAnnotationView.glyphImage = UIImage(systemName: "person.crop.circle")
+				return markerAnnotationView
+			case .notOnBus:
+				return nil
+			}
+			#endif // os(iOS)
+		} else if let customAnnotation = annotation as? CustomAnnotation {
 			return customAnnotation.annotationView
 		}
 		return nil

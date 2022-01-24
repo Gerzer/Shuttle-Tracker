@@ -1,6 +1,6 @@
 //
 //  MapView.swift
-//  Rensselaer Shuttle
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
@@ -34,13 +34,14 @@ struct MapView: UIViewRepresentable {
 				self.mapState.routes = routes
 			}
 		}
+		self.mapState.mapView = self.mapView
 		return self.mapView
 	}
 	
 	func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<MapView>) {
 		self.mapView.delegate = context.coordinator
-		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) -> Bool in
-			return uiView.overlays.contains { (overlay) -> Bool in
+		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) in
+			return uiView.overlays.contains { (overlay) in
 				if let existingRoute = overlay as? Route, existingRoute == route {
 					return true
 				}
