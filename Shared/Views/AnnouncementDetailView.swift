@@ -40,6 +40,7 @@ struct AnnouncementDetailView: View {
 			}
 				.font(.footnote)
 				.foregroundColor(.secondary)
+				.padding(.bottom)
 		}
 			.padding(.horizontal)
 			.frame(minWidth: 300)
