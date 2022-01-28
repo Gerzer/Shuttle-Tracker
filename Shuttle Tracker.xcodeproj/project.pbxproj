@@ -29,15 +29,9 @@
 		C01F6D7926E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
 		C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
 		C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
-		C025ED342527C18600524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED332527C18600524144 /* Moya */; };
-		C025ED392527C19300524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED382527C19300524144 /* Moya */; };
-		C025ED3E2527C19B00524144 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C025ED3D2527C19B00524144 /* Moya */; };
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
-		C033EFCD271E026B00592436 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C033EFCC271E026B00592436 /* OnboardingKit */; };
-		C033EFCF271E02CB00592436 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C033EFCE271E02CB00592436 /* OnboardingKit */; };
-		C033EFD1271E02D100592436 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C033EFD0271E02D100592436 /* OnboardingKit */; };
 		C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */; };
 		C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
 		C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
@@ -94,6 +88,12 @@
 		C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
 		C0A232CA252508E000FAAD50 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */; };
+		C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02327A4ABDD007FF08A /* Moya */; };
+		C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02527A4ABEF007FF08A /* Moya */; };
+		C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02727A4ABF3007FF08A /* Moya */; };
+		C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02A27A4AC12007FF08A /* OnboardingKit */; };
+		C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02C27A4AC18007FF08A /* OnboardingKit */; };
+		C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02E27A4AC1D007FF08A /* OnboardingKit */; };
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
@@ -195,8 +195,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C033EFD1271E02D100592436 /* OnboardingKit in Frameworks */,
-				C025ED342527C18600524144 /* Moya in Frameworks */,
+				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
+				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,8 +204,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C033EFCD271E026B00592436 /* OnboardingKit in Frameworks */,
-				C025ED3E2527C19B00524144 /* Moya in Frameworks */,
+				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
+				C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,8 +213,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C033EFCF271E02CB00592436 /* OnboardingKit in Frameworks */,
-				C025ED392527C19300524144 /* Moya in Frameworks */,
+				C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */,
+				C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,8 +412,8 @@
 			);
 			name = "App Clip";
 			packageProductDependencies = (
-				C025ED332527C18600524144 /* Moya */,
-				C033EFD0271E02D100592436 /* OnboardingKit */,
+				C0ACA02527A4ABEF007FF08A /* Moya */,
+				C0ACA02E27A4AC1D007FF08A /* OnboardingKit */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -435,8 +435,8 @@
 			);
 			name = iOS;
 			packageProductDependencies = (
-				C025ED3D2527C19B00524144 /* Moya */,
-				C033EFCC271E026B00592436 /* OnboardingKit */,
+				C0ACA02327A4ABDD007FF08A /* Moya */,
+				C0ACA02C27A4AC18007FF08A /* OnboardingKit */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -456,8 +456,8 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				C025ED382527C19300524144 /* Moya */,
-				C033EFCE271E02CB00592436 /* OnboardingKit */,
+				C0ACA02727A4ABF3007FF08A /* Moya */,
+				C0ACA02A27A4AC12007FF08A /* OnboardingKit */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -493,8 +493,8 @@
 			);
 			mainGroup = C0FFD6CF250C33C800945F01;
 			packageReferences = (
-				C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */,
-				C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */,
+				C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */,
+				C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */,
 			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
@@ -969,53 +969,53 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */ = {
+		C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:Moya/Moya.git";
+			repositoryURL = "https://github.com/Moya/Moya";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 13.0.0;
 			};
 		};
-		C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */ = {
+		C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Gerzer/OnboardingKit";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 1.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C025ED332527C18600524144 /* Moya */ = {
+		C0ACA02327A4ABDD007FF08A /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
 		};
-		C025ED382527C19300524144 /* Moya */ = {
+		C0ACA02527A4ABEF007FF08A /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
 		};
-		C025ED3D2527C19B00524144 /* Moya */ = {
+		C0ACA02727A4ABF3007FF08A /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C025ED322527C18600524144 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
 		};
-		C033EFCC271E026B00592436 /* OnboardingKit */ = {
+		C0ACA02A27A4AC12007FF08A /* OnboardingKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
 		};
-		C033EFCE271E02CB00592436 /* OnboardingKit */ = {
+		C0ACA02C27A4AC18007FF08A /* OnboardingKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
 		};
-		C033EFD0271E02D100592436 /* OnboardingKit */ = {
+		C0ACA02E27A4AC1D007FF08A /* OnboardingKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C033EFCB271E026B00592436 /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
 		};
 /* End XCSwiftPackageProductDependency section */
