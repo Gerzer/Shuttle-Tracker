@@ -12,7 +12,7 @@
       },
       {
         "package": "Moya",
-        "repositoryURL": "git@github.com:Moya/Moya.git",
+        "repositoryURL": "https://github.com/Moya/Moya",
         "state": {
           "branch": null,
           "revision": "ae2ca8a51c0e28d67e59c46f55bb43dda89ca0d6",
