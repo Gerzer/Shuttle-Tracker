@@ -116,11 +116,12 @@ struct ContentView: View {
 			}
 			.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
 				switch alertType {
+                /// Displays message when user attempts to board bus when there is no nearby stop.
 				case .noNearbyStop:
 					return Alert(
 						title: Text("No Nearby Stop"),
 						message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
-						dismissButton: .default(Text("Continue"))
+						dismissButton: .default(Text("Dismiss"))
 					)
 				case .updateAvailable:
 					return Alert(
