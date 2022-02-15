@@ -37,7 +37,11 @@ struct InfoSheet: View {
 						CloseButton()
 					}
 				}
-		}
+        }
+        .padding(18.0)
+        
+        
+        
 	}
 	
 }

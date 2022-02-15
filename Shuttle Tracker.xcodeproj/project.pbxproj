@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6B3B2B442710E5BB001D6C8E /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */; };
+		A16F84A227AF181100AEFD80 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = A16F84A127AF181100AEFD80 /* OnboardingKit */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
@@ -28,10 +29,8 @@
 		C015281E2517F68F0069092C /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		C01F6D7926E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
 		C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
-		C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
-		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */; };
 		C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
 		C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
@@ -39,33 +38,18 @@
 		C039B06127961FE300416725 /* BusID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCF6277FB38A005D0209 /* BusID.swift */; };
 		C039B0632796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
 		C039B0642796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
-		C039B0652796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
-		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
 		C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */; };
 		C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */; };
 		C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */; };
 		C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCED277FB33C005D0209 /* BusSelectionSheet.swift */; };
 		C082CCF2277FB33C005D0209 /* BusOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEE277FB33C005D0209 /* BusOption.swift */; };
-		C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCED277FB33C005D0209 /* BusSelectionSheet.swift */; };
-		C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */; };
-		C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEE277FB33C005D0209 /* BusOption.swift */; };
-		C082CCF8277FB38A005D0209 /* BusID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCF6277FB38A005D0209 /* BusID.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
-		C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */; };
-		C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
-		C08FC1F025250A73008589C1 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
-		C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
-		C08FC20625250AE6008589C1 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527E12517CFA60069092C /* MapView.swift */; };
-		C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DDF25192AA50020574D /* VisualEffectView.swift */; };
-		C08FC21425250BEE008589C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
 		C08FC22225251196008589C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC22125251196008589C1 /* ContentView.swift */; };
 		C08FC22325251196008589C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC22125251196008589C1 /* ContentView.swift */; };
-		C08FC22A252511E6008589C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC22125251196008589C1 /* ContentView.swift */; };
-		C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */; };
 		C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
 		C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
 		C0A1E7262749EDFD00DBF248 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
@@ -73,66 +57,28 @@
 		C0A1E7292749F33C00DBF248 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		C0A1E72B2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */; };
 		C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */; };
-		C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */; };
 		C0A1E72E274A03B500DBF248 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
-		C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
 		C0A1E730274A03BC00DBF248 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7272749EE3D00DBF248 /* Announcement.swift */; };
-		C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7272749EE3D00DBF248 /* Announcement.swift */; };
 		C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */; };
 		C0A1E734274A16F100DBF248 /* WhatsNewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */; };
-		C0A232A32525080600FAAD50 /* App Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = C0A232942525080500FAAD50 /* App Clip.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C0A232B6252508C800FAAD50 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
-		C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
-		C0A232BE252508CD00FAAD50 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
-		C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
-		C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
-		C0A232CA252508E000FAAD50 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */; };
 		C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02327A4ABDD007FF08A /* Moya */; };
-		C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02527A4ABEF007FF08A /* Moya */; };
 		C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02727A4ABF3007FF08A /* Moya */; };
 		C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02A27A4AC12007FF08A /* OnboardingKit */; };
-		C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02C27A4AC18007FF08A /* OnboardingKit */; };
-		C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02E27A4AC1D007FF08A /* OnboardingKit */; };
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
-		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */; };
 		C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
 		C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
-		C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
 		C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */; };
 		C0FFD6EC250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
 		C0FFD6ED250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		C0A232A12525080600FAAD50 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C0A232932525080500FAAD50;
-			remoteInfo = "Rensselaer Shuttle";
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		C0A232A72525080600FAAD50 /* Embed App Clips */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
-			dstSubfolderSpec = 16;
-			files = (
-				C0A232A32525080600FAAD50 /* App Clip.app in Embed App Clips */,
-			);
-			name = "Embed App Clips";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
+		A16F84A027AF169400AEFD80 /* iOSDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOSDebug.entitlements; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -174,7 +120,6 @@
 		C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailView.swift; sourceTree = "<group>"; };
 		C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSheet.swift; sourceTree = "<group>"; };
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
-		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
@@ -191,20 +136,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C0A232912525080500FAAD50 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
-				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C0FFD6D9250C33C900945F01 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
+				A16F84A227AF181100AEFD80 /* OnboardingKit in Frameworks */,
 				C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,7 +304,6 @@
 			children = (
 				C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */,
 				C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */,
-				C0A232942525080500FAAD50 /* App Clip.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -376,6 +311,7 @@
 		C0FFD6DE250C33C900945F01 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				A16F84A027AF169400AEFD80 /* iOSDebug.entitlements */,
 				C03FD52626DD6E6A00A2532E /* Views */,
 				C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */,
 				C0FFD6DF250C33C900945F01 /* Info.plist */,
@@ -398,27 +334,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C0A232932525080500FAAD50 /* App Clip */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */;
-			buildPhases = (
-				C0A232902525080500FAAD50 /* Sources */,
-				C0A232912525080500FAAD50 /* Frameworks */,
-				C0A232922525080500FAAD50 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "App Clip";
-			packageProductDependencies = (
-				C0ACA02527A4ABEF007FF08A /* Moya */,
-				C0ACA02E27A4AC1D007FF08A /* OnboardingKit */,
-			);
-			productName = "Rensselaer Shuttle";
-			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
-			productType = "com.apple.product-type.application.on-demand-install-capable";
-		};
 		C0FFD6DB250C33C900945F01 /* iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C0FFD6F0250C33C900945F01 /* Build configuration list for PBXNativeTarget "iOS" */;
@@ -426,17 +341,15 @@
 				C0FFD6D8250C33C900945F01 /* Sources */,
 				C0FFD6D9250C33C900945F01 /* Frameworks */,
 				C0FFD6DA250C33C900945F01 /* Resources */,
-				C0A232A72525080600FAAD50 /* Embed App Clips */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C0A232A22525080600FAAD50 /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
 				C0ACA02327A4ABDD007FF08A /* Moya */,
-				C0ACA02C27A4AC18007FF08A /* OnboardingKit */,
+				A16F84A127AF181100AEFD80 /* OnboardingKit */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -472,9 +385,6 @@
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
-					C0A232932525080500FAAD50 = {
-						CreatedOnToolsVersion = 12.2;
-					};
 					C0FFD6DB250C33C900945F01 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -502,21 +412,11 @@
 			targets = (
 				C0FFD6E3250C33C900945F01 /* macOS */,
 				C0FFD6DB250C33C900945F01 /* iOS */,
-				C0A232932525080500FAAD50 /* App Clip */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C0A232922525080500FAAD50 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C08FC21425250BEE008589C1 /* Assets.xcassets in Resources */,
-				C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C0FFD6DA250C33C900945F01 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -536,39 +436,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C0A232902525080500FAAD50 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
-				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
-				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,
-				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
-				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
-				C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */,
-				C039B0652796201200416725 /* CloseButton.swift in Sources */,
-				C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */,
-				C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */,
-				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
-				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
-				C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */,
-				C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */,
-				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
-				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
-				C025ED452527C1D500524144 /* API.swift in Sources */,
-				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
-				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
-				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
-				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
-				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
-				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
-				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
-				C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */,
-				C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */,
-				C08FC1F025250A73008589C1 /* LocationManagerDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C0FFD6D8250C33C900945F01 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -646,67 +513,7 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		C0A232A22525080600FAAD50 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C0A232932525080500FAAD50 /* App Clip */;
-			targetProxy = C0A232A12525080600FAAD50 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		C0A232A52525080600FAAD50 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
-				CURRENT_PROJECT_VERSION = 23;
-				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.2;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG APPCLIP";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		C0A232A62525080600FAAD50 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
-				CURRENT_PROJECT_VERSION = 23;
-				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = SYBLH277NF;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.appclip;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		C0FFD6EE250C33C900945F01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */;
@@ -826,8 +633,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOS/iOSDebug.entitlements;
 				CURRENT_PROJECT_VERSION = 23;
+				DEVELOPMENT_TEAM = VB8739GQ3P;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -930,15 +738,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C0A232A52525080600FAAD50 /* Debug */,
-				C0A232A62525080600FAAD50 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		C0FFD6D3250C33C800945F01 /* Build configuration list for PBXProject "Shuttle Tracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -988,12 +787,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C0ACA02327A4ABDD007FF08A /* Moya */ = {
+		A16F84A127AF181100AEFD80 /* OnboardingKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = Moya;
+			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			productName = OnboardingKit;
 		};
-		C0ACA02527A4ABEF007FF08A /* Moya */ = {
+		C0ACA02327A4ABDD007FF08A /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
@@ -1004,16 +803,6 @@
 			productName = Moya;
 		};
 		C0ACA02A27A4AC12007FF08A /* OnboardingKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
-			productName = OnboardingKit;
-		};
-		C0ACA02C27A4AC18007FF08A /* OnboardingKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
-			productName = OnboardingKit;
-		};
-		C0ACA02E27A4AC1D007FF08A /* OnboardingKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
