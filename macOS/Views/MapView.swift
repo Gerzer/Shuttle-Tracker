@@ -12,13 +12,12 @@ struct MapView: NSViewRepresentable {
 	
 	@EnvironmentObject private var mapState: MapState
 	
-	private let mapView = MKMapView(frame: .zero)
-	
 	func makeNSView(context: Context) -> MKMapView {
-		self.mapView.delegate = context.coordinator
-		self.mapView.showsUserLocation = true
-		self.mapView.showsCompass = true
-		self.mapView.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+		let mapView = MKMapView(frame: .zero)
+		mapView.delegate = context.coordinator
+		mapView.showsUserLocation = true
+		mapView.showsCompass = true
+		mapView.setVisibleMapRect(MapUtilities.mapRect, animated: true)
 		[Bus].download { (buses) in
 			DispatchQueue.main.async {
 				self.mapState.buses = buses
@@ -34,26 +33,41 @@ struct MapView: NSViewRepresentable {
 				self.mapState.routes = routes
 			}
 		}
-		self.mapState.mapView = self.mapView
-		return self.mapView
+		self.mapState.mapView = mapView
+		return mapView
 	}
 	
-	func updateNSView(_ nsView: MKMapView, context: Context) {
-		self.mapView.delegate = context.coordinator
-		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) in
-			return nsView.overlays.contains { (overlay) in
-				if let existingRoute = overlay as? Route, existingRoute == route {
-					return true
-				}
-				return false
+	func updateNSView(_ mapView: MKMapView, context: Context) {
+		// Remove and re-add all stops if not all of them are already on the map
+		let stopsOnMap = mapView.annotations.compactMap { (annotation) in
+			return annotation as? Stop
+		}
+		let areAllStopsOnMap = self.mapState.stops.allSatisfy { (stop) in
+			return stopsOnMap.contains { (stopOnMap) in
+				return stopOnMap == stop
 			}
 		}
-		nsView.removeAnnotations(nsView.annotations)
-		nsView.addAnnotations(Array(self.mapState.buses))
-		nsView.addAnnotations(Array(self.mapState.stops))
-		if !allRoutesOnMap {
-			nsView.removeOverlays(nsView.overlays)
-			nsView.addOverlays(self.mapState.routes)
+		if !areAllStopsOnMap {
+			DispatchQueue.main.async {
+				mapView.removeAnnotations(stopsOnMap)
+				mapView.addAnnotations(self.mapState.stops)
+			}
+		}
+		
+		// Remove and re-add all routes if not all of them are already on the map
+		let routesOnMap = mapView.overlays.compactMap { (overlay) in
+			return overlay as? Route
+		}
+		let areAllRoutesOnMap = self.mapState.routes.allSatisfy { (route) in
+			return routesOnMap.contains { (routeOnMap) in
+				return routeOnMap == route
+			}
+		}
+		if !areAllRoutesOnMap {
+			DispatchQueue.main.async {
+				mapView.removeOverlays(routesOnMap)
+				mapView.addOverlays(self.mapState.routes)
+			}
 		}
 	}
 	
