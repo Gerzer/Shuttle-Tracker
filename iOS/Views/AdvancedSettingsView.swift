@@ -14,6 +14,7 @@ struct AdvancedSettingsView: View {
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
 	
 	var body: some View {
+        
 		Form {
 			Section {
 				HStack {
@@ -51,11 +52,24 @@ struct AdvancedSettingsView: View {
 					}
 				}
 			}
-		}
-			.navigationTitle("Advanced")
-	}
+            
+        }
+        .navigationTitle("Advanced")
+                .toolbar {
+                    ToolbarItem(placement: .automatic) {
+                        CloseButton()
+                            .labelsHidden()
+                    }
+        
+        }
+               
+
+        
+        
+       
+        }
+        	}
 	
-}
 
 struct AdvancedSettingsViewPreviews: PreviewProvider {
 	
