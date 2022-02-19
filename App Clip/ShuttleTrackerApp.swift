@@ -11,11 +11,15 @@ import CoreLocation
 
 @main struct ShuttleTrackerApp: App {
 	
+	@ObservedObject private var mapState = MapState.shared
+	
+	@ObservedObject private var viewState = ViewState.shared
+	
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
-				.environmentObject(MapState.shared)
-				.environmentObject(ViewState.shared)
+				.environmentObject(self.mapState)
+				.environmentObject(self.viewState)
 				.onAppear {
 					let overlay = SKOverlay(
 						configuration: SKOverlay.AppClipConfiguration(position: .bottom)

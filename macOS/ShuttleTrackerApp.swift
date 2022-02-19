@@ -11,6 +11,10 @@ import OnboardingKit
 
 @main struct ShuttleTrackerApp: App {
 	
+	@ObservedObject private var mapState = MapState.shared
+	
+	@ObservedObject private var viewState = ViewState.shared
+	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 			OnboardingConditions.Disjunction {
@@ -32,8 +36,8 @@ import OnboardingKit
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
-				.environmentObject(MapState.shared)
-				.environmentObject(ViewState.shared)
+				.environmentObject(self.mapState)
+				.environmentObject(self.viewState)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
