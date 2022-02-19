@@ -34,7 +34,7 @@ struct PrivacySheet: View {
 				Text("Continue")
 					.bold()
 			}
-				.buttonStyle(BlockButtonStyle())
+				.buttonStyle(.block)
 		}
 			.padding()
 	}

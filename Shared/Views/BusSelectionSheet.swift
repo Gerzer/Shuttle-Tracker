@@ -97,7 +97,7 @@ struct BusSelectionSheet: View {
 							Text("Continue")
 								.bold()
 						}
-							.buttonStyle(BlockButtonStyle())
+							.buttonStyle(.block)
 							.disabled(self.selectedBusID == nil)
 							.padding(.vertical)
 					}

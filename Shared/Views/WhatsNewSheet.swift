@@ -17,20 +17,45 @@ struct WhatsNewSheet: View {
 				VStack(alignment: .leading) {
 					HStack {
 						Spacer()
-						Text("What’s New")
-							.font(.largeTitle)
-							.bold()
-							.multilineTextAlignment(.center)
+						VStack {
+							Text("What’s New")
+								.font(.largeTitle)
+								.bold()
+								.multilineTextAlignment(.center)
+							if #available(iOS 15, *) {
+								Text("Version 1.2")
+									.font(
+										.system(
+											.callout,
+											design: .monospaced
+										)
+									)
+									.bold()
+									.padding(5)
+									.background(
+										.tertiary,
+										in: RoundedRectangle(
+											cornerRadius: 10,
+											style: .continuous
+										)
+									)
+							}
+						}
 						Spacer()
 					}
+						.padding(.top)
 					Text("Announcements")
 						.font(.headline)
 						.padding(.top)
-					Text("Shuttle Tracker can now deliver announcements! We’ll use this feature to provide important, timely information, such as schedule changes. On iOS 15 or iPadOS 15, tap the new announcements icon in the overlay at the top-left corner of the screen; on macOS 12 Monterey, click the new announcements icon in the toolbar.")
+					Text("Shuttle Tracker can now deliver announcements! We’ll use this feature to provide important, timely information, such as schedule changes. On iOS 15 or iPadOS 15, tap the new Announcements icon in the overlay at the top-left corner of the screen; on macOS 12 Monterey, click the new Announcements icon in the toolbar.")
 					Text("Onboarding")
 						.font(.headline)
 						.padding(.top)
 					Text("Tapping “Board Bus” is the best way to help make Shuttle Tracker more accurate for everyone, so on iOS and iPadOS we’ll now remind you to start crowd-sourcing if you haven’t done so before.")
+					Text("Advanced Settings")
+						.font(.headline)
+						.padding(.top)
+					Text("On iOS and iPadOS, you can now configure some advanced settings, such as the maximum distance away from a stop at which you can board a bus.")
 					Text("Design")
 						.font(.headline)
 						.padding(.top)
@@ -46,7 +71,7 @@ struct WhatsNewSheet: View {
 				Text("Continue")
 					.bold()
 			}
-				.buttonStyle(BlockButtonStyle())
+				.buttonStyle(.block)
 			#endif // !os(macOS)
 		}
 			.padding()
