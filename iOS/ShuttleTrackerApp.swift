@@ -50,14 +50,6 @@ import OnboardingKit
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
 		}
-			.commands {
-				CommandGroup(before: .sidebar) {
-					Button("Refresh") {
-						NotificationCenter.default.post(name: .refreshBuses, object: nil)
-					}
-						.keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
-				}
-			}
 	}
 	
 	init() {
