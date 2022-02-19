@@ -22,7 +22,7 @@ struct WhatsNewSheet: View {
 								.font(.largeTitle)
 								.bold()
 								.multilineTextAlignment(.center)
-							if #available(iOS 15, *) {
+							if #available(iOS 15, macOS 12, *) {
 								Text("Version 1.2")
 									.font(
 										.system(

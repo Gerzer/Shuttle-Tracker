@@ -20,7 +20,7 @@ struct BlockButtonStyle: ButtonStyle {
 		@Environment(\.isEnabled) var isEnabled
 		
 		var body: some View {
-			if #available(iOS 15, *) {
+			if #available(iOS 15, macOS 12, *) {
 				self.configuration.label
 					.padding(12)
 					.frame(maxWidth: .infinity)
