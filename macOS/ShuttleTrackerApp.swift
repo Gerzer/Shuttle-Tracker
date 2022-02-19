@@ -41,12 +41,18 @@ import OnboardingKit
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
+					Button("\(self.viewState.sheetType == .announcements ? "Hide" : "Show") Announcements") {
+						self.viewState.sheetType = self.viewState.sheetType == .announcements ? nil : .announcements
+					}
+						.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
+					Divider()
 					Button("Refresh") {
 						NotificationCenter.default.post(name: .refreshBuses, object: nil)
 					}
-						.keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
+						.keyboardShortcut(KeyEquivalent("r"), modifiers: [.command])
 					Divider()
 				}
+				CommandGroup(replacing: .newItem) { }
 			}
 		Settings {
 			SettingsView()
