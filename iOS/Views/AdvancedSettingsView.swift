@@ -53,6 +53,11 @@ struct AdvancedSettingsView: View {
 			}
 		}
 			.navigationTitle("Advanced")
+			.toolbar {
+				ToolbarItem {
+					CloseButton()
+				}
+			}
 	}
 	
 }
