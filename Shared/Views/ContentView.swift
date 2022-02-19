@@ -115,8 +115,8 @@ struct ContentView: View {
 				}
 			}
 			.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
+				// Displays a message when the user attempts to board bus when there’s no nearby stop
 				switch alertType {
-                /// Displays message when user attempts to board bus when there is no nearby stop.
 				case .noNearbyStop:
 					return Alert(
 						title: Text("No Nearby Stop"),
