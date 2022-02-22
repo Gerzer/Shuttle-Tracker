@@ -12,37 +12,7 @@ class MapState: ObservableObject {
 	
 	static let shared = MapState()
 	
-	@Published var buses = [Bus]() {
-		willSet {
-			let busesPairs = self.buses.map { (bus) in
-				return (bus.id, bus)
-			}
-			let busesDictionary = Dictionary(uniqueKeysWithValues: busesPairs)
-			for newBus in newValue {
-				guard let oldBus = busesDictionary[newBus.id] else {
-					DispatchQueue.main.async {
-						self.mapView?.addAnnotation(newBus)
-					}
-					continue
-				}
-				if newBus.coordinate != oldBus.coordinate {
-					let busesToRemove = self.mapView?.annotations.filter { (annotation) in
-						guard let bus = annotation as? Bus else {
-							return false
-						}
-						return bus.id == newBus.id
-					}
-					guard let busesToRemove = busesToRemove else {
-						continue
-					}
-					DispatchQueue.main.async {
-						self.mapView?.removeAnnotations(busesToRemove)
-						self.mapView?.addAnnotation(newBus)
-					}
-				}
-			}
-		}
-	}
+	@Published var buses = [Bus]()
 	
 	@Published var stops = [Stop]()
 	

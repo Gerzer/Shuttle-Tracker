@@ -189,7 +189,7 @@ struct ContentView: View {
 				}
 			}
 			.onReceive(self.timer) { (_) in
-//				self.refreshBuses()
+				self.refreshBuses()
 			}
 	}
 	
