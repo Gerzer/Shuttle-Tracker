@@ -53,6 +53,7 @@
 		C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */; };
 		C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEE277FB33C005D0209 /* BusOption.swift */; };
 		C082CCF8277FB38A005D0209 /* BusID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCF6277FB38A005D0209 /* BusID.swift */; };
+		C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C085A2DD27C5B36000AA01F3 /* AppDelegate.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */; };
@@ -160,6 +161,7 @@
 		C082CCED277FB33C005D0209 /* BusSelectionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSelectionSheet.swift; sourceTree = "<group>"; };
 		C082CCEE277FB33C005D0209 /* BusOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusOption.swift; sourceTree = "<group>"; };
 		C082CCF6277FB38A005D0209 /* BusID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusID.swift; sourceTree = "<group>"; };
+		C085A2DD27C5B36000AA01F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C08FC1D8252509E6008589C1 /* App Clip.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "App Clip.entitlements"; sourceTree = "<group>"; };
@@ -252,6 +254,14 @@
 				C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C085A2DC27C5B35100AA01F3 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				C085A2DD27C5B36000AA01F3 /* AppDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		C086017025D83D8700C4F583 /* Views */ = {
@@ -387,6 +397,7 @@
 		C0FFD6E5250C33C900945F01 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				C085A2DC27C5B35100AA01F3 /* Delegates */,
 				C0DA69BF25D83F2C0010C037 /* Views */,
 				C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */,
 				C0FFD6E6250C33C900945F01 /* Info.plist */,
@@ -636,6 +647,7 @@
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
+				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
 				C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */,
 				C0A1E7262749EDFD00DBF248 /* AnnouncementsSheet.swift in Sources */,

@@ -15,6 +15,8 @@ import OnboardingKit
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
+	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 			OnboardingConditions.Disjunction {
