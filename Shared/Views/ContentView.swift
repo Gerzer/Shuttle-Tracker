@@ -15,6 +15,10 @@ struct ContentView: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@ObservedObject private var sheetStack = SheetStack.shared
+	
+	private let sheetStackHandle = SheetStack.shared.register()
+	
 	var body: some View {
 		ZStack {
 			self.mapView
@@ -63,7 +67,7 @@ struct ContentView: View {
 			}
 			#endif // os(macOS)
 		}
-			.sheet(item: SheetStack.sheetType) {
+		.sheet(item: self.sheetStack[self.sheetStackHandle]) {
 				[Route].download { (routes) in
 					DispatchQueue.main.async {
 						self.mapState.routes = routes

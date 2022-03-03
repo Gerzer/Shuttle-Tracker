@@ -16,6 +16,7 @@ import CoreLocation
 			ContentView()
 				.environmentObject(MapState.sharedInstance)
 				.environmentObject(ViewState.sharedInstance)
+				.environmentObject(SheetStack.shared)
 				.onAppear {
 					let overlay = SKOverlay(
 						configuration: SKOverlay.AppClipConfiguration(position: .bottom)

@@ -38,6 +38,7 @@ import OnboardingKit
 			self.contentView
 				.environmentObject(MapState.sharedInstance)
 				.environmentObject(ViewState.sharedInstance)
+				.environmentObject(SheetStack.shared)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {

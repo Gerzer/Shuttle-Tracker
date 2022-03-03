@@ -19,6 +19,8 @@ struct BusSelectionSheet: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		NavigationView {
 			VStack {
@@ -88,7 +90,7 @@ struct BusSelectionSheet: View {
 							self.mapState.busID = self.selectedBusID?.rawValue
 							self.mapState.travelState = .onBus
 							self.viewState.statusText = .locationData
-							SheetStack.pop()
+							self.sheetStack.pop()
 							LocationUtilities.locationManager.startUpdatingLocation()
 						} label: {
 							Text("Continue")

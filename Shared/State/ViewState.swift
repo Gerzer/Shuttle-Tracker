@@ -37,10 +37,10 @@ final class ViewState: OnboardingFlags {
 	
 	var sheetType: SheetStack.SheetType? {
 		get {
-			return SheetStack.top
+			return SheetStack.shared.top
 		}
 		set {
-			SheetStack.top = newValue
+			SheetStack.shared.top = newValue
 		}
 	}
 	

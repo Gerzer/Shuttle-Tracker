@@ -27,6 +27,8 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		HStack {
 			Spacer()
@@ -54,7 +56,7 @@ struct PrimaryOverlay: View {
 						}
 						if closestStopDistance < 20 {
 							self.mapState.locationID = UUID()
-							SheetStack.push(.busSelection)
+							self.sheetStack.push(.busSelection)
 						} else {
 							self.viewState.alertType = .noNearbyStop
 						}

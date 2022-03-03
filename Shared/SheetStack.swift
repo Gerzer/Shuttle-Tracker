@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum SheetStack {
+class SheetStack: ObservableObject {
 	
 	enum SheetType: IdentifiableByHashValue {
 		
@@ -15,9 +15,23 @@ enum SheetStack {
 		
 	}
 	
-	private static var stack = [SheetType]()
+	struct Handle: Hashable {
+		
+		fileprivate let id: UUID
+		
+		fileprivate init() {
+			self.id = UUID()
+		}
+		
+	}
 	
-	static var top: SheetType? {
+	static let shared = SheetStack()
+	
+	private var stack: [SheetType] = []
+	
+	private var bindings: [Handle: Binding<SheetType?>] = [:]
+	
+	var top: SheetType? {
 		get {
 			return self.stack.last
 		}
@@ -30,36 +44,49 @@ enum SheetStack {
 		}
 	}
 	
-	static var sheetType: Binding<SheetType?> {
+	private init() { }
+	
+	subscript(_ handle: Handle) -> Binding<SheetType?> {
 		get {
-			let observedIndex = self.stack.count
-			return Binding<SheetType?> {
-				guard self.stack.count > observedIndex else {
-					return nil
-				}
-				return self.stack[observedIndex]
-			} set: { (newValue) in
-				if self.stack.count == observedIndex {
-					if let newValue = newValue {
-						self.push(newValue)
-					}
-				} else if self.stack.count > observedIndex {
-					if let newValue = newValue {
-						self.stack[observedIndex] = newValue
-					} else if self.stack.count - observedIndex == 1 {
-						self.pop()
-					}
-				}
-			}
+			return self.bindings[handle]!
 		}
 	}
 	
-	static func push(_ sheetType: SheetType) {
+	func push(_ sheetType: SheetType) {
 		self.stack.append(sheetType)
+		self.objectWillChange.send()
 	}
 	
-	static func pop() {
-		self.stack.removeLast()
+	func pop() {
+		if !self.stack.isEmpty {
+			self.stack.removeLast()
+			self.objectWillChange.send()
+		}
+	}
+	
+	func register() -> Handle {
+		let observedIndex = self.stack.count
+		let binding = Binding<SheetType?> {
+			guard self.stack.count > observedIndex else {
+				return nil
+			}
+			return self.stack[observedIndex]
+		} set: { (newValue) in
+			if self.stack.count == observedIndex {
+				if let newValue = newValue {
+					self.push(newValue)
+				}
+			} else if self.stack.count > observedIndex {
+				if let newValue = newValue {
+					self.stack[observedIndex] = newValue
+				} else if self.stack.count - observedIndex == 1 {
+					self.pop()
+				}
+			}
+		}
+		let handle = Handle()
+		self.bindings[handle] = binding
+		return handle
 	}
 	
 }

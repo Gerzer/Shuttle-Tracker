@@ -15,10 +15,12 @@ struct SecondaryOverlayButton: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		if #available(iOS 15.0, *) {
 			Button {
-				SheetStack.push(self.sheetType)
+				self.sheetStack.push(self.sheetType)
 			} label: {
 				Group {
 					Image(systemName: self.iconSystemName)
@@ -32,7 +34,7 @@ struct SecondaryOverlayButton: View {
 				.tint(.primary)
 		} else {
 			Button {
-				SheetStack.push(self.sheetType)
+				self.sheetStack.push(self.sheetType)
 			} label: {
 				Group {
 					Image(systemName: self.iconSystemName)
