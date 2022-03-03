@@ -96,3 +96,4 @@ Server/Serve.command
 /Server/
 /Config.xcconfig
 /Config/Personal.xcconfig
+Package.resolved
