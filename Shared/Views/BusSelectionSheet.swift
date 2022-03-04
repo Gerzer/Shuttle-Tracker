@@ -93,6 +93,17 @@ struct BusSelectionSheet: View {
 							self.viewState.sheetType = nil
 							self.viewState.handles.tripCount?.increment()
 							LocationUtilities.locationManager.startUpdatingLocation()
+                            
+                            //start time trigger
+                            let content = UNMutableNotificationContent()
+                            content.title = "Did you leave the bus?"
+                            content.subtitle = "Remember to tap “Leave Bus” next time"
+                            content.sound = UNNotificationSound.default
+                            
+                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60*18, repeats: false)
+                            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                            UNUserNotificationCenter.current().add(request)
+                            
 						} label: {
 							Text("Continue")
 								.bold()

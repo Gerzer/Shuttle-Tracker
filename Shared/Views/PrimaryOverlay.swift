@@ -46,12 +46,18 @@ struct PrimaryOverlay: View {
 								self.viewState.statusText = .thanks
 								DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
 									self.viewState.statusText = .mapRefresh
+         
 								}
 								LocationUtilities.locationManager.stopUpdatingLocation()
+                            
 							case .notOnBus:
 								guard let location = LocationUtilities.locationManager.location else {
 									break
 								}
+                            
+                            //remove the "you forgot to tap leave bus  notif" 
+                            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+
 								let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
 									let newDistance = stop.location.distance(from: location)
 									if newDistance < distance {
