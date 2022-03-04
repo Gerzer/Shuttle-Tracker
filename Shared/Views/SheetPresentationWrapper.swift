@@ -20,7 +20,6 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 	var body: some View {
 		self.content
 			.onReceive(self.sheetStack.publisher) { (sheets) in
-				print(type(of: self.content), self.handle.observedIndex)
 				if sheets.count > self.handle.observedIndex {
 					self.sheetType = sheets[self.handle.observedIndex]
 				} else {
