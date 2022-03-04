@@ -11,7 +11,7 @@ struct LegendToast: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@AppStorage("colorBlindMode") private var colorBlindMode = false
+	@AppStorage("ColorBlindMode") private var colorBlindMode = false
 	
 	enum HeadlineText: String {
 		
@@ -65,7 +65,7 @@ struct LegendToast: View {
 	}
 	
 	var body: some View {
-		Toast(self.viewState.onboardingToastHeadlineText?.rawValue ?? "Legend") {
+		Toast(self.viewState.legendToastHeadlineText?.rawValue ?? "Legend") {
 			withAnimation {
 				self.viewState.toastType = nil
 			}
@@ -116,7 +116,7 @@ struct OnboardingToastPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		LegendToast()
-			.environmentObject(ViewState.sharedInstance)
+			.environmentObject(ViewState.shared)
 	}
 	
 }

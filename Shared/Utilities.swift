@@ -52,7 +52,7 @@ enum LocationUtilities {
 	}
 	
 	static func sendToServer(coordinate: CLLocationCoordinate2D) {
-		guard let busID = MapState.sharedInstance.busID, let locationID = MapState.sharedInstance.locationID else {
+		guard let busID = MapState.shared.busID, let locationID = MapState.shared.locationID else {
 			LoggingUtilities.logger.log(level: .fault, "Required bus and location identifiers not found")
 			return
 		}
@@ -72,13 +72,13 @@ enum MapUtilities {
 		
 	}
 	
-	static var mapRect: MKMapRect {
-		get {
-			let origin = MKMapPoint(Constants.originCoordinate)
-			let size = MKMapSize(width: 10000, height: 10000)
-			return MKMapRect(origin: origin, size: size)
-		}
-	}
+	static let mapRect = MKMapRect(
+		origin: MKMapPoint(Constants.originCoordinate),
+		size: MKMapSize(
+			width: 10000,
+			height: 10000
+		)
+	)
 	
 }
 
@@ -97,6 +97,7 @@ enum DefaultsKeys {
 enum TravelState {
 	
 	case onBus
+	
 	case notOnBus
 	
 }
@@ -115,8 +116,12 @@ extension IdentifiableByHashValue {
 
 extension CLLocationCoordinate2D: Equatable {
 	
-	public static func == (_ leftCoordinate: CLLocationCoordinate2D, _ rightCoordinate: CLLocationCoordinate2D) -> Bool {
-		return leftCoordinate.latitude == rightCoordinate.latitude && leftCoordinate.longitude == rightCoordinate.longitude
+	public static func == (_ left: CLLocationCoordinate2D, _ right: CLLocationCoordinate2D) -> Bool {
+		return left.latitude == right.latitude && left.longitude == right.longitude
+	}
+	
+	func convertedToCoordinate() -> Coordinate {
+		return Coordinate(latitude: self.latitude, longitude: self.longitude)
 	}
 	
 }
@@ -127,8 +132,8 @@ extension MKMapPoint: Equatable {
 		self.init(coordinate.convertedForCoreLocation())
 	}
 	
-	public static func == (_ leftMapPoint: MKMapPoint, _ rightMapPoint: MKMapPoint) -> Bool {
-		return leftMapPoint.coordinate == rightMapPoint.coordinate
+	public static func == (_ left: MKMapPoint, _ right: MKMapPoint) -> Bool {
+		return left.coordinate == right.coordinate
 	}
 	
 }
@@ -139,30 +144,58 @@ extension Notification.Name {
 	
 }
 
-extension Set {
-	
-	static func generateUnion(of sets: [Set]) -> Set {
-		var newSet = Set()
-		sets.forEach { (set) in
-			newSet.formUnion(set)
-		}
-		return newSet
-	}
-	
-}
-
 extension View {
 	
 	func innerShadow<S: Shape>(using shape: S, color: Color = .black, width: CGFloat = 5) -> some View {
 		let offsetFactor = CGFloat(cos(0 - Float.pi / 2)) * 0.6 * width
-		return self
-			.overlay(
-				shape
-					.stroke(color, lineWidth: width)
-					.offset(x: offsetFactor, y: offsetFactor)
-					.blur(radius: width)
-					.mask(shape)
-			)
+		return self.overlay(
+			shape
+				.stroke(color, lineWidth: width)
+				.offset(x: offsetFactor, y: offsetFactor)
+				.blur(radius: width)
+				.mask(shape)
+		)
+	}
+	
+}
+
+extension URL {
+	
+	struct FormatStyle: ParseableFormatStyle {
+		
+		struct Strategy: ParseStrategy {
+			
+			enum ParseError: Error {
+				
+				case parseFailed
+				
+			}
+			
+			func parse(_ value: String) throws -> URL {
+				guard let url = URL(string: value) else {
+					throw ParseError.parseFailed
+				}
+				return url
+			}
+			
+		}
+		
+		var parseStrategy = Strategy()
+		
+		func format(_ value: URL) -> String {
+			return value.absoluteString
+		}
+		
+	}
+	
+}
+
+@available(iOS 15, macOS 12, *) extension ParseableFormatStyle where Self == URL.FormatStyle {
+	
+	static var url: URL.FormatStyle {
+		get {
+			return URL.FormatStyle()
+		}
 	}
 	
 }

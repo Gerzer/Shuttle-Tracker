@@ -11,7 +11,7 @@ struct SettingsView: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@AppStorage("colorBlindMode") private var colorBlindMode = false
+	@AppStorage("ColorBlindMode") private var colorBlindMode = false
 	
 	var body: some View {
 		Form {
@@ -21,6 +21,11 @@ struct SettingsView: View {
 			} footer: {
 				Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
 			}
+			Section {
+				NavigationLink("Advanced") {
+					AdvancedSettingsView()
+				}
+			}
 			#elseif os(macOS) // os(iOS)
 			Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
 			#endif // os(macOS)
@@ -28,7 +33,7 @@ struct SettingsView: View {
 			.onChange(of: self.colorBlindMode) { (_) in
 				withAnimation {
 					self.viewState.toastType = .legend
-					self.viewState.onboardingToastHeadlineText = nil
+					self.viewState.legendToastHeadlineText = nil
 				}
 			}
 	}

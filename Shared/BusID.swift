@@ -23,12 +23,12 @@ final class BusID: Equatable, Comparable, Identifiable, RawRepresentable {
 		self.id = rawValue
 	}
 	
-	static func == (_ leftBusID: BusID, _ rightBusID: BusID) -> Bool {
-		return leftBusID.id == rightBusID.id
+	static func == (_ left: BusID, _ right: BusID) -> Bool {
+		return left.id == right.id
 	}
 	
-	static func < (_ leftBusID: BusID, _ rightBusID: BusID) -> Bool {
-		return leftBusID.id < rightBusID.id
+	static func < (_ left: BusID, _ right: BusID) -> Bool {
+		return left.id < right.id
 	}
 	
 }

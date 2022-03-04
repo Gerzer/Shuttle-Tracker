@@ -14,7 +14,7 @@ struct CloseButton: View {
 	private let dismissHandler: (() -> Void)?
 	
 	var body: some View {
-		if #available(iOS 15.0, *) {
+		if #available(iOS 15, macOS 12, *) {
 			Button {
 				self.sheetStack.pop()
 			} label: {

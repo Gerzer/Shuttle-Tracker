@@ -10,9 +10,9 @@ import MapKit
 
 struct MapView: NSViewRepresentable {
 	
-	private let mapView = MKMapView(frame: .zero)
-	
 	@EnvironmentObject private var mapState: MapState
+	
+	private let mapView = MKMapView(frame: .zero)
 	
 	func makeNSView(context: Context) -> MKMapView {
 		self.mapView.delegate = context.coordinator
@@ -34,13 +34,14 @@ struct MapView: NSViewRepresentable {
 				self.mapState.routes = routes
 			}
 		}
+		self.mapState.mapView = self.mapView
 		return self.mapView
 	}
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
 		self.mapView.delegate = context.coordinator
-		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) -> Bool in
-			return nsView.overlays.contains { (overlay) -> Bool in
+		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) in
+			return nsView.overlays.contains { (overlay) in
 				if let existingRoute = overlay as? Route, existingRoute == route {
 					return true
 				}

@@ -5,22 +5,23 @@
 //  Created by Gabriel Jacoby-Cooper on 11/14/21.
 //
 
+import Combine
 import SwiftUI
 
-class SheetStack: ObservableObject {
+final class SheetStack: ObservableObject {
 	
 	enum SheetType: IdentifiableByHashValue {
 		
-		case welcome, settings, info, busSelection, privacy
+		case welcome, settings, info, busSelection, privacy, announcements, whatsNew
 		
 	}
 	
-	struct Handle: Hashable {
+	struct Handle {
 		
-		fileprivate let id: UUID
+		let observedIndex: Int
 		
-		fileprivate init() {
-			self.id = UUID()
+		fileprivate init(observedIndex: Int) {
+			self.observedIndex = observedIndex
 		}
 		
 	}
@@ -29,7 +30,7 @@ class SheetStack: ObservableObject {
 	
 	private var stack: [SheetType] = []
 	
-	private var bindings: [Handle: Binding<SheetType?>] = [:]
+	let publisher = PassthroughSubject<[SheetType?], Never>()
 	
 	var top: SheetType? {
 		get {
@@ -44,48 +45,31 @@ class SheetStack: ObservableObject {
 		}
 	}
 	
-	private init() { }
-	
-	subscript(_ handle: Handle) -> Binding<SheetType?> {
+	var count: Int {
 		get {
-			return self.bindings[handle]!
+			return self.stack.count
 		}
 	}
 	
+	private init() { }
+	
 	func push(_ sheetType: SheetType) {
 		self.stack.append(sheetType)
+		self.publisher.send(self.stack)
 		self.objectWillChange.send()
 	}
 	
 	func pop() {
 		if !self.stack.isEmpty {
 			self.stack.removeLast()
+			self.publisher.send(self.stack)
 			self.objectWillChange.send()
 		}
 	}
 	
 	func register() -> Handle {
 		let observedIndex = self.stack.count
-		let binding = Binding<SheetType?> {
-			guard self.stack.count > observedIndex else {
-				return nil
-			}
-			return self.stack[observedIndex]
-		} set: { (newValue) in
-			if self.stack.count == observedIndex {
-				if let newValue = newValue {
-					self.push(newValue)
-				}
-			} else if self.stack.count > observedIndex {
-				if let newValue = newValue {
-					self.stack[observedIndex] = newValue
-				} else if self.stack.count - observedIndex == 1 {
-					self.pop()
-				}
-			}
-		}
-		let handle = Handle()
-		self.bindings[handle] = binding
+		let handle = Handle(observedIndex: observedIndex)
 		return handle
 	}
 	

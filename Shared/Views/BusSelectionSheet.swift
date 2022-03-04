@@ -47,7 +47,7 @@ struct BusSelectionSheet: View {
 										)
 										.foregroundColor(.secondary)
 									VStack {
-										if #available(iOS 15.0, *) {
+										if #available(iOS 15, *) {
 											Divider()
 												.background(.secondary)
 										} else {
@@ -57,7 +57,7 @@ struct BusSelectionSheet: View {
 									}
 								}
 								BusOption(suggestedBusID, selectedBusID: self.$selectedBusID)
-								if #available(iOS 15.0, *) {
+								if #available(iOS 15, *) {
 									Divider()
 										.background(.secondary)
 										.padding(.vertical, 10)
@@ -77,7 +77,9 @@ struct BusSelectionSheet: View {
 							.padding(.horizontal)
 					}
 				} else {
-					ProgressView("Loading...")
+					ProgressView("Loading…")
+						.font(.callout)
+						.textCase(.uppercase)
 				}
 			}
 				.navigationTitle("Bus Selection")
@@ -90,13 +92,14 @@ struct BusSelectionSheet: View {
 							self.mapState.busID = self.selectedBusID?.rawValue
 							self.mapState.travelState = .onBus
 							self.viewState.statusText = .locationData
+							self.viewState.handles.tripCount?.increment()
 							self.sheetStack.pop()
 							LocationUtilities.locationManager.startUpdatingLocation()
 						} label: {
 							Text("Continue")
 								.bold()
 						}
-							.buttonStyle(BlockButtonStyle())
+							.buttonStyle(.block)
 							.disabled(self.selectedBusID == nil)
 							.padding(.vertical)
 					}

@@ -22,7 +22,7 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 					.font(.headline)
 				Spacer()
 				#if os(iOS)
-				if #available(iOS 15.0, *) {
+				if #available(iOS 15, *) {
 					Button {
 						self.dismissalHandler()
 					} label: {

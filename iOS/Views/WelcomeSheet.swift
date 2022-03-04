@@ -36,7 +36,7 @@ struct WelcomeSheet: View {
 				Text("Continue")
 					.bold()
 			}
-				.buttonStyle(BlockButtonStyle())
+				.buttonStyle(.block)
 		}
 			.padding()
 	}

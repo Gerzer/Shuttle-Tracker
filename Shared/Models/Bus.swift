@@ -15,6 +15,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		enum LocationType: String, Codable {
 			
 			case system = "system"
+			
 			case user = "user"
 			
 		}
@@ -63,7 +64,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
 			markerAnnotationView.canShowCallout = true
-			let colorBlindMode = UserDefaults.standard.bool(forKey: "colorBlindMode")
+			let colorBlindMode = UserDefaults.standard.bool(forKey: "ColorBlindMode")
 			let colorBlindSymbolName: String
 			switch self.location.type {
 			case .system:
@@ -88,16 +89,8 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		self.location = location
 	}
 	
-	static func == (_ leftBus: Bus, _ rightBus: Bus) -> Bool {
-		return leftBus.id == rightBus.id
-	}
-	
-}
-
-extension CLLocationCoordinate2D {
-	
-	func convertedToCoordinate() -> Coordinate {
-		return Coordinate(latitude: self.latitude, longitude: self.longitude)
+	static func == (_ left: Bus, _ right: Bus) -> Bool {
+		return left.id == right.id
 	}
 	
 }
@@ -110,8 +103,16 @@ extension Array where Element == Bus {
 			decoder.dateDecodingStrategy = .iso8601
 			let buses = try? result.value?
 				.map([Bus].self, using: decoder)
-				.filter { (bus) -> Bool in
+				.filter { (bus) in
 					return bus.location.date.timeIntervalSinceNow > -300
+				}
+				.filter { (bus) in
+					switch MapState.shared.travelState {
+					case .onBus:
+						return bus.id != MapState.shared.busID
+					case .notOnBus:
+						return true
+					}
 				}
 			busesCallback(buses ?? [])
 		}

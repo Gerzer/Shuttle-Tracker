@@ -5,14 +5,26 @@
 //  Created by Gabriel Jacoby-Cooper on 10/2/20.
 //
 
-import Foundation
+import SwiftUI
 import Moya
 
 typealias HTTPMethod = Moya.Method
 
 enum API: TargetType {
 	
-	case version
+	private struct SettingsContainer {
+		
+		static let shared = SettingsContainer()
+		
+		@AppStorage("BaseURL") private(set) var baseURL = URL(string: "https://shuttletracker.app")!
+		
+		private init() { }
+		
+	}
+	
+	case readVersion
+	
+	case readAnnouncements
 	
 	case readBuses
 	
@@ -32,19 +44,21 @@ enum API: TargetType {
 	
 	static let provider = MoyaProvider<API>()
 	
-	static let lastVersion = 1
+	static let lastVersion = 2
 	
 	var baseURL: URL {
 		get {
-			return URL(string: "https://shuttletracker.app")!
+			return SettingsContainer.shared.baseURL
 		}
 	}
 	
 	var path: String {
 		get {
 			switch self {
-			case .version:
+			case .readVersion:
 				return "/version"
+			case .readAnnouncements:
+				return "/announcements"
 			case .readBuses:
 				return "/buses"
 			case .readAllBuses:
@@ -66,7 +80,7 @@ enum API: TargetType {
 	public var method: HTTPMethod {
 		get {
 			switch self {
-			case .version, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
 				return .get
 			case .updateBus:
 				return .patch
@@ -79,7 +93,7 @@ enum API: TargetType {
 	var task: Task {
 		get {
 			switch self {
-			case .version, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [

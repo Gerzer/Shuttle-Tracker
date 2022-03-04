@@ -11,45 +11,66 @@ import OnboardingKit
 
 @main struct ShuttleTrackerApp: App {
 	
-	private var contentView = ContentView()
+	@ObservedObject private var mapState = MapState.shared
 	
-	private let onboardingManager: OnboardingManager<ViewState> = {
-		OnboardingManager(flags: ViewState.sharedInstance) { (flags) in
-			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
+	@ObservedObject private var viewState = ViewState.shared
+	
+	@ObservedObject private var sheetStack = SheetStack.shared
+	
+	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+	
+	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
+		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
+			OnboardingConditions.Disjunction {
 				OnboardingConditions.ColdLaunch(threshold: 1)
-			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .tip) {
-				OnboardingConditions.ColdLaunch(threshold: 1)
-			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
-				OnboardingConditions.ColdLaunch(threshold: 3)
-			}
-			OnboardingEvent(flags: flags, settingFlagAt: \.onboardingToastHeadlineText, to: .reminder) {
 				OnboardingConditions.ColdLaunch(threshold: 3)
 			}
 		}
-	}()
+		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .tip) {
+			OnboardingConditions.ColdLaunch(threshold: 1)
+		}
+		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .reminder) {
+			OnboardingConditions.ColdLaunch(threshold: 3)
+		}
+		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew) { (value) in
+			Self.pushSheet(value)
+		} conditions: {
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.2", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+		}
+	}
 	
 	var body: some Scene {
 		WindowGroup {
-			self.contentView
-				.environmentObject(MapState.sharedInstance)
-				.environmentObject(ViewState.sharedInstance)
-				.environmentObject(SheetStack.shared)
+			ContentView()
+				.environmentObject(self.mapState)
+				.environmentObject(self.viewState)
+				.environmentObject(self.sheetStack)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
+					Button("\(self.sheetStack.top == .announcements ? "Hide" : "Show") Announcements") {
+						if self.sheetStack.top == .announcements {
+							self.sheetStack.pop()
+						} else {
+							self.sheetStack.push(.announcements)
+						}
+					}
+						.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
+						.disabled(self.sheetStack.count > 0 && self.sheetStack.top != .announcements)
+					Divider()
 					Button("Refresh") {
 						NotificationCenter.default.post(name: .refreshBuses, object: nil)
 					}
-						.keyboardShortcut(KeyEquivalent("r"), modifiers: .command)
+						.keyboardShortcut(KeyEquivalent("r"), modifiers: [.command])
+					Divider()
 				}
+				CommandGroup(replacing: .newItem) { }
 			}
 		Settings {
 			SettingsView()
 				.padding()
 				.frame(width: 400, height: 100)
-				.environmentObject(ViewState.sharedInstance)
+				.environmentObject(ViewState.shared)
 		}
 	}
 	
@@ -59,5 +80,10 @@ import OnboardingKit
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 	}
 	
+	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			SheetStack.shared.push(sheetType)
+		}
+	}
+	
 }
-

@@ -1,6 +1,6 @@
 //
 //  PrivacySheet.swift
-//  Shuttle Tracker (iOS)
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 11/14/21.
 //
@@ -18,9 +18,11 @@ struct PrivacySheet: View {
 				.padding()
 				.navigationTitle("Privacy")
 				.toolbar {
+					#if !os(macOS)
 					ToolbarItem(placement: .navigationBarTrailing) {
 						CloseButton()
 					}
+					#endif // !os(macOS)
 				}
 		}
 	}
