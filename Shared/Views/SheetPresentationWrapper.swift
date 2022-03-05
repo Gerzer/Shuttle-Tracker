@@ -72,6 +72,15 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 						BusSelectionSheet()
 					}
 					#endif // os(iOS)
+				case .permissions:
+					#if os(iOS) && !APPCLIP
+					if #available(iOS 15, *) {
+						PermissionsSheet()
+							.interactiveDismissDisabled()
+					} else {
+						PermissionsSheet()
+					}
+					#endif // os(iOS) && !APPCLIP
 				case .privacy:
 					PrivacySheet()
 				case .announcements:

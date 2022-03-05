@@ -45,10 +45,19 @@ enum LocationUtilities {
 	
 	private static let locationManagerDelegate = LocationManagerDelegate()
 	
+	private static var locationManagerHandlers: [(CLLocationManager) -> Void] = []
+	
 	static var locationManager: CLLocationManager! {
 		didSet {
 			self.locationManager.delegate = self.locationManagerDelegate
+			for locationManagerHandler in self.locationManagerHandlers {
+				locationManagerHandler(self.locationManager)
+			}
 		}
+	}
+	
+	static func registerLocationManagerHandler(_ handler: @escaping (CLLocationManager) -> Void) {
+		self.locationManagerHandlers.append(handler)
 	}
 	
 	static func sendToServer(coordinate: CLLocationCoordinate2D) {

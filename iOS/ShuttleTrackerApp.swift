@@ -44,6 +44,21 @@ import OnboardingKit
 			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.2", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
 		}
+		OnboardingEvent(flags: flags) { (_) in
+			LocationUtilities.registerLocationManagerHandler { (locationManager) in
+				switch locationManager.authorizationStatus {
+				case .notDetermined, .restricted, .denied:
+					Self.pushSheet(.permissions)
+				case .authorizedWhenInUse, .authorizedAlways:
+					break
+				@unknown default:
+					fatalError()
+				}
+			}
+		} conditions: {
+			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
+		}
+
 	}
 	
 	var body: some Scene {
