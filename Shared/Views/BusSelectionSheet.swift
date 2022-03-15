@@ -74,10 +74,10 @@ struct BusSelectionSheet: View {
 							}
 							Spacer(minLength: 20)
 						}
-							.padding(.horizontal)
+						.padding(.horizontal)
 					}
 				} else {
-					ProgressView("Loading…")
+					ProgressView("Loading")
 						.font(.callout)
 						.textCase(.uppercase)
 				}
@@ -95,6 +95,17 @@ struct BusSelectionSheet: View {
 							self.viewState.handles.tripCount?.increment()
 							self.sheetStack.pop()
 							LocationUtilities.locationManager.startUpdatingLocation()
+							
+							// Schedule leave-bus notification
+							let content = UNMutableNotificationContent()
+							content.title = "Leave Bus"
+							content.subtitle = "Did you leave the bus? Remember to tap “Leave Bus” next time."
+							content.sound = .default
+							let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
+							let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
+							UNUserNotificationCenter
+								.current()
+								.add(request)
 						} label: {
 							Text("Continue")
 								.bold()
