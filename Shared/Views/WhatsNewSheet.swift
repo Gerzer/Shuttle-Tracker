@@ -11,6 +11,8 @@ struct WhatsNewSheet: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		VStack {
 			ScrollView {
@@ -65,7 +67,7 @@ struct WhatsNewSheet: View {
 			}
 			#if !os(macOS)
 			Button {
-				self.viewState.sheetType = nil
+				self.sheetStack.pop()
 				self.viewState.handles.whatsNew?.increment()
 			} label: {
 				Text("Continue")
@@ -79,7 +81,7 @@ struct WhatsNewSheet: View {
 				#if os(macOS)
 				ToolbarItem(placement: .confirmationAction) {
 					Button("Close") {
-						self.viewState.sheetType = nil
+						self.sheetStack.pop()
 						self.viewState.handles.whatsNew?.increment()
 					}
 				}
@@ -93,6 +95,8 @@ struct WhatsNewSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		WhatsNewSheet()
+			.environmentObject(ViewState.shared)
+			.environmentObject(SheetStack.shared)
 	}
 	
 }

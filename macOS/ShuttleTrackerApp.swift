@@ -15,6 +15,8 @@ import OnboardingKit
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
+	@ObservedObject private var sheetStack = SheetStack.shared
+	
 	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
@@ -30,7 +32,9 @@ import OnboardingKit
 		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .reminder) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
 		}
-		OnboardingEvent(flags: flags, settingFlagAt: \.sheetType, to: .whatsNew) {
+		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew) { (value) in
+			Self.pushSheet(value)
+		} conditions: {
 			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.2", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
 		}
 	}
@@ -40,13 +44,19 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.sheetStack)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
-					Button("\(self.viewState.sheetType == .announcements ? "Hide" : "Show") Announcements") {
-						self.viewState.sheetType = self.viewState.sheetType == .announcements ? nil : .announcements
+					Button("\(self.sheetStack.top == .announcements ? "Hide" : "Show") Announcements") {
+						if self.sheetStack.top == .announcements {
+							self.sheetStack.pop()
+						} else {
+							self.sheetStack.push(.announcements)
+						}
 					}
 						.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
+						.disabled(self.sheetStack.count > 0 && self.sheetStack.top != .announcements)
 					Divider()
 					Button("Refresh") {
 						NotificationCenter.default.post(name: .refreshBuses, object: nil)
@@ -68,6 +78,12 @@ import OnboardingKit
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
+	}
+	
+	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			SheetStack.shared.push(sheetType)
+		}
 	}
 	
 }

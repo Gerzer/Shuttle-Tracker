@@ -1,26 +1,26 @@
 //
-//  InfoSheet.swift
-//  Shuttle Tracker (iOS)
+//  PrivacySheet.swift
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 3/4/22.
 //
 
 import SwiftUI
 
-struct InfoSheet: View {
+struct PrivacySheet: View {
 	
 	var body: some View {
 		NavigationView {
-			InfoView()
+			PrivacyView()
 		}
 	}
 	
 }
 
-struct InfoSheetPreviews: PreviewProvider {
+struct PrivacySheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
-		InfoSheet()
+		PrivacySheet()
 	}
 	
 }

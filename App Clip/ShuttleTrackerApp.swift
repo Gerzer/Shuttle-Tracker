@@ -15,11 +15,14 @@ import CoreLocation
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
+	@ObservedObject private var sheetStack = SheetStack.shared
+	
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.sheetStack)
 				.onAppear {
 					let overlay = SKOverlay(
 						configuration: SKOverlay.AppClipConfiguration(position: .bottom)

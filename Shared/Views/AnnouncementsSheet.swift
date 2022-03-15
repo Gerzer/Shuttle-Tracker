@@ -13,6 +13,8 @@ import SwiftUI
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		NavigationView {
 			Group {
@@ -67,7 +69,7 @@ import SwiftUI
 				#if os(macOS)
 				ToolbarItem(placement: .cancellationAction) {
 					Button("Close") {
-						self.viewState.sheetType = nil
+						self.sheetStack.pop()
 					}
 						.buttonStyle(.bordered)
 						.keyboardShortcut(.cancelAction)
@@ -83,6 +85,7 @@ import SwiftUI
 	static var previews: some View {
 		AnnouncementsSheet()
 			.environmentObject(ViewState.shared)
+			.environmentObject(SheetStack.shared)
 	}
 	
 }

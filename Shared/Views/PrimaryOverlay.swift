@@ -30,6 +30,8 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
 	
 	var body: some View {
@@ -49,16 +51,15 @@ struct PrimaryOverlay: View {
 								
 							}
 							LocationUtilities.locationManager.stopUpdatingLocation()
-						case .notOnBus:
-							guard let location = LocationUtilities.locationManager.location else {
-								break
-							}
 							
 							// Remove any pending leave-bus notifications
 							UNUserNotificationCenter
 								.current()
 								.removeAllPendingNotificationRequests()
-							
+						case .notOnBus:
+							guard let location = LocationUtilities.locationManager.location else {
+								break
+							}
 							let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
 								let newDistance = stop.location.distance(from: location)
 								if newDistance < distance {
@@ -67,7 +68,7 @@ struct PrimaryOverlay: View {
 							}
 							if closestStopDistance < Double(self.maximumStopDistance) {
 								self.mapState.locationID = UUID()
-								self.viewState.sheetType = .busSelection
+								self.sheetStack.push(.busSelection)
 								if self.viewState.toastType == .boardBus {
 									self.viewState.toastType = nil
 								}
@@ -124,6 +125,11 @@ struct PrimaryOverlay: View {
 								self.viewState.statusText = .mapRefresh
 							}
 							LocationUtilities.locationManager.stopUpdatingLocation()
+							
+							// Remove any pending leave-bus notifications
+							UNUserNotificationCenter
+								.current()
+								.removeAllPendingNotificationRequests()
 						case .notOnBus:
 							guard let location = LocationUtilities.locationManager.location else {
 								break
@@ -136,7 +142,7 @@ struct PrimaryOverlay: View {
 							}
 							if closestStopDistance < Double(self.maximumStopDistance) {
 								self.mapState.locationID = UUID()
-								self.viewState.sheetType = .busSelection
+								self.sheetStack.push(.busSelection)
 								if self.viewState.toastType == .boardBus {
 									self.viewState.toastType = nil
 								}
