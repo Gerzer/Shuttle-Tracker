@@ -39,7 +39,7 @@ import SwiftUI
 						#endif
 					}
 				} else {
-						ProgressView("Loading…")
+						ProgressView("Loading")
 							.font(.callout)
 							.textCase(.uppercase)
 							.foregroundColor(.secondary)

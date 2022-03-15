@@ -58,6 +58,13 @@ import OnboardingKit
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
 		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
+		UNUserNotificationCenter
+			.current()
+			.requestAuthorization(options: [.sound, .badge, .alert]) { (success, error) in
+				if !success, let error = error { // We fail in silence…
+					print(error.localizedDescription)
+				}
+			}
 	}
 	
 }
