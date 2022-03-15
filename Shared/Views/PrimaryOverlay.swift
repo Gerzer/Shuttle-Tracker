@@ -39,46 +39,47 @@ struct PrimaryOverlay: View {
 				VStack(alignment: .leading) {
 					Button {
 						switch self.mapState.travelState {
-							case .onBus:
-								self.mapState.busID = nil
-								self.mapState.locationID = nil
-								self.mapState.travelState = .notOnBus
-								self.viewState.statusText = .thanks
-								DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-									self.viewState.statusText = .mapRefresh
-         
+						case .onBus:
+							self.mapState.busID = nil
+							self.mapState.locationID = nil
+							self.mapState.travelState = .notOnBus
+							self.viewState.statusText = .thanks
+							DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+								self.viewState.statusText = .mapRefresh
+								
+							}
+							LocationUtilities.locationManager.stopUpdatingLocation()
+						case .notOnBus:
+							guard let location = LocationUtilities.locationManager.location else {
+								break
+							}
+							
+							// Remove any pending leave-bus notifications
+							UNUserNotificationCenter
+								.current()
+								.removeAllPendingNotificationRequests()
+							
+							let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+								let newDistance = stop.location.distance(from: location)
+								if newDistance < distance {
+									distance = newDistance
 								}
-								LocationUtilities.locationManager.stopUpdatingLocation()
-                            
-							case .notOnBus:
-								guard let location = LocationUtilities.locationManager.location else {
-									break
+							}
+							if closestStopDistance < Double(self.maximumStopDistance) {
+								self.mapState.locationID = UUID()
+								self.viewState.sheetType = .busSelection
+								if self.viewState.toastType == .boardBus {
+									self.viewState.toastType = nil
 								}
-                            
-                            //remove the "you forgot to tap leave bus  notif" 
-                            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-
-								let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-									let newDistance = stop.location.distance(from: location)
-									if newDistance < distance {
-										distance = newDistance
-									}
-								}
-								if closestStopDistance < Double(self.maximumStopDistance) {
-									self.mapState.locationID = UUID()
-									self.viewState.sheetType = .busSelection
-									if self.viewState.toastType == .boardBus {
-										self.viewState.toastType = nil
-									}
-								} else {
-									self.viewState.alertType = .noNearbyStop
-								}
+							} else {
+								self.viewState.alertType = .noNearbyStop
+							}
 						}
 					} label: {
 						Text(self.buttonText)
 							.bold()
 					}
-					.buttonStyle(.block)
+						.buttonStyle(.block)
 					HStack {
 						Text(self.viewState.statusText.rawValue)
 							.layoutPriority(1)
@@ -101,53 +102,53 @@ struct PrimaryOverlay: View {
 								}
 							}
 						}
-						.frame(width: 30)
+							.frame(width: 30)
 					}
 				}
-				.padding()
-				.background(.regularMaterial)
-				.mask {
-					RoundedRectangle(cornerRadius: 20, style: .continuous)
-				}
-				.shadow(radius: 5)
+					.padding()
+					.background(.regularMaterial)
+					.mask {
+						RoundedRectangle(cornerRadius: 20, style: .continuous)
+					}
+					.shadow(radius: 5)
 			} else {
 				VStack(alignment: .leading) {
 					Button {
 						switch self.mapState.travelState {
-							case .onBus:
-								self.mapState.busID = nil
-								self.mapState.locationID = nil
-								self.mapState.travelState = .notOnBus
-								self.viewState.statusText = .thanks
-								DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-									self.viewState.statusText = .mapRefresh
+						case .onBus:
+							self.mapState.busID = nil
+							self.mapState.locationID = nil
+							self.mapState.travelState = .notOnBus
+							self.viewState.statusText = .thanks
+							DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+								self.viewState.statusText = .mapRefresh
+							}
+							LocationUtilities.locationManager.stopUpdatingLocation()
+						case .notOnBus:
+							guard let location = LocationUtilities.locationManager.location else {
+								break
+							}
+							let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+								let newDistance = stop.location.distance(from: location)
+								if newDistance < distance {
+									distance = newDistance
 								}
-								LocationUtilities.locationManager.stopUpdatingLocation()
-							case .notOnBus:
-								guard let location = LocationUtilities.locationManager.location else {
-									break
+							}
+							if closestStopDistance < Double(self.maximumStopDistance) {
+								self.mapState.locationID = UUID()
+								self.viewState.sheetType = .busSelection
+								if self.viewState.toastType == .boardBus {
+									self.viewState.toastType = nil
 								}
-								let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-									let newDistance = stop.location.distance(from: location)
-									if newDistance < distance {
-										distance = newDistance
-									}
-								}
-								if closestStopDistance < Double(self.maximumStopDistance) {
-									self.mapState.locationID = UUID()
-									self.viewState.sheetType = .busSelection
-									if self.viewState.toastType == .boardBus {
-										self.viewState.toastType = nil
-									}
-								} else {
-									self.viewState.alertType = .noNearbyStop
-								}
+							} else {
+								self.viewState.alertType = .noNearbyStop
+							}
 						}
 					} label: {
 						Text(self.buttonText)
 							.bold()
 					}
-					.buttonStyle(.block)
+						.buttonStyle(.block)
 					HStack {
 						Text(self.viewState.statusText.rawValue)
 							.layoutPriority(1)
@@ -170,13 +171,13 @@ struct PrimaryOverlay: View {
 								}
 							}
 						}
-						.frame(width: 30)
+							.frame(width: 30)
 					}
 				}
-				.padding()
-				.background(VisualEffectView(.systemMaterial))
-				.cornerRadius(20)
-				.shadow(radius: 5)
+					.padding()
+					.background(VisualEffectView(.systemMaterial))
+					.cornerRadius(20)
+					.shadow(radius: 5)
 			}
 			Spacer()
 		}
