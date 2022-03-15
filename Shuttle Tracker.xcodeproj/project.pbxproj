@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6B3B2B442710E5BB001D6C8E /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */; };
+		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
+		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
+		A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
@@ -133,6 +136,7 @@
 
 /* Begin PBXFileReference section */
 		6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
+		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 				C01F6D7826E44BE400D33656 /* Coordinate.swift */,
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				C0019DCD251910E80020574D /* Stop.swift */,
+				A1ED8B8727BC558A000A26E5 /* Schedule.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -552,6 +557,7 @@
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */,
+				A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */,
 				C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
@@ -603,6 +609,7 @@
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
+				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C039B06027961FE200416725 /* BusID.swift in Sources */,
@@ -627,6 +634,7 @@
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
+				A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0A1E7292749F33C00DBF248 /* (null) in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
