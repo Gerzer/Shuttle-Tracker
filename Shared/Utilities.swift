@@ -91,6 +91,16 @@ enum MapUtilities {
 	
 }
 
+enum CalendarUtilities {
+	
+	@available(iOS 15, macOS 12, *) static var isAprilFools: Bool {
+		get {
+			return Calendar.autoupdatingCurrent.dateComponents([.year, .month, .day], from: .now) == DateComponents(year: 2022, month: 4, day: 1)
+		}
+	}
+	
+}
+
 enum LoggingUtilities {
 	
 	static let logger = Logger()
