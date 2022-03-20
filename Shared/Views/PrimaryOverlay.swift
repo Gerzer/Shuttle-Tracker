@@ -90,11 +90,15 @@ struct PrimaryOverlay: View {
 								ProgressView()
 							} else {
 								Button {
-									withAnimation {
-										self.isRefreshing = true
-									}
-									DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-										self.refreshBuses()
+									if CalendarUtilities.isAprilFools {
+										self.sheetStack.push(.plus(featureText: "Refreshing the map"))
+									} else {
+										withAnimation {
+											self.isRefreshing = true
+										}
+										DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+											self.refreshBuses()
+										}
 									}
 								} label: {
 									Image(systemName: "arrow.clockwise.circle.fill")

@@ -93,6 +93,13 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					WhatsNewSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
 					#endif // !APPCLIP
+				case .plus(featureText: let featureText):
+					#if os(iOS)
+					if #available(iOS 15, *) {
+						PlusSheet(featureText: featureText)
+							.interactiveDismissDisabled()
+					}
+					#endif // os(iOS)
 				}
 			}
 	}
