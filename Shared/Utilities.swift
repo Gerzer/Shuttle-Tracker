@@ -176,6 +176,28 @@ extension View {
 		)
 	}
 	
+	func rainbow() -> some View {
+		return self
+			.overlay(
+				GeometryReader { (geometry) in
+					ZStack {
+						LinearGradient(
+							gradient: Gradient(
+								colors: stride(from: 0.7, to: 0.85, by: 0.01)
+									.map { (hue) in
+										return Color(hue: hue, saturation: 1, brightness: 1)
+									}
+							),
+							startPoint: .leading,
+							endPoint: .trailing
+						)
+						.frame(width: geometry.size.width)
+					}
+				}
+			)
+			.mask(self)
+	}
+	
 }
 
 extension URL {

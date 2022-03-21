@@ -22,6 +22,7 @@ import SwiftUI
 				Text("Shuttle Tracker+")
 					.font(.largeTitle)
 					.bold()
+					.rainbow()
 				Spacer()
 			}
 				.padding(.top, 40)
@@ -30,6 +31,13 @@ import SwiftUI
 				.font(.title3)
 				.bold()
 			Text("Subscribe to Shuttle Tracker+ today to get the best Shuttle Tracker experience. It’s just $9.99 per week. That’s cheap!")
+				.padding(.bottom)
+			Text("Shuttle Tracker+ exclusive features:")
+				.font(.headline)
+			Text("• Refreshing the map")
+			Text("• Changing settings")
+			Text("• Viewing app information")
+			Text("• Supporting broke college students")
 			Spacer()
 			Button {
 				self.doShowAlert = true
