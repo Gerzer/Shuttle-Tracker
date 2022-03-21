@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65EE6BB827E819400075DAF1 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
+		65EE6BB927E819400075DAF1 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
+		65EE6BBB27E81A140075DAF1 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
+		65EE6BBC27E81A140075DAF1 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
@@ -150,6 +154,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		65EE6BB727E819400075DAF1 /* MilestoneToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToast.swift; sourceTree = "<group>"; };
+		65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToastView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
@@ -310,6 +316,8 @@
 				C059831D27D14C8C00299D27 /* PrivacyView.swift */,
 				C038BEC4270FC91100A23A2B /* SettingsView.swift */,
 				C059832327D1840700299D27 /* SheetPresentationWrapper.swift */,
+				65EE6BB727E819400075DAF1 /* MilestoneToast.swift */,
+				65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
@@ -624,12 +632,14 @@
 			files = (
 				C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */,
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
+				65EE6BB927E819400075DAF1 /* MilestoneToast.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
 				C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */,
 				C03B1D372741E18B007B318E /* SheetStack.swift in Sources */,
 				C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */,
+				65EE6BBC27E81A140075DAF1 /* MilestoneToastView.swift in Sources */,
 				C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C039B0642796201200416725 /* CloseButton.swift in Sources */,
 				C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */,
@@ -672,6 +682,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65EE6BBB27E81A140075DAF1 /* MilestoneToastView.swift in Sources */,
 				C0A1E72B2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C015281E2517F68F0069092C /* MapState.swift in Sources */,
@@ -682,6 +693,7 @@
 				C059831E27D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
+				65EE6BB827E819400075DAF1 /* MilestoneToast.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
