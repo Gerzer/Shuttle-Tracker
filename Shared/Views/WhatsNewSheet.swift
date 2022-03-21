@@ -25,7 +25,7 @@ struct WhatsNewSheet: View {
 								.bold()
 								.multilineTextAlignment(.center)
 							if #available(iOS 15, macOS 12, *) {
-								Text("Version 1.2")
+								Text("Version 1.3")
 									.font(
 										.system(
 											.callout,
@@ -46,18 +46,18 @@ struct WhatsNewSheet: View {
 						Spacer()
 					}
 						.padding(.top)
-					Text("Announcements")
+					Text("Navigation")
 						.font(.headline)
 						.padding(.top)
-					Text("Shuttle Tracker can now deliver announcements! We’ll use this feature to provide important, timely information, such as schedule changes. On iOS 15 or iPadOS 15, tap the new Announcements icon in the overlay at the top-left corner of the screen; on macOS 12 Monterey, click the new Announcements icon in the toolbar.")
-					Text("Onboarding")
+					Text("We’ve significantly improved the app navigation structure, so it’s now much easier to find information and additional functionality.")
+					Text("Permissions")
 						.font(.headline)
 						.padding(.top)
-					Text("Tapping “Board Bus” is the best way to help make Shuttle Tracker more accurate for everyone, so on iOS and iPadOS we’ll now remind you to start crowd-sourcing if you haven’t done so before.")
-					Text("Advanced Settings")
+					Text("Board Bus requires location access, so we’ll now prompt you to share your location.")
+					Text("Notifications")
 						.font(.headline)
 						.padding(.top)
-					Text("On iOS and iPadOS, you can now configure some advanced settings, such as the maximum distance away from a stop at which you can board a bus.")
+					Text("We’ll notify you if you forget to tap “Leave Bus”.")
 					Text("Design")
 						.font(.headline)
 						.padding(.top)

@@ -35,7 +35,7 @@ import OnboardingKit
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew) { (value) in
 			Self.pushSheet(value)
 		} conditions: {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.2", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.3", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
 		}
 	}
 	
