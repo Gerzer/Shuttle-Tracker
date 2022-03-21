@@ -70,7 +70,8 @@ import OnboardingKit
 			SettingsView()
 				.padding()
 				.frame(width: 400, height: 100)
-				.environmentObject(ViewState.shared)
+				.environmentObject(self.viewState)
+				.environmentObject(self.sheetStack)
 		}
 	}
 	
