@@ -49,7 +49,7 @@ struct WhatsNewSheet: View {
 					Text("Navigation")
 						.font(.headline)
 						.padding(.top)
-					Text("We’ve significantly improved the app navigation structure, so it’s now much easier to find information and additional functionality.")
+					Text("We’ve significantly improved the app’s navigation structure, so it’s now much easier to find information and additional functionality.")
 					Text("Permissions")
 						.font(.headline)
 						.padding(.top)
