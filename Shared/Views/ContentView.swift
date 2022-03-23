@@ -126,6 +126,13 @@ struct ContentView: View {
 					}
 				}
 				ToolbarItem {
+					Button {
+						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+					} label: {
+						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
+					}
+				}
+				ToolbarItem {
 					if self.isRefreshing {
 						ProgressView()
 					} else {

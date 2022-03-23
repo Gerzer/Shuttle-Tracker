@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import UserNotifications
 import OSLog
 
 enum ViewUtilities {

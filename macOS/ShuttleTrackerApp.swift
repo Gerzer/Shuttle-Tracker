@@ -58,6 +58,10 @@ import OnboardingKit
 						.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
 						.disabled(self.sheetStack.count > 0 && self.sheetStack.top != .announcements)
 					Divider()
+					Button("Re-Center Map") {
+						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+					}
+						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
 					Button("Refresh") {
 						NotificationCenter.default.post(name: .refreshBuses, object: nil)
 					}
