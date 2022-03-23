@@ -19,18 +19,12 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	enum SheetType: IdentifiableByHashValue {
-		
-		case privacy, settings, info, busSelection, announcements, whatsNew
-		
-	}
-
 	enum AlertType: IdentifiableByHashValue {
 		
 		case noNearbyStop, updateAvailable
 		
 	}
-
+	
 	enum ToastType: IdentifiableByHashValue {
 		
 		case legend, boardBus
@@ -48,8 +42,6 @@ final class ViewState: OnboardingFlags {
 	}
 	
 	static let shared = ViewState()
-	
-	@Published var sheetType: SheetType?
 	
 	@Published var alertType: AlertType?
 	

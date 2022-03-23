@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B3B2B442710E5BB001D6C8E /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */; };
+		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
@@ -16,6 +16,8 @@
 		C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DE525192AEA0020574D /* VisualEffectView.swift */; };
 		C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
 		C0019DED251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
+		C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */; };
+		C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D762827E6CC60009EC92B /* PlusSheet.swift */; };
 		C01527E22517CFA60069092C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527E12517CFA60069092C /* MapView.swift */; };
 		C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
 		C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
@@ -40,10 +42,24 @@
 		C039B0632796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
 		C039B0642796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
 		C039B0652796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
+		C03B1D362741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
+		C03B1D372741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
+		C03B1D382741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
-		C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C053E98E26DD3B280057E808 /* PrivacySheet.swift */; };
+		C059831E27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
+		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
+		C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
+		C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832127D1551400299D27 /* WelcomeSheet.swift */; };
+		C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
+		C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
+		C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
+		C059833B27D2C77900299D27 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833A27D2C77900299D27 /* AboutView.swift */; };
+		C059833D27D2C82E00299D27 /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833C27D2C82E00299D27 /* InfoSheet.swift */; };
+		C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
+		C059834027D2CF0300299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
+		C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
 		C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */; };
 		C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */; };
 		C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */; };
@@ -53,6 +69,8 @@
 		C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */; };
 		C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEE277FB33C005D0209 /* BusOption.swift */; };
 		C082CCF8277FB38A005D0209 /* BusID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCF6277FB38A005D0209 /* BusID.swift */; };
+		C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C085A2DD27C5B36000AA01F3 /* AppDelegate.swift */; };
+		C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D762827E6CC60009EC92B /* PlusSheet.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */; };
@@ -132,12 +150,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
+		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		C0019DE525192AEA0020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		C0019DEB251A3EFC0020574D /* BlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
+		C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsSheet.swift; sourceTree = "<group>"; };
 		C01527E12517CFA60069092C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C01527EB2517D5D40069092C /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
 		C01527F62517DCAF0069092C /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -149,17 +168,25 @@
 		C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C038BEC4270FC91100A23A2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C039B0622796201200416725 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		C03B1D352741E18B007B318E /* SheetStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStack.swift; sourceTree = "<group>"; };
 		C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shared (App Clip).xcconfig"; sourceTree = "<group>"; };
 		C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
 		C03EE72026DEAD1F00878D77 /* LegendToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendToast.swift; sourceTree = "<group>"; };
-		C053E98E26DD3B280057E808 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
+		C059831D27D14C8C00299D27 /* PrivacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
+		C059832127D1551400299D27 /* WelcomeSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeSheet.swift; sourceTree = "<group>"; };
+		C059832327D1840700299D27 /* SheetPresentationWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationWrapper.swift; sourceTree = "<group>"; };
+		C059833A27D2C77900299D27 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		C059833C27D2C82E00299D27 /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
+		C059833E27D2CEFA00299D27 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
 		C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardBusToast.swift; sourceTree = "<group>"; };
 		C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryOverlayButton.swift; sourceTree = "<group>"; };
 		C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryOverlay.swift; sourceTree = "<group>"; };
 		C082CCED277FB33C005D0209 /* BusSelectionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusSelectionSheet.swift; sourceTree = "<group>"; };
 		C082CCEE277FB33C005D0209 /* BusOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusOption.swift; sourceTree = "<group>"; };
 		C082CCF6277FB38A005D0209 /* BusID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusID.swift; sourceTree = "<group>"; };
+		C085A2DD27C5B36000AA01F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C08D762827E6CC60009EC92B /* PlusSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusSheet.swift; sourceTree = "<group>"; };
 		C08E838C250D2BF000F0E2E9 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C08FC1D8252509E6008589C1 /* App Clip.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "App Clip.entitlements"; sourceTree = "<group>"; };
@@ -243,15 +270,27 @@
 		C03FD52626DD6E6A00A2532E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C059833A27D2C77900299D27 /* AboutView.swift */,
 				C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */,
 				C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */,
-				6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */,
-				C053E98E26DD3B280057E808 /* PrivacySheet.swift */,
+				C059833C27D2C82E00299D27 /* InfoSheet.swift */,
+				6B3B2B432710E5BB001D6C8E /* InfoView.swift */,
+				C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */,
+				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
 				C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */,
 				C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */,
+				C059832127D1551400299D27 /* WelcomeSheet.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C085A2DC27C5B35100AA01F3 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				C085A2DD27C5B36000AA01F3 /* AppDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		C086017025D83D8700C4F583 /* Views */ = {
@@ -267,7 +306,10 @@
 				C03EE72026DEAD1F00878D77 /* LegendToast.swift */,
 				C01527E12517CFA60069092C /* MapView.swift */,
 				C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */,
+				C059833E27D2CEFA00299D27 /* PrivacySheet.swift */,
+				C059831D27D14C8C00299D27 /* PrivacyView.swift */,
 				C038BEC4270FC91100A23A2B /* SettingsView.swift */,
+				C059832327D1840700299D27 /* SheetPresentationWrapper.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
@@ -357,6 +399,7 @@
 				C025ED422527C1D500524144 /* API.swift */,
 				C082CCF6277FB38A005D0209 /* BusID.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
+				C03B1D352741E18B007B318E /* SheetStack.swift */,
 				C01527F62517DCAF0069092C /* Utilities.swift */,
 				C0FFD6D7250C33C900945F01 /* Assets.xcassets */,
 			);
@@ -387,6 +430,7 @@
 		C0FFD6E5250C33C900945F01 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				C085A2DC27C5B35100AA01F3 /* Delegates */,
 				C0DA69BF25D83F2C0010C037 /* Views */,
 				C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */,
 				C0FFD6E6250C33C900945F01 /* Info.plist */,
@@ -544,6 +588,7 @@
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,
 				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
+				C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
 				C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */,
 				C039B0652796201200416725 /* CloseButton.swift in Sources */,
@@ -557,6 +602,10 @@
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
+				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
+				C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
+				C03B1D382741E18B007B318E /* SheetStack.swift in Sources */,
+				C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */,
 				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
@@ -573,38 +622,46 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */,
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
+				C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */,
+				C03B1D372741E18B007B318E /* SheetStack.swift in Sources */,
 				C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */,
 				C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C039B0642796201200416725 /* CloseButton.swift in Sources */,
-				C053E98F26DD3B280057E808 /* PrivacySheet.swift in Sources */,
 				C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */,
 				C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
+				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
 				C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */,
+				C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */,
 				C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
 				C082CCF2277FB33C005D0209 /* BusOption.swift in Sources */,
 				C025ED432527C1D500524144 /* API.swift in Sources */,
 				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
+				C059833B27D2C77900299D27 /* AboutView.swift in Sources */,
 				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0A1E730274A03BC00DBF248 /* Announcement.swift in Sources */,
-				6B3B2B442710E5BB001D6C8E /* InfoSheet.swift in Sources */,
+				C059833D27D2C82E00299D27 /* InfoSheet.swift in Sources */,
+				6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */,
 				C08FC22225251196008589C1 /* ContentView.swift in Sources */,
 				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
+				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */,
+				C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C039B06027961FE200416725 /* BusID.swift in Sources */,
 				C0A1E72E274A03B500DBF248 /* AnnouncementsSheet.swift in Sources */,
 				C0A1E734274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
@@ -622,6 +679,7 @@
 				C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */,
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
+				C059831E27D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
@@ -630,12 +688,16 @@
 				C0A1E7292749F33C00DBF248 /* (null) in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
+				C059834027D2CF0300299D27 /* PrivacySheet.swift in Sources */,
 				C039B06127961FE300416725 /* BusID.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
+				C03B1D362741E18B007B318E /* SheetStack.swift in Sources */,
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
+				C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
+				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
 				C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */,
 				C0A1E7262749EDFD00DBF248 /* AnnouncementsSheet.swift in Sources */,
@@ -662,7 +724,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
@@ -671,7 +733,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG APPCLIP";
@@ -686,7 +748,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
 				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_PREVIEWS = YES;
@@ -696,7 +758,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.appclip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -827,7 +889,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 27;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -836,7 +898,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -853,7 +915,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = SYBLH277NF;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
@@ -863,7 +925,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker;
 				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = iphoneos;
@@ -883,7 +945,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 26;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -892,7 +954,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
@@ -908,7 +970,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -918,7 +980,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker;
 				PRODUCT_NAME = "Shuttle Tracker";
 				PROVISIONING_PROFILE_SPECIFIER = "";

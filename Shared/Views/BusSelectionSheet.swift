@@ -19,6 +19,8 @@ struct BusSelectionSheet: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		NavigationView {
 			VStack {
@@ -72,10 +74,10 @@ struct BusSelectionSheet: View {
 							}
 							Spacer(minLength: 20)
 						}
-							.padding(.horizontal)
+						.padding(.horizontal)
 					}
 				} else {
-					ProgressView("Loading…")
+					ProgressView("Loading")
 						.font(.callout)
 						.textCase(.uppercase)
 				}
@@ -90,14 +92,25 @@ struct BusSelectionSheet: View {
 							self.mapState.busID = self.selectedBusID?.rawValue
 							self.mapState.travelState = .onBus
 							self.viewState.statusText = .locationData
-							self.viewState.sheetType = nil
 							self.viewState.handles.tripCount?.increment()
+							self.sheetStack.pop()
 							LocationUtilities.locationManager.startUpdatingLocation()
+							
+							// Schedule leave-bus notification
+							let content = UNMutableNotificationContent()
+							content.title = "Leave Bus"
+							content.subtitle = "Did you leave the bus? Remember to tap “Leave Bus” next time."
+							content.sound = .default
+							let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
+							let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
+							UNUserNotificationCenter
+								.current()
+								.add(request)
 						} label: {
 							Text("Continue")
 								.bold()
 						}
-							.buttonStyle(BlockButtonStyle())
+							.buttonStyle(.block)
 							.disabled(self.selectedBusID == nil)
 							.padding(.vertical)
 					}

@@ -11,26 +11,53 @@ struct WhatsNewSheet: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		VStack {
 			ScrollView {
 				VStack(alignment: .leading) {
 					HStack {
 						Spacer()
-						Text("What’s New")
-							.font(.largeTitle)
-							.bold()
-							.multilineTextAlignment(.center)
+						VStack {
+							Text("What’s New")
+								.font(.largeTitle)
+								.bold()
+								.multilineTextAlignment(.center)
+							if #available(iOS 15, macOS 12, *) {
+								Text("Version 1.3")
+									.font(
+										.system(
+											.callout,
+											design: .monospaced
+										)
+									)
+									.bold()
+									.padding(5)
+									.background(
+										.tertiary,
+										in: RoundedRectangle(
+											cornerRadius: 10,
+											style: .continuous
+										)
+									)
+							}
+						}
 						Spacer()
 					}
-					Text("Announcements")
+						.padding(.top)
+					Text("Navigation")
 						.font(.headline)
 						.padding(.top)
-					Text("Shuttle Tracker can now deliver announcements! We’ll use this feature to provide important, timely information, such as schedule changes. On iOS 15 or iPadOS 15, tap the new announcements icon in the overlay at the top-left corner of the screen; on macOS 12 Monterey, click the new announcements icon in the toolbar.")
-					Text("Onboarding")
+					Text("We’ve significantly improved the app navigation structure, so it’s now much easier to find information and additional functionality.")
+					Text("Permissions")
 						.font(.headline)
 						.padding(.top)
-					Text("Tapping “Board Bus” is the best way to help make Shuttle Tracker more accurate for everyone, so on iOS and iPadOS we’ll now remind you to start crowd-sourcing if you haven’t done so before.")
+					Text("Board Bus requires location access, so we’ll now prompt you to share your location.")
+					Text("Notifications")
+						.font(.headline)
+						.padding(.top)
+					Text("We’ll notify you if you forget to tap “Leave Bus”.")
 					Text("Design")
 						.font(.headline)
 						.padding(.top)
@@ -40,13 +67,13 @@ struct WhatsNewSheet: View {
 			}
 			#if !os(macOS)
 			Button {
-				self.viewState.sheetType = nil
+				self.sheetStack.pop()
 				self.viewState.handles.whatsNew?.increment()
 			} label: {
 				Text("Continue")
 					.bold()
 			}
-				.buttonStyle(BlockButtonStyle())
+				.buttonStyle(.block)
 			#endif // !os(macOS)
 		}
 			.padding()
@@ -54,7 +81,7 @@ struct WhatsNewSheet: View {
 				#if os(macOS)
 				ToolbarItem(placement: .confirmationAction) {
 					Button("Close") {
-						self.viewState.sheetType = nil
+						self.sheetStack.pop()
 						self.viewState.handles.whatsNew?.increment()
 					}
 				}
@@ -68,6 +95,8 @@ struct WhatsNewSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		WhatsNewSheet()
+			.environmentObject(ViewState.shared)
+			.environmentObject(SheetStack.shared)
 	}
 	
 }

@@ -58,6 +58,7 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 			.padding()
 			.background(ViewUtilities.standardVisualEffectView)
 			.cornerRadius(ViewUtilities.Constants.toastCornerRadius)
+			.shadow(radius: 5)
 	}
 	
 	init(_ headlineString: StringType, dismissalHandler: @escaping () -> Void, @ViewBuilder content: () -> Content) {

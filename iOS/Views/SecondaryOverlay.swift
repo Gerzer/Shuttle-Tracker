@@ -16,10 +16,18 @@ struct SecondaryOverlay: View {
 	var body: some View {
 		VStack {
 			VStack(spacing: 0) {
-				SecondaryOverlayButton(iconSystemName: "gearshape.fill", sheetType: .settings)
+				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
+					SecondaryOverlayButton(iconSystemName: "gearshape.fill", sheetType: .plus(featureText: "Changing settings"), badgeNumber: .constant(1))
+				} else {
+					SecondaryOverlayButton(iconSystemName: "gearshape.fill", sheetType: .settings)
+				}
 				Divider()
 					.frame(width: 45, height: 0)
-				SecondaryOverlayButton(iconSystemName: "info.circle.fill", sheetType: .info)
+				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
+					SecondaryOverlayButton(iconSystemName: "info.circle.fill", sheetType: .plus(featureText: "Viewing app information"), badgeNumber: .constant(1))
+				} else {
+					SecondaryOverlayButton(iconSystemName: "info.circle.fill", sheetType: .info)
+				}
 				if #available(iOS 15, *) {
 					Divider()
 						.frame(width: 45, height: 0)

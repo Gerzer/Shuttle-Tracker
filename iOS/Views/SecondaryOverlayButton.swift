@@ -11,7 +11,7 @@ struct SecondaryOverlayButton: View {
 	
 	private let iconSystemName: String
 	
-	private let sheetType: ViewState.SheetType?
+	private let sheetType: SheetStack.SheetType?
 	
 	private let action: (() -> Void)?
 	
@@ -19,13 +19,15 @@ struct SecondaryOverlayButton: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	var body: some View {
 		if #available(iOS 15, *) {
 			Button {
 				if let sheetType = self.sheetType {
-					self.viewState.sheetType = sheetType
+					self.sheetStack.push(sheetType)
 				} else {
-					self.action!()
+					self.action?()
 				}
 				withAnimation {
 					self.badgeNumber = 0
@@ -57,9 +59,9 @@ struct SecondaryOverlayButton: View {
 		} else {
 			Button {
 				if let sheetType = self.sheetType {
-					self.viewState.sheetType = sheetType
+					self.sheetStack.push(sheetType)
 				} else {
-					self.action!()
+					self.action?()
 				}
 			} label: {
 				Group {
@@ -75,7 +77,7 @@ struct SecondaryOverlayButton: View {
 		}
 	}
 	
-	init(iconSystemName: String, sheetType: ViewState.SheetType, badgeNumber: Binding<Int> = .constant(0)) {
+	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Binding<Int> = .constant(0)) {
 		self.iconSystemName = iconSystemName
 		self.sheetType = sheetType
 		self.action = nil
