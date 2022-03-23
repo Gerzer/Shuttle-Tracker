@@ -52,14 +52,9 @@ struct ContentView: View {
 						.padding()
 				default:
 					HStack {
-                        VStack {
-                            SecondaryOverlay()
-                                .padding(.top, 5)
-                                .padding(.leading, 10)
-                            TertiaryOverlay()
-                                .padding(.top, 5)
-                                .padding(.leading, 10)
-                        }
+						SecondaryOverlay()
+							.padding(.top, 5)
+							.padding(.leading, 10)
 						Spacer()
 					}
 				}

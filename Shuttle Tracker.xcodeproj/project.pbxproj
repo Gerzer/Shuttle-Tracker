@@ -243,13 +243,13 @@
 		C03FD52626DD6E6A00A2532E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */,
 				C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */,
 				6B3B2B432710E5BB001D6C8E /* InfoSheet.swift */,
 				C053E98E26DD3B280057E808 /* PrivacySheet.swift */,
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
 				C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */,
 				C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */,
-				C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
