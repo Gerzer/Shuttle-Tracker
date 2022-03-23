@@ -9,9 +9,11 @@ import SwiftUI
 
 struct SecondaryOverlayButton: View {
 	
-	let iconSystemName: String
+	private let iconSystemName: String
 	
-	let sheetType: SheetStack.SheetType
+	private let sheetType: SheetStack.SheetType?
+	
+	private let action: (() -> Void)?
 	
 	@Binding private(set) var badgeNumber: Int
 	
@@ -22,7 +24,11 @@ struct SecondaryOverlayButton: View {
 	var body: some View {
 		if #available(iOS 15, *) {
 			Button {
-				self.sheetStack.push(self.sheetType)
+				if let sheetType = self.sheetType {
+					self.sheetStack.push(sheetType)
+				} else {
+					self.action?()
+				}
 				withAnimation {
 					self.badgeNumber = 0
 				}
@@ -52,7 +58,11 @@ struct SecondaryOverlayButton: View {
 				.tint(.primary)
 		} else {
 			Button {
-				self.sheetStack.push(self.sheetType)
+				if let sheetType = self.sheetType {
+					self.sheetStack.push(sheetType)
+				} else {
+					self.action?()
+				}
 			} label: {
 				Group {
 					Image(systemName: self.iconSystemName)
@@ -70,6 +80,14 @@ struct SecondaryOverlayButton: View {
 	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Binding<Int> = .constant(0)) {
 		self.iconSystemName = iconSystemName
 		self.sheetType = sheetType
+		self.action = nil
+		self._badgeNumber = badgeNumber
+	}
+	
+	init(iconSystemName: String, badgeNumber: Binding<Int> = .constant(0), _ action: @escaping () -> Void) {
+		self.iconSystemName = iconSystemName
+		self.sheetType = nil
+		self.action = action
 		self._badgeNumber = badgeNumber
 	}
 	
