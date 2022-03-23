@@ -140,7 +140,7 @@ struct ContentView: View {
 			.onAppear {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
-			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
+			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in
 				withAnimation {
 					self.isRefreshing = true
 				}

@@ -107,6 +107,16 @@ enum LoggingUtilities {
 	
 }
 
+enum UserNotificationUtilities {
+	
+	static func requestAuthorization() async throws {
+		try await UNUserNotificationCenter
+			.current()
+			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
+	}
+	
+}
+
 enum DefaultsKeys {
 	
 	static let coldLaunchCount = "ColdLaunchCount"
