@@ -11,6 +11,8 @@
 		65EE6BB927E819400075DAF1 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
 		65EE6BBB27E81A140075DAF1 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
 		65EE6BBC27E81A140075DAF1 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
+		65EE6BCA27EA792B0075DAF1 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */; };
+		65EE6BCB27EA79D20075DAF1 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
@@ -155,7 +157,8 @@
 
 /* Begin PBXFileReference section */
 		65EE6BB727E819400075DAF1 /* MilestoneToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToast.swift; sourceTree = "<group>"; };
-		65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToastView.swift; sourceTree = "<group>"; };
+		65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToastView.swift; sourceTree = "<group>"; wrapsLines = 1; };
+		65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
@@ -315,6 +318,7 @@
 				C059833E27D2CEFA00299D27 /* PrivacySheet.swift */,
 				C059831D27D14C8C00299D27 /* PrivacyView.swift */,
 				C038BEC4270FC91100A23A2B /* SettingsView.swift */,
+				65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */,
 				C059832327D1840700299D27 /* SheetPresentationWrapper.swift */,
 				65EE6BB727E819400075DAF1 /* MilestoneToast.swift */,
 				65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */,
@@ -638,6 +642,7 @@
 				C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */,
 				C03B1D372741E18B007B318E /* SheetStack.swift in Sources */,
 				C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */,
+				65EE6BCB27EA79D20075DAF1 /* ProgressBar.swift in Sources */,
 				C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */,
 				65EE6BBC27E81A140075DAF1 /* MilestoneToastView.swift in Sources */,
 				C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
@@ -700,6 +705,7 @@
 				C0A1E7292749F33C00DBF248 /* (null) in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
+				65EE6BCA27EA792B0075DAF1 /* ProgressBar.swift in Sources */,
 				C059834027D2CF0300299D27 /* PrivacySheet.swift in Sources */,
 				C039B06127961FE300416725 /* BusID.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
