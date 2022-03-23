@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct BusSelectionSheet: View {
 	
@@ -89,23 +90,17 @@ struct BusSelectionSheet: View {
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
-							self.mapState.busID = self.selectedBusID?.rawValue
-							self.mapState.travelState = .onBus
-							self.viewState.statusText = .locationData
-							self.viewState.handles.tripCount?.increment()
-							self.sheetStack.pop()
-							LocationUtilities.locationManager.startUpdatingLocation()
-							
-							// Schedule leave-bus notification
-							let content = UNMutableNotificationContent()
-							content.title = "Leave Bus"
-							content.subtitle = "Did you leave the bus? Remember to tap “Leave Bus” next time."
-							content.sound = .default
-							let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
-							let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
-							UNUserNotificationCenter
-								.current()
-								.add(request)
+							switch LocationUtilities.locationManager.accuracyAuthorization {
+							case .fullAccuracy:
+								self.boardBus()
+							case .reducedAccuracy:
+								Task {
+									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+									self.boardBus()
+								}
+							@unknown default:
+								fatalError()
+							}
 						} label: {
 							Text("Continue")
 								.bold()
@@ -141,6 +136,36 @@ struct BusSelectionSheet: View {
 					self.suggestedBusID = closestBusID
 				}
 			}
+	}
+	
+	private func boardBus() {
+		guard LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy else {
+			return
+		}
+		self.mapState.busID = self.selectedBusID?.rawValue
+		self.mapState.travelState = .onBus
+		self.viewState.statusText = .locationData
+		self.viewState.handles.tripCount?.increment()
+		self.sheetStack.pop()
+		LocationUtilities.locationManager.startUpdatingLocation()
+		
+		// Schedule leave-bus notification
+		let content = UNMutableNotificationContent()
+		content.title = "Leave Bus"
+		content.body = "Did you leave the bus? Remember to tap “Leave Bus” next time."
+		content.sound = .default
+		#if !APPCLIP
+		if #available(iOS 15, *) {
+			content.interruptionLevel = .timeSensitive
+		}
+		#endif // !APPCLIP
+		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
+		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
+		Task {
+			try await UNUserNotificationCenter
+				.current()
+				.add(request)
+		}
 	}
 	
 }

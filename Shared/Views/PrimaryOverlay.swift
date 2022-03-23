@@ -192,7 +192,7 @@ struct PrimaryOverlay: View {
 			Spacer()
 		}
 			.padding()
-			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
+			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in
 				self.refreshBuses()
 			}
 			.onReceive(self.timer) { (_) in
