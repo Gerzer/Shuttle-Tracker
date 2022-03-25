@@ -37,6 +37,11 @@ struct SecondaryOverlay: View {
 						}
 					}
 			}
+            if #available(iOS 15, *) {
+            Divider()
+                .frame(width: 45, height: 0)
+                SecondaryOverlayButton(iconSystemName: "scroll.fill", sheetType: .milestones)
+            }
 		}
 			.background(
 				VisualEffectView(.systemThickMaterial)

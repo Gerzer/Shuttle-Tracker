@@ -100,6 +100,13 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 							.interactiveDismissDisabled()
 					}
 					#endif // os(iOS)
+                case .milestones :
+                    #if os(iOS)
+                        if #available(iOS 15, *) {
+                        MilestoneToastView()
+                    }
+                    #endif // os(iOS)
+                    
 				}
 			}
 	}

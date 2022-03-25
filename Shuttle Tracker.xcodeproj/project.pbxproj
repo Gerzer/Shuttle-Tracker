@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		652C119A27EE5FC7000C919B /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
+		652C119B27EE5FD2000C919B /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
+		652C119C27EE5FDA000C919B /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
+		652C119D27EE5FDE000C919B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */; };
 		65EE6BB827E819400075DAF1 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
 		65EE6BB927E819400075DAF1 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
 		65EE6BBB27E81A140075DAF1 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
@@ -60,7 +64,6 @@
 		C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832127D1551400299D27 /* WelcomeSheet.swift */; };
 		C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
 		C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
-		C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
 		C059833B27D2C77900299D27 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833A27D2C77900299D27 /* AboutView.swift */; };
 		C059833D27D2C82E00299D27 /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833C27D2C82E00299D27 /* InfoSheet.swift */; };
 		C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
@@ -598,6 +601,7 @@
 			files = (
 				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
+				652C119C27EE5FDA000C919B /* MilestoneToast.swift in Sources */,
 				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,
 				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
 				C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */,
@@ -605,6 +609,7 @@
 				C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */,
 				C039B0652796201200416725 /* CloseButton.swift in Sources */,
 				C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */,
+				652C119B27EE5FD2000C919B /* MilestoneToastView.swift in Sources */,
 				C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
@@ -612,14 +617,15 @@
 				C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
+				652C119D27EE5FDE000C919B /* ProgressBar.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
-				C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C03B1D382741E18B007B318E /* SheetStack.swift in Sources */,
 				C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */,
 				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
+				652C119A27EE5FC7000C919B /* SheetPresentationWrapper.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
