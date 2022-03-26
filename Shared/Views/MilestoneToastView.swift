@@ -15,6 +15,15 @@ struct MilestoneToastView: View {
         
     var body: some View {
         VStack{
+            
+            HStack{
+            Text("Milestones")
+                    .bold()
+                    .font(.largeTitle)
+                    .padding()
+                Spacer()
+            }
+
         MilestoneToast("Stages ","Help ShuttleTracker reach the next checkpoint!"){
             withAnimation {
                 self.viewState.toastType = nil
