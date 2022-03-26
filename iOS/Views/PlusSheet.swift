@@ -30,22 +30,35 @@ import SwiftUI
 			Text("\(self.featureText) is a Plus feature.")
 				.font(.title3)
 				.bold()
-			Text("Subscribe to Shuttle Tracker+ today to get the best Shuttle Tracker experience. It’s just $9.99 per week. That’s cheap!")
+			Text("Subscribe to Shuttle Tracker+ today to get the best Shuttle Tracker experience. It’s just $4.99 per month. That’s cheap!")
 				.padding(.bottom)
 			Text("Shuttle Tracker+ exclusive features:")
 				.font(.headline)
+            VStack(alignment: .leading){
 			Text("• Refreshing the map")
 			Text("• Changing settings")
 			Text("• Viewing app information")
 			Text("• Supporting broke college students")
-			Spacer()
+            }
+            
+            Spacer(minLength: 50)
 			Button {
 				self.doShowAlert = true
 			} label: {
-				Text("Subscribe")
+				Text("Redeem 3 Months Free")
 					.bold()
 			}
 				.buttonStyle(.block)
+            
+            HStack(alignment: .center){
+                Spacer()
+                
+                Text("3 months free, then $4.99/month")
+                    .foregroundColor(.gray)
+                    .font(.caption)
+                Spacer()
+            }
+                
 		}
 			.padding([.horizontal, .bottom])
 			.alert("April Fools!", isPresented: self.$doShowAlert) {
@@ -53,6 +66,8 @@ import SwiftUI
 					self.sheetStack.pop()
 				}
 			}
+        
+        
 	}
 	
 }
