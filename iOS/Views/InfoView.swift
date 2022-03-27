@@ -13,6 +13,8 @@ struct InfoView: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	
 	var body: some View {
 		SheetPresentationWrapper {
 			ScrollView {
@@ -27,7 +29,7 @@ struct InfoView: View {
 						.padding(.bottom)
 					Text("Instructions")
 						.font(.headline)
-					Text("The map is automatically refreshed every 5 seconds. Green buses have high-quality location data, and red buses have low-quality location data. When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within 20 meters of a stop to board a bus.")
+					Text("The map is automatically refreshed every 5 seconds. Green buses have high-quality location data, and red buses have low-quality location data. When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
 						.padding(.bottom)
 					Text("Privacy")
 						.font(.headline)

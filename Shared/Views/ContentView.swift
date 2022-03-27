@@ -17,7 +17,7 @@ struct ContentView: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	private static let sheetStackHandle = SheetStack.shared.register()
 	

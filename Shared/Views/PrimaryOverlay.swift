@@ -32,7 +32,7 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	var body: some View {
 		HStack {
