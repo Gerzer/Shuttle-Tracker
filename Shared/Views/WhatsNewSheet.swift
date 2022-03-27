@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct WhatsNewSheet: View {
 	
@@ -89,6 +90,7 @@ struct WhatsNewSheet: View {
 					Button("Close") {
 						self.sheetStack.pop()
 						self.viewState.handles.whatsNew?.increment()
+						SKStoreReviewController.requestReview()
 					}
 				}
 				#endif // os(macOS)

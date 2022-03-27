@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct PrimaryOverlay: View {
 	
@@ -56,6 +57,17 @@ struct PrimaryOverlay: View {
 							UNUserNotificationCenter
 								.current()
 								.removeAllPendingNotificationRequests()
+							
+							let windowScenes = UIApplication.shared.connectedScenes
+								.filter { (scene) in
+									return scene.activationState == .foregroundActive
+								}
+								.compactMap { (scene) in
+									return scene as? UIWindowScene
+								}
+							if let windowScene = windowScenes.first {
+								SKStoreReviewController.requestReview(in: windowScene)
+							}
 						case .notOnBus:
 							guard let location = LocationUtilities.locationManager.location else {
 								break
