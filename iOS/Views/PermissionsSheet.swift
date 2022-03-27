@@ -41,6 +41,14 @@ struct PermissionsSheet: View {
 											.frame(width: 50, height: 50)
 										Text("You’ve already granted location permission. Thanks!")
 									}
+								case (.restricted, _), (.denied, _):
+									HStack {
+										Image(systemName: "gear.badge.xmark")
+											.resizable()
+											.scaledToFit()
+											.frame(width: 50, height: 50)
+										Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
+									}
 								case (.notDetermined, _):
 									HStack {
 										Image(systemName: "gear.badge.questionmark")
@@ -56,14 +64,6 @@ struct PermissionsSheet: View {
 											.scaledToFit()
 											.frame(width: 50, height: 50)
 										Text("Tap “Continue” and then grant full-accuracy location permission.")
-									}
-								case (.restricted, _), (.denied, _):
-									HStack {
-										Image(systemName: "gear.badge.xmark")
-											.resizable()
-											.scaledToFit()
-											.frame(width: 50, height: 50)
-										Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
 									}
 								@unknown default:
 									fatalError()
@@ -89,21 +89,6 @@ struct PermissionsSheet: View {
 												.frame(width: 50, height: 50)
 											Text("You’ve already granted notification permission. Thanks!")
 										}
-									case .notDetermined, .provisional:
-										HStack {
-											Image(systemName: "gear.badge.questionmark")
-												.resizable()
-												.scaledToFit()
-												.frame(width: 50, height: 50)
-											switch LocationUtilities.locationManager.authorizationStatus {
-											case .authorizedAlways, .authorizedWhenInUse:
-												Text("Tap “Continue” and then grant notification permission.")
-											case .notDetermined, .restricted, .denied:
-												Text("You haven’t yet granted notification permission.")
-											@unknown default:
-												fatalError()
-											}
-										}
 									case .denied:
 										HStack {
 											Image(systemName: "gear.badge.xmark")
@@ -111,6 +96,21 @@ struct PermissionsSheet: View {
 												.scaledToFit()
 												.frame(width: 50, height: 50)
 											Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
+										}
+									case .notDetermined, .provisional:
+										HStack {
+											Image(systemName: "gear.badge.questionmark")
+												.resizable()
+												.scaledToFit()
+												.frame(width: 50, height: 50)
+											switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+											case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
+												Text("Tap “Continue” and then grant notification permission.")
+											case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
+												Text("You haven’t yet granted notification permission.")
+											@unknown default:
+												fatalError()
+											}
 										}
 									@unknown default:
 										fatalError()
@@ -143,24 +143,34 @@ struct PermissionsSheet: View {
 								switch notificationAuthorizationStatus {
 								case .authorized, .ephemeral:
 									break
-								case .notDetermined, .provisional:
-									Task {
-										try await UserNotificationUtilities.requestAuthorization()
-									}
 								case .denied:
 									let url = try! UIApplication.openSettingsURLString.asURL()
 									self.openURL(url)
+								case .notDetermined, .provisional:
+									Task {
+										do {
+											try await UserNotificationUtilities.requestAuthorization()
+										} catch let error {
+											print("[PermissionSheet body] Notification authorization request error: \(error.localizedDescription)")
+										}
+									}
 								@unknown default:
 									fatalError()
 								}
 							}
-						case (.notDetermined, _):
-							LocationUtilities.locationManager.requestWhenInUseAuthorization()
-						case (_, .reducedAccuracy):
-							LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 						case (.restricted, _), (.denied, _):
 							let url = try! UIApplication.openSettingsURLString.asURL()
 							self.openURL(url)
+						case (.notDetermined, _):
+							LocationUtilities.locationManager.requestWhenInUseAuthorization()
+						case (_, .reducedAccuracy):
+							Task {
+								do {
+									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+								} catch let error {
+									print("[PermissionsSheet body] Full-accuracy location authorization request error: \(error.localizedDescription)")
+								}
+							}
 						@unknown default:
 							fatalError()
 						}

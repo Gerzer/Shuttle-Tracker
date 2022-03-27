@@ -162,6 +162,11 @@ struct BusSelectionSheet: View {
 		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
 		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
 		Task {
+			do {
+				try await UserNotificationUtilities.requestAuthorization()
+			} catch let error {
+				print("[BusSelectionSheet boardBus()] Notification authorization request error: \(error.localizedDescription)")
+			}
 			try await UNUserNotificationCenter
 				.current()
 				.add(request)
