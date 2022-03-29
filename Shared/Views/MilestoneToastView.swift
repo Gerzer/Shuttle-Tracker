@@ -14,56 +14,90 @@ struct MilestoneToastView: View {
     @State private var levels = [100,200,300,400,500]
         
     var body: some View {
-        VStack{
+        
+        ScrollView {
             
-            HStack{
-            Text("Milestones")
-                    .bold()
-                    .font(.largeTitle)
-                    .padding()
-                Spacer()
-            }
+            VStack{
+                HStack{
+                Text("Milestones")
+                        .bold()
+                        .font(.largeTitle)
+                        .padding()
+                    Spacer()
+                }
 
-        MilestoneToast("Stages ","Help ShuttleTracker reach the next checkpoint!"){
-            withAnimation {
-                self.viewState.toastType = nil
+            MilestoneToast(){
+                withAnimation {
+                    self.viewState.toastType = nil
+                }
+            }  content : {
+                HStack {
+                    Image(systemName: "skew")
+                        .resizable()
+                        .frame(width: 26, height: 24)
+                    Text("Stages")
+                        .font(.system(size: 32, weight: .medium, design: .default))
+                }
+                .rainbow()
+                HStack{
+                    Text("Help ShuttleTracker reach the next checkpoint!")
+                        .font(.system(size: 18, weight: .bold, design: .default))
+                }
+                Divider()
+                HStack(alignment: .lastTextBaseline){
+                    Text("\(numberOfBoard)")
+                        .bold()
+                        .font(.largeTitle)
+                    Text("out of \(levels[currentLevel]) rides")
+                }
+                Spacer()
+                    .frame(height: 5)
+                ProgressBar(progressValue: self.progress.progCurrentLevel)
+                
+                HStack(alignment: .lastTextBaseline){
+                    Text("\(currentLevel)")
+                        .font(.largeTitle)
+                        .bold()
+                    Text("out of \(levels.count) stages")
+                }
+                Spacer()
+                    .frame(height: 5)
+                ProgressBar(progressValue: self.progress.progressStage)
             }
-        }  content : {
-            Divider()
-           
-            HStack(alignment: .lastTextBaseline){
-                Text("\(numberOfBoard)")
-                    .bold()
-                    .font(.largeTitle)
-                Text("out of \(levels[currentLevel]) rides")
+            .padding()
+                
+                
+                
+                
+                Button("TAP BOARD BUS"){
+                    self.numberOfBoard += 1
+                }
+                
+            MilestoneToast() {
+                    withAnimation {
+                        self.viewState.toastType = nil
+                    }
+            } content : {
+                HStack{
+                Image(systemName: "bus")
+                        .foregroundColor(.red)
+                    
+                Text("Why Shuttle Tracker")
+                        .bold()
+                        .font(.title)
+                        .foregroundColor(.red)
+                    }
+                Divider()
+                Text("Because")
+                
             }
-            Spacer()
-                .frame(height: 5)
-            ProgressBar(progressValue: self.progress.progCurrentLevel)
-            
-            HStack(alignment: .lastTextBaseline){
-                Text("\(currentLevel)")
-                    .font(.largeTitle)
-                    .bold()
-                Text("out of \(levels.count) stages")
-            }
-            Spacer()
-                .frame(height: 5)
-            ProgressBar(progressValue: self.progress.progressStage)
-        }
-        .padding()
-            
-            
-            
-            
-            Button("TAP BOARD BUS"){
-                self.numberOfBoard += 1
+            .padding()
+                
             }
         }
     }
     
 
-    
     var currentLevel:Int {
             var a :Int = 0
             for i in 0..<self.levels.count {
