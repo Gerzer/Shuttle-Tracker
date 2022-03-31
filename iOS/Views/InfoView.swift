@@ -23,24 +23,34 @@ struct InfoView: View {
 				VStack(alignment: .leading, spacing: 0) {
 					Text("Shuttle Tracker shows you the real-time locations of the RPI campus shuttles, powered by crowd-sourced location data.")
 						.padding(.bottom)
-					Section {
-						VStack(alignment: .leading, spacing: 0) {
-							if let schedule = self.schedule {
-								let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-								let times = [schedule.content.monday, schedule.content.tuesday, schedule.content.wednesday, schedule.content.thursday, schedule.content.friday, schedule.content.saturday, schedule.content.sunday]
-								ForEach(0 ..< 7) { (index) in
-									Text("\(days[index]): \(times[index].start) to \(times[index].end)")
+					if let schedule = self.schedule {
+						Section {
+							HStack {
+								VStack(alignment: .leading, spacing: 0) {
+									Text("Monday")
+									Text("Tuesday")
+									Text("Wednesday")
+									Text("Thursday")
+									Text("Friday")
+									Text("Saturday")
+									Text("Sunday")
 								}
-							} else {
-								Text("Monday through Friday: 7:00 AM to 11:45 PM")
-								Text("Saturday: 9:00 AM to 11:45 PM")
-								Text("Sunday: 9:00 AM to 8:00 PM")
+								VStack(alignment: .leading, spacing: 0) {
+									Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
+									Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
+									Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
+									Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
+									Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
+									Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
+									Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
+								}
+								Spacer()
 							}
+								.padding(.bottom)
+						} header: {
+							Text("Schedule")
+								.font(.headline)
 						}
-						.padding(.bottom)
-					} header: {
-						Text("Schedule")
-							.font(.headline)
 					}
 					Section {
 						Text("The map is automatically refreshed every 5 seconds. Green buses have high-quality location data, and red buses have low-quality location data. When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
