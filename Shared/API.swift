@@ -41,8 +41,8 @@ enum API: TargetType {
 	case readRoutes
 	
 	case readStops
-    
-    case schedule
+	
+	case schedule
 	
 	static let provider = MoyaProvider<API>()
 	
@@ -75,17 +75,16 @@ enum API: TargetType {
 				return "/routes"
 			case .readStops:
 				return "/stops"
-            case .schedule:
-                return "/schedule.json"
+			case .schedule:
+				return "/schedule"
 			}
-            
 		}
 	}
 	
 	public var method: HTTPMethod {
 		get {
 			switch self {
-            case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .schedule:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .schedule:
 				return .get
 			case .updateBus:
 				return .patch
@@ -98,7 +97,7 @@ enum API: TargetType {
 	var task: Task {
 		get {
 			switch self {
-            case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [
