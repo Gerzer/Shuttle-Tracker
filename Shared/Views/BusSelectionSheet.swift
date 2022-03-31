@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct BusSelectionSheet: View {
 	
@@ -18,6 +19,8 @@ struct BusSelectionSheet: View {
 	@EnvironmentObject private var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
+	
+	@EnvironmentObject private var sheetStack: SheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -72,10 +75,10 @@ struct BusSelectionSheet: View {
 							}
 							Spacer(minLength: 20)
 						}
-							.padding(.horizontal)
+						.padding(.horizontal)
 					}
 				} else {
-					ProgressView("Loading…")
+					ProgressView("Loading")
 						.font(.callout)
 						.textCase(.uppercase)
 				}
@@ -87,17 +90,22 @@ struct BusSelectionSheet: View {
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
-							self.mapState.busID = self.selectedBusID?.rawValue
-							self.mapState.travelState = .onBus
-							self.viewState.statusText = .locationData
-							self.viewState.sheetType = nil
-							self.viewState.handles.tripCount?.increment()
-							LocationUtilities.locationManager.startUpdatingLocation()
+							switch LocationUtilities.locationManager.accuracyAuthorization {
+							case .fullAccuracy:
+								self.boardBus()
+							case .reducedAccuracy:
+								Task {
+									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+									self.boardBus()
+								}
+							@unknown default:
+								fatalError()
+							}
 						} label: {
 							Text("Continue")
 								.bold()
 						}
-							.buttonStyle(BlockButtonStyle())
+							.buttonStyle(.block)
 							.disabled(self.selectedBusID == nil)
 							.padding(.vertical)
 					}
@@ -128,6 +136,41 @@ struct BusSelectionSheet: View {
 					self.suggestedBusID = closestBusID
 				}
 			}
+	}
+	
+	private func boardBus() {
+		guard LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy else {
+			return
+		}
+		self.mapState.busID = self.selectedBusID?.rawValue
+		self.mapState.travelState = .onBus
+		self.viewState.statusText = .locationData
+		self.viewState.handles.tripCount?.increment()
+		self.sheetStack.pop()
+		LocationUtilities.locationManager.startUpdatingLocation()
+		
+		// Schedule leave-bus notification
+		let content = UNMutableNotificationContent()
+		content.title = "Leave Bus"
+		content.body = "Did you leave the bus? Remember to tap “Leave Bus” next time."
+		content.sound = .default
+		#if !APPCLIP
+		if #available(iOS 15, *) {
+			content.interruptionLevel = .timeSensitive
+		}
+		#endif // !APPCLIP
+		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
+		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
+		Task {
+			do {
+				try await UserNotificationUtilities.requestAuthorization()
+			} catch let error {
+				print("[BusSelectionSheet boardBus()] Notification authorization request error: \(error.localizedDescription)")
+			}
+			try await UNUserNotificationCenter
+				.current()
+				.add(request)
+		}
 	}
 	
 }

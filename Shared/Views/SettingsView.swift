@@ -11,31 +11,47 @@ struct SettingsView: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var sheetStack: SheetStack
+	
 	@AppStorage("ColorBlindMode") private var colorBlindMode = false
 	
 	var body: some View {
-		Form {
-			#if os(iOS)
-			Section {
-				Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
-			} footer: {
-				Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
-			}
-			Section {
-				NavigationLink("Advanced") {
-					AdvancedSettingsView()
+		SheetPresentationWrapper {
+			Form {
+				#if os(iOS)
+				Section {
+					Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
+				} footer: {
+					Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
 				}
+				#if !APPCLIP
+				Section {
+					Button("View Permissions") {
+						self.sheetStack.push(.permissions)
+					}
+				}
+				#endif // !APPCLIP
+				Section {
+					NavigationLink("Advanced") {
+						AdvancedSettingsView()
+					}
+				}
+				Section {
+					NavigationLink("About") {
+						AboutView()
+					}
+				}
+				#elseif os(macOS) // os(iOS)
+				Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
+				#endif // os(macOS)
 			}
-			#elseif os(macOS) // os(iOS)
-			Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
-			#endif // os(macOS)
+				.onChange(of: self.colorBlindMode) { (_) in
+					withAnimation {
+						self.viewState.toastType = .legend
+						self.viewState.legendToastHeadlineText = nil
+					}
+				}
 		}
-			.onChange(of: self.colorBlindMode) { (_) in
-				withAnimation {
-					self.viewState.toastType = .legend
-					self.viewState.legendToastHeadlineText = nil
-				}
-			}
 	}
 	
 }

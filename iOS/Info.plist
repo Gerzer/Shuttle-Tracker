@@ -26,6 +26,11 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>BoardBus</key>
+		<string>Shuttle Tracker requires precise location access to improve data accuracy for everyone.</string>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Shuttle Tracker uses your location to provide shuttle-tracking features.</string>
 	<key>UIApplicationSceneManifest</key>

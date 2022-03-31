@@ -11,7 +11,7 @@ struct AdvancedSettingsView: View {
 	
 	@AppStorage("BaseURL") private var baseURL = URL(string: "https://shuttletracker.app")!
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	var body: some View {
 		Form {
@@ -39,20 +39,25 @@ struct AdvancedSettingsView: View {
 				}
 			}
 			Section {
-				if #available(iOS 15.0, *) {
+				if #available(iOS 15, *) {
 					Button("Reset", role: .destructive) {
 						self.baseURL = URL(string: "https://shuttletracker.app")!
-						self.maximumStopDistance = 20
+						self.maximumStopDistance = 50
 					}
 				} else {
 					Button("Reset") {
 						self.baseURL = URL(string: "https://shuttletracker.app")!
-						self.maximumStopDistance = 20
+						self.maximumStopDistance = 50
 					}
 				}
 			}
 		}
 			.navigationTitle("Advanced")
+			.toolbar {
+				ToolbarItem {
+					CloseButton()
+				}
+			}
 	}
 	
 }

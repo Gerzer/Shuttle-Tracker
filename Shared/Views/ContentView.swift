@@ -15,137 +15,106 @@ struct ContentView: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@EnvironmentObject private var sheetStack: SheetStack
+	
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	
+	private static let sheetStackHandle = SheetStack.shared.register()
 	
 	var body: some View {
-		ZStack {
-			self.mapView
-				.ignoresSafeArea()
-			#if os(macOS)
-			VStack {
-				HStack {
-					switch self.viewState.toastType {
-					case .legend:
-						LegendToast()
-							.frame(maxWidth: 250, maxHeight: 100)
-							.padding(.top, 50)
-							.padding(.leading, 10)
-					default:
-						EmptyView()
+		SheetPresentationWrapper {
+			ZStack {
+				self.mapView
+					.ignoresSafeArea()
+				#if os(macOS)
+				VStack {
+					HStack {
+						switch self.viewState.toastType {
+						case .legend:
+							LegendToast()
+								.frame(maxWidth: 250, maxHeight: 100)
+								.padding(.top, 50)
+								.padding(.leading, 10)
+						default:
+							EmptyView()
+						}
+						Spacer()
 					}
 					Spacer()
 				}
-				Spacer()
-			}
-			#else // os(macOS)
-			VStack {
-				VisualEffectView(.systemUltraThinMaterial)
-					.ignoresSafeArea()
-					.frame(height: 0)
-				#if !APPCLIP
-				switch self.viewState.toastType {
-				case .legend:
-					LegendToast()
-						.padding()
-				case .boardBus:
-					BoardBusToast()
-						.padding()
-				default:
-					HStack {
-						SecondaryOverlay()
-							.padding(.top, 5)
-							.padding(.leading, 10)
-						Spacer()
-					}
-				}
-				Spacer()
-				#endif // !APPCLIP
-				PrimaryOverlay()
-					.padding(.bottom)
-				#if APPCLIP
-				Spacer()
-				#endif // APPCLIP
-			}
-			#endif // os(macOS)
-		}
-			.sheet(item: self.$viewState.sheetType) {
-				[Route].download { (routes) in
-					DispatchQueue.main.async {
-						self.mapState.routes = routes
-					}
-				}
-			} content: { (sheetType) in
-				switch sheetType {
-				case .privacy:
-					#if os(iOS) && !APPCLIP
-					if #available(iOS 15, *) {
-						PrivacySheet()
-							.interactiveDismissDisabled()
-					} else {
-						PrivacySheet()
-					}
-					#endif // os(iOS) && !APPCLIP
-				case .settings:
-					#if os(iOS) && !APPCLIP
-					SettingsSheet()
-					#endif // os(iOS) && !APPCLIP
-				case .info:
-					#if os(iOS) && !APPCLIP
-					InfoSheet()
-					#endif // os(iOS) && !APPCLIP
-				case .busSelection:
-					#if os(iOS)
-					if #available(iOS 15, *) {
-						BusSelectionSheet()
-							.interactiveDismissDisabled()
-					} else {
-						BusSelectionSheet()
-					}
-					#endif // os(iOS)
-				case .announcements:
-					if #available(iOS 15, macOS 12, *) {
-						AnnouncementsSheet()
-							.frame(idealWidth: 500, idealHeight: 500)
-					}
-				case .whatsNew:
+				#else // os(macOS)
+				VStack {
+					VisualEffectView(.systemUltraThinMaterial)
+						.ignoresSafeArea()
+						.frame(height: 0)
 					#if !APPCLIP
-					WhatsNewSheet()
-						.frame(idealWidth: 500, idealHeight: 500)
-					#endif // !APPCLIP
-				}
-			}
-			.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
-				switch alertType {
-                /// Displays message when user attempts to board bus when there is no nearby stop.
-				case .noNearbyStop:
-					return Alert(
-						title: Text("No Nearby Stop"),
-						message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
-						dismissButton: .default(Text("Dismiss"))
-					)
-				case .updateAvailable:
-					return Alert(
-						title: Text("Update Available"),
-						message: Text("An update to the app is available. Please update to the latest version to continue using Shuttle Tracker."),
-						dismissButton: .default(Text("Update")) {
-							let url = URL(string: "itms-apps://apps.apple.com/us/app/shuttle-tracker/id1583503452")!
-							#if os(macOS)
-							NSWorkspace.shared.open(url)
-							#else // os(macOS)
-							UIApplication.shared.open(url)
-							#endif // os(macOS)
+					switch self.viewState.toastType {
+					case .legend:
+						LegendToast()
+							.padding()
+					case .boardBus:
+						BoardBusToast()
+							.padding()
+					default:
+						HStack {
+							SecondaryOverlay()
+								.padding(.top, 5)
+								.padding(.leading, 10)
+							Spacer()
 						}
-					)
+					}
+					Spacer()
+					#endif // !APPCLIP
+					PrimaryOverlay()
+						.padding(.bottom)
+					#if APPCLIP
+					Spacer()
+					#endif // APPCLIP
 				}
+				#endif // os(macOS)
 			}
-			.onAppear {
-				API.provider.request(.readVersion) { (result) in
-					let version = (try? result.value?.map(Int.self)) ?? Int.max
-					if version > API.lastVersion {
-						self.viewState.alertType = .updateAvailable
+				.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
+					switch alertType {
+					case .noNearbyStop:
+						// Displays a message when the user attempts to board bus when there’s no nearby stop
+						return Alert(
+							title: Text("No Nearby Stop"),
+							message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
+							dismissButton: .default(Text("Dismiss"))
+						)
+					case .updateAvailable:
+						return Alert(
+							title: Text("Update Available"),
+							message: Text("An update to the app is available. Please update to the latest version to continue using Shuttle Tracker."),
+							dismissButton: .default(Text("Update")) {
+								let url = URL(string: "itms-apps://apps.apple.com/us/app/shuttle-tracker/id1583503452")!
+								#if os(macOS)
+								NSWorkspace.shared.open(url)
+								#else // os(macOS)
+								UIApplication.shared.open(url)
+								#endif // os(macOS)
+							}
+						)
+					case .serverUnavailable:
+						return Alert(
+							title: Text("Server Unavailable"),
+							message: Text("Shuttle Tracker can’t connect to its server; please try again later."),
+							dismissButton: .default(Text("Dismiss"))
+						)
 					}
 				}
-			}
+				.onAppear {
+					API.provider.request(.readVersion) { (result) in
+						if let version = (try? result.value?.map(Int.self)) {
+							if version > API.lastVersion {
+								self.viewState.alertType = .updateAvailable
+							}
+						} else {
+							self.viewState.alertType = .serverUnavailable
+						}
+					}
+				}
+		}
 	}
 	
 	#if os(macOS)
@@ -160,9 +129,16 @@ struct ContentView: View {
 			.toolbar {
 				ToolbarItem {
 					Button {
-						self.viewState.sheetType = .announcements
+						self.sheetStack.push(.announcements)
 					} label: {
 						Label("View Announcements", systemImage: "exclamationmark.bubble")
+					}
+				}
+				ToolbarItem {
+					Button {
+						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+					} label: {
+						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 					}
 				}
 				ToolbarItem {
@@ -180,7 +156,7 @@ struct ContentView: View {
 			.onAppear {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
-			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
+			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in
 				withAnimation {
 					self.isRefreshing = true
 				}

@@ -14,7 +14,7 @@ struct SettingsSheet: View {
 			SettingsView()
 				.navigationTitle("Settings")
 				.toolbar {
-					ToolbarItem(placement: .navigationBarTrailing) {
+					ToolbarItem {
 						CloseButton()
 					}
 				}

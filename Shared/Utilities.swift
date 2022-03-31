@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import UserNotifications
 import OSLog
 
 enum ViewUtilities {
@@ -45,10 +46,19 @@ enum LocationUtilities {
 	
 	private static let locationManagerDelegate = LocationManagerDelegate()
 	
+	private static var locationManagerHandlers: [(CLLocationManager) -> Void] = []
+	
 	static var locationManager: CLLocationManager! {
 		didSet {
 			self.locationManager.delegate = self.locationManagerDelegate
+			for locationManagerHandler in self.locationManagerHandlers {
+				locationManagerHandler(self.locationManager)
+			}
 		}
+	}
+	
+	static func registerLocationManagerHandler(_ handler: @escaping (CLLocationManager) -> Void) {
+		self.locationManagerHandlers.append(handler)
 	}
 	
 	static func sendToServer(coordinate: CLLocationCoordinate2D) {
@@ -82,9 +92,29 @@ enum MapUtilities {
 	
 }
 
+enum CalendarUtilities {
+	
+	@available(iOS 15, macOS 12, *) static var isAprilFools: Bool {
+		get {
+			return Calendar.autoupdatingCurrent.dateComponents([.year, .month, .day], from: .now) == DateComponents(year: 2022, month: 4, day: 1)
+		}
+	}
+	
+}
+
 enum LoggingUtilities {
 	
 	static let logger = Logger()
+	
+}
+
+enum UserNotificationUtilities {
+	
+	static func requestAuthorization() async throws {
+		try await UNUserNotificationCenter
+			.current()
+			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
+	}
 	
 }
 
@@ -155,6 +185,28 @@ extension View {
 				.blur(radius: width)
 				.mask(shape)
 		)
+	}
+	
+	func rainbow() -> some View {
+		return self
+			.overlay(
+				GeometryReader { (geometry) in
+					ZStack {
+						LinearGradient(
+							gradient: Gradient(
+								colors: stride(from: 0.7, to: 0.85, by: 0.01)
+									.map { (hue) in
+										return Color(hue: hue, saturation: 1, brightness: 1)
+									}
+							),
+							startPoint: .leading,
+							endPoint: .trailing
+						)
+						.frame(width: geometry.size.width)
+					}
+				}
+			)
+			.mask(self)
 	}
 	
 }

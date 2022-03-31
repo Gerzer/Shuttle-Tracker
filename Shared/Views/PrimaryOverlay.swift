@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct PrimaryOverlay: View {
 	
@@ -30,81 +31,180 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@EnvironmentObject private var sheetStack: SheetStack
+	
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	var body: some View {
 		HStack {
 			Spacer()
-			VStack(alignment: .leading) {
-				Button {
-					switch self.mapState.travelState {
-					case .onBus:
-						self.mapState.busID = nil
-						self.mapState.locationID = nil
-						self.mapState.travelState = .notOnBus
-						self.viewState.statusText = .thanks
-						DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-							self.viewState.statusText = .mapRefresh
-						}
-						LocationUtilities.locationManager.stopUpdatingLocation()
-					case .notOnBus:
-						guard let location = LocationUtilities.locationManager.location else {
-							break
-						}
-						let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-							let newDistance = stop.location.distance(from: location)
-							if newDistance < distance {
-								distance = newDistance
+			if #available(iOS 15, *) {
+				VStack(alignment: .leading) {
+					Button {
+						switch self.mapState.travelState {
+						case .onBus:
+							self.mapState.busID = nil
+							self.mapState.locationID = nil
+							self.mapState.travelState = .notOnBus
+							self.viewState.statusText = .thanks
+							DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+								self.viewState.statusText = .mapRefresh
+								
 							}
-						}
-						if closestStopDistance < Double(self.maximumStopDistance) {
-							self.mapState.locationID = UUID()
-							self.viewState.sheetType = .busSelection
-							if self.viewState.toastType == .boardBus {
-								self.viewState.toastType = nil
-							}
-						} else {
-							self.viewState.alertType = .noNearbyStop
-						}
-					}
-				} label: {
-					Text(self.buttonText)
-						.bold()
-				}
-					.buttonStyle(BlockButtonStyle())
-				HStack {
-					Text(self.viewState.statusText.rawValue)
-						.layoutPriority(1)
-					Spacer()
-					Group {
-						if self.isRefreshing {
-							ProgressView()
-						} else {
-							Button {
-								withAnimation {
-									self.isRefreshing = true
+							LocationUtilities.locationManager.stopUpdatingLocation()
+							
+							// Remove any pending leave-bus notifications
+							UNUserNotificationCenter
+								.current()
+								.removeAllPendingNotificationRequests()
+							
+							let windowScenes = UIApplication.shared.connectedScenes
+								.filter { (scene) in
+									return scene.activationState == .foregroundActive
 								}
-								DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-									self.refreshBuses()
+								.compactMap { (scene) in
+									return scene as? UIWindowScene
 								}
-							} label: {
-								Image(systemName: "arrow.clockwise.circle.fill")
-									.resizable()
-									.aspectRatio(1, contentMode: .fit)
+							if let windowScene = windowScenes.first {
+								SKStoreReviewController.requestReview(in: windowScene)
+							}
+						case .notOnBus:
+							guard let location = LocationUtilities.locationManager.location else {
+								break
+							}
+							let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+								let newDistance = stop.location.distance(from: location)
+								if newDistance < distance {
+									distance = newDistance
+								}
+							}
+							if closestStopDistance < Double(self.maximumStopDistance) {
+								self.mapState.locationID = UUID()
+								self.sheetStack.push(.busSelection)
+								if self.viewState.toastType == .boardBus {
+									self.viewState.toastType = nil
+								}
+							} else {
+								self.viewState.alertType = .noNearbyStop
 							}
 						}
+					} label: {
+						Text(self.buttonText)
+							.bold()
 					}
-						.frame(width: 30)
+						.buttonStyle(.block)
+					HStack {
+						Text(self.viewState.statusText.rawValue)
+							.layoutPriority(1)
+						Spacer()
+						Group {
+							if self.isRefreshing {
+								ProgressView()
+							} else {
+								Button {
+									if CalendarUtilities.isAprilFools {
+										self.sheetStack.push(.plus(featureText: "Refreshing the map"))
+									} else {
+										withAnimation {
+											self.isRefreshing = true
+										}
+										DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+											self.refreshBuses()
+										}
+									}
+								} label: {
+									Image(systemName: "arrow.clockwise.circle.fill")
+										.resizable()
+										.aspectRatio(1, contentMode: .fit)
+								}
+							}
+						}
+							.frame(width: 30)
+					}
 				}
+					.padding()
+					.background(.regularMaterial)
+					.mask {
+						RoundedRectangle(cornerRadius: 20, style: .continuous)
+					}
+					.shadow(radius: 5)
+			} else {
+				VStack(alignment: .leading) {
+					Button {
+						switch self.mapState.travelState {
+						case .onBus:
+							self.mapState.busID = nil
+							self.mapState.locationID = nil
+							self.mapState.travelState = .notOnBus
+							self.viewState.statusText = .thanks
+							DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+								self.viewState.statusText = .mapRefresh
+							}
+							LocationUtilities.locationManager.stopUpdatingLocation()
+							
+							// Remove any pending leave-bus notifications
+							UNUserNotificationCenter
+								.current()
+								.removeAllPendingNotificationRequests()
+						case .notOnBus:
+							guard let location = LocationUtilities.locationManager.location else {
+								break
+							}
+							let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+								let newDistance = stop.location.distance(from: location)
+								if newDistance < distance {
+									distance = newDistance
+								}
+							}
+							if closestStopDistance < Double(self.maximumStopDistance) {
+								self.mapState.locationID = UUID()
+								self.sheetStack.push(.busSelection)
+								if self.viewState.toastType == .boardBus {
+									self.viewState.toastType = nil
+								}
+							} else {
+								self.viewState.alertType = .noNearbyStop
+							}
+						}
+					} label: {
+						Text(self.buttonText)
+							.bold()
+					}
+						.buttonStyle(.block)
+					HStack {
+						Text(self.viewState.statusText.rawValue)
+							.layoutPriority(1)
+						Spacer()
+						Group {
+							if self.isRefreshing {
+								ProgressView()
+							} else {
+								Button {
+									withAnimation {
+										self.isRefreshing = true
+									}
+									DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+										self.refreshBuses()
+									}
+								} label: {
+									Image(systemName: "arrow.clockwise.circle.fill")
+										.resizable()
+										.aspectRatio(1, contentMode: .fit)
+								}
+							}
+						}
+							.frame(width: 30)
+					}
+				}
+					.padding()
+					.background(VisualEffectView(.systemMaterial))
+					.cornerRadius(20)
+					.shadow(radius: 5)
 			}
-				.padding()
-				.background(VisualEffectView(.systemMaterial))
-				.cornerRadius(20)
-				.shadow(radius: 5)
 			Spacer()
 		}
 			.padding()
-			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
+			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in
 				self.refreshBuses()
 			}
 			.onReceive(self.timer) { (_) in
@@ -151,6 +251,8 @@ struct PrimaryOverlayPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		PrimaryOverlay()
+			.environmentObject(MapState.shared)
+			.environmentObject(ViewState.shared)
 	}
 	
 }
