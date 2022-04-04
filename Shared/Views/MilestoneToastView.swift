@@ -7,16 +7,18 @@
 
 import SwiftUI
 
+@available(iOS 15.0, *)
 struct MilestoneToastView: View {
     @EnvironmentObject private var viewState: ViewState
     
     @State private var numberOfBoard:Int = 95
     @State private var levels = [100,200,300,400,500]
+    
+    @State var milestones = [Milestone]()
         
     var body: some View {
         
         ScrollView {
-            
             VStack{
                 HStack{
                 Text("Milestones")
@@ -45,7 +47,7 @@ struct MilestoneToastView: View {
                 }
                 Divider()
                 HStack(alignment: .lastTextBaseline){
-                    Text("\(numberOfBoard)")
+                    Text(self.milestones[0].extendedDescription)
                         .bold()
                         .font(.largeTitle)
                     Text("out of \(levels[currentLevel]) rides")
@@ -65,13 +67,6 @@ struct MilestoneToastView: View {
                 ProgressBar(progressValue: self.progress.progressStage)
             }
             .padding()
-                
-                
-                
-                
-                Button("TAP BOARD BUS"){
-                    self.numberOfBoard += 1
-                }
                 
             MilestoneToast() {
                     withAnimation {
@@ -94,6 +89,27 @@ struct MilestoneToastView: View {
             .padding()
                 
             }
+            .task {
+                await loadData()
+            }
+        }
+
+    }
+    
+    
+    func loadData() async {
+        guard let url = URL(string: "https://shuttletracker.app/milestones")
+        else {
+            print("RIP milestones")
+            return
+        }
+        do {
+            let (data,_) = try await URLSession.shared.data(from: url)
+            if let decodedResponse = try? JSONDecoder().decode([Milestone].self, from: data){
+                milestones = decodedResponse
+            }
+        } catch {
+            print("INVALID DATA")
         }
     }
     
@@ -119,8 +135,12 @@ struct MilestoneToastView: View {
 
 struct MilestoneToastView_Previews: PreviewProvider {
     static var previews: some View {
-        MilestoneToastView()
-            .environmentObject(ViewState.shared)
+        if #available(iOS 15.0, *) {
+            MilestoneToastView()
+                .environmentObject(ViewState.shared)
+        } else {
+            // Fallback on earlier versions
+        }
 
     }
 }
