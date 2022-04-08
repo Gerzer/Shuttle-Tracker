@@ -32,7 +32,7 @@ struct MilestoneToastView: View {
         VStack{
                 ForEach(viewModel.milestones,id: \.self) { milestone in
                     var r = Double.random(in: 0...1)
-                    var g = Double.random(in: 0...1)
+                    var g = Double.random(in: 0...0.8)
                     var b = Double.random(in: 0...1)
                 
                     MilestoneToast(){
@@ -67,10 +67,10 @@ struct MilestoneToastView: View {
                         ProgressBar(progressValue: 0.3)
                         
                         HStack(alignment: .lastTextBaseline){
-                            Text("199")
+                            Text("\(milestone.progress)")
                                 .font(.largeTitle)
                                 .bold()
-                            Text("out of 10 stages")
+                            Text("out of \(milestone.goals.count) stages")
                         }
                         Spacer()
                             .frame(height: 5)
