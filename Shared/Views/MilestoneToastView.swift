@@ -20,6 +20,7 @@ struct MilestoneToastView: View {
     @State var milestones = [Milestone]()
         
     var body: some View {
+        
         ScrollView {
             
             HStack{
@@ -31,9 +32,11 @@ struct MilestoneToastView: View {
             }
         VStack{
                 ForEach(viewModel.milestones,id: \.self) { milestone in
+                    
                     var r = Double.random(in: 0...1)
                     var g = Double.random(in: 0...0.8)
                     var b = Double.random(in: 0...1)
+                    
                 
                     MilestoneToast(){
                         withAnimation {
@@ -41,13 +44,15 @@ struct MilestoneToastView: View {
                         }
                     }  content : {
                         HStack {
-                            Image(systemName: "skew")
+                            Image(systemName: "bus.doubledecker")
                                 .resizable()
                                 .frame(width: 26, height: 24)
                             Text(milestone.name)
                                 .font(.system(size: 32, weight: .medium, design: .default))
                         }
-                        .foregroundColor(Color(red: r, green: g, blue: b))
+                        .rainbow()
+                        
+                        
                         HStack{
                             Text(milestone.extendedDescription)
                                 .font(.system(size: 18, weight: .bold, design: .default))
@@ -60,21 +65,21 @@ struct MilestoneToastView: View {
                             Text("\(milestone.progress)")
                                 .bold()
                                 .font(.largeTitle)
-                            Text("out of 200 rides")
+                            Text("out of \(milestone.goals[currentLevel(p:milestone.progress,g:milestone.goals)]) rides")
                         }
                         Spacer()
                             .frame(height: 5)
-                        ProgressBar(progressValue: 0.3)
+                        ProgressBar(progressValue: progressBarValue(p: milestone.progress, g: milestone.goals).progLvl)
                         
                         HStack(alignment: .lastTextBaseline){
-                            Text("\(milestone.progress)")
+                            Text("\(currentLevel(p:milestone.progress,g:milestone.goals))")
                                 .font(.largeTitle)
                                 .bold()
                             Text("out of \(milestone.goals.count) stages")
                         }
                         Spacer()
                             .frame(height: 5)
-                        ProgressBar(progressValue: 0.7)
+                        ProgressBar(progressValue: progressBarValue(p: milestone.progress, g: milestone.goals).progStage)
                         
                     }
                     .padding()
@@ -84,6 +89,7 @@ struct MilestoneToastView: View {
             .onAppear {
                 viewModel.fetch()
             }
+    }
         
         /*
         ScrollView {
@@ -164,10 +170,6 @@ struct MilestoneToastView: View {
 
     }
          
-    
-
-    
-
     var currentLevel:Int {
             var a :Int = 0
             for i in 0..<self.levels.count {
@@ -183,10 +185,34 @@ struct MilestoneToastView: View {
             let res1 = Double(self.numberOfBoard)/Double(levels[currentLevel]) //progress in the current stage
             let res2 = Double(currentLevel)/Double(self.levels.count) // progress in total of all the stages.
             return (res1,res2)
-         
-        */
-    
     }
+        */
+    func currentLevel(p current_goal:Int,g array:[Int])->Int {
+        var a :Int = 0
+        for i in 0..<array.count {
+                if (current_goal >= array[i]) {
+                    a+=1
+                }
+            }
+        return a
+        }
+    
+    /*
+    var progress: (progCurrentLevel: Double, progressStage: Double) {
+            let res1 = Double(self.numberOfBoard)/Double(levels[currentLevel]) //progress in the current stage
+            let res2 = Double(currentLevel)/Double(self.levels.count) // progress in total of all the stages.
+            return (res1,res2)
+    }
+     */
+    
+    func progressBarValue(p current_goal:Int,g array:[Int])-> (progLvl:Double,progStage:Double) {
+        let curLvl = currentLevel(p: current_goal, g: array)
+        let res1 = Double(current_goal)/Double(array[curLvl]) //progress in the current stage
+        let res2 = Double(curLvl)/Double(array.count) // progress in total of all the stages.
+        return (res1,res2)
+    }
+     
+    
 }
 
 struct MilestoneToastView_Previews: PreviewProvider {
