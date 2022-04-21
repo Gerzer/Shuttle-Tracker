@@ -46,22 +46,42 @@ struct WhatsNewSheet: View {
 						Spacer()
 					}
 						.padding(.top)
-					Text("Navigation")
-						.font(.headline)
-						.padding(.top)
-					Text("We’ve significantly improved the app’s navigation structure, so it’s now much easier to find information and additional functionality.")
-					Text("Permissions")
-						.font(.headline)
-						.padding(.top)
-					Text("Board Bus requires location access, so we’ll now prompt you to share your location on iOS and iPadOS.")
-					Text("Notifications")
-						.font(.headline)
-						.padding(.top)
-					Text("On iOS and iPadOS, we’ll notify you if you forget to tap “Leave Bus”.")
-					Text("Re-Center Button")
-						.font(.headline)
-						.padding(.top)
-					Text("You can re-center the map with the new re-center button.")
+                    Group{
+                        Divider()
+                        Text("NAVIGATION")
+                            .font(.system(size: 16, weight: .light, design: .default))
+                            .padding(.top)
+                        Text("We’ve significantly improved the app’s navigation structure, so it’s now much easier to find information and additional functionality.")
+                        Rectangle().fill(Color.clear).frame(height: 8)
+                        Divider()
+                    }
+                    Group{
+                        Text("PERMISSIONS")
+                            .font(.system(size: 16, weight: .light, design: .default))
+                            .padding(.top)
+                        Text("Board Bus requires location access, so we’ll now prompt you to share your location on iOS and iPadOS.")
+                        Rectangle().fill(Color.clear).frame(height: 8)
+                        Divider()
+                    }
+                    Group{
+                        Text("NOTIFICATIONS")
+                            .font(.system(size: 16, weight: .light, design: .default))
+                            .padding(.top)
+                        Text("On iOS and iPadOS, we’ll notify you if you forget to tap “Leave Bus”.")
+                        Rectangle().fill(Color.clear).frame(height: 8)
+                        Divider()
+
+                    }
+                    Group{
+                        Text("RE-CENTER BUTTON")
+                            .font(.system(size: 16, weight: .light, design: .default))
+                            .padding(.top)
+                        Text("You can re-center the map with the new re-center button.")
+                        Rectangle().fill(Color.clear).frame(height: 8)
+                        Divider()
+
+                        
+                    }
 				}
 					.padding(.bottom)
 			}
