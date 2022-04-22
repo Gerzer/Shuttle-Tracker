@@ -11,9 +11,12 @@
 		6518CFD427F79D8B009DF6D5 /* Milestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6518CFD227F79D8B009DF6D5 /* Milestone.swift */; };
 		6518CFD527F79D8B009DF6D5 /* Milestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6518CFD227F79D8B009DF6D5 /* Milestone.swift */; };
 		6518CFD627F80ECD009DF6D5 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
+		65262FE0280F4E6700714552 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */; };
+		65262FE2280F581800714552 /* BoardBusMilestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65262FE1280F581800714552 /* BoardBusMilestone.swift */; };
+		65262FE3280F581800714552 /* BoardBusMilestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65262FE1280F581800714552 /* BoardBusMilestone.swift */; };
+		65262FE4280F581800714552 /* BoardBusMilestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65262FE1280F581800714552 /* BoardBusMilestone.swift */; };
 		652C119A27EE5FC7000C919B /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
 		652C119C27EE5FDA000C919B /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
-		652C119D27EE5FDE000C919B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */; };
 		65EE6BB827E819400075DAF1 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
 		65EE6BB927E819400075DAF1 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BB727E819400075DAF1 /* MilestoneToast.swift */; };
 		65EE6BBB27E81A140075DAF1 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
@@ -163,6 +166,7 @@
 
 /* Begin PBXFileReference section */
 		6518CFD227F79D8B009DF6D5 /* Milestone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Milestone.swift; sourceTree = "<group>"; };
+		65262FE1280F581800714552 /* BoardBusMilestone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBusMilestone.swift; sourceTree = "<group>"; };
 		65EE6BB727E819400075DAF1 /* MilestoneToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToast.swift; sourceTree = "<group>"; };
 		65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToastView.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -328,6 +332,7 @@
 				65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */,
 				C059832327D1840700299D27 /* SheetPresentationWrapper.swift */,
 				65EE6BB727E819400075DAF1 /* MilestoneToast.swift */,
+				65262FE1280F581800714552 /* BoardBusMilestone.swift */,
 				65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
@@ -616,13 +621,14 @@
 				C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */,
 				C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
+				65262FE4280F581800714552 /* BoardBusMilestone.swift in Sources */,
 				6518CFD527F79D8B009DF6D5 /* Milestone.swift in Sources */,
+				65262FE0280F4E6700714552 /* ProgressBar.swift in Sources */,
 				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */,
 				C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
-				652C119D27EE5FDE000C919B /* ProgressBar.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
@@ -682,6 +688,7 @@
 				6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */,
 				C08FC22225251196008589C1 /* ContentView.swift in Sources */,
 				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
+				65262FE3280F581800714552 /* BoardBusMilestone.swift in Sources */,
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				6518CFD427F79D8B009DF6D5 /* Milestone.swift in Sources */,
 				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
@@ -712,6 +719,7 @@
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				65EE6BB827E819400075DAF1 /* MilestoneToast.swift in Sources */,
+				65262FE2280F581800714552 /* BoardBusMilestone.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				6518CFD327F79D8B009DF6D5 /* Milestone.swift in Sources */,
 				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,

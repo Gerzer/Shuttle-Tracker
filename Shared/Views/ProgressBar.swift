@@ -43,7 +43,7 @@ struct horizontalProgressBar : View {
             ZStack(alignment: .leading) {
                 Rectangle()
                     .frame(width: geometry.size.width, height: 25)
-                    .opacity(0.3)
+                    .opacity(0.2)
                     .foregroundColor(.blue)
                 
 
@@ -52,15 +52,17 @@ struct horizontalProgressBar : View {
                     .frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width),
                            height: 25)
                     .foregroundColor(.blue)
+                    .cornerRadius(7)
             }
                 else {
                     Rectangle()
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .opacity(1)
                         .foregroundColor(.green)
+                        .cornerRadius(7)
                 }
             }
-            .cornerRadius(7)
+            .cornerRadius(6)
  
         }
         
