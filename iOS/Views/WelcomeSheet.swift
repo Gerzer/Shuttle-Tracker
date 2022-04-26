@@ -24,7 +24,7 @@ struct WelcomeSheet: View {
 				Spacer()
 			}
 			.padding(.bottom)
-			Text("Shuttle Tracker shows you the real-time locations of the RPI campus shuttles, powered by crowd-sourced location data.")
+			Text("Shuttle Tracker shows you the real-time locations of the RPI campus shuttles powered by crowd-sourced location data.")
 				.padding(.bottom)
             Divider()
 			Text("PRIVACY")
