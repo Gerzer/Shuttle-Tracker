@@ -20,7 +20,19 @@ struct SettingsView: View {
 			Form {
 				#if os(iOS)
 				Section {
-					Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
+					HStack {
+						ZStack {
+							Circle()
+								.fill(.green)
+							Image(systemName: self.colorBlindMode ? "scope" : "bus")
+								.resizable()
+								.frame(width: 15, height: 15)
+								.foregroundColor(.white)
+						}
+							.frame(width: 30)
+						Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
+					}
+						.frame(height: 30)
 				} footer: {
 					Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
 				}
