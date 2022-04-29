@@ -113,9 +113,12 @@ struct PrimaryOverlay: View {
 										}
 									}
 								} label: {
-									Image(systemName: "arrow.clockwise.circle.fill")
+									Image(systemName: "arrow.clockwise")
 										.resizable()
 										.aspectRatio(1, contentMode: .fit)
+										.symbolVariant(.circle)
+										.symbolVariant(.fill)
+										.symbolRenderingMode(.multicolor)
 								}
 							}
 						}
