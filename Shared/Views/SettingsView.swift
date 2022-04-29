@@ -14,29 +14,25 @@ struct SettingsView: View {
 	@EnvironmentObject private var sheetStack: SheetStack
 	
 	@AppStorage("ColorBlindMode") private var colorBlindMode = false
-    
-    
 	
 	var body: some View {
 		SheetPresentationWrapper {
 			Form {
 				#if os(iOS)
 				Section {
-                    HStack {
-                        ZStack {
-                            Circle()
-                                .fill(.green)
-                            Image(systemName: self.colorBlindMode ? "scope" : "bus")
-                                .resizable()
-                                .frame(width: 15, height: 15)
-                                .foregroundColor(.white)
-                        }
-                            .frame(width: 30)
-                        Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
-                    }
-                        .frame(height: 30)
-        
-					
+					HStack {
+						ZStack {
+							Circle()
+								.fill(.green)
+							Image(systemName: self.colorBlindMode ? "scope" : "bus")
+								.resizable()
+								.frame(width: 15, height: 15)
+								.foregroundColor(.white)
+						}
+							.frame(width: 30)
+						Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
+					}
+						.frame(height: 30)
 				} footer: {
 					Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
 				}
