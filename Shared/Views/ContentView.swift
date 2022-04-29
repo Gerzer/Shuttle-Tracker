@@ -17,7 +17,7 @@ struct ContentView: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	private static let sheetStackHandle = SheetStack.shared.register()
 	
@@ -74,9 +74,9 @@ struct ContentView: View {
 				#endif // os(macOS)
 			}
 				.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
-					// Displays a message when the user attempts to board bus when there’s no nearby stop
 					switch alertType {
 					case .noNearbyStop:
+						// Displays a message when the user attempts to board bus when there’s no nearby stop
 						return Alert(
 							title: Text("No Nearby Stop"),
 							message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
@@ -95,13 +95,22 @@ struct ContentView: View {
 								#endif // os(macOS)
 							}
 						)
+					case .serverUnavailable:
+						return Alert(
+							title: Text("Server Unavailable"),
+							message: Text("Shuttle Tracker can’t connect to its server; please try again later."),
+							dismissButton: .default(Text("Dismiss"))
+						)
 					}
 				}
 				.onAppear {
 					API.provider.request(.readVersion) { (result) in
-						let version = (try? result.value?.map(Int.self)) ?? Int.max
-						if version > API.lastVersion {
-							self.viewState.alertType = .updateAvailable
+						if let version = (try? result.value?.map(Int.self)) {
+							if version > API.lastVersion {
+								self.viewState.alertType = .updateAvailable
+							}
+						} else {
+							self.viewState.alertType = .serverUnavailable
 						}
 					}
 				}
@@ -123,6 +132,13 @@ struct ContentView: View {
 						self.sheetStack.push(.announcements)
 					} label: {
 						Label("View Announcements", systemImage: "exclamationmark.bubble")
+					}
+				}
+				ToolbarItem {
+					Button {
+						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+					} label: {
+						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 					}
 				}
 				ToolbarItem {

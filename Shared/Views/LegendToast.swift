@@ -16,7 +16,7 @@ struct LegendToast: View {
 	enum HeadlineText: String {
 		
 		case tip = "Here’s a tip!"
-		case reminder = "Just in case you forgot..."
+		case reminder = "Just in case you forgot…"
 		
 	}
 	
@@ -41,6 +41,7 @@ struct LegendToast: View {
 			} else {
 				let greenRange = attributedString.range(of: "Green")!
 				attributedString[greenRange].foregroundColor = .green
+				attributedString[greenRange].inlinePresentationIntent = .stronglyEmphasized
 			}
 			let highQualityRange = attributedString.range(of: "high-quality")!
 			attributedString[highQualityRange].inlinePresentationIntent = .stronglyEmphasized
@@ -57,6 +58,7 @@ struct LegendToast: View {
 			} else {
 				let redRange = attributedString.range(of: "Red")!
 				attributedString[redRange].foregroundColor = .red
+				attributedString[redRange].inlinePresentationIntent = .stronglyEmphasized
 			}
 			let lowQualityRange = attributedString.range(of: "low-quality")!
 			attributedString[lowQualityRange].inlinePresentationIntent = .stronglyEmphasized

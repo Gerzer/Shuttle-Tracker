@@ -2,7 +2,7 @@
 //  InfoSheet.swift
 //  Shuttle Tracker (iOS)
 //
-//  Created by Gabriel Jacoby-Cooper on 3/4/22.
+//  Created by Andrew Emanuel on 10/5/21.
 //
 
 import SwiftUI
@@ -13,14 +13,6 @@ struct InfoSheet: View {
 		NavigationView {
 			InfoView()
 		}
-	}
-	
-}
-
-struct InfoSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		InfoSheet()
 	}
 	
 }

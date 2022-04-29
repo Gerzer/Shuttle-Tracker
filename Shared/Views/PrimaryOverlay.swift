@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct PrimaryOverlay: View {
 	
@@ -32,7 +33,7 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	var body: some View {
 		HStack {
@@ -56,6 +57,17 @@ struct PrimaryOverlay: View {
 							UNUserNotificationCenter
 								.current()
 								.removeAllPendingNotificationRequests()
+							
+							let windowScenes = UIApplication.shared.connectedScenes
+								.filter { (scene) in
+									return scene.activationState == .foregroundActive
+								}
+								.compactMap { (scene) in
+									return scene as? UIWindowScene
+								}
+							if let windowScene = windowScenes.first {
+								SKStoreReviewController.requestReview(in: windowScene)
+							}
 						case .notOnBus:
 							guard let location = LocationUtilities.locationManager.location else {
 								break

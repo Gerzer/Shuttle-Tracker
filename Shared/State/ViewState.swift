@@ -21,7 +21,7 @@ final class ViewState: OnboardingFlags {
 	
 	enum AlertType: IdentifiableByHashValue {
 		
-		case noNearbyStop, updateAvailable
+		case noNearbyStop, updateAvailable, serverUnavailable
 		
 	}
 	

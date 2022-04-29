@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
+		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
+		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
+		A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
@@ -60,6 +63,9 @@
 		C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
 		C059834027D2CF0300299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
 		C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
+		C0730C1727F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
+		C0730C1827F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
+		C0730C1927F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
 		C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */; };
 		C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */; };
 		C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */; };
@@ -151,6 +157,7 @@
 
 /* Begin PBXFileReference section */
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -179,6 +186,7 @@
 		C059833A27D2C77900299D27 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		C059833C27D2C82E00299D27 /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
 		C059833E27D2CEFA00299D27 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
+		C0730C1627F103D200EF7550 /* AppStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageManager.swift; sourceTree = "<group>"; };
 		C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardBusToast.swift; sourceTree = "<group>"; };
 		C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondaryOverlayButton.swift; sourceTree = "<group>"; };
 		C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryOverlay.swift; sourceTree = "<group>"; };
@@ -324,6 +332,7 @@
 				C01528132517E1E00069092C /* Bus.swift */,
 				C01F6D7826E44BE400D33656 /* Coordinate.swift */,
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
+				A1ED8B8727BC558A000A26E5 /* Schedule.swift */,
 				C0019DCD251910E80020574D /* Stop.swift */,
 			);
 			path = Models;
@@ -397,6 +406,7 @@
 				C0C9D3D3270FA74400AE58BE /* State */,
 				C086017025D83D8700C4F583 /* Views */,
 				C025ED422527C1D500524144 /* API.swift */,
+				C0730C1627F103D200EF7550 /* AppStorageManager.swift */,
 				C082CCF6277FB38A005D0209 /* BusID.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
 				C03B1D352741E18B007B318E /* SheetStack.swift */,
@@ -587,6 +597,7 @@
 				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,
+				C0730C1927F103D200EF7550 /* AppStorageManager.swift in Sources */,
 				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
 				C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
@@ -597,6 +608,7 @@
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */,
+				A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */,
 				C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
@@ -629,6 +641,7 @@
 				C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */,
 				C03B1D372741E18B007B318E /* SheetStack.swift in Sources */,
 				C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */,
+				C0730C1827F103D200EF7550 /* AppStorageManager.swift in Sources */,
 				C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */,
 				C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C039B0642796201200416725 /* CloseButton.swift in Sources */,
@@ -659,6 +672,7 @@
 				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
+				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */,
@@ -675,6 +689,7 @@
 				C0A1E72B2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C015281E2517F68F0069092C /* MapState.swift in Sources */,
+				C0730C1727F103D200EF7550 /* AppStorageManager.swift in Sources */,
 				C01528152517E1E00069092C /* Bus.swift in Sources */,
 				C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */,
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
@@ -685,6 +700,7 @@
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
+				A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0A1E7292749F33C00DBF248 /* (null) in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
@@ -724,7 +740,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
@@ -748,7 +764,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
 				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_PREVIEWS = YES;
@@ -889,7 +905,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 30;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -915,7 +931,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = SYBLH277NF;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
@@ -945,7 +961,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 29;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -970,7 +986,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1044,7 +1060,7 @@
 			repositoryURL = "https://github.com/Gerzer/OnboardingKit";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.4.0;
+				minimumVersion = 1.5.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

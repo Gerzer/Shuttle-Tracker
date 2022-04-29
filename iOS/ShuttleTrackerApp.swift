@@ -17,6 +17,8 @@ import OnboardingKit
 	
 	@ObservedObject private var sheetStack = SheetStack.shared
 	
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
 			OnboardingConditions.ColdLaunch(threshold: 1)
@@ -57,6 +59,13 @@ import OnboardingKit
 			}
 		} conditions: {
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
+		}
+		OnboardingEvent(flags: flags) { (_) in
+			if AppStorageManager.shared.maximumStopDistance == 20 {
+				AppStorageManager.shared.maximumStopDistance = 50
+			}
+		} conditions: {
+			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
 
 	}
