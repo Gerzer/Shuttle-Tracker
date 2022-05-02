@@ -9,9 +9,17 @@ import SwiftUI
 
 struct AdvancedSettingsView: View {
 	
-	@AppStorage("BaseURL") private var baseURL = URL(string: "https://shuttletracker.app")!
+	@State private var didResetViewedAnnouncements = false
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	@AppStorage("BaseURL") private var baseURL = Self.defaultBaseURL
+	
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = Self.defaultMaximumStopDistance
+	
+	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	
+	private static let defaultBaseURL = URL(string: "https://shuttletracker.app")!
+	
+	private static let defaultMaximumStopDistance = 50
 	
 	var body: some View {
 		Form {
@@ -40,15 +48,25 @@ struct AdvancedSettingsView: View {
 			}
 			Section {
 				if #available(iOS 15, *) {
-					Button("Reset", role: .destructive) {
+					Button(
+						"Reset Viewed Announcements" + (self.didResetViewedAnnouncements ? " ✓" : ""),
+						role: .destructive
+					) {
+						self.viewedAnnouncementIDs = []
+						self.didResetViewedAnnouncements = true
+					}
+						.disabled(self.didResetViewedAnnouncements)
+					Button("Reset Advanced Settings", role: .destructive) {
 						self.baseURL = URL(string: "https://shuttletracker.app")!
 						self.maximumStopDistance = 50
 					}
+						.disabled(self.baseURL == Self.defaultBaseURL && self.maximumStopDistance == Self.defaultMaximumStopDistance)
 				} else {
-					Button("Reset") {
+					Button("Reset Advanced Settings") {
 						self.baseURL = URL(string: "https://shuttletracker.app")!
 						self.maximumStopDistance = 50
 					}
+						.disabled(self.baseURL == Self.defaultBaseURL && self.maximumStopDistance == Self.defaultMaximumStopDistance)
 				}
 			}
 		}

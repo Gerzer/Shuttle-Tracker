@@ -21,6 +21,8 @@ final class Announcement: Decodable, Identifiable {
 		
 	}
 	
+	let id: UUID
+	
 	let subject: String
 	
 	let body: String

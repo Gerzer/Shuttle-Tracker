@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AnnouncementDetailView: View {
 	
+	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	
 	let announcement: Announcement
 	
 	var body: some View {
@@ -51,6 +53,9 @@ struct AnnouncementDetailView: View {
 					CloseButton()
 				}
 				#endif // !os(macOS)
+			}
+			.onAppear {
+				self.viewedAnnouncementIDs.insert(self.announcement.id)
 			}
 	}
 	

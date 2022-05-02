@@ -15,14 +15,26 @@ import SwiftUI
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
+	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	
 	var body: some View {
 		NavigationView {
 			Group {
 				if let announcements = self.announcements {
 					if announcements.count > 0 {
 						List(announcements) { (announcement) in
-							NavigationLink(announcement.subject) {
+							NavigationLink {
 								AnnouncementDetailView(announcement: announcement)
+							} label: {
+								HStack {
+									Text(announcement.subject)
+									Spacer()
+									if !self.viewedAnnouncementIDs.contains(announcement.id) {
+										Circle()
+											.fill(.blue)
+											.frame(width: 15, height: 15)
+									}
+								}
 							}
 						}
 					} else {

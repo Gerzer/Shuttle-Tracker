@@ -242,6 +242,38 @@ extension URL {
 	
 }
 
+extension Set: RawRepresentable where Element == UUID {
+	
+	public var rawValue: String {
+		get {
+			var string = "["
+			for element in self {
+				string += element.uuidString + ","
+			}
+			string.removeLast()
+			string += "]"
+			return string
+		}
+	}
+	
+	public init?(rawValue: String) {
+		self.init()
+		var string = rawValue
+		guard string.first == "[", string.last == "]" else {
+			return nil
+		}
+		string.removeFirst()
+		string.removeLast()
+		for component in string.split(separator: ",") {
+			guard let element = UUID(uuidString: String(component)) else {
+				return nil
+			}
+			self.insert(element)
+		}
+	}
+	
+}
+
 @available(iOS 15, macOS 12, *) extension ParseableFormatStyle where Self == URL.FormatStyle {
 	
 	static var url: URL.FormatStyle {
