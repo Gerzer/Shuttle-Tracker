@@ -26,7 +26,7 @@ struct WhatsNewSheet: View {
 								.bold()
 								.multilineTextAlignment(.center)
 							if #available(iOS 15, macOS 12, *) {
-								Text("Version 1.3")
+								Text("Version 1.4")
 									.font(
 										.system(
 											.callout,
@@ -48,26 +48,14 @@ struct WhatsNewSheet: View {
 					}
 						.padding(.top)
 					Group {
-						Text("Board Bus")
+						Text("Dynamic Schedule")
 							.font(.headline)
 							.padding(.top)
-						Text("The default maximum distance away from a stop at which you can board a bus is now 50 meters. If the setting doesn’t update automatically, then you can manually change it in Settings > Advanced.")
-						Text("Navigation")
+						Text("With Dynamic Schedule on iOS and iPadOS, the schedule information in the info sheet will always be up-to-date.")
+						Text("Design")
 							.font(.headline)
 							.padding(.top)
-						Text("We’ve significantly improved the app’s navigation structure, so it’s now much easier to find information and additional functionality.")
-						Text("Permissions")
-							.font(.headline)
-							.padding(.top)
-						Text("Board Bus requires location access, so we’ll now prompt you to share your location on iOS and iPadOS.")
-						Text("Notifications")
-							.font(.headline)
-							.padding(.top)
-						Text("On iOS and iPadOS, we’ll notify you if you forget to tap “Leave Bus”.")
-						Text("Re-Center Button")
-							.font(.headline)
-							.padding(.top)
-						Text("You can re-center the map with the new re-center button.")
+						Text("We’ve made some minor improvements to the design of various components.")
 					}
 				}
 					.padding(.bottom)
