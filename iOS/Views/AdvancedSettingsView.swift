@@ -29,9 +29,15 @@ struct AdvancedSettingsView: View {
 			}
 			if #available(iOS 15, *) {
 				Section {
-					TextField("Server Base URL", value: self.$baseURL, format: .url)
-						.labelsHidden()
-						.keyboardType(.URL)
+					if #available(iOS 16, *) {
+						TextField("Server Base URL", value: self.$baseURL, format: .url)
+							.labelsHidden()
+							.keyboardType(.URL)
+					} else {
+						TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
+							.labelsHidden()
+							.keyboardType(.URL)
+					}
 				} header: {
 					Text("Server Base URL")
 				} footer: {

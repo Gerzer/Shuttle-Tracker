@@ -211,11 +211,13 @@ extension View {
 	
 }
 
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
 extension URL {
 	
-	struct FormatStyle: ParseableFormatStyle {
+	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
-		struct Strategy: ParseStrategy {
+		struct Strategy: Foundation.ParseStrategy {
 			
 			enum ParseError: Error {
 				
@@ -242,11 +244,13 @@ extension URL {
 	
 }
 
-@available(iOS 15, macOS 12, *) extension ParseableFormatStyle where Self == URL.FormatStyle {
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
+extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
 	
-	static var url: URL.FormatStyle {
+	static var compatibilityURL: Self {
 		get {
-			return URL.FormatStyle()
+			return Self()
 		}
 	}
 	
