@@ -81,7 +81,7 @@ struct PermissionsSheet: View {
 							if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
 								Group {
 									switch notificationAuthorizationStatus {
-									case .authorized, .ephemeral:
+									case .authorized, .ephemeral, .provisional:
 										HStack {
 											Image(systemName: "gear.badge.checkmark")
 												.resizable()
@@ -97,7 +97,7 @@ struct PermissionsSheet: View {
 												.frame(width: 50, height: 50)
 											Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
 										}
-									case .notDetermined, .provisional:
+									case .notDetermined:
 										HStack {
 											Image(systemName: "gear.badge.questionmark")
 												.resizable()
@@ -141,12 +141,12 @@ struct PermissionsSheet: View {
 						case (.authorizedAlways, .fullAccuracy), (.authorizedWhenInUse, .fullAccuracy):
 							if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
 								switch notificationAuthorizationStatus {
-								case .authorized, .ephemeral:
+								case .authorized, .ephemeral, .provisional:
 									break
 								case .denied:
 									let url = try! UIApplication.openSettingsURLString.asURL()
 									self.openURL(url)
-								case .notDetermined, .provisional:
+								case .notDetermined:
 									Task {
 										do {
 											try await UserNotificationUtilities.requestAuthorization()
