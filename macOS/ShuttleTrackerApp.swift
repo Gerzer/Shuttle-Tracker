@@ -11,11 +11,13 @@ import OnboardingKit
 
 @main struct ShuttleTrackerApp: App {
 	
+	private static let contentViewSheetStack = SheetStack()
+	
+	private static let settingsViewSheetStack = SheetStack()
+	
 	@ObservedObject private var mapState = MapState.shared
 	
 	@ObservedObject private var viewState = ViewState.shared
-	
-	@ObservedObject private var sheetStack = SheetStack.shared
 	
 	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 	
@@ -33,7 +35,7 @@ import OnboardingKit
 			OnboardingConditions.ColdLaunch(threshold: 3)
 		}
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew) { (value) in
-			Self.pushSheet(value)
+			Self.pushSheet(value, to: Self.contentViewSheetStack)
 		} conditions: {
 			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.4", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
 		}
@@ -44,28 +46,28 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
-				.environmentObject(self.sheetStack)
+				.environmentObject(Self.contentViewSheetStack)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
-					Button("\(self.sheetStack.top == .announcements ? "Hide" : "Show") Announcements") {
-						if self.sheetStack.top == .announcements {
-							self.sheetStack.pop()
+					Button("\(Self.contentViewSheetStack.top == .announcements ? "Hide" : "Show") Announcements") {
+						if Self.contentViewSheetStack.top == .announcements {
+							Self.contentViewSheetStack.pop()
 						} else {
-							self.sheetStack.push(.announcements)
+							Self.contentViewSheetStack.push(.announcements)
 						}
 					}
 						.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
-						.disabled(self.sheetStack.count > 0 && self.sheetStack.top != .announcements)
-					Button("\(self.sheetStack.top == .whatsNew ? "Hide" : "Show") What’s New") {
-						if self.sheetStack.top == .whatsNew {
-							self.sheetStack.pop()
+						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .announcements)
+					Button("\(Self.contentViewSheetStack.top == .whatsNew ? "Hide" : "Show") What’s New") {
+						if Self.contentViewSheetStack.top == .whatsNew {
+							Self.contentViewSheetStack.pop()
 						} else {
-							self.sheetStack.push(.whatsNew)
+							Self.contentViewSheetStack.push(.whatsNew)
 						}
 					}
 						.keyboardShortcut(KeyEquivalent("w"), modifiers: [.command, .shift])
-						.disabled(self.sheetStack.count > 0 && self.sheetStack.top != .whatsNew)
+						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
 					Divider()
 					Button("Re-Center Map") {
 						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
@@ -84,7 +86,7 @@ import OnboardingKit
 				.padding()
 				.frame(width: 400, height: 100)
 				.environmentObject(self.viewState)
-				.environmentObject(self.sheetStack)
+				.environmentObject(Self.settingsViewSheetStack)
 		}
 	}
 	
@@ -94,9 +96,9 @@ import OnboardingKit
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 	}
 	
-	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
+	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-			SheetStack.shared.push(sheetType)
+			sheetStack.push(sheetType)
 		}
 	}
 	

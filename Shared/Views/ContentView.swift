@@ -19,8 +19,6 @@ struct ContentView: View {
 	
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
-	private static let sheetStackHandle = SheetStack.shared.register()
-	
 	var body: some View {
 		SheetPresentationWrapper {
 			ZStack {

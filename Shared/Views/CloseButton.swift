@@ -49,7 +49,7 @@ struct CloseButtonPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		CloseButton()
-			.environmentObject(SheetStack.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }
