@@ -198,7 +198,7 @@ struct PermissionsSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		PermissionsSheet()
-			.environmentObject(SheetStack.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

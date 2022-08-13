@@ -92,7 +92,7 @@ struct WhatsNewSheetPreviews: PreviewProvider {
 	static var previews: some View {
 		WhatsNewSheet()
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

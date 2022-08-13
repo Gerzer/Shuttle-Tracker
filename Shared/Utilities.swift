@@ -132,18 +132,6 @@ enum TravelState {
 	
 }
 
-protocol IdentifiableByHashValue: Identifiable, Hashable { }
-
-extension IdentifiableByHashValue {
-	
-	var id: Int {
-		get {
-			return self.hashValue
-		}
-	}
-	
-}
-
 extension CLLocationCoordinate2D: Equatable {
 	
 	public static func == (_ left: CLLocationCoordinate2D, _ right: CLLocationCoordinate2D) -> Bool {

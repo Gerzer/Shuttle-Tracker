@@ -31,6 +31,7 @@ import SwiftUI
 							.font(.callout)
 							.multilineTextAlignment(.center)
 							.foregroundColor(.secondary)
+							.frame(minWidth: 100)
 							.padding()
 						#else // os(macOS)
 						Text("No Announcements")
@@ -54,6 +55,7 @@ import SwiftUI
 					.padding()
 			}
 				.navigationTitle("Announcements")
+				.frame(minHeight: 300)
 				.toolbar {
 					#if !os(macOS)
 					ToolbarItem {
@@ -85,7 +87,7 @@ import SwiftUI
 	static var previews: some View {
 		AnnouncementsSheet()
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }
