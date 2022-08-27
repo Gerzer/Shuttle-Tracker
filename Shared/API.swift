@@ -96,6 +96,7 @@ enum API: TargetType {
 		}
 	}
 	
+	var task: HTTPTask {
 		get {
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
