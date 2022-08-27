@@ -69,7 +69,7 @@ struct ContentView: View {
 					Spacer()
 					#endif // APPCLIP
 				}
-				#endif // os(macOS)
+				#endif
 			}
 				.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
 					switch alertType {
@@ -90,7 +90,7 @@ struct ContentView: View {
 								NSWorkspace.shared.open(url)
 								#else // os(macOS)
 								UIApplication.shared.open(url)
-								#endif // os(macOS)
+								#endif
 							}
 						)
 					case .serverUnavailable:
@@ -198,7 +198,7 @@ struct ContentView: View {
 	private var mapView: some View {
 		MapView()
 	}
-	#endif // os(macOS)
+	#endif
 	
 }
 

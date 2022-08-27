@@ -50,7 +50,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		imageView.layer.cornerRadius = imageView.frame.width / 2
 		imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
 		annotationView.addSubview(imageView)
-		#endif // os(macOS)
+		#endif
 		return annotationView
 	}()
 	

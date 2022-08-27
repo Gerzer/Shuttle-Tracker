@@ -42,7 +42,7 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 			#else // os(macOS)
 			polylineRenderer.strokeColor = UIColor(self.color)
 				.withAlphaComponent(0.7)
-			#endif // os(macOS)
+			#endif
 			polylineRenderer.lineWidth = 5
 			return polylineRenderer
 		}

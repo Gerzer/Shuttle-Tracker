@@ -26,7 +26,7 @@ struct WhatsNewSheet: View {
 								.bold()
 								.multilineTextAlignment(.center)
 							if #available(iOS 15, macOS 12, *) {
-								Text("Version 1.4")
+								Text("Version 1.5")
 									.font(
 										.system(
 											.callout,
@@ -48,14 +48,24 @@ struct WhatsNewSheet: View {
 					}
 						.padding(.top)
 					Group {
-						Text("Dynamic Schedule")
+						Text("Dynamic Routes")
 							.font(.headline)
 							.padding(.top)
-						Text("With Dynamic Schedule on iOS and iPadOS, the schedule information in the info sheet will always be up-to-date.")
-						Text("Design")
+						Text("Shuttle Tracker will now show discrete routes separately, complete with color-coding.")
+						Text("Announcements")
 							.font(.headline)
 							.padding(.top)
-						Text("We’ve made some minor improvements to the design of various components.")
+						#if os(iOS)
+						Text("When you view an announcement, it won’t be included anymore in the badge number. You can reset the record of viewed announcements within the app in Settings > Advanced.")
+						#elseif os(macOS) // os(iOS)
+						Text("When you view an announcement, it won’t be included anymore in the badge number. You can reset the record of viewed announcements in the announcements sheet.")
+						#else // os(macOS)
+						Text("When you view an announcement, it won’t be included anymore in the badge number.")
+						#endif
+						Text("Re-Centering")
+							.font(.headline)
+							.padding(.top)
+						Text("The re-center button and menu item will now ensure that all routes are completely visible on the map.")
 					}
 				}
 					.padding(.bottom)

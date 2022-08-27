@@ -26,7 +26,7 @@ enum ViewUtilities {
 		static let toastCloseButtonDimension: CGFloat = 25
 
 		static let toastCornerRadius: CGFloat = 30
-		#endif // os(macOS)
+		#endif
 		
 	}
 	
@@ -38,7 +38,7 @@ enum ViewUtilities {
 	static var standardVisualEffectView: some View {
 		VisualEffectView(UIBlurEffect(style: .systemMaterial))
 	}
-	#endif // os(macOS)
+	#endif
 	
 }
 
@@ -92,7 +92,7 @@ enum MapUtilities {
 		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
 		#else // os(macOS)
 		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
-		#endif // os(macOS)
+		#endif
 		
 	}
 	

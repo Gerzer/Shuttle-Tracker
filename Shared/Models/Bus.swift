@@ -79,7 +79,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
 			#else // os(macOS)
 			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
-			#endif // os(macOS)
+			#endif
 			return markerAnnotationView
 		}
 	}

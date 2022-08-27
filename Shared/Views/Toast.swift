@@ -50,7 +50,7 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 						.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
 				}
 					.buttonStyle(.plain)
-				#endif // os(iOS)
+				#endif
 			}
 			self.content
 		}
