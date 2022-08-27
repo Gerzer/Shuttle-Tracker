@@ -12,7 +12,7 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	enum CodingKeys: String, CodingKey {
 		
-		case coordinates
+		case coordinates, colorName
 		
 	}
 	
@@ -28,6 +28,8 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 		}
 	}
 	
+	let color: Color
+	
 	var polylineRenderer: MKPolylineRenderer {
 		get {
 			let polyline = self.mapPoints.withUnsafeBufferPointer { (mapPointsPointer) -> MKPolyline in
@@ -35,13 +37,13 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 			}
 			let polylineRenderer = MKPolylineRenderer(polyline: polyline)
 			#if os(macOS)
-			polylineRenderer.strokeColor = NSColor(.blue)
-				.withAlphaComponent(0.5)
+			polylineRenderer.strokeColor = NSColor(self.color)
+				.withAlphaComponent(0.7)
 			#else // os(macOS)
-			polylineRenderer.strokeColor = UIColor(.blue)
-				.withAlphaComponent(0.5)
+			polylineRenderer.strokeColor = UIColor(self.color)
+				.withAlphaComponent(0.7)
 			#endif // os(macOS)
-			polylineRenderer.lineWidth = 3
+			polylineRenderer.lineWidth = 5
 			return polylineRenderer
 		}
 	}
@@ -84,6 +86,7 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 			.map { (coordinate) in
 				return MKMapPoint(coordinate)
 			}
+		self.color = try container.decode(ColorName.self, forKey: .colorName).color
 	}
 	
 	subscript(position: Int) -> MKMapPoint {

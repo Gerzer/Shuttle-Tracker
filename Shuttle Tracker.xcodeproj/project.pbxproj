@@ -118,6 +118,9 @@
 		C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02A27A4AC12007FF08A /* OnboardingKit */; };
 		C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02C27A4AC18007FF08A /* OnboardingKit */; };
 		C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02E27A4AC1D007FF08A /* OnboardingKit */; };
+		C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
+		C0B5E72828BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
+		C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
@@ -211,6 +214,7 @@
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
+		C0B5E72628BAA81A00603D22 /* ColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorName.swift; sourceTree = "<group>"; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
 		C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
@@ -330,6 +334,7 @@
 			children = (
 				C0A1E7272749EE3D00DBF248 /* Announcement.swift */,
 				C01528132517E1E00069092C /* Bus.swift */,
+				C0B5E72628BAA81A00603D22 /* ColorName.swift */,
 				C01F6D7826E44BE400D33656 /* Coordinate.swift */,
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				A1ED8B8727BC558A000A26E5 /* Schedule.swift */,
@@ -620,6 +625,7 @@
 				C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */,
 				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
+				C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
@@ -658,6 +664,7 @@
 				C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
 				C082CCF2277FB33C005D0209 /* BusOption.swift in Sources */,
 				C025ED432527C1D500524144 /* API.swift in Sources */,
+				C0B5E72828BAA81A00603D22 /* ColorName.swift in Sources */,
 				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
@@ -712,6 +719,7 @@
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
+				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
