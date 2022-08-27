@@ -752,6 +752,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -777,6 +779,8 @@
 				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -919,6 +923,8 @@
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -946,6 +952,8 @@
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -976,6 +984,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1003,6 +1013,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
