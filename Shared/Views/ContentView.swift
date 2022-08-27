@@ -19,8 +19,6 @@ struct ContentView: View {
 	
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
-	private static let sheetStackHandle = SheetStack.shared.register()
-	
 	var body: some View {
 		SheetPresentationWrapper {
 			ZStack {
@@ -105,7 +103,10 @@ struct ContentView: View {
 				}
 				.onAppear {
 					API.provider.request(.readVersion) { (result) in
-						if let version = (try? result.value?.map(Int.self)) {
+						let version = try? result
+							.get()
+							.map(Int.self)
+						if let version {
 							if version > API.lastVersion {
 								self.viewState.alertType = .updateAvailable
 							}
@@ -136,7 +137,11 @@ struct ContentView: View {
 				}
 				ToolbarItem {
 					Button {
-						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+						self.mapState.mapView?.setVisibleMapRect(
+							self.mapState.routes.boundingMapRect,
+							edgePadding: MapUtilities.Constants.mapRectInsets,
+							animated: true
+						)
 					} label: {
 						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 					}
@@ -162,6 +167,16 @@ struct ContentView: View {
 				}
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 					self.refreshBuses()
+					[Stop].download { (stops) in
+						DispatchQueue.main.async {
+							self.mapState.stops = stops
+						}
+					}
+					[Route].download { (routes) in
+						DispatchQueue.main.async {
+							self.mapState.routes = routes
+						}
+					}
 				}
 			}
 			.onReceive(self.timer) { (_) in

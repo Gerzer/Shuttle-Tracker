@@ -80,15 +80,21 @@ enum MapUtilities {
 		
 		static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
 		
-	}
-	
-	static let mapRect = MKMapRect(
-		origin: MKMapPoint(Constants.originCoordinate),
-		size: MKMapSize(
-			width: 10000,
-			height: 10000
+		static let mapRect = MKMapRect(
+			origin: MKMapPoint(Constants.originCoordinate),
+			size: MKMapSize(
+				width: 10000,
+				height: 10000
+			)
 		)
-	)
+		
+		#if os(macOS)
+		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
+		#else // os(macOS)
+		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
+		#endif // os(macOS)
+		
+	}
 	
 }
 
@@ -129,18 +135,6 @@ enum TravelState {
 	case onBus
 	
 	case notOnBus
-	
-}
-
-protocol IdentifiableByHashValue: Identifiable, Hashable { }
-
-extension IdentifiableByHashValue {
-	
-	var id: Int {
-		get {
-			return self.hashValue
-		}
-	}
 	
 }
 
@@ -211,11 +205,13 @@ extension View {
 	
 }
 
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
 extension URL {
 	
-	struct FormatStyle: ParseableFormatStyle {
+	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
-		struct Strategy: ParseStrategy {
+		struct Strategy: Foundation.ParseStrategy {
 			
 			enum ParseError: Error {
 				
@@ -274,11 +270,13 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
-@available(iOS 15, macOS 12, *) extension ParseableFormatStyle where Self == URL.FormatStyle {
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
+extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
 	
-	static var url: URL.FormatStyle {
+	static var compatibilityURL: Self {
 		get {
-			return URL.FormatStyle()
+			return Self()
 		}
 	}
 	

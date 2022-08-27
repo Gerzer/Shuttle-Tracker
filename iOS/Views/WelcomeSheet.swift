@@ -47,7 +47,7 @@ struct WelcomeSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		WelcomeSheet()
-			.environmentObject(SheetStack.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

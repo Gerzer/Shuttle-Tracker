@@ -10,6 +10,8 @@ import Moya
 
 typealias HTTPMethod = Moya.Method
 
+typealias HTTPTask = Moya.Task
+
 enum API: TargetType {
 	
 	private struct SettingsContainer {
@@ -94,7 +96,7 @@ enum API: TargetType {
 		}
 	}
 	
-	var task: Task {
+	var task: HTTPTask {
 		get {
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:

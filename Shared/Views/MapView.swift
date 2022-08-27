@@ -18,7 +18,7 @@ struct MapView: UIViewRepresentable {
 		self.mapView.delegate = context.coordinator
 		self.mapView.showsUserLocation = true
 		self.mapView.showsCompass = true
-		self.mapView.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+		self.mapView.setVisibleMapRect(MapUtilities.Constants.mapRect, animated: true)
 		[Bus].download { (buses) in
 			DispatchQueue.main.async {
 				self.mapState.buses = buses
@@ -32,6 +32,11 @@ struct MapView: UIViewRepresentable {
 		[Route].download { (routes) in
 			DispatchQueue.main.async {
 				self.mapState.routes = routes
+				self.mapState.mapView?.setVisibleMapRect(
+					self.mapState.routes.boundingMapRect,
+					edgePadding: MapUtilities.Constants.mapRectInsets,
+					animated: true
+				)
 			}
 		}
 		self.mapState.mapView = self.mapView

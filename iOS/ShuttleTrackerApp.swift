@@ -11,11 +11,11 @@ import OnboardingKit
 
 @main struct ShuttleTrackerApp: App {
 	
+	private static let sheetStack = SheetStack()
+	
 	@ObservedObject private var mapState = MapState.shared
 	
 	@ObservedObject private var viewState = ViewState.shared
-	
-	@ObservedObject private var sheetStack = SheetStack.shared
 	
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
@@ -43,7 +43,7 @@ import OnboardingKit
 			}
 		}
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.3", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.4", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
 		}
 		OnboardingEvent(flags: flags) { (_) in
@@ -75,7 +75,7 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
-				.environmentObject(self.sheetStack)
+				.environmentObject(Self.sheetStack)
 		}
 	}
 	
@@ -92,7 +92,7 @@ import OnboardingKit
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-			SheetStack.shared.push(sheetType)
+			self.sheetStack.push(sheetType)
 		}
 	}
 	

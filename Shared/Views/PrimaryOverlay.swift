@@ -234,6 +234,16 @@ struct PrimaryOverlay: View {
 				}
 			}
 		}
+		[Stop].download { (stops) in
+			DispatchQueue.main.async {
+				self.mapState.stops = stops
+			}
+		}
+		[Route].download { (routes) in
+			DispatchQueue.main.async {
+				self.mapState.routes = routes
+			}
+		}
 //		if let location = locationManager.location {
 //			let locationMapPoint = MKMapPoint(location.coordinate)
 //			let nearestStop = self.mapState.stops.min { (firstStop, secondStop) in

@@ -9,9 +9,9 @@ import Foundation
 
 final class Schedule: Decodable, Identifiable {
 	
-	struct ScheduleContent: Decodable {
+	struct Content: Decodable {
 		
-		struct DaySchedule: Decodable{
+		struct DaySchedule: Decodable {
 			
 			let start: String
 			
@@ -41,9 +41,9 @@ final class Schedule: Decodable, Identifiable {
 	
 	let end: Date
 	
-	let content: ScheduleContent
+	let content: Content
 	
-	init(name: String, start: Date, end: Date, content: Schedule.ScheduleContent) {
+	init(name: String, start: Date, end: Date, content: Schedule.Content) {
 		self.name = name
 		self.start = start
 		self.end = end
@@ -55,12 +55,13 @@ final class Schedule: Decodable, Identifiable {
 			API.provider.request(.schedule) { (result) in
 				let decoder = JSONDecoder()
 				decoder.dateDecodingStrategy = .iso8601
-				let currentSchedules = try? result.value?
+				let schedule = try? result
+					.get()
 					.map([Schedule].self, using: decoder)
 					.first { (schedule) in
 						return schedule.start <= Date.now && schedule.end >= Date.now
 					}
-				continuation.resume(returning: currentSchedules)
+				continuation.resume(returning: schedule)
 			}
 		}
 	}
