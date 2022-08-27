@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AnnouncementDetailView: View {
 	
+	@Binding private(set) var didResetViewedAnnouncements: Bool
+	
 	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
 	
 	let announcement: Announcement
@@ -55,6 +57,7 @@ struct AnnouncementDetailView: View {
 				#endif // !os(macOS)
 			}
 			.onAppear {
+				self.didResetViewedAnnouncements = false
 				self.viewedAnnouncementIDs.insert(self.announcement.id)
 			}
 	}

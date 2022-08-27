@@ -11,6 +11,8 @@ struct AdvancedSettingsView: View {
 	
 	@State private var didResetViewedAnnouncements = false
 	
+	@State private var didResetAdvancedSettings = false
+	
 	@AppStorage("BaseURL") private var baseURL = Self.defaultBaseURL
 	
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = Self.defaultMaximumStopDistance
@@ -58,13 +60,17 @@ struct AdvancedSettingsView: View {
 						"Reset Viewed Announcements" + (self.didResetViewedAnnouncements ? " ✓" : ""),
 						role: .destructive
 					) {
-						self.viewedAnnouncementIDs = []
+						self.viewedAnnouncementIDs.removeAll()
 						self.didResetViewedAnnouncements = true
 					}
-						.disabled(self.didResetViewedAnnouncements)
-					Button("Reset Advanced Settings", role: .destructive) {
+						.disabled(self.viewedAnnouncementIDs.isEmpty)
+					Button(
+						"Reset Advanced Settings" + (self.didResetAdvancedSettings ? " ✓" : ""),
+						role: .destructive
+					) {
 						self.baseURL = URL(string: "https://shuttletracker.app")!
 						self.maximumStopDistance = 50
+						self.didResetAdvancedSettings = true
 					}
 						.disabled(self.baseURL == Self.defaultBaseURL && self.maximumStopDistance == Self.defaultMaximumStopDistance)
 				} else {

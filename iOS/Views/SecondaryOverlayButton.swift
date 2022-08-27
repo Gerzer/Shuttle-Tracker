@@ -15,7 +15,7 @@ struct SecondaryOverlayButton: View {
 	
 	private let action: (() -> Void)?
 	
-	@Binding private(set) var badgeNumber: Int
+	let badgeNumber: Int
 	
 	@EnvironmentObject private var viewState: ViewState
 	
@@ -28,9 +28,6 @@ struct SecondaryOverlayButton: View {
 					self.sheetStack.push(sheetType)
 				} else {
 					self.action?()
-				}
-				withAnimation {
-					self.badgeNumber = 0
 				}
 			} label: {
 				Group {
@@ -77,18 +74,18 @@ struct SecondaryOverlayButton: View {
 		}
 	}
 	
-	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Binding<Int> = .constant(0)) {
+	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Int = 0) {
 		self.iconSystemName = iconSystemName
 		self.sheetType = sheetType
 		self.action = nil
-		self._badgeNumber = badgeNumber
+		self.badgeNumber = badgeNumber
 	}
 	
-	init(iconSystemName: String, badgeNumber: Binding<Int> = .constant(0), _ action: @escaping () -> Void) {
+	init(iconSystemName: String, badgeNumber: Int = 0, _ action: @escaping () -> Void) {
 		self.iconSystemName = iconSystemName
 		self.sheetType = nil
 		self.action = action
-		self._badgeNumber = badgeNumber
+		self.badgeNumber = badgeNumber
 	}
 	
 }

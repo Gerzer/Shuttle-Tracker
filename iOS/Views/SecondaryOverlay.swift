@@ -9,7 +9,17 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
-	@State private var unviewedAnnouncementsCount = 0
+	private var unviewedAnnouncementsCount: Int {
+		get {
+			return self.announcements.reduce(into: 0) { (partialResult, announcement) in
+				if !self.viewedAnnouncementIDs.contains(announcement.id) {
+					partialResult += 1
+				}
+			}
+		}
+	}
+	
+	@State private var announcements: [Announcement] = []
 	
 	@EnvironmentObject private var mapState: MapState
 	
@@ -22,7 +32,7 @@ struct SecondaryOverlay: View {
 					SecondaryOverlayButton(
 						iconSystemName: "gearshape.fill",
 						sheetType: .plus(featureText: "Changing settings"),
-						badgeNumber: .constant(1)
+						badgeNumber: 1
 					)
 				} else {
 					SecondaryOverlayButton(
@@ -36,7 +46,7 @@ struct SecondaryOverlay: View {
 					SecondaryOverlayButton(
 						iconSystemName: "info.circle.fill",
 						sheetType: .plus(featureText: "Viewing app information"),
-						badgeNumber: .constant(1)
+						badgeNumber: 1
 					)
 				} else {
 					SecondaryOverlayButton(
@@ -50,18 +60,11 @@ struct SecondaryOverlay: View {
 					SecondaryOverlayButton(
 						iconSystemName: "exclamationmark.bubble.fill",
 						sheetType: .announcements,
-						badgeNumber: self.$unviewedAnnouncementsCount
+						badgeNumber: self.unviewedAnnouncementsCount
 					)
 						.badge(self.unviewedAnnouncementsCount)
 						.task {
-							let announcements = await [Announcement].download()
-							withAnimation {
-								self.unviewedAnnouncementsCount = announcements.reduce(into: 0) { (partialResult, announcement) in
-									if !self.viewedAnnouncementIDs.contains(announcement.id) {
-										partialResult += 1
-									}
-								}
-							}
+							self.announcements = await [Announcement].download()
 						}
 				}
 			}

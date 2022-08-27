@@ -18,7 +18,7 @@ enum ViewUtilities {
 		static let sheetCloseButtonDimension: CGFloat = 15
 		
 		static let toastCloseButtonDimension: CGFloat = 15
-
+		
 		static let toastCornerRadius: CGFloat = 10
 		#else // os(macOS)
 		static let sheetCloseButtonDimension: CGFloat = 30
