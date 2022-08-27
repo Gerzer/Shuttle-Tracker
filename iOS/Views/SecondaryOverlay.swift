@@ -9,35 +9,62 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
-	@State private var announcementsCount = 0
+	private var unviewedAnnouncementsCount: Int {
+		get {
+			return self.announcements.reduce(into: 0) { (partialResult, announcement) in
+				if !self.viewedAnnouncementIDs.contains(announcement.id) {
+					partialResult += 1
+				}
+			}
+		}
+	}
+	
+	@State private var announcements: [Announcement] = []
 	
 	@EnvironmentObject private var mapState: MapState
+	
+	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
 	
 	var body: some View {
 		VStack {
 			VStack(spacing: 0) {
 				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
-					SecondaryOverlayButton(iconSystemName: "gearshape.fill", sheetType: .plus(featureText: "Changing settings"), badgeNumber: .constant(1))
+					SecondaryOverlayButton(
+						iconSystemName: "gearshape.fill",
+						sheetType: .plus(featureText: "Changing settings"),
+						badgeNumber: 1
+					)
 				} else {
-					SecondaryOverlayButton(iconSystemName: "gearshape.fill", sheetType: .settings)
+					SecondaryOverlayButton(
+						iconSystemName: "gearshape.fill",
+						sheetType: .settings
+					)
 				}
 				Divider()
 					.frame(width: 45, height: 0)
 				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
-					SecondaryOverlayButton(iconSystemName: "info.circle.fill", sheetType: .plus(featureText: "Viewing app information"), badgeNumber: .constant(1))
+					SecondaryOverlayButton(
+						iconSystemName: "info.circle.fill",
+						sheetType: .plus(featureText: "Viewing app information"),
+						badgeNumber: 1
+					)
 				} else {
-					SecondaryOverlayButton(iconSystemName: "info.circle.fill", sheetType: .info)
+					SecondaryOverlayButton(
+						iconSystemName: "info.circle.fill",
+						sheetType: .info
+					)
 				}
 				if #available(iOS 15, *) {
 					Divider()
 						.frame(width: 45, height: 0)
-					SecondaryOverlayButton(iconSystemName: "exclamationmark.bubble.fill", sheetType: .announcements, badgeNumber: self.$announcementsCount)
-						.badge(self.announcementsCount)
+					SecondaryOverlayButton(
+						iconSystemName: "exclamationmark.bubble.fill",
+						sheetType: .announcements,
+						badgeNumber: self.unviewedAnnouncementsCount
+					)
+						.badge(self.unviewedAnnouncementsCount)
 						.task {
-							let announcements = await [Announcement].download()
-							withAnimation {
-								self.announcementsCount = announcements.count
-							}
+							self.announcements = await [Announcement].download()
 						}
 				}
 			}

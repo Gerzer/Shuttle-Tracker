@@ -72,9 +72,7 @@ final class SheetStack: ObservableObject {
 	}
 	
 	func register() -> Handle {
-		let observedIndex = self.stack.count
-		let handle = Handle(observedIndex: observedIndex)
-		return handle
+		return Handle(observedIndex: self.stack.count)
 	}
 	
 }

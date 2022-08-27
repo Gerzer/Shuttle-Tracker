@@ -7,13 +7,18 @@
 
 import SwiftUI
 
-@available(iOS 15, macOS 12, *) struct AnnouncementsSheet: View {
+@available(iOS 15, macOS 12, *)
+struct AnnouncementsSheet: View {
 	
 	@State private var announcements: [Announcement]?
+	
+	@State private var didResetViewedAnnouncements = false
 	
 	@EnvironmentObject private var viewState: ViewState
 	
 	@EnvironmentObject private var sheetStack: SheetStack
+	
+	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
 	
 	var body: some View {
 		NavigationView {
@@ -21,8 +26,24 @@ import SwiftUI
 				if let announcements = self.announcements {
 					if announcements.count > 0 {
 						List(announcements) { (announcement) in
-							NavigationLink(announcement.subject) {
-								AnnouncementDetailView(announcement: announcement)
+							NavigationLink {
+								AnnouncementDetailView(
+									didResetViewedAnnouncements: self.$didResetViewedAnnouncements,
+									announcement: announcement
+								)
+							} label: {
+								HStack {
+									let isUnviewed = !self.viewedAnnouncementIDs.contains(announcement.id)
+									Circle()
+									.fill(isUnviewed ? .blue : .clear)
+										.frame(width: 10, height: 10)
+									if #available(iOS 16, macOS 13, *) {
+										Text(announcement.subject)
+											.bold(isUnviewed)
+									} else {
+										Text(announcement.subject)
+									}
+								}
 							}
 						}
 					} else {
@@ -39,7 +60,7 @@ import SwiftUI
 							.multilineTextAlignment(.center)
 							.foregroundColor(.secondary)
 							.padding()
-						#endif
+						#endif // os(macOS)
 					}
 				} else {
 						ProgressView("Loading")
@@ -69,6 +90,17 @@ import SwiftUI
 			}
 			.toolbar {
 				#if os(macOS)
+				ToolbarItem {
+					Button(
+						"Reset Viewed Announcements" + (self.didResetViewedAnnouncements ? " ✓" : ""),
+						role: .destructive
+					) {
+						self.viewedAnnouncementIDs.removeAll()
+						self.didResetViewedAnnouncements = true
+					}
+						.disabled(self.viewedAnnouncementIDs.isEmpty)
+						.focusable(false)
+				}
 				ToolbarItem(placement: .cancellationAction) {
 					Button("Close") {
 						self.sheetStack.pop()
@@ -82,7 +114,8 @@ import SwiftUI
 	
 }
 
-@available(iOS 15, macOS 12, *) struct AnnouncementsSheetPreviews: PreviewProvider {
+@available(iOS 15, macOS 12, *)
+struct AnnouncementsSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		AnnouncementsSheet()

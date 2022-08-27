@@ -18,7 +18,7 @@ enum ViewUtilities {
 		static let sheetCloseButtonDimension: CGFloat = 15
 		
 		static let toastCloseButtonDimension: CGFloat = 15
-
+		
 		static let toastCornerRadius: CGFloat = 10
 		#else // os(macOS)
 		static let sheetCloseButtonDimension: CGFloat = 30
@@ -234,6 +234,38 @@ extension URL {
 			return value.absoluteString
 		}
 		
+	}
+	
+}
+
+extension Set: RawRepresentable where Element == UUID {
+	
+	public var rawValue: String {
+		get {
+			var string = "["
+			for element in self {
+				string += element.uuidString + ","
+			}
+			string.removeLast()
+			string += "]"
+			return string
+		}
+	}
+	
+	public init?(rawValue: String) {
+		self.init()
+		var string = rawValue
+		guard string.first == "[", string.last == "]" else {
+			return nil
+		}
+		string.removeFirst()
+		string.removeLast()
+		for component in string.split(separator: ",") {
+			guard let element = UUID(uuidString: String(component)) else {
+				return nil
+			}
+			self.insert(element)
+		}
 	}
 	
 }
