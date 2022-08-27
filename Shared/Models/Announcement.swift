@@ -64,7 +64,8 @@ extension Array where Element == Announcement {
 			API.provider.request(.readAnnouncements) { (result) in
 				let decoder = JSONDecoder()
 				decoder.dateDecodingStrategy = .iso8601
-				let announcements = try? result.value?
+				let announcements = try? result
+					.get()
 					.map([Announcement].self, using: decoder)
 					.filter { (announcement) in
 						switch announcement.scheduleType {

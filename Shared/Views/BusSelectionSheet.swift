@@ -113,7 +113,8 @@ struct BusSelectionSheet: View {
 		}
 			.onAppear {
 				API.provider.request(.readAllBuses) { (result) in
-					self.allBusIDs = try? result.value?
+					self.allBusIDs = try? result
+						.get()
 						.map([Int].self)
 						.map { (id) in
 							return BusID(id)

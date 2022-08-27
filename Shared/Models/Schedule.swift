@@ -55,7 +55,8 @@ final class Schedule: Decodable, Identifiable {
 			API.provider.request(.schedule) { (result) in
 				let decoder = JSONDecoder()
 				decoder.dateDecodingStrategy = .iso8601
-				let schedule = try? result.value?
+				let schedule = try? result
+					.get()
 					.map([Schedule].self, using: decoder)
 					.first { (schedule) in
 						return schedule.start <= Date.now && schedule.end >= Date.now

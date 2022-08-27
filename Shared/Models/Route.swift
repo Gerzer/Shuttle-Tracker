@@ -104,7 +104,9 @@ extension Array where Element == Route {
 	
 	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
 		API.provider.request(.readRoutes) { (result) in
-			let routes = try? result.value?.map([Route].self)
+			let routes = try? result
+				.get()
+				.map([Route].self)
 			routesCallback(routes ?? [])
 		}
 	}
