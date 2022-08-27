@@ -137,7 +137,11 @@ struct ContentView: View {
 				}
 				ToolbarItem {
 					Button {
-						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+						self.mapState.mapView?.setVisibleMapRect(
+							self.mapState.routes.boundingMapRect,
+							edgePadding: MapUtilities.Constants.mapRectInsets,
+							animated: true
+						)
 					} label: {
 						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 					}
@@ -163,6 +167,16 @@ struct ContentView: View {
 				}
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 					self.refreshBuses()
+					[Stop].download { (stops) in
+						DispatchQueue.main.async {
+							self.mapState.stops = stops
+						}
+					}
+					[Route].download { (routes) in
+						DispatchQueue.main.async {
+							self.mapState.routes = routes
+						}
+					}
 				}
 			}
 			.onReceive(self.timer) { (_) in

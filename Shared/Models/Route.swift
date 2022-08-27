@@ -105,6 +105,14 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 
 extension Array where Element == Route {
 	
+	var boundingMapRect: MKMapRect {
+		get {
+			return self.reduce(into: .null) { (partialResult, route) in
+				partialResult = partialResult.union(route.boundingMapRect)
+			}
+		}
+	}
+	
 	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
 		API.provider.request(.readRoutes) { (result) in
 			let routes = try? result

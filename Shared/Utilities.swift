@@ -80,15 +80,21 @@ enum MapUtilities {
 		
 		static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
 		
-	}
-	
-	static let mapRect = MKMapRect(
-		origin: MKMapPoint(Constants.originCoordinate),
-		size: MKMapSize(
-			width: 10000,
-			height: 10000
+		static let mapRect = MKMapRect(
+			origin: MKMapPoint(Constants.originCoordinate),
+			size: MKMapSize(
+				width: 10000,
+				height: 10000
+			)
 		)
-	)
+		
+		#if os(macOS)
+		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
+		#else // os(macOS)
+		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
+		#endif // os(macOS)
+		
+	}
 	
 }
 

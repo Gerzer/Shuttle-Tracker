@@ -70,7 +70,11 @@ import OnboardingKit
 						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
 					Divider()
 					Button("Re-Center Map") {
-						self.mapState.mapView?.setVisibleMapRect(MapUtilities.mapRect, animated: true)
+						self.mapState.mapView?.setVisibleMapRect(
+							self.mapState.routes.boundingMapRect,
+							edgePadding: MapUtilities.Constants.mapRectInsets,
+							animated: true
+						)
 					}
 						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
 					Button("Refresh") {
