@@ -35,14 +35,25 @@ struct AnnouncementsSheet: View {
 								HStack {
 									let isUnviewed = !self.viewedAnnouncementIDs.contains(announcement.id)
 									Circle()
-									.fill(isUnviewed ? .blue : .clear)
+										.fill(isUnviewed ? .blue : .clear)
 										.frame(width: 10, height: 10)
-									if #available(iOS 16, macOS 13, *) {
+									
+									// Since macOS 13 Ventura is delayed until later this fall (2022), we have to build against the macOS 12.3 Monterey SDK. This older SDK doesn’t contain the `bold(_:)` view modifier for `Text` views, so we employ this ugly fallback on macOS. Once the final macOS 13 Ventura SDK is released, we should be able to remove the fallback.
+									#if os(macOS)
+									if isUnviewed {
+										Text(announcement.subject)
+											.bold()
+									} else {
+										Text(announcement.subject)
+									}
+									#else // os(macOS)
+									if #available(iOS 16, *) {
 										Text(announcement.subject)
 											.bold(isUnviewed)
 									} else {
 										Text(announcement.subject)
 									}
+									#endif
 								}
 							}
 						}
@@ -63,11 +74,11 @@ struct AnnouncementsSheet: View {
 						#endif // os(macOS)
 					}
 				} else {
-						ProgressView("Loading")
-							.font(.callout)
-							.textCase(.uppercase)
-							.foregroundColor(.secondary)
-							.padding()
+					ProgressView("Loading")
+						.font(.callout)
+						.textCase(.uppercase)
+						.foregroundColor(.secondary)
+						.padding()
 				}
 				Text("No Announcement Selected")
 					.font(.title2)
