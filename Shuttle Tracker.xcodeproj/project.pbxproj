@@ -219,6 +219,7 @@
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
 		C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
 		C0C9D3CF270FA70C00AE58BE /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		C0CAD55228CBFD4700DEBA60 /* BoardBusIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBusIntent.swift; sourceTree = "<group>"; };
 		C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C0FFD6D7250C33C900945F01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shuttle Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -412,6 +413,7 @@
 				C086017025D83D8700C4F583 /* Views */,
 				C025ED422527C1D500524144 /* API.swift */,
 				C0730C1627F103D200EF7550 /* AppStorageManager.swift */,
+				C0CAD55228CBFD4700DEBA60 /* BoardBusIntent.swift */,
 				C082CCF6277FB38A005D0209 /* BusID.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
 				C03B1D352741E18B007B318E /* SheetStack.swift */,
