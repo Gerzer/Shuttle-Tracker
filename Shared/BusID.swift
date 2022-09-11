@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/22/21.
 //
 
+// TODO: Revisit choice to implement a non-interned wrapper class
 final class BusID: Equatable, Comparable, Identifiable, RawRepresentable {
 	
 	let id: Int

@@ -14,9 +14,9 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		
 		enum LocationType: String, Codable {
 			
-			case system = "system"
+			case system
 			
-			case user = "user"
+			case user
 			
 		}
 		
@@ -28,8 +28,14 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		
 		let type: LocationType
 		
-		func convertForCoreLocation() -> CLLocation {
-			return CLLocation(coordinate: self.coordinate.convertedForCoreLocation(), altitude: .nan, horizontalAccuracy: .nan, verticalAccuracy: .nan, timestamp: self.date)
+		func convertedForCoreLocation() -> CLLocation {
+			return CLLocation(
+				coordinate: self.coordinate.convertedForCoreLocation(),
+				altitude: .nan,
+				horizontalAccuracy: .nan,
+				verticalAccuracy: .nan,
+				timestamp: self.date
+			)
 		}
 		
 	}
