@@ -69,6 +69,7 @@ struct PrimaryOverlay: View {
 								SKStoreReviewController.requestReview(in: windowScene)
 							}
 						case .notOnBus:
+							// TODO: Rename local `location` identifier to something more descriptive
 							guard let location = LocationUtilities.locationManager.location else {
 								break
 							}

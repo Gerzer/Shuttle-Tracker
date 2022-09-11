@@ -10,7 +10,7 @@ import CoreLocation
 
 struct BusSelectionSheet: View {
 	
-	@State private var allBusIDs: [BusID]?
+	@State private var busIDs: [BusID]?
 	
 	@State private var suggestedBusID: BusID?
 	
@@ -25,7 +25,7 @@ struct BusSelectionSheet: View {
 	var body: some View {
 		NavigationView {
 			VStack {
-				if let allBusIDs = self.allBusIDs {
+				if let allBusIDs = self.busIDs {
 					ScrollView {
 						VStack {
 							HStack {
@@ -57,7 +57,7 @@ struct BusSelectionSheet: View {
 										}
 									}
 								}
-								BusOption(suggestedBusID, selectedBusID: self.$selectedBusID)
+								BusOption(suggestedBusID, selection: self.$selectedBusID)
 								if #available(iOS 15, *) {
 									Divider()
 										.background(.secondary)
@@ -68,9 +68,14 @@ struct BusSelectionSheet: View {
 										.padding(.vertical, 10)
 								}
 							}
-							LazyVGrid(columns: [GridItem](repeating: GridItem(.flexible()), count: 3)) {
+							LazyVGrid(
+								columns: [GridItem](
+									repeating: GridItem(.flexible()),
+									count: 3
+								)
+							) {
 								ForEach(allBusIDs.sorted()) { (busID) in
-									BusOption(busID, selectedBusID: self.$selectedBusID)
+									BusOption(busID, selection: self.$selectedBusID)
 								}
 							}
 							Spacer(minLength: 20)
@@ -113,7 +118,7 @@ struct BusSelectionSheet: View {
 		}
 			.onAppear {
 				API.provider.request(.readAllBuses) { (result) in
-					self.allBusIDs = try? result
+					self.busIDs = try? result
 						.get()
 						.map([Int].self)
 						.map { (id) in
@@ -123,18 +128,17 @@ struct BusSelectionSheet: View {
 						return
 					}
 					let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
-						let firstBusDistance = firstBus.location.convertForCoreLocation().distance(from: location)
-						let secondBusDistance = secondBus.location.convertForCoreLocation().distance(from: location)
+						let firstBusDistance = firstBus.location
+							.convertedForCoreLocation()
+							.distance(from: location)
+						let secondBusDistance = secondBus.location
+							.convertedForCoreLocation()
+							.distance(from: location)
 						return firstBusDistance < secondBusDistance
 					}
-					guard let rawID = closestBus?.id else {
-						return
+					self.suggestedBusID = closestBus.map { (bus) in
+						return BusID(bus.id)
 					}
-					let closestBusID = BusID(rawID)
-					self.allBusIDs?.removeAll { (element) in
-						return element == closestBusID
-					}
-					self.suggestedBusID = closestBusID
 				}
 			}
 	}
@@ -166,7 +170,7 @@ struct BusSelectionSheet: View {
 			do {
 				try await UserNotificationUtilities.requestAuthorization()
 			} catch let error {
-				print("[BusSelectionSheet boardBus()] Notification authorization request error: \(error.localizedDescription)")
+				print("[\(#fileID):\(#line) \(#function)] \(error)")
 			}
 			try await UNUserNotificationCenter
 				.current()

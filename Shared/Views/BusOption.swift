@@ -46,7 +46,7 @@ struct BusOption: View {
 			}
 	}
 	
-	init(_ busID: BusID, selectedBusID: Binding<BusID?>) {
+	init(_ busID: BusID, selection selectedBusID: Binding<BusID?>) {
 		self.busID = busID
 		self._selectedBusID = selectedBusID
 	}
@@ -56,7 +56,7 @@ struct BusOption: View {
 struct BusOptionPreviews: PreviewProvider {
 	
 	static var previews: some View {
-		BusOption(BusID(69), selectedBusID: .constant(nil))
+		BusOption(BusID(42), selection: .constant(nil))
 	}
 	
 }
