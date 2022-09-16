@@ -44,6 +44,14 @@ enum ViewUtilities {
 
 enum LocationUtilities {
 	
+	enum Constants {
+		
+		static let networkUUID = UUID(uuidString: "9C3F95DC-7A90-4C5E-84CB-3D406D87B73B")!
+		
+		static let beaconID = "com.gerzer.shuttletracker.node"
+		
+	}
+	
 	private static let locationManagerDelegate = LocationManagerDelegate()
 	
 	private static var locationManagerHandlers: [(CLLocationManager) -> Void] = []
@@ -63,13 +71,16 @@ enum LocationUtilities {
 	
 	static func sendToServer(coordinate: CLLocationCoordinate2D) {
 		guard let busID = MapState.shared.busID, let locationID = MapState.shared.locationID else {
-			LoggingUtilities.logger.log(level: .fault, "Required bus and location identifiers not found")
+			LoggingUtilities.logger.log(level: .error, "Required bus and location identifiers not found")
 			return
 		}
-		let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertedToCoordinate(), type: .user)
-		API.provider.request(.updateBus(busID, location: location)) { (_) in
-			return
-		}
+		let location = Bus.Location(
+			id: locationID,
+			date: Date(),
+			coordinate: coordinate.convertedToCoordinate(),
+			type: .user
+		)
+		API.provider.request(.updateBus(busID, location: location)) { (_) in }
 	}
 	
 }

@@ -7,7 +7,7 @@
 
 import AppKit
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
 		return true
