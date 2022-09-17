@@ -76,6 +76,7 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 				LoggingUtilities.logger.log(level: .error, "No beacons remain after filtering")
 				return
 			}
+			MapState.shared.locationID = UUID()
 			MapState.shared.busID = Int(truncating: beacon.major)
 			MapState.shared.travelState = .onBus
 			LocationUtilities.locationManager.startUpdatingLocation()
