@@ -40,8 +40,23 @@ struct BoardBusIntent: AppIntent {
 	}
 	
 	func perform() async throws -> some IntentResult {
-		// TODO: Place your refactored intent handler code here.
-		return .result()
+		guard let location = LocationUtilities.locationManager.location else {
+			.result(dialog: "You haven’t given Shuttle Tracker access to your location.")
+		}
+		let closestStopDistance = MapState.shared.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+			let newDistance = stop.location.distance(from: location)
+			if newDistance < distance {
+				distance = newDistance
+			}
+		}
+		let maximumStopDistance = AppStorageManager.shared.maximumStopDistance
+		if closestStopDistance < Double(maximumStopDistance) {
+			self.mapState.locationID = UUID()
+			// TODO: Set bus ID
+			return .result()
+		} else {
+			return .result(dialog: "You can’t board a bus because aren’t within \(maximumStopDistance) meters of a stop.")
+		}
 	}
 }
 
