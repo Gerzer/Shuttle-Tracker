@@ -112,6 +112,30 @@
 		C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
 		C0A232CA252508E000FAAD50 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */; };
+		C0A7A85828D6B08D00A2ACAA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A7A85728D6B08D00A2ACAA /* WidgetKit.framework */; };
+		C0A7A85A28D6B08D00A2ACAA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A7A85928D6B08D00A2ACAA /* SwiftUI.framework */; };
+		C0A7A85D28D6B08D00A2ACAA /* BoardBusLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A85C28D6B08D00A2ACAA /* BoardBusLiveActivity.swift */; };
+		C0A7A86028D6B08E00A2ACAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0A7A85F28D6B08E00A2ACAA /* Assets.xcassets */; };
+		C0A7A86628D6B08E00A2ACAA /* Widgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C0A7A85628D6B08D00A2ACAA /* Widgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C0A7A86C28D6B2CC00A2ACAA /* BoardBusAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A86B28D6B2CC00A2ACAA /* BoardBusAttributes.swift */; };
+		C0A7A86D28D6B2CC00A2ACAA /* BoardBusAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A86B28D6B2CC00A2ACAA /* BoardBusAttributes.swift */; };
+		C0A7A86E28D6B2CC00A2ACAA /* BoardBusAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A86B28D6B2CC00A2ACAA /* BoardBusAttributes.swift */; };
+		C0A7A87128D6B38A00A2ACAA /* TravelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87028D6B38A00A2ACAA /* TravelState.swift */; };
+		C0A7A87228D6B38A00A2ACAA /* TravelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87028D6B38A00A2ACAA /* TravelState.swift */; };
+		C0A7A87428D6B4EA00A2ACAA /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
+		C0A7A87628D6B62700A2ACAA /* LiveActivity.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87528D6B62700A2ACAA /* LiveActivity.intentdefinition */; };
+		C0A7A87728D6B62700A2ACAA /* LiveActivity.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87528D6B62700A2ACAA /* LiveActivity.intentdefinition */; };
+		C0A7A87828D6B62700A2ACAA /* LiveActivity.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87528D6B62700A2ACAA /* LiveActivity.intentdefinition */; };
+		C0A7A87C28D6B68800A2ACAA /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87928D6B68800A2ACAA /* Widgets.swift */; };
+		C0A7A87F28D6B7A200A2ACAA /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87E28D6B7A200A2ACAA /* MapView.swift */; };
+		C0A7A88028D6B7C500A2ACAA /* TravelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87028D6B38A00A2ACAA /* TravelState.swift */; };
+		C0A7A88328D6B80B00A2ACAA /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
+		C0A7A88428D6B81500A2ACAA /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
+		C0A7A88528D6B83400A2ACAA /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
+		C0A7A88628D6B95400A2ACAA /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
+		C0A7A88728D6BA5E00A2ACAA /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
+		C0A7A88828D6BA9C00A2ACAA /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
+		C0A7A88928D6BB9900A2ACAA /* TravelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A87028D6B38A00A2ACAA /* TravelState.swift */; };
 		C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02327A4ABDD007FF08A /* Moya */; };
 		C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02527A4ABEF007FF08A /* Moya */; };
 		C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02727A4ABF3007FF08A /* Moya */; };
@@ -142,6 +166,13 @@
 			remoteGlobalIDString = C0A232932525080500FAAD50;
 			remoteInfo = "Rensselaer Shuttle";
 		};
+		C0A7A86428D6B08E00A2ACAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C0A7A85528D6B08D00A2ACAA;
+			remoteInfo = "Live ActivityExtension";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -154,6 +185,17 @@
 				C0A232A32525080600FAAD50 /* App Clip.app in Embed App Clips */,
 			);
 			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0A7A86728D6B08E00A2ACAA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C0A7A86628D6B08E00A2ACAA /* Widgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -214,6 +256,17 @@
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
+		C0A7A85628D6B08D00A2ACAA /* Widgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0A7A85728D6B08D00A2ACAA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C0A7A85928D6B08D00A2ACAA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C0A7A85C28D6B08D00A2ACAA /* BoardBusLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBusLiveActivity.swift; sourceTree = "<group>"; };
+		C0A7A85F28D6B08E00A2ACAA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C0A7A86128D6B08E00A2ACAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0A7A86B28D6B2CC00A2ACAA /* BoardBusAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBusAttributes.swift; sourceTree = "<group>"; };
+		C0A7A87028D6B38A00A2ACAA /* TravelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelState.swift; sourceTree = "<group>"; };
+		C0A7A87528D6B62700A2ACAA /* LiveActivity.intentdefinition */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.intentdefinition; path = LiveActivity.intentdefinition; sourceTree = "<group>"; };
+		C0A7A87928D6B68800A2ACAA /* Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
+		C0A7A87E28D6B7A200A2ACAA /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C0B5E72628BAA81A00603D22 /* ColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorName.swift; sourceTree = "<group>"; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
@@ -236,6 +289,15 @@
 			files = (
 				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
 				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0A7A85328D6B08D00A2ACAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0A7A85A28D6B08D00A2ACAA /* SwiftUI.framework in Frameworks */,
+				C0A7A85828D6B08D00A2ACAA /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,14 +429,38 @@
 			children = (
 				C08FC25E252515C8008589C1 /* AppClip.framework */,
 				C08FC24C2525157D008589C1 /* StoreKit.framework */,
+				C0A7A85728D6B08D00A2ACAA /* WidgetKit.framework */,
+				C0A7A85928D6B08D00A2ACAA /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C0A7A85B28D6B08D00A2ACAA /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				C0A7A87D28D6B79500A2ACAA /* Views */,
+				C0A7A85C28D6B08D00A2ACAA /* BoardBusLiveActivity.swift */,
+				C0A7A87928D6B68800A2ACAA /* Widgets.swift */,
+				C0A7A87528D6B62700A2ACAA /* LiveActivity.intentdefinition */,
+				C0A7A85F28D6B08E00A2ACAA /* Assets.xcassets */,
+				C0A7A86128D6B08E00A2ACAA /* Info.plist */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		C0A7A87D28D6B79500A2ACAA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C0A7A87E28D6B7A200A2ACAA /* MapView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		C0C9D3D3270FA74400AE58BE /* State */ = {
 			isa = PBXGroup;
 			children = (
 				C015281C2517F68F0069092C /* MapState.swift */,
+				C0A7A87028D6B38A00A2ACAA /* TravelState.swift */,
 				C0C9D3CF270FA70C00AE58BE /* ViewState.swift */,
 			);
 			path = State;
@@ -398,6 +484,7 @@
 				C0FFD6DE250C33C900945F01 /* iOS */,
 				C0FFD6E5250C33C900945F01 /* macOS */,
 				C08FC1D3252509E6008589C1 /* App Clip */,
+				C0A7A85B28D6B08D00A2ACAA /* Widgets */,
 				C0FFD6DD250C33C900945F01 /* Products */,
 				C08FC24B2525157D008589C1 /* Frameworks */,
 			);
@@ -412,6 +499,7 @@
 				C086017025D83D8700C4F583 /* Views */,
 				C025ED422527C1D500524144 /* API.swift */,
 				C0730C1627F103D200EF7550 /* AppStorageManager.swift */,
+				C0A7A86B28D6B2CC00A2ACAA /* BoardBusAttributes.swift */,
 				C082CCF6277FB38A005D0209 /* BusID.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
 				C03B1D352741E18B007B318E /* SheetStack.swift */,
@@ -427,6 +515,7 @@
 				C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */,
 				C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */,
 				C0A232942525080500FAAD50 /* App Clip.app */,
+				C0A7A85628D6B08D00A2ACAA /* Widgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -478,6 +567,23 @@
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
 			productType = "com.apple.product-type.application.on-demand-install-capable";
 		};
+		C0A7A85528D6B08D00A2ACAA /* Widgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0A7A86A28D6B08E00A2ACAA /* Build configuration list for PBXNativeTarget "Widgets" */;
+			buildPhases = (
+				C0A7A85228D6B08D00A2ACAA /* Sources */,
+				C0A7A85328D6B08D00A2ACAA /* Frameworks */,
+				C0A7A85428D6B08D00A2ACAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Widgets;
+			productName = "Live ActivityExtension";
+			productReference = C0A7A85628D6B08D00A2ACAA /* Widgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C0FFD6DB250C33C900945F01 /* iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C0FFD6F0250C33C900945F01 /* Build configuration list for PBXNativeTarget "iOS" */;
@@ -486,11 +592,13 @@
 				C0FFD6D9250C33C900945F01 /* Frameworks */,
 				C0FFD6DA250C33C900945F01 /* Resources */,
 				C0A232A72525080600FAAD50 /* Embed App Clips */,
+				C0A7A86728D6B08E00A2ACAA /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C0A232A22525080600FAAD50 /* PBXTargetDependency */,
+				C0A7A86528D6B08E00A2ACAA /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -528,11 +636,14 @@
 		C0FFD6D0250C33C800945F01 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					C0A232932525080500FAAD50 = {
 						CreatedOnToolsVersion = 12.2;
+					};
+					C0A7A85528D6B08D00A2ACAA = {
+						CreatedOnToolsVersion = 14.1;
 					};
 					C0FFD6DB250C33C900945F01 = {
 						CreatedOnToolsVersion = 12.0;
@@ -562,6 +673,7 @@
 				C0FFD6E3250C33C900945F01 /* macOS */,
 				C0FFD6DB250C33C900945F01 /* iOS */,
 				C0A232932525080500FAAD50 /* App Clip */,
+				C0A7A85528D6B08D00A2ACAA /* Widgets */,
 			);
 		};
 /* End PBXProject section */
@@ -573,6 +685,14 @@
 			files = (
 				C08FC21425250BEE008589C1 /* Assets.xcassets in Resources */,
 				C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0A7A85428D6B08D00A2ACAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0A7A86028D6B08E00A2ACAA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,8 +720,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
+				C0A7A87728D6B62700A2ACAA /* LiveActivity.intentdefinition in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,
+				C0A7A87228D6B38A00A2ACAA /* TravelState.swift in Sources */,
 				C0730C1927F103D200EF7550 /* AppStorageManager.swift in Sources */,
 				C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */,
 				C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */,
@@ -629,10 +751,31 @@
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
+				C0A7A86D28D6B2CC00A2ACAA /* BoardBusAttributes.swift in Sources */,
 				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
 				C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */,
 				C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C08FC1F025250A73008589C1 /* LocationManagerDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0A7A85228D6B08D00A2ACAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0A7A87F28D6B7A200A2ACAA /* MapView.swift in Sources */,
+				C0A7A86E28D6B2CC00A2ACAA /* BoardBusAttributes.swift in Sources */,
+				C0A7A88728D6BA5E00A2ACAA /* Utilities.swift in Sources */,
+				C0A7A88528D6B83400A2ACAA /* Stop.swift in Sources */,
+				C0A7A87C28D6B68800A2ACAA /* Widgets.swift in Sources */,
+				C0A7A85D28D6B08D00A2ACAA /* BoardBusLiveActivity.swift in Sources */,
+				C0A7A88828D6BA9C00A2ACAA /* ColorName.swift in Sources */,
+				C0A7A88928D6BB9900A2ACAA /* TravelState.swift in Sources */,
+				C0A7A87428D6B4EA00A2ACAA /* Coordinate.swift in Sources */,
+				C0A7A88428D6B81500A2ACAA /* Route.swift in Sources */,
+				C0A7A88628D6B95400A2ACAA /* CustomAnnotation.swift in Sources */,
+				C0A7A87828D6B62700A2ACAA /* LiveActivity.intentdefinition in Sources */,
+				C0A7A88328D6B80B00A2ACAA /* MapViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,9 +795,12 @@
 				C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C039B0642796201200416725 /* CloseButton.swift in Sources */,
 				C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */,
+				C0A7A86C28D6B2CC00A2ACAA /* BoardBusAttributes.swift in Sources */,
+				C0A7A87628D6B62700A2ACAA /* LiveActivity.intentdefinition in Sources */,
 				C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
+				C0A7A87128D6B38A00A2ACAA /* TravelState.swift in Sources */,
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
 				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
@@ -709,6 +855,7 @@
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0A1E7292749F33C00DBF248 /* (null) in Sources */,
+				C0A7A88028D6B7C500A2ACAA /* TravelState.swift in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
 				C059834027D2CF0300299D27 /* PrivacySheet.swift in Sources */,
@@ -737,6 +884,11 @@
 			isa = PBXTargetDependency;
 			target = C0A232932525080500FAAD50 /* App Clip */;
 			targetProxy = C0A232A12525080600FAAD50 /* PBXContainerItemProxy */;
+		};
+		C0A7A86528D6B08E00A2ACAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C0A7A85528D6B08D00A2ACAA /* Widgets */;
+			targetProxy = C0A7A86428D6B08E00A2ACAA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -791,6 +943,68 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C0A7A86828D6B08E00A2ACAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 33;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.5;
+				OTHER_SWIFT_FLAGS = "-D WIDGET";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C0A7A86928D6B08E00A2ACAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 33;
+				DEVELOPMENT_TEAM = SYBLH277NF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.5;
+				OTHER_SWIFT_FLAGS = "-D WIDGET";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1037,6 +1251,15 @@
 			buildConfigurations = (
 				C0A232A52525080600FAAD50 /* Debug */,
 				C0A232A62525080600FAAD50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0A7A86A28D6B08E00A2ACAA /* Build configuration list for PBXNativeTarget "Widgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0A7A86828D6B08E00A2ACAA /* Debug */,
+				C0A7A86928D6B08E00A2ACAA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

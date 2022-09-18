@@ -10,6 +10,7 @@ import MapKit
 import UserNotifications
 import OSLog
 
+#if !WIDGET
 enum ViewUtilities {
 	
 	enum Constants {
@@ -73,6 +74,7 @@ enum LocationUtilities {
 	}
 	
 }
+#endif // !WIDGET
 
 enum MapUtilities {
 	
@@ -127,14 +129,6 @@ enum UserNotificationUtilities {
 enum DefaultsKeys {
 	
 	static let coldLaunchCount = "ColdLaunchCount"
-	
-}
-
-enum TravelState {
-	
-	case onBus
-	
-	case notOnBus
 	
 }
 

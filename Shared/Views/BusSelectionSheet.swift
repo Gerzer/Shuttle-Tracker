@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/21/21.
 //
 
+import ActivityKit
 import SwiftUI
 import CoreLocation
 
@@ -143,16 +144,32 @@ struct BusSelectionSheet: View {
 			}
 	}
 	
+	/// Starts sending bus location data to the server.
+	/// - Precondition: The user has authorized full location accuracy.
 	private func boardBus() {
-		guard LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy else {
-			return
-		}
+		precondition(LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy)
 		self.mapState.busID = self.selectedBusID?.rawValue
 		self.mapState.travelState = .onBus
 		self.viewState.statusText = .locationData
 		self.viewState.handles.tripCount?.increment()
 		self.sheetStack.pop()
 		LocationUtilities.locationManager.startUpdatingLocation()
+		if #available(iOS 16.1, *) {
+			do {
+				_ = try Activity.request(
+					attributes: BoardBusAttributes(
+						stops: self.mapState.stops,
+						routes: self.mapState.routes
+					),
+					contentState: BoardBusAttributes.ContentState(
+						travelState: self.mapState.travelState,
+						coordinate: LocationUtilities.locationManager.location?.coordinate.convertedToCoordinate()
+					)
+				)
+			} catch let error {
+				LoggingUtilities.logger.log(level: .error, "Live Activity request failed: \(error)")
+			}
+		}
 		
 		// Schedule leave-bus notification
 		let content = UNMutableNotificationContent()

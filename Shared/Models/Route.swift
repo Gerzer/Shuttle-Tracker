@@ -8,7 +8,8 @@
 import SwiftUI
 import MapKit
 
-class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
+// TODO: Revert changes in the same commit as this comment because they’re not actually needed
+class Route: NSObject, Collection, Codable, Identifiable, MKOverlay {
 	
 	enum CodingKeys: String, CodingKey {
 		
@@ -28,7 +29,13 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 		}
 	}
 	
-	let color: Color
+	private let colorName: ColorName
+	
+	var color: Color {
+		get {
+			return self.colorName.color
+		}
+	}
 	
 	var polylineRenderer: MKPolylineRenderer {
 		get {
@@ -86,7 +93,22 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 			.map { (coordinate) in
 				return MKMapPoint(coordinate)
 			}
-		self.color = try container.decode(ColorName.self, forKey: .colorName).color
+		self.colorName = try container.decode(ColorName.self, forKey: .colorName)
+	}
+	
+	func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		try container.encode(
+			self.mapPoints.map { (mapPoint) in
+				return mapPoint.coordinate.convertedToCoordinate()
+			},
+			forKey: .coordinates
+		)
+		try container.encode(self.colorName, forKey: .colorName)
+	}
+	
+	func index(after oldIndex: Int) -> Int {
+		return oldIndex + 1
 	}
 	
 	subscript(position: Int) -> MKMapPoint {
@@ -97,12 +119,9 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 		return left.mapPoints == right.mapPoints
 	}
 	
-	func index(after oldIndex: Int) -> Int {
-		return oldIndex + 1
-	}
-	
 }
 
+#if !WIDGET
 extension Array where Element == Route {
 	
 	var boundingMapRect: MKMapRect {
@@ -123,3 +142,4 @@ extension Array where Element == Route {
 	}
 	
 }
+#endif // !WIDGET

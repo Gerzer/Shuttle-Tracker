@@ -5,8 +5,9 @@
 //  Created by Gabriel Jacoby-Cooper on 10/22/21.
 //
 
-import SwiftUI
+import ActivityKit
 import StoreKit
+import SwiftUI
 
 struct PrimaryOverlay: View {
 	
@@ -145,6 +146,18 @@ struct PrimaryOverlay: View {
 								self.viewState.statusText = .mapRefresh
 							}
 							LocationUtilities.locationManager.stopUpdatingLocation()
+							if #available(iOS 16.1, *) {
+								for activity in Activity<BoardBusAttributes>.activities {
+									Task {
+										await activity.end(
+											using: BoardBusAttributes.ContentState(
+												travelState: self.mapState.travelState,
+												coordinate: LocationUtilities.locationManager.location?.coordinate.convertedToCoordinate()
+											)
+										)
+									}
+								}
+							}
 							
 							// Remove any pending leave-bus notifications
 							UNUserNotificationCenter

@@ -7,7 +7,7 @@
 
 import CoreLocation
 
-struct Coordinate: Codable {
+struct Coordinate: Equatable, Codable, Hashable {
 	
 	let latitude: Double
 	
