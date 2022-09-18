@@ -17,7 +17,9 @@ struct BoardBusIntent: AppIntent {
 	
 	static let parameterSummary = Summary("Board bus \(\.$busID)")
 	
-	@Parameter(title: "Bus ID Number") var busID: Int?
+	static var authenticationPolicy: IntentAuthenticationPolicy = .alwaysAllowed
+	
+	@Parameter(title: "Bus ID Number", controlStyle: .field) var busID: Int
 	
 	enum CustomDialog {
 		
@@ -40,8 +42,12 @@ struct BoardBusIntent: AppIntent {
 	}
 	
 	func perform() async throws -> some IntentResult {
+		// TODO: Validate bus ID (this may involve switching to a different parameter type)
+		guard case .notOnBus = MapState.shared.travelState else {
+			return .result(dialog: "You’re already using Board Bus.")
+		}
 		guard let location = LocationUtilities.locationManager.location else {
-			.result(dialog: "You haven’t given Shuttle Tracker access to your location.")
+			return .result(dialog: "You haven’t given Shuttle Tracker access to your location.")
 		}
 		let closestStopDistance = MapState.shared.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
 			let newDistance = stop.location.distance(from: location)
@@ -51,12 +57,17 @@ struct BoardBusIntent: AppIntent {
 		}
 		let maximumStopDistance = AppStorageManager.shared.maximumStopDistance
 		if closestStopDistance < Double(maximumStopDistance) {
-			self.mapState.locationID = UUID()
-			// TODO: Set bus ID
-			return .result()
+			// TODO: Remove explicit main-thread dispatch when we encapsulate Board Bus in a main-actor-isolated asynchronous subroutine
+			DispatchQueue.main.async { // Hop to the main thread to publish MapState changes
+				MapState.shared.locationID = UUID()
+				MapState.shared.busID = busID
+				MapState.shared.travelState = .onBus
+			}
+			
+			return .result(dialog: "Thanks for using Board Bus!")
 		} else {
-			return .result(dialog: "You can’t board a bus because aren’t within \(maximumStopDistance) meters of a stop.")
+			return .result(dialog: "You can’t board a bus because you aren’t within \(maximumStopDistance) meters of a stop.")
 		}
 	}
+	
 }
-
