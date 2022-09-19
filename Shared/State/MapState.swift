@@ -12,37 +12,13 @@ class MapState: ObservableObject {
 	
 	static let shared = MapState()
 	
+	weak var mapView: MKMapView?
+	
 	@Published var buses = [Bus]()
 	
 	@Published var stops = [Stop]()
 	
 	@Published var routes = [Route]()
-	
-	@Published var travelState = TravelState.notOnBus {
-		didSet {
-			switch self.travelState {
-			case .onBus:
-				self.mapView?.showsUserLocation.toggle()
-				if let busID = self.busID {
-					self.oldUserLocationTitle = self.mapView?.userLocation.title
-					self.mapView?.userLocation.title = "Bus \(busID)"
-				}
-				self.mapView?.showsUserLocation.toggle()
-			case .notOnBus:
-				self.mapView?.showsUserLocation.toggle()
-				self.mapView?.userLocation.title = self.oldUserLocationTitle
-				self.mapView?.showsUserLocation.toggle()
-			}
-		}
-	}
-	
-	@Published var busID: Int?
-	
-	@Published var locationID: UUID?
-	
-	weak var mapView: MKMapView?
-	
-	private var oldUserLocationTitle: String?
 	
 	private init() { }
 	
