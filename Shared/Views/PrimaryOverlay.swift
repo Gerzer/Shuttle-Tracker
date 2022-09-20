@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct PrimaryOverlay: View {
 	
@@ -32,7 +33,7 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	var body: some View {
 		HStack {
@@ -56,7 +57,19 @@ struct PrimaryOverlay: View {
 							UNUserNotificationCenter
 								.current()
 								.removeAllPendingNotificationRequests()
+							
+							let windowScenes = UIApplication.shared.connectedScenes
+								.filter { (scene) in
+									return scene.activationState == .foregroundActive
+								}
+								.compactMap { (scene) in
+									return scene as? UIWindowScene
+								}
+							if let windowScene = windowScenes.first {
+								SKStoreReviewController.requestReview(in: windowScene)
+							}
 						case .notOnBus:
+							// TODO: Rename local `location` identifier to something more descriptive
 							guard let location = LocationUtilities.locationManager.location else {
 								break
 							}
@@ -101,9 +114,12 @@ struct PrimaryOverlay: View {
 										}
 									}
 								} label: {
-									Image(systemName: "arrow.clockwise.circle.fill")
+									Image(systemName: "arrow.clockwise")
 										.resizable()
 										.aspectRatio(1, contentMode: .fit)
+										.symbolVariant(.circle)
+										.symbolVariant(.fill)
+										.symbolRenderingMode(.multicolor)
 								}
 							}
 						}
@@ -192,7 +208,7 @@ struct PrimaryOverlay: View {
 			Spacer()
 		}
 			.padding()
-			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
+			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in
 				self.refreshBuses()
 			}
 			.onReceive(self.timer) { (_) in
@@ -217,6 +233,16 @@ struct PrimaryOverlay: View {
 				withAnimation {
 					self.isRefreshing = false
 				}
+			}
+		}
+		[Stop].download { (stops) in
+			DispatchQueue.main.async {
+				self.mapState.stops = stops
+			}
+		}
+		[Route].download { (routes) in
+			DispatchQueue.main.async {
+				self.mapState.routes = routes
 			}
 		}
 //		if let location = locationManager.location {

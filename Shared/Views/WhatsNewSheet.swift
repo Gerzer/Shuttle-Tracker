@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct WhatsNewSheet: View {
 	
@@ -25,7 +26,7 @@ struct WhatsNewSheet: View {
 								.bold()
 								.multilineTextAlignment(.center)
 							if #available(iOS 15, macOS 12, *) {
-								Text("Version 1.2")
+								Text("Version 1.5")
 									.font(
 										.system(
 											.callout,
@@ -46,22 +47,26 @@ struct WhatsNewSheet: View {
 						Spacer()
 					}
 						.padding(.top)
-					Text("Announcements")
-						.font(.headline)
-						.padding(.top)
-					Text("Shuttle Tracker can now deliver announcements! We’ll use this feature to provide important, timely information, such as schedule changes. On iOS 15 or iPadOS 15, tap the new Announcements icon in the overlay at the top-left corner of the screen; on macOS 12 Monterey, click the new Announcements icon in the toolbar.")
-					Text("Onboarding")
-						.font(.headline)
-						.padding(.top)
-					Text("Tapping “Board Bus” is the best way to help make Shuttle Tracker more accurate for everyone, so on iOS and iPadOS we’ll now remind you to start crowd-sourcing if you haven’t done so before.")
-					Text("Advanced Settings")
-						.font(.headline)
-						.padding(.top)
-					Text("On iOS and iPadOS, you can now configure some advanced settings, such as the maximum distance away from a stop at which you can board a bus.")
-					Text("Design")
-						.font(.headline)
-						.padding(.top)
-					Text("We’ve implemented some small design tweaks to make Shuttle Tracker even easier to use.")
+					Group {
+						Text("Dynamic Routes")
+							.font(.headline)
+							.padding(.top)
+						Text("Shuttle Tracker will now show discrete routes separately, complete with color-coding.")
+						Text("Announcements")
+							.font(.headline)
+							.padding(.top)
+						#if os(iOS)
+						Text("When you view an announcement, it won’t be included anymore in the badge number. You can reset the record of viewed announcements within the app in Settings > Advanced.")
+						#elseif os(macOS) // os(iOS)
+						Text("When you view an announcement, it won’t be included anymore in the badge number. You can reset the record of viewed announcements in the announcements sheet.")
+						#else // os(macOS)
+						Text("When you view an announcement, it won’t be included anymore in the badge number.")
+						#endif
+						Text("Re-Centering")
+							.font(.headline)
+							.padding(.top)
+						Text("The re-center button and menu item will now ensure that all routes are completely visible on the map.")
+					}
 				}
 					.padding(.bottom)
 			}
@@ -83,6 +88,7 @@ struct WhatsNewSheet: View {
 					Button("Close") {
 						self.sheetStack.pop()
 						self.viewState.handles.whatsNew?.increment()
+						SKStoreReviewController.requestReview()
 					}
 				}
 				#endif // os(macOS)
@@ -96,7 +102,7 @@ struct WhatsNewSheetPreviews: PreviewProvider {
 	static var previews: some View {
 		WhatsNewSheet()
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

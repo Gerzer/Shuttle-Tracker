@@ -11,7 +11,7 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 	
 	@State private var sheetType: SheetStack.SheetType?
 	
-	@State private var handle = SheetStack.shared.register()
+	@State private var handle: SheetStack.Handle!
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
@@ -19,6 +19,9 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 	
 	var body: some View {
 		self.content
+			.onAppear {
+				self.handle = self.sheetStack.register()
+			}
 			.onReceive(self.sheetStack.publisher) { (sheets) in
 				if sheets.count > self.handle.observedIndex {
 					self.sheetType = sheets[self.handle.observedIndex]
@@ -113,17 +116,6 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 	
 	init(@ViewBuilder _ content: () -> Content) {
 		self.content = content()
-	}
-	
-}
-
-struct SheetPresentationWrapperPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		SheetPresentationWrapper { 
-			EmptyView()
-		}
-			.environmentObject(SheetStack.shared)
 	}
 	
 }

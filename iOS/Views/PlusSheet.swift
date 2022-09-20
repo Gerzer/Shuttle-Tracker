@@ -76,7 +76,7 @@ import SwiftUI
 	
 	static var previews: some View {
 		PlusSheet(featureText: "Refreshing the map")
-			.environmentObject(SheetStack.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

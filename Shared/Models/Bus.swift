@@ -14,9 +14,9 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		
 		enum LocationType: String, Codable {
 			
-			case system = "system"
+			case system
 			
-			case user = "user"
+			case user
 			
 		}
 		
@@ -28,8 +28,14 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		
 		let type: LocationType
 		
-		func convertForCoreLocation() -> CLLocation {
-			return CLLocation(coordinate: self.coordinate.convertedForCoreLocation(), altitude: .nan, horizontalAccuracy: .nan, verticalAccuracy: .nan, timestamp: self.date)
+		func convertedForCoreLocation() -> CLLocation {
+			return CLLocation(
+				coordinate: self.coordinate.convertedForCoreLocation(),
+				altitude: .nan,
+				horizontalAccuracy: .nan,
+				verticalAccuracy: .nan,
+				timestamp: self.date
+			)
 		}
 		
 	}
@@ -79,7 +85,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
 			#else // os(macOS)
 			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
-			#endif // os(macOS)
+			#endif
 			return markerAnnotationView
 		}
 	}
@@ -101,7 +107,8 @@ extension Array where Element == Bus {
 		API.provider.request(.readBuses) { (result) in
 			let decoder = JSONDecoder()
 			decoder.dateDecodingStrategy = .iso8601
-			let buses = try? result.value?
+			let buses = try? result
+				.get()
 				.map([Bus].self, using: decoder)
 				.filter { (bus) in
 					return bus.location.date.timeIntervalSinceNow > -300

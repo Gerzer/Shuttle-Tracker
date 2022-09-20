@@ -19,15 +19,27 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	enum AlertType: IdentifiableByHashValue {
+	enum AlertType: Identifiable {
 		
-		case noNearbyStop, updateAvailable
+		case noNearbyStop, updateAvailable, serverUnavailable
+		
+		var id: Self {
+			get {
+				return self
+			}
+		}
 		
 	}
 	
-	enum ToastType: IdentifiableByHashValue {
+	enum ToastType: Identifiable {
 		
 		case legend, boardBus
+		
+		var id: Self {
+			get {
+				return self
+			}
+		}
 		
 	}
 	

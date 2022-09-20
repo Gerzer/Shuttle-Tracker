@@ -11,11 +11,13 @@ import OnboardingKit
 
 @main struct ShuttleTrackerApp: App {
 	
+	private static let sheetStack = SheetStack()
+	
 	@ObservedObject private var mapState = MapState.shared
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
-	@ObservedObject private var sheetStack = SheetStack.shared
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
@@ -41,7 +43,7 @@ import OnboardingKit
 			}
 		}
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.2", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.5", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
 		}
 		OnboardingEvent(flags: flags) { (_) in
@@ -58,6 +60,13 @@ import OnboardingKit
 		} conditions: {
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
 		}
+		OnboardingEvent(flags: flags) { (_) in
+			if AppStorageManager.shared.maximumStopDistance == 20 {
+				AppStorageManager.shared.maximumStopDistance = 50
+			}
+		} conditions: {
+			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
+		}
 
 	}
 	
@@ -66,7 +75,7 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
-				.environmentObject(self.sheetStack)
+				.environmentObject(Self.sheetStack)
 		}
 	}
 	
@@ -76,18 +85,14 @@ import OnboardingKit
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
 		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
-		UNUserNotificationCenter
-			.current()
-			.requestAuthorization(options: [.sound, .badge, .alert]) { (success, error) in
-				if !success, let error = error { // We fail in silence…
-					print(error.localizedDescription)
-				}
-			}
+		Task {
+			try await UserNotificationUtilities.requestAuthorization()
+		}
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-			SheetStack.shared.push(sheetType)
+			self.sheetStack.push(sheetType)
 		}
 	}
 	

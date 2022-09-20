@@ -9,11 +9,13 @@ import SwiftUI
 
 struct SecondaryOverlayButton: View {
 	
-	let iconSystemName: String
+	private let iconSystemName: String
 	
-	let sheetType: SheetStack.SheetType
+	private let sheetType: SheetStack.SheetType?
 	
-	@Binding private(set) var badgeNumber: Int
+	private let action: (() -> Void)?
+	
+	let badgeNumber: Int
 	
 	@EnvironmentObject private var viewState: ViewState
 	
@@ -22,9 +24,10 @@ struct SecondaryOverlayButton: View {
 	var body: some View {
 		if #available(iOS 15, *) {
 			Button {
-				self.sheetStack.push(self.sheetType)
-				withAnimation {
-					self.badgeNumber = 0
+				if let sheetType = self.sheetType {
+					self.sheetStack.push(sheetType)
+				} else {
+					self.action?()
 				}
 			} label: {
 				Group {
@@ -52,7 +55,11 @@ struct SecondaryOverlayButton: View {
 				.tint(.primary)
 		} else {
 			Button {
-				self.sheetStack.push(self.sheetType)
+				if let sheetType = self.sheetType {
+					self.sheetStack.push(sheetType)
+				} else {
+					self.action?()
+				}
 			} label: {
 				Group {
 					Image(systemName: self.iconSystemName)
@@ -67,10 +74,18 @@ struct SecondaryOverlayButton: View {
 		}
 	}
 	
-	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Binding<Int> = .constant(0)) {
+	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Int = 0) {
 		self.iconSystemName = iconSystemName
 		self.sheetType = sheetType
-		self._badgeNumber = badgeNumber
+		self.action = nil
+		self.badgeNumber = badgeNumber
+	}
+	
+	init(iconSystemName: String, badgeNumber: Int = 0, _ action: @escaping () -> Void) {
+		self.iconSystemName = iconSystemName
+		self.sheetType = nil
+		self.action = action
+		self.badgeNumber = badgeNumber
 	}
 	
 }

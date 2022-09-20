@@ -10,9 +10,15 @@ import SwiftUI
 
 final class SheetStack: ObservableObject {
 	
-	enum SheetType: IdentifiableByHashValue {
+	enum SheetType: Hashable, Identifiable {
 		
 		case welcome, settings, info, busSelection, permissions, privacy, announcements, whatsNew, plus(featureText: String), milestones
+		
+		var id: Self {
+			get {
+				return self
+			}
+		}
 		
 	}
 	
@@ -25,8 +31,6 @@ final class SheetStack: ObservableObject {
 		}
 		
 	}
-	
-	static let shared = SheetStack()
 	
 	private var stack: [SheetType] = []
 	
@@ -51,7 +55,7 @@ final class SheetStack: ObservableObject {
 		}
 	}
 	
-	private init() { }
+	init() { }
 	
 	func push(_ sheetType: SheetType) {
 		self.stack.append(sheetType)
@@ -68,9 +72,7 @@ final class SheetStack: ObservableObject {
 	}
 	
 	func register() -> Handle {
-		let observedIndex = self.stack.count
-		let handle = Handle(observedIndex: observedIndex)
-		return handle
+		return Handle(observedIndex: self.stack.count)
 	}
 	
 }

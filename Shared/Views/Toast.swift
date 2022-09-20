@@ -50,7 +50,7 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 						.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
 				}
 					.buttonStyle(.plain)
-				#endif // os(iOS)
+				#endif
 			}
 			self.content
 		}
@@ -58,7 +58,7 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 			.padding()
 			.background(ViewUtilities.standardVisualEffectView)
 			.cornerRadius(ViewUtilities.Constants.toastCornerRadius)
-            .shadow(radius: 5)
+			.shadow(radius: 5)
 	}
 	
 	init(_ headlineString: StringType, dismissalHandler: @escaping () -> Void, @ViewBuilder content: () -> Content) {

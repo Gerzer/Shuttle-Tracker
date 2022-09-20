@@ -17,9 +17,7 @@ struct ContentView: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 20
-	
-	private static let sheetStackHandle = SheetStack.shared.register()
+	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -71,12 +69,12 @@ struct ContentView: View {
 					Spacer()
 					#endif // APPCLIP
 				}
-				#endif // os(macOS)
+				#endif
 			}
 				.alert(item: self.$viewState.alertType) { (alertType) -> Alert in
-					// Displays a message when the user attempts to board bus when there’s no nearby stop
 					switch alertType {
 					case .noNearbyStop:
+						// Displays a message when the user attempts to board bus when there’s no nearby stop
 						return Alert(
 							title: Text("No Nearby Stop"),
 							message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
@@ -92,16 +90,28 @@ struct ContentView: View {
 								NSWorkspace.shared.open(url)
 								#else // os(macOS)
 								UIApplication.shared.open(url)
-								#endif // os(macOS)
+								#endif
 							}
+						)
+					case .serverUnavailable:
+						return Alert(
+							title: Text("Server Unavailable"),
+							message: Text("Shuttle Tracker can’t connect to its server; please try again later."),
+							dismissButton: .default(Text("Dismiss"))
 						)
 					}
 				}
 				.onAppear {
 					API.provider.request(.readVersion) { (result) in
-						let version = (try? result.value?.map(Int.self)) ?? Int.max
-						if version > API.lastVersion {
-							self.viewState.alertType = .updateAvailable
+						let version = try? result
+							.get()
+							.map(Int.self)
+						if let version {
+							if version > API.lastVersion {
+								self.viewState.alertType = .updateAvailable
+							}
+						} else {
+							self.viewState.alertType = .serverUnavailable
 						}
 					}
 				}
@@ -126,6 +136,17 @@ struct ContentView: View {
 					}
 				}
 				ToolbarItem {
+					Button {
+						self.mapState.mapView?.setVisibleMapRect(
+							self.mapState.routes.boundingMapRect,
+							edgePadding: MapUtilities.Constants.mapRectInsets,
+							animated: true
+						)
+					} label: {
+						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
+					}
+				}
+				ToolbarItem {
 					if self.isRefreshing {
 						ProgressView()
 					} else {
@@ -140,12 +161,22 @@ struct ContentView: View {
 			.onAppear {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
-			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses, object: nil)) { (_) in
+			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in
 				withAnimation {
 					self.isRefreshing = true
 				}
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 					self.refreshBuses()
+					[Stop].download { (stops) in
+						DispatchQueue.main.async {
+							self.mapState.stops = stops
+						}
+					}
+					[Route].download { (routes) in
+						DispatchQueue.main.async {
+							self.mapState.routes = routes
+						}
+					}
 				}
 			}
 			.onReceive(self.timer) { (_) in
@@ -167,7 +198,7 @@ struct ContentView: View {
 	private var mapView: some View {
 		MapView()
 	}
-	#endif // os(macOS)
+	#endif
 	
 }
 

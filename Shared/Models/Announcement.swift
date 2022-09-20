@@ -21,6 +21,8 @@ final class Announcement: Decodable, Identifiable {
 		
 	}
 	
+	let id: UUID
+	
 	let subject: String
 	
 	let body: String
@@ -59,12 +61,14 @@ final class Announcement: Decodable, Identifiable {
 
 extension Array where Element == Announcement {
 	
-	@available(iOS 15, macOS 12, *) static func download() async -> [Announcement] {
+	@available(iOS 15, macOS 12, *)
+	static func download() async -> [Announcement] {
 		return await withCheckedContinuation { continuation in
 			API.provider.request(.readAnnouncements) { (result) in
 				let decoder = JSONDecoder()
 				decoder.dateDecodingStrategy = .iso8601
-				let announcements = try? result.value?
+				let announcements = try? result
+					.get()
 					.map([Announcement].self, using: decoder)
 					.filter { (announcement) in
 						switch announcement.scheduleType {

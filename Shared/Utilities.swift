@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import UserNotifications
 import OSLog
 
 enum ViewUtilities {
@@ -17,7 +18,7 @@ enum ViewUtilities {
 		static let sheetCloseButtonDimension: CGFloat = 15
 		
 		static let toastCloseButtonDimension: CGFloat = 15
-
+		
 		static let toastCornerRadius: CGFloat = 10
 		#else // os(macOS)
 		static let sheetCloseButtonDimension: CGFloat = 30
@@ -25,7 +26,7 @@ enum ViewUtilities {
 		static let toastCloseButtonDimension: CGFloat = 25
 
 		static let toastCornerRadius: CGFloat = 30
-		#endif // os(macOS)
+		#endif
 		
 	}
 	
@@ -37,7 +38,7 @@ enum ViewUtilities {
 	static var standardVisualEffectView: some View {
 		VisualEffectView(UIBlurEffect(style: .systemMaterial))
 	}
-	#endif // os(macOS)
+	#endif
 	
 }
 
@@ -79,15 +80,21 @@ enum MapUtilities {
 		
 		static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
 		
-	}
-	
-	static let mapRect = MKMapRect(
-		origin: MKMapPoint(Constants.originCoordinate),
-		size: MKMapSize(
-			width: 10000,
-			height: 10000
+		static let mapRect = MKMapRect(
+			origin: MKMapPoint(Constants.originCoordinate),
+			size: MKMapSize(
+				width: 10000,
+				height: 10000
+			)
 		)
-	)
+		
+		#if os(macOS)
+		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
+		#else // os(macOS)
+		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
+		#endif
+		
+	}
 	
 }
 
@@ -107,6 +114,16 @@ enum LoggingUtilities {
 	
 }
 
+enum UserNotificationUtilities {
+	
+	static func requestAuthorization() async throws {
+		try await UNUserNotificationCenter
+			.current()
+			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
+	}
+	
+}
+
 enum DefaultsKeys {
 	
 	static let coldLaunchCount = "ColdLaunchCount"
@@ -118,18 +135,6 @@ enum TravelState {
 	case onBus
 	
 	case notOnBus
-	
-}
-
-protocol IdentifiableByHashValue: Identifiable, Hashable { }
-
-extension IdentifiableByHashValue {
-	
-	var id: Int {
-		get {
-			return self.hashValue
-		}
-	}
 	
 }
 
@@ -200,11 +205,13 @@ extension View {
 	
 }
 
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
 extension URL {
 	
-	struct FormatStyle: ParseableFormatStyle {
+	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
-		struct Strategy: ParseStrategy {
+		struct Strategy: Foundation.ParseStrategy {
 			
 			enum ParseError: Error {
 				
@@ -231,11 +238,45 @@ extension URL {
 	
 }
 
-@available(iOS 15, macOS 12, *) extension ParseableFormatStyle where Self == URL.FormatStyle {
+extension Set: RawRepresentable where Element == UUID {
 	
-	static var url: URL.FormatStyle {
+	public var rawValue: String {
 		get {
-			return URL.FormatStyle()
+			var string = "["
+			for element in self {
+				string += element.uuidString + ","
+			}
+			string.removeLast()
+			string += "]"
+			return string
+		}
+	}
+	
+	public init?(rawValue: String) {
+		self.init()
+		var string = rawValue
+		guard string.first == "[", string.last == "]" else {
+			return nil
+		}
+		string.removeFirst()
+		string.removeLast()
+		for component in string.split(separator: ",") {
+			guard let element = UUID(uuidString: String(component)) else {
+				return nil
+			}
+			self.insert(element)
+		}
+	}
+	
+}
+
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
+extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+	
+	static var compatibilityURL: Self {
+		get {
+			return Self()
 		}
 	}
 	

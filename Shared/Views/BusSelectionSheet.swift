@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct BusSelectionSheet: View {
 	
-	@State private var allBusIDs: [BusID]?
+	@State private var busIDs: [BusID]?
 	
 	@State private var suggestedBusID: BusID?
 	
@@ -24,7 +25,7 @@ struct BusSelectionSheet: View {
 	var body: some View {
 		NavigationView {
 			VStack {
-				if let allBusIDs = self.allBusIDs {
+				if let allBusIDs = self.busIDs {
 					ScrollView {
 						VStack {
 							HStack {
@@ -56,7 +57,7 @@ struct BusSelectionSheet: View {
 										}
 									}
 								}
-								BusOption(suggestedBusID, selectedBusID: self.$selectedBusID)
+								BusOption(suggestedBusID, selection: self.$selectedBusID)
 								if #available(iOS 15, *) {
 									Divider()
 										.background(.secondary)
@@ -67,9 +68,14 @@ struct BusSelectionSheet: View {
 										.padding(.vertical, 10)
 								}
 							}
-							LazyVGrid(columns: [GridItem](repeating: GridItem(.flexible()), count: 3)) {
+							LazyVGrid(
+								columns: [GridItem](
+									repeating: GridItem(.flexible()),
+									count: 3
+								)
+							) {
 								ForEach(allBusIDs.sorted()) { (busID) in
-									BusOption(busID, selectedBusID: self.$selectedBusID)
+									BusOption(busID, selection: self.$selectedBusID)
 								}
 							}
 							Spacer(minLength: 20)
@@ -89,23 +95,17 @@ struct BusSelectionSheet: View {
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
-							self.mapState.busID = self.selectedBusID?.rawValue
-							self.mapState.travelState = .onBus
-							self.viewState.statusText = .locationData
-							self.viewState.handles.tripCount?.increment()
-							self.sheetStack.pop()
-							LocationUtilities.locationManager.startUpdatingLocation()
-							
-							// Schedule leave-bus notification
-							let content = UNMutableNotificationContent()
-							content.title = "Leave Bus"
-							content.subtitle = "Did you leave the bus? Remember to tap “Leave Bus” next time."
-							content.sound = .default
-							let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
-							let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
-							UNUserNotificationCenter
-								.current()
-								.add(request)
+							switch LocationUtilities.locationManager.accuracyAuthorization {
+							case .fullAccuracy:
+								self.boardBus()
+							case .reducedAccuracy:
+								Task {
+									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+									self.boardBus()
+								}
+							@unknown default:
+								fatalError()
+							}
 						} label: {
 							Text("Continue")
 								.bold()
@@ -118,7 +118,8 @@ struct BusSelectionSheet: View {
 		}
 			.onAppear {
 				API.provider.request(.readAllBuses) { (result) in
-					self.allBusIDs = try? result.value?
+					self.busIDs = try? result
+						.get()
 						.map([Int].self)
 						.map { (id) in
 							return BusID(id)
@@ -127,20 +128,54 @@ struct BusSelectionSheet: View {
 						return
 					}
 					let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
-						let firstBusDistance = firstBus.location.convertForCoreLocation().distance(from: location)
-						let secondBusDistance = secondBus.location.convertForCoreLocation().distance(from: location)
+						let firstBusDistance = firstBus.location
+							.convertedForCoreLocation()
+							.distance(from: location)
+						let secondBusDistance = secondBus.location
+							.convertedForCoreLocation()
+							.distance(from: location)
 						return firstBusDistance < secondBusDistance
 					}
-					guard let rawID = closestBus?.id else {
-						return
+					self.suggestedBusID = closestBus.map { (bus) in
+						return BusID(bus.id)
 					}
-					let closestBusID = BusID(rawID)
-					self.allBusIDs?.removeAll { (element) in
-						return element == closestBusID
-					}
-					self.suggestedBusID = closestBusID
 				}
 			}
+	}
+	
+	private func boardBus() {
+		guard LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy else {
+			return
+		}
+		self.mapState.busID = self.selectedBusID?.rawValue
+		self.mapState.travelState = .onBus
+		self.viewState.statusText = .locationData
+		self.viewState.handles.tripCount?.increment()
+		self.sheetStack.pop()
+		LocationUtilities.locationManager.startUpdatingLocation()
+		
+		// Schedule leave-bus notification
+		let content = UNMutableNotificationContent()
+		content.title = "Leave Bus"
+		content.body = "Did you leave the bus? Remember to tap “Leave Bus” next time."
+		content.sound = .default
+		#if !APPCLIP
+		if #available(iOS 15, *) {
+			content.interruptionLevel = .timeSensitive
+		}
+		#endif // !APPCLIP
+		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
+		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
+		Task {
+			do {
+				try await UserNotificationUtilities.requestAuthorization()
+			} catch let error {
+				print("[\(#fileID):\(#line) \(#function)] \(error)")
+			}
+			try await UNUserNotificationCenter
+				.current()
+				.add(request)
+		}
 	}
 	
 }

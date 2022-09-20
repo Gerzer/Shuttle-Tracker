@@ -10,6 +10,8 @@ import Moya
 
 typealias HTTPMethod = Moya.Method
 
+typealias HTTPTask = Moya.Task
+
 enum API: TargetType {
 	
 	private struct SettingsContainer {
@@ -42,9 +44,11 @@ enum API: TargetType {
 	
 	case readStops
 	
+	case schedule
+	
 	static let provider = MoyaProvider<API>()
 	
-	static let lastVersion = 2
+	static let lastVersion = 3
 	
 	var baseURL: URL {
 		get {
@@ -73,6 +77,8 @@ enum API: TargetType {
 				return "/routes"
 			case .readStops:
 				return "/stops"
+			case .schedule:
+				return "/schedule"
 			}
 		}
 	}
@@ -80,7 +86,7 @@ enum API: TargetType {
 	public var method: HTTPMethod {
 		get {
 			switch self {
-			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .schedule:
 				return .get
 			case .updateBus:
 				return .patch
@@ -90,10 +96,10 @@ enum API: TargetType {
 		}
 	}
 	
-	var task: Task {
+	var task: HTTPTask {
 		get {
 			switch self {
-			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [
