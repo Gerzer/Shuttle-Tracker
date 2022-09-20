@@ -23,6 +23,7 @@
 		65EE6BBC27E81A140075DAF1 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BBA27E81A140075DAF1 /* MilestoneToastView.swift */; };
 		65EE6BCA27EA792B0075DAF1 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */; };
 		65EE6BCB27EA79D20075DAF1 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EE6BC927EA792B0075DAF1 /* ProgressBar.swift */; };
+		6576589228D0DE7B009A55D9 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
@@ -63,7 +64,6 @@
 		C03B1D382741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
-		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C059831E27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
@@ -609,6 +609,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6576589228D0DE7B009A55D9 /* LegendToast.swift in Sources */,
 				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				652C119C27EE5FDA000C919B /* MilestoneToast.swift in Sources */,
@@ -619,7 +620,6 @@
 				C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */,
 				C039B0652796201200416725 /* CloseButton.swift in Sources */,
 				C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */,
-				C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				65262FE4280F581800714552 /* BoardBusMilestone.swift in Sources */,
 				6518CFD527F79D8B009DF6D5 /* Milestone.swift in Sources */,
@@ -766,6 +766,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
 				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -773,7 +774,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.5;
+				PRODUCT_BUNDLE_IDENTIFIER = .shuttletracker.appclips;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG APPCLIP";
@@ -790,7 +792,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
 				CURRENT_PROJECT_VERSION = 25;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = SYBLH277NF;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -798,8 +800,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.appclip;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = APPCLIP;
@@ -929,7 +931,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 33;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -955,8 +958,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-				CURRENT_PROJECT_VERSION = 25;
-				DEVELOPMENT_TEAM = SYBLH277NF;
+				CURRENT_PROJECT_VERSION = 33;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -984,8 +987,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 33;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -996,6 +1004,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.2;
 				PRODUCT_NAME = "Shuttle Tracker";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1010,8 +1019,9 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
-				DEVELOPMENT_TEAM = SYBLH277NF;
+				CURRENT_PROJECT_VERSION = 33;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
