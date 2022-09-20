@@ -72,6 +72,22 @@ struct SecondaryOverlay: View {
 							self.announcements = await [Announcement].download()
 						}
 				}
+                
+                Divider()
+                    .frame(width: 45, height: 0)
+                if #available(iOS 15, *), CalendarUtilities.isAprilFools {
+                    SecondaryOverlayButton(
+                        iconSystemName: "scroll.fill",
+                        sheetType: .plus(featureText: "View Milestones"),
+                        badgeNumber: 1
+                    )
+                } else {
+                    SecondaryOverlayButton(
+                        iconSystemName: "scroll.fill",
+                        sheetType: .milestones
+                    )
+                }
+                
 			}
 				.background(
 					VisualEffectView(.systemThickMaterial)
