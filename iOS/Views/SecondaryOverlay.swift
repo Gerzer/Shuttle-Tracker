@@ -75,11 +75,9 @@ struct SecondaryOverlay: View {
 				)
 			VStack(spacing: 0) {
 				SecondaryOverlayButton(iconSystemName: "location.fill.viewfinder") {
-					self.mapState.mapView?.setVisibleMapRect(
-						self.mapState.routes.boundingMapRect,
-						edgePadding: MapUtilities.Constants.mapRectInsets,
-						animated: true
-					)
+					Task {
+						await self.mapState.resetVisibleMapRect()
+					}
 				}
 			}
 				.background(

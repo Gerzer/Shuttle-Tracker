@@ -8,18 +8,42 @@
 import Combine
 import MapKit
 
-class MapState: ObservableObject {
+actor MapState: ObservableObject {
 	
 	static let shared = MapState()
 	
-	weak var mapView: MKMapView?
+	static weak var mapView: MKMapView?
 	
-	@Published var buses = [Bus]()
+	private(set) var buses = [Bus]()
 	
-	@Published var stops = [Stop]()
+	private(set) var stops = [Stop]()
 	
-	@Published var routes = [Route]()
+	private(set) var routes = [Route]()
 	
 	private init() { }
+	
+	func refreshBuses() async {
+		self.buses = await [Bus].download()
+	}
+	
+	func refreshAll() async {
+		async let buses = [Bus].download()
+		async let stops = [Stop].download()
+		async let routes = [Route].download()
+		self.buses = await buses
+		self.stops = await stops
+		self.routes = await routes
+		await MainActor.run {
+			self.objectWillChange.send()
+		}
+	}
+	
+	@MainActor func resetVisibleMapRect() async {
+		Self.mapView?.setVisibleMapRect(
+			await self.routes.boundingMapRect,
+			edgePadding: MapUtilities.Constants.mapRectInsets,
+			animated: true
+		)
+	}
 	
 }

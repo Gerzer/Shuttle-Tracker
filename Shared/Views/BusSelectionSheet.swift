@@ -20,6 +20,8 @@ struct BusSelectionSheet: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var boardbusManager: BoardBusManager
+	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
 	var body: some View {
@@ -95,16 +97,20 @@ struct BusSelectionSheet: View {
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
-							switch LocationUtilities.locationManager.accuracyAuthorization {
-							case .fullAccuracy:
-								self.boardBus()
-							case .reducedAccuracy:
-								Task {
+							Task {
+								switch LocationUtilities.locationManager.accuracyAuthorization {
+								case .fullAccuracy:
+									await self.boardBus()
+								case .reducedAccuracy:
 									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-									self.boardBus()
+									guard case .fullAccuracy = LocationUtilities.locationManager.accuracyAuthorization else {
+										LoggingUtilities.logger.log(level: .info, "User declined full accuracy authorization")
+										return
+									}
+									await self.boardBus()
+								@unknown default:
+									fatalError()
 								}
-							@unknown default:
-								fatalError()
 							}
 						} label: {
 							Text("Continue")
@@ -127,28 +133,33 @@ struct BusSelectionSheet: View {
 					guard let location = LocationUtilities.locationManager.location else {
 						return
 					}
-					let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
-						let firstBusDistance = firstBus.location
-							.convertedForCoreLocation()
-							.distance(from: location)
-						let secondBusDistance = secondBus.location
-							.convertedForCoreLocation()
-							.distance(from: location)
-						return firstBusDistance < secondBusDistance
-					}
-					self.suggestedBusID = closestBus.map { (bus) in
-						return BusID(bus.id)
+					Task {
+						let closestBus = await self.mapState.buses.min { (firstBus, secondBus) -> Bool in
+							let firstBusDistance = firstBus.location
+								.convertedForCoreLocation()
+								.distance(from: location)
+							let secondBusDistance = secondBus.location
+								.convertedForCoreLocation()
+								.distance(from: location)
+							return firstBusDistance < secondBusDistance
+						}
+						self.suggestedBusID = closestBus.map { (bus) in
+							return BusID(bus.id)
+						}
 					}
 				}
 			}
 	}
 	
-	private func boardBus() {
-		guard LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy else {
+	/// Works with ``BoardBusManager`` to activate Board Bus.
+	/// - Precondition: The user has granted full location accuracy authorization.
+	private func boardBus() async {
+		precondition(LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy)
+		guard let busID = self.selectedBusID?.rawValue else {
+			LoggingUtilities.logger.log(level: .error, "No selected bus ID")
 			return
 		}
-		self.mapState.busID = self.selectedBusID?.rawValue
-		self.mapState.travelState = .onBus
+		await self.boardbusManager.boardBus(busID: busID)
 		self.viewState.statusText = .locationData
 		self.viewState.handles.tripCount?.increment()
 		self.sheetStack.pop()
@@ -170,7 +181,7 @@ struct BusSelectionSheet: View {
 			do {
 				try await UserNotificationUtilities.requestAuthorization()
 			} catch let error {
-				print("[\(#fileID):\(#line) \(#function)] \(error)")
+				LoggingUtilities.logger.log(level: .error, "\(error)")
 			}
 			try await UNUserNotificationCenter
 				.current()
@@ -184,6 +195,10 @@ struct BusSelectionSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		BusSelectionSheet()
+			.environmentObject(MapState.shared)
+			.environmentObject(ViewState.shared)
+			.environmentObject(BoardBusManager.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }
