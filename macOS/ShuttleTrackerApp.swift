@@ -88,7 +88,7 @@ import OnboardingKit
 		Settings {
 			SettingsView()
 				.padding()
-				.frame(width: 400, height: 100)
+                .frame(minWidth: 400,idealWidth: 800, minHeight: 100,idealHeight: 300)
 				.environmentObject(self.viewState)
 				.environmentObject(Self.settingsViewSheetStack)
 		}
