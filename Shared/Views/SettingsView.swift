@@ -59,18 +59,17 @@ struct SettingsView: View {
 				}
 				#elseif os(macOS) // os(iOS)
 				Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
-                if #available(macOS 12, *){
-                    Section {
-                        TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
-                                .labelsHidden()
-                    } header: {
-                        Text("Server Base URL")
-                            .bold()
-                    } footer: {
-                        Text("The base URL for the API server. Changing this setting could make the rest of the app stop working properly.")
-                            
-                    }
-                }
+				if #available(macOS 12, *) {
+					Section {
+						TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
+							.labelsHidden()
+					} header: {
+						Text("Server Base URL")
+							.bold()
+					} footer: {
+						Text("The base URL for the API server. Changing this setting could make the rest of the app stop working properly.")
+					}
+				}
 				#endif // os(macOS)
 			}
 				.onChange(of: self.colorBlindMode) { (_) in
