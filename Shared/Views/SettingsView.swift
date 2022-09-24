@@ -61,8 +61,13 @@ struct SettingsView: View {
 				Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
 				if #available(macOS 12, *) {
 					Section {
-						TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
-							.labelsHidden()
+						if #available(macOS 13, *) {
+							TextField("Server Base URL", value: self.$baseURL, format: .url)
+								.labelsHidden()
+						} else {
+							TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
+								.labelsHidden()
+						}
 					} header: {
 						Text("Server Base URL")
 							.bold()
