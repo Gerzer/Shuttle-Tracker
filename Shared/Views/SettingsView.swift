@@ -58,8 +58,11 @@ struct SettingsView: View {
 					}
 				}
 				#elseif os(macOS) // os(iOS)
-				Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
+				Section {
+					Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
+				}
 				if #available(macOS 12, *) {
+					Divider()
 					Section {
 						if #available(macOS 13, *) {
 							TextField("Server Base URL", value: self.$baseURL, format: .url)
