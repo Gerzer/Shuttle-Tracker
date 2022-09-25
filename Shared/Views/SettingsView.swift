@@ -9,16 +9,16 @@ import SwiftUI
 
 struct SettingsView: View {
 	
+	#if os(macOS)
+	@State private var didResetServerBaseURL = false
+	#endif // os(macOS)
+	
 	@EnvironmentObject private var viewState: ViewState
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("ColorBlindMode") private var colorBlindMode = false
-    
-    @AppStorage("BaseURL") private var baseURL = Self.defaultBaseURL
-    
-    private static let defaultBaseURL = URL(string: "https://shuttletracker.app")!
-
+	@EnvironmentObject private var appStorageManager: AppStorageManager
+	
 	var body: some View {
 		SheetPresentationWrapper {
 			Form {
@@ -28,13 +28,13 @@ struct SettingsView: View {
 						ZStack {
 							Circle()
 								.fill(.green)
-							Image(systemName: self.colorBlindMode ? "scope" : "bus")
+							Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
 								.resizable()
 								.frame(width: 15, height: 15)
 								.foregroundColor(.white)
 						}
 							.frame(width: 30)
-						Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
+						Toggle("Color-Blind Mode", isOn: self.appStorageManager.$colorBlindMode)
 					}
 						.frame(height: 30)
 				} footer: {
@@ -59,29 +59,44 @@ struct SettingsView: View {
 				}
 				#elseif os(macOS) // os(iOS)
 				Section {
-					Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
+					Toggle("Distinguish bus markers by icon", isOn: self.appStorageManager.$colorBlindMode)
 				}
 				if #available(macOS 12, *) {
 					Divider()
 					Section {
-						// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
-						TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
-							.labelsHidden()
+						HStack {
+							// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
+							TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
+								.labelsHidden()
+							Button(role: .destructive) {
+								self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
+								self.didResetServerBaseURL = true
+							} label: {
+								Text("Reset" + (self.didResetServerBaseURL ? " ✓" : ""))
+									.frame(minWidth: 50)
+							}
+								.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)
+								.onChange(of: self.appStorageManager.baseURL) { (_) in
+									if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
+										self.didResetServerBaseURL = false
+									}
+								}
+						}
 					} header: {
 						Text("Server Base URL")
 							.bold()
 					} footer: {
-						Text("The base URL for the API server. Changing this setting could make the rest of the app stop working properly.")
+						Text("Changing this setting could make the rest of the app stop working properly.")
 					}
 				}
 				#endif // os(macOS)
 			}
-				.onChange(of: self.colorBlindMode) { (_) in
-					withAnimation {
-						self.viewState.toastType = .legend
-						self.viewState.legendToastHeadlineText = nil
-					}
+			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
+				withAnimation {
+					self.viewState.toastType = .legend
+					self.viewState.legendToastHeadlineText = nil
 				}
+			}
 		}
 	}
 	
