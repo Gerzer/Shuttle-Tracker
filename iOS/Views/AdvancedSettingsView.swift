@@ -39,15 +39,10 @@ struct AdvancedSettingsView: View {
 			}
 			if #available(iOS 15, *) {
 				Section {
-					if #available(iOS 16, *) {
-						TextField("Server Base URL", value: self.$baseURL, format: .url)
-							.labelsHidden()
-							.keyboardType(.URL)
-					} else {
-						TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
-							.labelsHidden()
-							.keyboardType(.URL)
-					}
+					// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
+					TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
+						.labelsHidden()
+						.keyboardType(.url)
 				} header: {
 					Text("Server Base URL")
 				} footer: {

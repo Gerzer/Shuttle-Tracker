@@ -64,13 +64,9 @@ struct SettingsView: View {
 				if #available(macOS 12, *) {
 					Divider()
 					Section {
-						if #available(macOS 13, *) {
-							TextField("Server Base URL", value: self.$baseURL, format: .url)
-								.labelsHidden()
-						} else {
-							TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
-								.labelsHidden()
-						}
+						// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
+						TextField("Server Base URL", value: self.$baseURL, format: .compatibilityURL)
+							.labelsHidden()
 					} header: {
 						Text("Server Base URL")
 							.bold()
