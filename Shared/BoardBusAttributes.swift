@@ -8,7 +8,10 @@
 import ActivityKit
 import CoreLocation
 
+@available(iOS 16.1, *)
 struct BoardBusAttributes: ActivityAttributes {
+	
+	static var activity: Activity<Self>?
 	
 	struct ContentState: Codable, Hashable {
 		

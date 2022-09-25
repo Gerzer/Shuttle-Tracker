@@ -47,23 +47,28 @@ struct BoardBusLiveActivity: Widget {
 		} dynamicIsland: { (context) in
 			return DynamicIsland {
 				DynamicIslandExpandedRegion(.leading) {
-					EmptyView()
+					Text("🚐")
 				}
 				DynamicIslandExpandedRegion(.trailing) {
-					EmptyView()
+					Text("🚐")
 				}
 				DynamicIslandExpandedRegion(.center) {
-					EmptyView()
+					switch context.state.travelState {
+					case .onBus:
+						Text("You’re on a bus!")
+					case .notOnBus:
+						Text("You’re not on a bus.")
+					}
 				}
 				DynamicIslandExpandedRegion(.bottom) {
-					EmptyView()
+					Text("🚐")
 				}
 			} compactLeading: {
-				EmptyView()
+				Text("🚐")
 			} compactTrailing: {
-				EmptyView()
+				Text("🚐")
 			} minimal: {
-				EmptyView()
+				Text("🚐")
 			}
 		}
 	}

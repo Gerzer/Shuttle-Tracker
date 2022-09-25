@@ -156,7 +156,7 @@ struct BusSelectionSheet: View {
 		LocationUtilities.locationManager.startUpdatingLocation()
 		if #available(iOS 16.1, *) {
 			do {
-				_ = try Activity.request(
+				BoardBusAttributes.activity = try Activity.request(
 					attributes: BoardBusAttributes(
 						stops: self.mapState.stops,
 						routes: self.mapState.routes
