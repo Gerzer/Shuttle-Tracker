@@ -10,19 +10,47 @@ import SwiftUI
 struct InfoView: View {
 	
 	@State private var schedule: Schedule?
-	
+    
 	@EnvironmentObject private var viewState: ViewState
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
+    @AppStorage("ColorBlindMode") private var colorBlindMode = false
+
+    
+    
+    //these 2 change when colorblind mode is enabled/disabled
+    private var High_Quality_Message: String {
+        get {
+            return self.colorBlindMode ? "The scope icon indicates high-quality location data." : "Green buses indicate high-quality location data."
+        }
+    }
+
+
+    private var Low_Quality_message: String {
+        get {
+            return self.colorBlindMode ? "The dotted-circle icon indicates low-quality location data." : "Red buses indicate low-quality location data."
+        }
+    }
+  
+    
+    
+    
+    
+    
+   
 	var body: some View {
+        
+     
+        
 		SheetPresentationWrapper {
 			ScrollView {
 				VStack(alignment: .leading, spacing: 0) {
 					Text("Shuttle Tracker shows you the real-time locations of the RPI campus shuttles, powered by crowd-sourced location data.")
 						.padding(.bottom)
+                    
 					if let schedule = self.schedule {
 						Section {
 							HStack {
@@ -53,7 +81,10 @@ struct InfoView: View {
 						}
 					}
 					Section {
-						Text("The map is automatically refreshed every 5 seconds. Green buses have high-quality location data, and red buses have low-quality location data. When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+                        
+                    
+                    
+                        Text("The map is automatically refreshed every 5 seconds. \(High_Quality_Message) and \(Low_Quality_message)  When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
 							.padding(.bottom)
 					} header: {
 						Text("Instructions")
