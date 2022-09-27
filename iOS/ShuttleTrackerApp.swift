@@ -17,7 +17,7 @@ import OnboardingKit
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	@ObservedObject private var appStorageManager = AppStorageManager.shared
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
@@ -75,6 +75,7 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.sheetStack)
 		}
 	}

@@ -14,16 +14,6 @@ typealias HTTPTask = Moya.Task
 
 enum API: TargetType {
 	
-	private struct SettingsContainer {
-		
-		static let shared = SettingsContainer()
-		
-		@AppStorage("BaseURL") private(set) var baseURL = URL(string: "https://shuttletracker.app")!
-		
-		private init() { }
-		
-	}
-	
 	case readVersion
 	
 	case readAnnouncements
@@ -52,7 +42,7 @@ enum API: TargetType {
 	
 	var baseURL: URL {
 		get {
-			return SettingsContainer.shared.baseURL
+			return AppStorageManager.shared.baseURL
 		}
 	}
 	

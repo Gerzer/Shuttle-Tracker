@@ -11,7 +11,7 @@ struct LegendToast: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@AppStorage("ColorBlindMode") private var colorBlindMode = false
+	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
 	enum HeadlineText: String {
 		
@@ -22,20 +22,20 @@ struct LegendToast: View {
 	
 	private var highQualityString: String {
 		get {
-			return self.colorBlindMode ? "The scope icon indicates high-quality location data." : "Green buses have high-quality location data."
+			return self.appStorageManager.colorBlindMode ? "The scope icon indicates high-quality location data." : "Green buses have high-quality location data."
 		}
 	}
 	
 	private var lowQualityString: String {
 		get {
-			return self.colorBlindMode ? "The dotted-circle icon indicates low-quality location data." : "Red buses have low-quality location data."
+			return self.appStorageManager.colorBlindMode ? "The dotted-circle icon indicates low-quality location data." : "Red buses have low-quality location data."
 		}
 	}
 	
 	@available(iOS 15, macOS 12, *) private var highQualityAttributedString: AttributedString {
 		get {
 			var attributedString = AttributedString(self.highQualityString)
-			if self.colorBlindMode {
+			if self.appStorageManager.colorBlindMode {
 				let scopeRange = attributedString.range(of: "scope")!
 				attributedString[scopeRange].inlinePresentationIntent = .stronglyEmphasized
 			} else {
@@ -52,7 +52,7 @@ struct LegendToast: View {
 	@available(iOS 15, macOS 12, *) private var lowQualityAttributedString: AttributedString {
 		get {
 			var attributedString = AttributedString(self.lowQualityString)
-			if self.colorBlindMode {
+			if self.appStorageManager.colorBlindMode {
 				let dottedCircleRange = attributedString.range(of: "dotted-circle")!
 				attributedString[dottedCircleRange].inlinePresentationIntent = .stronglyEmphasized
 			} else {
@@ -76,7 +76,7 @@ struct LegendToast: View {
 				ZStack {
 					Circle()
 						.fill(.green)
-					Image(systemName: self.colorBlindMode ? "scope" : "bus")
+					Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
 						.resizable()
 						.frame(width: 30, height: 30)
 						.foregroundColor(.white)
@@ -94,8 +94,8 @@ struct LegendToast: View {
 			HStack {
 				ZStack {
 					Circle()
-						.fill(self.colorBlindMode ? .purple : .red)
-					Image(systemName: self.colorBlindMode ? "circle.dotted" : "bus")
+						.fill(self.appStorageManager.colorBlindMode ? .purple : .red)
+					Image(systemName: self.appStorageManager.colorBlindMode ? "circle.dotted" : "bus")
 						.resizable()
 						.frame(width: 30, height: 30)
 						.foregroundColor(.white)
