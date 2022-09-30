@@ -70,6 +70,7 @@ struct InfoView: View {
 				.padding(.horizontal)
 			}
 				.navigationTitle("Shuttle Tracker 🚐")
+                .elegant()
 				.toolbar {
 					ToolbarItem {
 						CloseButton()

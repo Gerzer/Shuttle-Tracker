@@ -202,6 +202,21 @@ extension View {
 			)
 			.mask(self)
 	}
+    
+    func elegant() -> some View {
+        return self
+            .mask(
+                VStack(spacing: 0) {
+
+                    LinearGradient(gradient:
+                       Gradient(
+                           colors: [Color.black,Color.black,Color.black,Color.black, Color.black.opacity(0)]),
+                                   startPoint: .center, endPoint: .bottom
+                       )
+                    .frame(width: .infinity)
+                }
+             )
+    }
 	
 }
 
