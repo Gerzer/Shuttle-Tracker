@@ -31,9 +31,9 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	@EnvironmentObject private var sheetStack: SheetStack
 	
 	var body: some View {
 		HStack {
@@ -79,7 +79,7 @@ struct PrimaryOverlay: View {
 									distance = newDistance
 								}
 							}
-							if closestStopDistance < Double(self.maximumStopDistance) {
+							if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
 								self.mapState.locationID = UUID()
 								self.sheetStack.push(.busSelection)
 								if self.viewState.toastType == .boardBus {
@@ -160,7 +160,7 @@ struct PrimaryOverlay: View {
 									distance = newDistance
 								}
 							}
-							if closestStopDistance < Double(self.maximumStopDistance) {
+							if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
 								self.mapState.locationID = UUID()
 								self.sheetStack.push(.busSelection)
 								if self.viewState.toastType == .boardBus {

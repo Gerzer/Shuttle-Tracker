@@ -13,9 +13,9 @@ struct InfoView: View {
     
 	@EnvironmentObject private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	@EnvironmentObject private var sheetStack: SheetStack
 	
     @AppStorage("ColorBlindMode") private var colorBlindMode = false
 
@@ -81,10 +81,9 @@ struct InfoView: View {
 						}
 					}
 					Section {
-                        
-                    
-                    
-                        Text("The map is automatically refreshed every 5 seconds. \(High_Quality_Message) and \(Low_Quality_message)  When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+         
+             Text("The map is automatically refreshed every 5 seconds. \(High_Quality_Message) and \(Low_Quality_message)  When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+
 							.padding(.bottom)
 					} header: {
 						Text("Instructions")

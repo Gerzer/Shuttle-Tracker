@@ -17,11 +17,14 @@ import CoreLocation
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
+	@ObservedObject private var appStorageManager = AppStorageManager.shared
+	
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.sheetStack)
 				.onAppear {
 					let overlay = SKOverlay(
