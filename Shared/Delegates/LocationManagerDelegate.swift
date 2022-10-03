@@ -9,7 +9,18 @@ import CoreLocation
 
 class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
+	func leaveBus(locationManager: CLLocationManager) {
+		guard case .onBus = MapState.shared.travelState else {
+			return
+		}
+		MapState.shared.travelState = .notOnBus
+		locationManager.stopUpdatingLocation()
+	}
+	
+	// MARK: - CLLocationManagerDelegate
+	
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did update locations \(locations)")
 		if case .onBus = MapState.shared.travelState {
 			// The Core Location documentation promises that the array of locations will contain at least one element
 			LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
@@ -17,34 +28,49 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did fail with error \(error)")
 		LoggingUtilities.logger.log(level: .error, "Location update failed: \(error)")
 	}
 	
-	func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-		if let beaconRegion = region as? CLBeaconRegion {
-			if CLLocationManager.isRangingAvailable() {
+	func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did determine state \(state.rawValue) for \(region)")
+		switch state {
+		case .inside:
+			LoggingUtilities.logger.log(level: .default, "Inside region: \(region)")
+			if let beaconRegion = region as? CLBeaconRegion {
 				manager.startRangingBeacons(satisfying: beaconRegion.beaconIdentityConstraint)
 			}
+		case .outside:
+			LoggingUtilities.logger.log(level: .default, "Outside region: \(region)")
+			if region is CLBeaconRegion {
+				self.leaveBus(locationManager: manager)
+			}
+		case .unknown:
+			LoggingUtilities.logger.log(level: .default, "Unknown state for region: \(region)")
+		}
+	}
+	
+	func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did enter region \(region)")
+		if let beaconRegion = region as? CLBeaconRegion {
+			manager.startRangingBeacons(satisfying: beaconRegion.beaconIdentityConstraint)
 		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-		if let beaconRegion = region as? CLBeaconRegion {
-			if CLLocationManager.isRangingAvailable() {
-				manager.stopRangingBeacons(satisfying: beaconRegion.beaconIdentityConstraint)
-			}
-			if case .onBus = MapState.shared.travelState {
-				MapState.shared.travelState = .notOnBus
-				LocationUtilities.locationManager.stopUpdatingLocation()
-			}
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did exit region \(region)")
+		if region is CLBeaconRegion {
+			self.leaveBus(locationManager: manager)
 		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
-		LoggingUtilities.logger.log(level: .error, "Monitoring failed for region `\(region)`: \(error)")
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Monitoring did fail for region \(region) with error \(error)")
+		LoggingUtilities.logger.log(level: .error, "Region monitoring failed: \(error)")
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didRange beacons: [CLBeacon], satisfying beaconConstraint: CLBeaconIdentityConstraint) {
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did range \(beacons) satisfying \(beaconConstraint)")
 		if case .notOnBus = MapState.shared.travelState {
 			let beacon = beacons
 				.filter { (beacon) in
@@ -79,12 +105,32 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 			MapState.shared.locationID = UUID()
 			MapState.shared.busID = Int(truncating: beacon.major)
 			MapState.shared.travelState = .onBus
-			LocationUtilities.locationManager.startUpdatingLocation()
+			manager.startUpdatingLocation()
+			manager.stopRangingBeacons(satisfying: beaconConstraint)
 		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didFailRangingFor beaconConstraint: CLBeaconIdentityConstraint, error: Error) {
-		LoggingUtilities.logger.log(level: .error, "Ranging failed for beacon constraint `\(beaconConstraint)`: \(error)")
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did fail ranging for \(beaconConstraint) error \(error)")
+		LoggingUtilities.logger.log(level: .error, "[\(#function)] Ranging failed: \(error)")
+	}
+	
+	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+		LoggingUtilities.logger.log(level: .info, "[\(#function)] Did change authorization")
+		switch manager.authorizationStatus {
+		case .notDetermined:
+			LoggingUtilities.logger.log(level: .default, "Location authorization status: not determined")
+		case .restricted:
+			LoggingUtilities.logger.log(level: .default, "Location authorization status: restricted")
+		case .denied:
+			LoggingUtilities.logger.log(level: .default, "Location authorization status: denied")
+		case .authorizedWhenInUse:
+			LoggingUtilities.logger.log(level: .default, "Location authorization status: authorized when in use")
+		case .authorizedAlways:
+			LoggingUtilities.logger.log(level: .default, "Location authorization status: authorized always")
+		@unknown default:
+			LoggingUtilities.logger.log(level: .error, "Unknown location authorization status")
+		}
 	}
 	
 }

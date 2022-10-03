@@ -81,17 +81,19 @@ import OnboardingKit
 	
 	init() {
 		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
 		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+			LocationUtilities.locationManager.requestAlwaysAuthorization()
 			let beaconRegion = CLBeaconRegion(
 				uuid: LocationUtilities.Constants.networkUUID,
 				identifier: LocationUtilities.Constants.beaconID
 			)
 			beaconRegion.notifyEntryStateOnDisplay = true
 			LocationUtilities.locationManager.startMonitoring(for: beaconRegion)
+		} else {
+			LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		}
 		Task {
 			try await UserNotificationUtilities.requestAuthorization()

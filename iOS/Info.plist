@@ -26,6 +26,8 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Shuttle Tracker uses your location to connect to the Shuttle Tracker Network.</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
 	<dict>
 		<key>BoardBus</key>
@@ -49,6 +51,7 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
+		<string>location-services</string>
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
