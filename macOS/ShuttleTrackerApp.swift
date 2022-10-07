@@ -19,6 +19,8 @@ import OnboardingKit
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
+	@ObservedObject private var appStorageManager = AppStorageManager.shared
+	
 	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
@@ -46,6 +48,7 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.contentViewSheetStack)
 		}
 			.commands {
@@ -86,8 +89,9 @@ import OnboardingKit
 		Settings {
 			SettingsView()
 				.padding()
-				.frame(width: 400, height: 100)
+				.frame(minWidth: 320, minHeight: 150)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.settingsViewSheetStack)
 		}
 	}

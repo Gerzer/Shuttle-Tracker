@@ -16,9 +16,9 @@ struct AnnouncementsSheet: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
-	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	@EnvironmentObject private var sheetStack: SheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -33,7 +33,7 @@ struct AnnouncementsSheet: View {
 								)
 							} label: {
 								HStack {
-									let isUnviewed = !self.viewedAnnouncementIDs.contains(announcement.id)
+									let isUnviewed = !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
 									Circle()
 										.fill(isUnviewed ? .blue : .clear)
 										.frame(width: 10, height: 10)
@@ -106,10 +106,10 @@ struct AnnouncementsSheet: View {
 						"Reset Viewed Announcements" + (self.didResetViewedAnnouncements ? " ✓" : ""),
 						role: .destructive
 					) {
-						self.viewedAnnouncementIDs.removeAll()
+						self.appStorageManager.viewedAnnouncementIDs.removeAll()
 						self.didResetViewedAnnouncements = true
 					}
-						.disabled(self.viewedAnnouncementIDs.isEmpty)
+						.disabled(self.appStorageManager.viewedAnnouncementIDs.isEmpty)
 						.focusable(false)
 				}
 				ToolbarItem(placement: .cancellationAction) {

@@ -11,11 +11,11 @@ struct SecondaryOverlay: View {
 	
 	private var unviewedAnnouncementsCount: Int {
 		get {
-			return self.announcements.reduce(into: 0) { (partialResult, announcement) in
-				if !self.viewedAnnouncementIDs.contains(announcement.id) {
-					partialResult += 1
+			return self.announcements
+				.filter { (announcement) in
+					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
 				}
-			}
+				.count
 		}
 	}
 	
@@ -23,7 +23,7 @@ struct SecondaryOverlay: View {
 	
 	@EnvironmentObject private var mapState: MapState
 	
-	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
 	var body: some View {
 		VStack {

@@ -159,7 +159,7 @@ struct BusSelectionSheet: View {
 			LoggingUtilities.logger.log(level: .error, "No selected bus ID")
 			return
 		}
-		await self.boardbusManager.boardBus(busID: busID)
+		await self.boardbusManager.boardBus(id: busID)
 		self.viewState.statusText = .locationData
 		self.viewState.handles.tripCount?.increment()
 		self.sheetStack.pop()

@@ -218,7 +218,7 @@ extension URL {
 	
 	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
-		struct Strategy: Foundation.ParseStrategy {
+		struct ParseStrategy: Foundation.ParseStrategy {
 			
 			enum ParseError: Error {
 				
@@ -235,12 +235,24 @@ extension URL {
 			
 		}
 		
-		var parseStrategy = Strategy()
+		var parseStrategy = ParseStrategy()
 		
 		func format(_ value: URL) -> String {
 			return value.absoluteString
 		}
 		
+	}
+	
+}
+
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
+extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+	
+	static var compatibilityURL: Self {
+		get {
+			return Self()
+		}
 	}
 	
 }
@@ -277,19 +289,15 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
-@available(iOS, introduced: 15, deprecated: 16)
-@available(macOS, introduced: 12, deprecated: 13)
-extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+#if canImport(UIKit)
+extension UIKeyboardType {
 	
-	static var compatibilityURL: Self {
-		get {
-			return Self()
-		}
-	}
+	static let url: Self = .URL
 	
 }
+#endif // canImport(UIKit)
 
-#if os(macOS)
+#if canImport(AppKit)
 extension NSImage {
 	
 	func withTintColor(_ color: NSColor) -> NSImage {
@@ -303,4 +311,4 @@ extension NSImage {
 	}
 	
 }
-#endif // os(macOS)
+#endif // canImport(AppKit)

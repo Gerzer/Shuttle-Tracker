@@ -15,9 +15,9 @@ struct ContentView: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	@EnvironmentObject private var sheetStack: SheetStack
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -77,7 +77,7 @@ struct ContentView: View {
 						// Displays a message when the user attempts to board bus when there’s no nearby stop
 						return Alert(
 							title: Text("No Nearby Stop"),
-							message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
+							message: Text("You can’t board a bus if you’re not within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop."),
 							dismissButton: .default(Text("Dismiss"))
 						)
 					case .updateAvailable:
@@ -196,6 +196,8 @@ struct ContentViewPreviews: PreviewProvider {
 		ContentView()
 			.environmentObject(MapState.shared)
 			.environmentObject(ViewState.shared)
+			.environmentObject(AppStorageManager.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

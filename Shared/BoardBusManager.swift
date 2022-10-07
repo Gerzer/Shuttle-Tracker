@@ -31,7 +31,7 @@ actor BoardBusManager: ObservableObject {
 	
 	private init() { }
 	
-	func boardBus(busID: Int) async {
+	func boardBus(id busID: Int) async {
 		precondition(self.travelState == .notOnBus)
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
