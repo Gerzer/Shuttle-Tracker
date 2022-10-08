@@ -26,6 +26,10 @@ import CoreLocation
 				.environmentObject(self.viewState)
 				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.sheetStack)
+				.refreshable {
+					// For “standard” refresh operations, we only refresh the buses.
+					await self.mapState.refreshBuses()
+				}
 				.onAppear {
 					let overlay = SKOverlay(
 						configuration: SKOverlay.AppClipConfiguration(position: .bottom)

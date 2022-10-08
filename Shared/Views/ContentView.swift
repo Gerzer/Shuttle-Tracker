@@ -5,9 +5,9 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
-import SwiftUI
+import Foundation
 import MapKit
-import Moya
+import SwiftUI
 
 struct ContentView: View {
 	
@@ -137,11 +137,9 @@ struct ContentView: View {
 				}
 				ToolbarItem {
 					Button {
-						self.mapState.mapView?.setVisibleMapRect(
-							self.mapState.routes.boundingMapRect,
-							edgePadding: MapUtilities.Constants.mapRectInsets,
-							animated: true
-						)
+						Task {
+							await self.mapState.resetVisibleMapRect()
+						}
 					} label: {
 						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 					}
@@ -165,34 +163,24 @@ struct ContentView: View {
 				withAnimation {
 					self.isRefreshing = true
 				}
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					self.refreshBuses()
-					[Stop].download { (stops) in
-						DispatchQueue.main.async {
-							self.mapState.stops = stops
-						}
+				Task {
+					if #available(macOS 13, *) {
+						try await Task.sleep(for: .milliseconds(500))
+					} else {
+						try await Task.sleep(nanoseconds: 500_000_000)
 					}
-					[Route].download { (routes) in
-						DispatchQueue.main.async {
-							self.mapState.routes = routes
-						}
+					await self.mapState.refreshAll()
+					withAnimation {
+						self.isRefreshing = false
 					}
 				}
 			}
 			.onReceive(self.timer) { (_) in
-				self.refreshBuses()
-			}
-	}
-	
-	private func refreshBuses() {
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-				withAnimation {
-					self.isRefreshing = false
+				Task {
+					// For “standard” refresh operations, we only refresh the buses.
+					await self.mapState.refreshBuses()
 				}
 			}
-		}
 	}
 	#else // os(macOS)
 	private var mapView: some View {

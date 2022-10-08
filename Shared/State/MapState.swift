@@ -8,42 +8,42 @@
 import Combine
 import MapKit
 
-class MapState: ObservableObject {
+actor MapState: ObservableObject {
 	
 	static let shared = MapState()
 	
-	@Published var buses = [Bus]()
+	static weak var mapView: MKMapView?
 	
-	@Published var stops = [Stop]()
+	private(set) var buses = [Bus]()
 	
-	@Published var routes = [Route]()
+	private(set) var stops = [Stop]()
 	
-	@Published var travelState = TravelState.notOnBus {
-		didSet {
-			switch self.travelState {
-			case .onBus:
-				self.mapView?.showsUserLocation.toggle()
-				if let busID = self.busID {
-					self.oldUserLocationTitle = self.mapView?.userLocation.title
-					self.mapView?.userLocation.title = "Bus \(busID)"
-				}
-				self.mapView?.showsUserLocation.toggle()
-			case .notOnBus:
-				self.mapView?.showsUserLocation.toggle()
-				self.mapView?.userLocation.title = self.oldUserLocationTitle
-				self.mapView?.showsUserLocation.toggle()
-			}
+	private(set) var routes = [Route]()
+	
+	private init() { }
+	
+	func refreshBuses() async {
+		self.buses = await [Bus].download()
+	}
+	
+	func refreshAll() async {
+		async let buses = [Bus].download()
+		async let stops = [Stop].download()
+		async let routes = [Route].download()
+		self.buses = await buses
+		self.stops = await stops
+		self.routes = await routes
+		await MainActor.run {
+			self.objectWillChange.send()
 		}
 	}
 	
-	@Published var busID: Int?
-	
-	@Published var locationID: UUID?
-	
-	weak var mapView: MKMapView?
-	
-	private var oldUserLocationTitle: String?
-	
-	private init() { }
+	@MainActor func resetVisibleMapRect() async {
+		Self.mapView?.setVisibleMapRect(
+			await self.routes.boundingMapRect,
+			edgePadding: MapUtilities.Constants.mapRectInsets,
+			animated: true
+		)
+	}
 	
 }

@@ -17,6 +17,8 @@ import OnboardingKit
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
+	@ObservedObject private var boardBusManager = BoardBusManager.shared
+	
 	@ObservedObject private var appStorageManager = AppStorageManager.shared
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
@@ -75,6 +77,7 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.boardBusManager)
 				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.sheetStack)
 		}
@@ -92,7 +95,12 @@ import OnboardingKit
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+		Task {
+			if #available(iOS 16, *) {
+				try await Task.sleep(for: .seconds(1))
+			} else {
+				try await Task.sleep(nanoseconds: 1_000_000_000)
+			}
 			self.sheetStack.push(sheetType)
 		}
 	}

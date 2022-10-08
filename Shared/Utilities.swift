@@ -61,16 +61,23 @@ enum LocationUtilities {
 		self.locationManagerHandlers.append(handler)
 	}
 	
-	static func sendToServer(coordinate: CLLocationCoordinate2D) {
-		guard let busID = MapState.shared.busID, let locationID = MapState.shared.locationID else {
-			LoggingUtilities.logger.log(level: .fault, "Required bus and location identifiers not found")
+	#if !os(macOS)
+	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
+		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
+			LoggingUtilities.logger.log(level: .fault, "Required bus and location IDs not found")
 			return
 		}
-		let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertedToCoordinate(), type: .user)
+		let location = Bus.Location(
+			id: locationID,
+			date: Date(),
+			coordinate: coordinate.convertedToCoordinate(),
+			type: .user
+		)
 		API.provider.request(.updateBus(busID, location: location)) { (_) in
 			return
 		}
 	}
+	#endif // !os(macOS)
 	
 }
 

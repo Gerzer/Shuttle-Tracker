@@ -73,11 +73,9 @@ import OnboardingKit
 						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
 					Divider()
 					Button("Re-Center Map") {
-						self.mapState.mapView?.setVisibleMapRect(
-							self.mapState.routes.boundingMapRect,
-							edgePadding: MapUtilities.Constants.mapRectInsets,
-							animated: true
-						)
+						Task {
+							await self.mapState.resetVisibleMapRect()
+						}
 					}
 						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
 					Button("Refresh") {
@@ -105,7 +103,12 @@ import OnboardingKit
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+		Task {
+			if #available(macOS 13, *) {
+				try await Task.sleep(for: .seconds(1))
+			} else {
+				try await Task.sleep(nanoseconds: 1_0100_000_00000_000_000)
+			}
 			sheetStack.push(sheetType)
 		}
 	}

@@ -112,6 +112,8 @@
 		C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
 		C0A232CA252508E000FAAD50 /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */; };
+		C0A7A89128D7E65D00A2ACAA /* BoardBusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */; };
+		C0A7A89228D7E65D00A2ACAA /* BoardBusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */; };
 		C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02327A4ABDD007FF08A /* Moya */; };
 		C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02527A4ABEF007FF08A /* Moya */; };
 		C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02727A4ABF3007FF08A /* Moya */; };
@@ -214,6 +216,7 @@
 		C0A2328D2525060300FAAD50 /* Locations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Locations.gpx; sourceTree = "<group>"; };
 		C0A232942525080500FAAD50 /* App Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "App Clip.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
+		C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBusManager.swift; sourceTree = "<group>"; };
 		C0B5E72628BAA81A00603D22 /* ColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorName.swift; sourceTree = "<group>"; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
@@ -412,6 +415,7 @@
 				C086017025D83D8700C4F583 /* Views */,
 				C025ED422527C1D500524144 /* API.swift */,
 				C0730C1627F103D200EF7550 /* AppStorageManager.swift */,
+				C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */,
 				C082CCF6277FB38A005D0209 /* BusID.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
 				C03B1D352741E18B007B318E /* SheetStack.swift */,
@@ -608,6 +612,7 @@
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
 				C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */,
 				C039B0652796201200416725 /* CloseButton.swift in Sources */,
+				C0A7A89228D7E65D00A2ACAA /* BoardBusManager.swift in Sources */,
 				C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */,
 				C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
@@ -640,6 +645,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A7A89128D7E65D00A2ACAA /* BoardBusManager.swift in Sources */,
 				C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */,
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
@@ -754,7 +760,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -781,7 +787,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -925,7 +931,7 @@
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -954,7 +960,7 @@
 				INFOPLIST_FILE = iOS/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -990,7 +996,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.5;
 				PRODUCT_NAME = "Shuttle Tracker";
 				SDKROOT = macosx;
@@ -1019,7 +1025,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker;
 				PRODUCT_NAME = "Shuttle Tracker";

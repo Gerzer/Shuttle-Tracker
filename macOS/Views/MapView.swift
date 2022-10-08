@@ -15,50 +15,40 @@ struct MapView: NSViewRepresentable {
 	private let mapView = MKMapView(frame: .zero)
 	
 	func makeNSView(context: Context) -> MKMapView {
+		Task {
+			MapState.mapView = self.mapView
+			await self.mapState.refreshAll()
+			await self.mapState.resetVisibleMapRect()
+		}
 		self.mapView.delegate = context.coordinator
 		self.mapView.showsUserLocation = true
 		self.mapView.showsCompass = true
-		self.mapView.setVisibleMapRect(MapUtilities.Constants.mapRect, animated: true)
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-			}
-		}
-		[Stop].download { (stops) in
-			DispatchQueue.main.async {
-				self.mapState.stops = stops
-			}
-		}
-		[Route].download { (routes) in
-			DispatchQueue.main.async {
-				self.mapState.routes = routes
-				self.mapState.mapView?.setVisibleMapRect(
-					self.mapState.routes.boundingMapRect,
-					edgePadding: MapUtilities.Constants.mapRectInsets,
-					animated: true
-				)
-			}
-		}
-		self.mapState.mapView = self.mapView
 		return self.mapView
 	}
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
 		self.mapView.delegate = context.coordinator
-		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) in
-			return nsView.overlays.contains { (overlay) in
-				if let existingRoute = overlay as? Route, existingRoute == route {
-					return true
+		Task {
+			let buses = await self.mapState.buses
+			let stops = await self.mapState.stops
+			let routes = await self.mapState.routes
+			await MainActor.run {
+				let allRoutesOnMap = routes.allSatisfy { (route) in
+					return nsView.overlays.contains { (overlay) in
+						if let existingRoute = overlay as? Route, existingRoute == route {
+							return true
+						}
+						return false
+					}
 				}
-				return false
+				nsView.removeAnnotations(nsView.annotations)
+				nsView.addAnnotations(buses)
+				nsView.addAnnotations(stops)
+				if !allRoutesOnMap {
+					nsView.removeOverlays(nsView.overlays)
+					nsView.addOverlays(routes)
+				}
 			}
-		}
-		nsView.removeAnnotations(nsView.annotations)
-		nsView.addAnnotations(Array(self.mapState.buses))
-		nsView.addAnnotations(Array(self.mapState.stops))
-		if !allRoutesOnMap {
-			nsView.removeOverlays(nsView.overlays)
-			nsView.addOverlays(self.mapState.routes)
 		}
 	}
 	

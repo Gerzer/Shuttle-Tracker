@@ -113,12 +113,14 @@ extension Array where Element == Route {
 		}
 	}
 	
-	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
-		API.provider.request(.readRoutes) { (result) in
-			let routes = try? result
-				.get()
-				.map([Route].self)
-			routesCallback(routes ?? [])
+	static func download() async -> [Route] {
+		return await withCheckedContinuation { (continuation) in
+			API.provider.request(.readRoutes) { (result) in
+				let routes = try? result
+					.get()
+					.map([Route].self)
+				continuation.resume(returning: routes ?? [])
+			}
 		}
 	}
 	
