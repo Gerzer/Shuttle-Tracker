@@ -1,6 +1,6 @@
 //
 //  InfoView.swift
-//  Shuttle Tracker (iOS)
+//  https://www.youtube.com/watch?v=pP1-ragPlkQ (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 3/4/22.
 //

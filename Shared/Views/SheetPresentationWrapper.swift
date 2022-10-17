@@ -103,6 +103,19 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 							.interactiveDismissDisabled()
 					}
 					#endif // os(iOS)
+                    
+                case .Net_Entry:
+                    #if os(iOS) && !APPCLIP
+
+                    if #available(iOS 15, *) {
+                        NetworkEntrySheet()
+                            .interactiveDismissDisabled()
+                        
+                    } else {
+                        NetworkEntrySheet()
+                    }
+
+                    #endif
 				}
 			}
 	}

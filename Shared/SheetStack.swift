@@ -12,7 +12,7 @@ final class SheetStack: ObservableObject {
 	
 	enum SheetType: Hashable, Identifiable {
 		
-		case welcome, settings, info, busSelection, permissions, privacy, announcements, whatsNew, plus(featureText: String)
+		case welcome, settings, info, busSelection, permissions, privacy, announcements, Net_Entry, whatsNew, plus(featureText: String)
 		
 		var id: Self {
 			get {
@@ -60,7 +60,7 @@ final class SheetStack: ObservableObject {
 	func push(_ sheetType: SheetType) {
 		self.stack.append(sheetType)
 		self.publisher.send(self.stack)
-		self.objectWillChange.send()
+//		self.objectWillChange.send()
 	}
 	
 	func pop() {
