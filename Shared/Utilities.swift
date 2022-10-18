@@ -220,6 +220,41 @@ extension View {
 	
 }
 
+
+struct ScrollViewBackgroundReader: UIViewRepresentable {
+
+    let setProxy: (ScrollProxyProtocol) -> ()
+    
+    func makeCoordinator() -> Coordinator {
+        let coordinator = Coordinator()
+        setProxy(coordinator)
+        return coordinator
+    }
+
+    func makeUIView(context: Context) -> UIView {
+        UIView()
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) { }
+}
+
+
+struct ScrollReader<ScrollViewContent: View>: View {
+    private let content: (ScrollProxyProtocol) -> Content
+    private let proxy = __ScrollProxy()
+
+    init(@ViewBuilder content: @escaping (ScrollProxyProtocol) -> ScrollViewContent) {
+        self.content = content
+    }
+    
+    var body: some View {
+        content(proxy)
+            .background(
+                ScrollViewBackgroundReader(setProxy: { proxy.other = $0 })
+            )
+    }
+}
+
 @available(iOS, introduced: 15, deprecated: 16)
 @available(macOS, introduced: 12, deprecated: 13)
 extension URL {
