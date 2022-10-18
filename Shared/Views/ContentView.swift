@@ -18,6 +18,20 @@ struct ContentView: View {
 	@EnvironmentObject private var sheetStack: SheetStack
 	
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+    
+    @AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+    
+    @State private var announcements: [Announcement] = []
+    
+    private var unviewedAnnouncementsCount: Int {
+        get {
+            return self.announcements.reduce(into: 0) { (partialResult, announcement) in
+                if !self.viewedAnnouncementIDs.contains(announcement.id) {
+                    partialResult += 1
+                }
+            }
+        }
+    }
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -132,7 +146,27 @@ struct ContentView: View {
 					Button {
 						self.sheetStack.push(.announcements)
 					} label: {
-						Label("View Announcements", systemImage: "exclamationmark.bubble")
+                        if #available(macOS 12.0, *) {
+                            ZStack {
+                                Label("View Announcements", systemImage: "exclamationmark.bubble")
+                                if self.unviewedAnnouncementsCount > 0 {
+                                    Circle()
+                                        .foregroundColor(.red)
+                                        .frame(width: 20, height: 20)
+                                        .offset(x: 10, y: -10)
+                                    Text("\(self.unviewedAnnouncementsCount)")
+                                        .foregroundColor(.white)
+                                        .font(.caption)
+                                        .offset(x: 10, y: -10)
+                                }
+                            }
+                            .badge(self.unviewedAnnouncementsCount)
+                            .task {
+                                self.announcements = await [Announcement].download()
+                            }
+                        } else {
+                            Label("View Announcements", systemImage: "exclamationmark.bubble")
+                        }
 					}
 				}
 				ToolbarItem {
@@ -153,7 +187,7 @@ struct ContentView: View {
 						Button {
 							NotificationCenter.default.post(name: .refreshBuses, object: nil)
 						} label: {
-							Label("Refresh", systemImage: "arrow.clockwise")
+                                Label("Refresh", systemImage: "arrow.clockwise")
 						}
 					}
 				}
