@@ -77,10 +77,8 @@ struct InfoView: View {
 				}
 		}
 			.onAppear {
-				if #available(iOS 15, *) {
-					Task {
-						self.schedule = await Schedule.download()
-					}
+				Task {
+					self.schedule = await Schedule.download()
 				}
 			}
 	}

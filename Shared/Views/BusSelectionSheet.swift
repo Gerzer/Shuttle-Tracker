@@ -50,25 +50,14 @@ struct BusSelectionSheet: View {
 										)
 										.foregroundColor(.secondary)
 									VStack {
-										if #available(iOS 15, *) {
-											Divider()
-												.background(.secondary)
-										} else {
-											Divider()
-												.background(Color.secondary)
-										}
+										Divider()
+											.background(.secondary)
 									}
 								}
 								BusOption(suggestedBusID, selection: self.$selectedBusID)
-								if #available(iOS 15, *) {
-									Divider()
-										.background(.secondary)
-										.padding(.vertical, 10)
-								} else {
-									Divider()
-										.background(Color.secondary)
-										.padding(.vertical, 10)
-								}
+								Divider()
+									.background(.secondary)
+									.padding(.vertical, 10)
 							}
 							LazyVGrid(
 								columns: [GridItem](
@@ -171,9 +160,7 @@ struct BusSelectionSheet: View {
 		content.body = "Did you leave the bus? Remember to tap “Leave Bus” next time."
 		content.sound = .default
 		#if !APPCLIP
-		if #available(iOS 15, *) {
-			content.interruptionLevel = .timeSensitive
-		}
+		content.interruptionLevel = .timeSensitive
 		#endif // !APPCLIP
 		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
 		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)

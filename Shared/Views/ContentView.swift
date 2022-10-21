@@ -144,26 +144,22 @@ struct ContentView: View {
 					Button {
 						self.sheetStack.push(.announcements)
 					} label: {
-						if #available(macOS 12, *) {
-							ZStack {
-								Label("View Announcements", systemImage: "exclamationmark.bubble")
-								if self.unviewedAnnouncementsCount > 0 {
-									Circle()
-										.foregroundColor(.red)
-										.frame(width: 15, height: 15)
-										.offset(x: 10, y: -10)
-									Text("\(self.unviewedAnnouncementsCount)")
-										.foregroundColor(.white)
-										.font(.caption)
-										.offset(x: 10, y: -10)
-								}
-							}
-								.task {
-									self.announcements = await [Announcement].download()
-								}
-						} else {
+						ZStack {
 							Label("View Announcements", systemImage: "exclamationmark.bubble")
+							if self.unviewedAnnouncementsCount > 0 {
+								Circle()
+									.foregroundColor(.red)
+									.frame(width: 15, height: 15)
+									.offset(x: 10, y: -10)
+								Text("\(self.unviewedAnnouncementsCount)")
+									.foregroundColor(.white)
+									.font(.caption)
+									.offset(x: 10, y: -10)
+							}
 						}
+							.task {
+								self.announcements = await [Announcement].download()
+							}
 					}
 				}
 				ToolbarItem {

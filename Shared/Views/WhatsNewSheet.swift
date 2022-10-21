@@ -25,24 +25,22 @@ struct WhatsNewSheet: View {
 								.font(.largeTitle)
 								.bold()
 								.multilineTextAlignment(.center)
-							if #available(iOS 15, macOS 12, *) {
-								Text("Version 1.5")
-									.font(
-										.system(
-											.callout,
-											design: .monospaced
-										)
+							Text("Version 1.5")
+								.font(
+									.system(
+										.callout,
+										design: .monospaced
 									)
-									.bold()
-									.padding(5)
-									.background(
-										.tertiary,
-										in: RoundedRectangle(
-											cornerRadius: 10,
-											style: .continuous
-										)
+								)
+								.bold()
+								.padding(5)
+								.background(
+									.tertiary,
+									in: RoundedRectangle(
+										cornerRadius: 10,
+										style: .continuous
 									)
-							}
+								)
 						}
 						Spacer()
 					}

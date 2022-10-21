@@ -61,33 +61,31 @@ struct SettingsView: View {
 				Section {
 					Toggle("Distinguish bus markers by icon", isOn: self.appStorageManager.$colorBlindMode)
 				}
-				if #available(macOS 12, *) {
-					Divider()
-					Section {
-						HStack {
-							// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
-							TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
-								.labelsHidden()
-							Button(role: .destructive) {
-								self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
-								self.didResetServerBaseURL = true
-							} label: {
-								Text("Reset" + (self.didResetServerBaseURL ? " ✓" : ""))
-									.frame(minWidth: 50)
-							}
-								.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)
-								.onChange(of: self.appStorageManager.baseURL) { (_) in
-									if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
-										self.didResetServerBaseURL = false
-									}
-								}
+				Divider()
+				Section {
+					HStack {
+						// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
+						TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
+							.labelsHidden()
+						Button(role: .destructive) {
+							self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
+							self.didResetServerBaseURL = true
+						} label: {
+							Text("Reset" + (self.didResetServerBaseURL ? " ✓" : ""))
+								.frame(minWidth: 50)
 						}
-					} header: {
-						Text("Server Base URL")
-							.bold()
-					} footer: {
-						Text("Changing this setting could make the rest of the app stop working properly.")
+							.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)
+							.onChange(of: self.appStorageManager.baseURL) { (_) in
+								if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
+									self.didResetServerBaseURL = false
+								}
+							}
 					}
+				} header: {
+					Text("Server Base URL")
+						.bold()
+				} footer: {
+					Text("Changing this setting could make the rest of the app stop working properly.")
 				}
 				#endif // os(macOS)
 			}

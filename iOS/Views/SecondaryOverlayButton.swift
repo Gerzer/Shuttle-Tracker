@@ -22,56 +22,36 @@ struct SecondaryOverlayButton: View {
 	@EnvironmentObject private var sheetStack: SheetStack
 	
 	var body: some View {
-		if #available(iOS 15, *) {
-			Button {
-				if let sheetType = self.sheetType {
-					self.sheetStack.push(sheetType)
-				} else {
-					self.action?()
-				}
-			} label: {
-				Group {
-					Image(systemName: self.iconSystemName)
-						.resizable()
-						.aspectRatio(1, contentMode: .fit)
-						.opacity(0.5)
-						.frame(width: 20)
-				}
-					.frame(width: 45, height: 45)
-					.overlay {
-						if self.badgeNumber > 0 {
-							ZStack {
-								Circle()
-									.foregroundColor(.red)
-								Text("\(self.badgeNumber)")
-									.foregroundColor(.white)
-									.font(.caption)
-							}
-								.frame(width: 20, height: 20)
-								.offset(x: 20, y: -20)
+		Button {
+			if let sheetType = self.sheetType {
+				self.sheetStack.push(sheetType)
+			} else {
+				self.action?()
+			}
+		} label: {
+			Group {
+				Image(systemName: self.iconSystemName)
+					.resizable()
+					.aspectRatio(1, contentMode: .fit)
+					.opacity(0.5)
+					.frame(width: 20)
+			}
+				.frame(width: 45, height: 45)
+				.overlay {
+					if self.badgeNumber > 0 {
+						ZStack {
+							Circle()
+								.foregroundColor(.red)
+							Text("\(self.badgeNumber)")
+								.foregroundColor(.white)
+								.font(.caption)
 						}
+							.frame(width: 20, height: 20)
+							.offset(x: 20, y: -20)
 					}
-			}
-				.tint(.primary)
-		} else {
-			Button {
-				if let sheetType = self.sheetType {
-					self.sheetStack.push(sheetType)
-				} else {
-					self.action?()
 				}
-			} label: {
-				Group {
-					Image(systemName: self.iconSystemName)
-						.resizable()
-						.aspectRatio(1, contentMode: .fit)
-						.opacity(0.5)
-						.frame(width: 20)
-				}
-					.frame(width: 45, height: 45)
-			}
-				.buttonStyle(.plain)
 		}
+			.tint(.primary)
 	}
 	
 	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Int = 0) {

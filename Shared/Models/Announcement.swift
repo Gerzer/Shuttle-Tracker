@@ -37,11 +37,7 @@ final class Announcement: Decodable, Identifiable {
 		get {
 			let formatter = RelativeDateTimeFormatter()
 			formatter.formattingContext = .dynamic
-			if #available(iOS 15, macOS 12, *) {
-				return formatter.localizedString(for: self.start, relativeTo: .now)
-			} else {
-				return formatter.localizedString(for: self.start, relativeTo: Date())
-			}
+			return formatter.localizedString(for: self.start, relativeTo: .now)
 		}
 	}
 	
@@ -49,11 +45,7 @@ final class Announcement: Decodable, Identifiable {
 		get {
 			let formatter = RelativeDateTimeFormatter()
 			formatter.formattingContext = .dynamic
-			if #available(iOS 15, macOS 12, *) {
-				return formatter.localizedString(for: self.end, relativeTo: .now)
-			} else {
-				return formatter.localizedString(for: self.end, relativeTo: Date())
-			}
+			return formatter.localizedString(for: self.end, relativeTo: .now)
 		}
 	}
 	
@@ -61,7 +53,6 @@ final class Announcement: Decodable, Identifiable {
 
 extension Array where Element == Announcement {
 	
-	@available(iOS 15, macOS 12, *)
 	static func download() async -> [Announcement] {
 		return await withCheckedContinuation { continuation in
 			API.provider.request(.readAnnouncements) { (result) in

@@ -29,112 +29,110 @@ struct PermissionsSheet: View {
 						self.sheetStack.push(.privacy)
 					}
 						.padding(.bottom)
-					if #available(iOS 15, *) {
-						VStack(alignment: .leading) {
+					VStack(alignment: .leading) {
+						Group {
+							switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+							case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
+								HStack {
+									Image(systemName: "gear.badge.checkmark")
+										.resizable()
+										.scaledToFit()
+										.frame(width: 50, height: 50)
+									Text("You’ve already granted location permission. Thanks!")
+								}
+							case (.restricted, _), (.denied, _):
+								HStack {
+									Image(systemName: "gear.badge.xmark")
+										.resizable()
+										.scaledToFit()
+										.frame(width: 50, height: 50)
+									Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
+								}
+							case (.notDetermined, _):
+								HStack {
+									Image(systemName: "gear.badge.questionmark")
+										.resizable()
+										.scaledToFit()
+										.frame(width: 50, height: 50)
+									Text("Tap “Continue” and then grant location permission.")
+								}
+							case (_, .reducedAccuracy):
+								HStack {
+									Image(systemName: "gear.badge.questionmark")
+										.resizable()
+										.scaledToFit()
+										.frame(width: 50, height: 50)
+									Text("Tap “Continue” and then grant full-accuracy location permission.")
+								}
+							@unknown default:
+								fatalError()
+							}
+						}
+							.scaleEffect(self.locationScale)
+							.onAppear {
+								withAnimation(.easeIn(duration: 0.5)) {
+									self.locationScale = 1.3
+								}
+								withAnimation(.easeOut(duration: 0.2).delay(0.5)) {
+									self.locationScale = 1
+								}
+							}
+						if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
 							Group {
-								switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
-								case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
+								switch notificationAuthorizationStatus {
+								case .authorized, .ephemeral, .provisional:
 									HStack {
 										Image(systemName: "gear.badge.checkmark")
 											.resizable()
 											.scaledToFit()
 											.frame(width: 50, height: 50)
-										Text("You’ve already granted location permission. Thanks!")
+										Text("You’ve already granted notification permission. Thanks!")
 									}
-								case (.restricted, _), (.denied, _):
+								case .denied:
 									HStack {
 										Image(systemName: "gear.badge.xmark")
 											.resizable()
 											.scaledToFit()
 											.frame(width: 50, height: 50)
-										Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
+										Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
 									}
-								case (.notDetermined, _):
+								case .notDetermined:
 									HStack {
 										Image(systemName: "gear.badge.questionmark")
 											.resizable()
 											.scaledToFit()
 											.frame(width: 50, height: 50)
-										Text("Tap “Continue” and then grant location permission.")
-									}
-								case (_, .reducedAccuracy):
-									HStack {
-										Image(systemName: "gear.badge.questionmark")
-											.resizable()
-											.scaledToFit()
-											.frame(width: 50, height: 50)
-										Text("Tap “Continue” and then grant full-accuracy location permission.")
+										switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+										case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
+											Text("Tap “Continue” and then grant notification permission.")
+										case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
+											Text("You haven’t yet granted notification permission.")
+										@unknown default:
+											fatalError()
+										}
 									}
 								@unknown default:
 									fatalError()
 								}
 							}
-								.scaleEffect(self.locationScale)
+								.scaleEffect(self.notificationScale)
 								.onAppear {
-									withAnimation(.easeIn(duration: 0.5)) {
-										self.locationScale = 1.3
+									withAnimation(.easeIn(duration: 0.5).delay(0.5)) {
+										self.notificationScale = 1.3
 									}
-									withAnimation(.easeOut(duration: 0.2).delay(0.5)) {
-										self.locationScale = 1
-									}
-								}
-							if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
-								Group {
-									switch notificationAuthorizationStatus {
-									case .authorized, .ephemeral, .provisional:
-										HStack {
-											Image(systemName: "gear.badge.checkmark")
-												.resizable()
-												.scaledToFit()
-												.frame(width: 50, height: 50)
-											Text("You’ve already granted notification permission. Thanks!")
-										}
-									case .denied:
-										HStack {
-											Image(systemName: "gear.badge.xmark")
-												.resizable()
-												.scaledToFit()
-												.frame(width: 50, height: 50)
-											Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
-										}
-									case .notDetermined:
-										HStack {
-											Image(systemName: "gear.badge.questionmark")
-												.resizable()
-												.scaledToFit()
-												.frame(width: 50, height: 50)
-											switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
-											case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
-												Text("Tap “Continue” and then grant notification permission.")
-											case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
-												Text("You haven’t yet granted notification permission.")
-											@unknown default:
-												fatalError()
-											}
-										}
-									@unknown default:
-										fatalError()
+									withAnimation(.easeOut(duration: 0.2).delay(1)) {
+										self.notificationScale = 1
 									}
 								}
-									.scaleEffect(self.notificationScale)
-									.onAppear {
-										withAnimation(.easeIn(duration: 0.5).delay(0.5)) {
-											self.notificationScale = 1.3
-										}
-										withAnimation(.easeOut(duration: 0.2).delay(1)) {
-											self.notificationScale = 1
-										}
-									}
-							}
 						}
-							.symbolRenderingMode(.multicolor)
-							.task {
-								self.notificationAuthorizationStatus = await UNUserNotificationCenter
-									.current()
-									.notificationSettings()
-									.authorizationStatus
-							}
 					}
+						.symbolRenderingMode(.multicolor)
+						.task {
+							self.notificationAuthorizationStatus = await UNUserNotificationCenter
+								.current()
+								.notificationSettings()
+								.authorizationStatus
+						}
 					Spacer()
 					Button {
 						switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {

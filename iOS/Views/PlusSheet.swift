@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 15, *) struct PlusSheet: View {
+struct PlusSheet: View {
 	
 	let featureText: String
 	
@@ -57,7 +57,7 @@ import SwiftUI
 	
 }
 
-@available(iOS 15, *) struct PlusSheetPreviews: PreviewProvider {
+struct PlusSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		PlusSheet(featureText: "Refreshing the map")

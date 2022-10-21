@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@available(iOS 15, macOS 12, *)
 struct AnnouncementsSheet: View {
 	
 	@State private var announcements: [Announcement]?
@@ -125,7 +124,6 @@ struct AnnouncementsSheet: View {
 	
 }
 
-@available(iOS 15, macOS 12, *)
 struct AnnouncementsSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {

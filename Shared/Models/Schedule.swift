@@ -50,7 +50,7 @@ final class Schedule: Decodable, Identifiable {
 		self.content = content
 	}
 	
-	@available(iOS 15, macOS 12, *) static func download() async -> Schedule? {
+	static func download() async -> Schedule? {
 		return await withCheckedContinuation { (continuation) in
 			API.provider.request(.schedule) { (result) in
 				let decoder = JSONDecoder()

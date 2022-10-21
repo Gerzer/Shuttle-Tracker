@@ -39,9 +39,7 @@ import OnboardingKit
 			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles, comparator: ==)
 			OnboardingConditions.Disjunction {
 				OnboardingConditions.ColdLaunch(threshold: 3, comparator: >)
-				if #available(iOS 15, *) {
-					OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
-				}
+				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {

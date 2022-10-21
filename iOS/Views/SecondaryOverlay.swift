@@ -28,7 +28,7 @@ struct SecondaryOverlay: View {
 	var body: some View {
 		VStack {
 			VStack(spacing: 0) {
-				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
+				if CalendarUtilities.isAprilFools {
 					SecondaryOverlayButton(
 						iconSystemName: "gearshape.fill",
 						sheetType: .plus(featureText: "Changing settings"),
@@ -42,7 +42,7 @@ struct SecondaryOverlay: View {
 				}
 				Divider()
 					.frame(width: 45, height: 0)
-				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
+				if CalendarUtilities.isAprilFools {
 					SecondaryOverlayButton(
 						iconSystemName: "info.circle.fill",
 						sheetType: .plus(featureText: "Viewing app information"),
@@ -54,19 +54,16 @@ struct SecondaryOverlay: View {
 						sheetType: .info
 					)
 				}
-				if #available(iOS 15, *) {
-					Divider()
-						.frame(width: 45, height: 0)
-					SecondaryOverlayButton(
-						iconSystemName: "exclamationmark.bubble.fill",
-						sheetType: .announcements,
-						badgeNumber: self.unviewedAnnouncementsCount
-					)
-						.badge(self.unviewedAnnouncementsCount)
-						.task {
-							self.announcements = await [Announcement].download()
-						}
-				}
+				Divider()
+					.frame(width: 45, height: 0)
+				SecondaryOverlayButton(
+					iconSystemName: "exclamationmark.bubble.fill",
+					sheetType: .announcements,
+					badgeNumber: self.unviewedAnnouncementsCount
+				)
+					.task {
+						self.announcements = await [Announcement].download()
+					}
 			}
 				.background(
 					VisualEffectView(.systemThickMaterial)

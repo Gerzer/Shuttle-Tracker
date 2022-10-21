@@ -32,7 +32,7 @@ struct LegendToast: View {
 		}
 	}
 	
-	@available(iOS 15, macOS 12, *) private var highQualityAttributedString: AttributedString {
+	private var highQualityAttributedString: AttributedString {
 		get {
 			var attributedString = AttributedString(self.highQualityString)
 			if self.appStorageManager.colorBlindMode {
@@ -49,7 +49,7 @@ struct LegendToast: View {
 		}
 	}
 	
-	@available(iOS 15, macOS 12, *) private var lowQualityAttributedString: AttributedString {
+	private var lowQualityAttributedString: AttributedString {
 		get {
 			var attributedString = AttributedString(self.lowQualityString)
 			if self.appStorageManager.colorBlindMode {
@@ -82,11 +82,7 @@ struct LegendToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				if #available(iOS 15, macOS 12, *) {
-					Text(self.highQualityAttributedString)
-				} else {
-					Text(self.highQualityString)
-				}
+				Text(self.highQualityAttributedString)
 			}
 				.frame(height: 50)
 			Spacer()
@@ -101,11 +97,7 @@ struct LegendToast: View {
 						.foregroundColor(.white)
 				}
 					.frame(width: 50)
-				if #available(iOS 15, macOS 12, *) {
-					Text(self.lowQualityAttributedString)
-				} else {
-					Text(self.lowQualityString)
-				}
+				Text(self.lowQualityAttributedString)
 			}
 				.frame(height: 50)
 		}
