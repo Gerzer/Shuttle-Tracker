@@ -61,16 +61,23 @@ enum LocationUtilities {
 		self.locationManagerHandlers.append(handler)
 	}
 	
-	static func sendToServer(coordinate: CLLocationCoordinate2D) {
-		guard let busID = MapState.shared.busID, let locationID = MapState.shared.locationID else {
-			LoggingUtilities.logger.log(level: .fault, "Required bus and location identifiers not found")
+	#if !os(macOS)
+	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
+		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
+			LoggingUtilities.logger.log(level: .fault, "Required bus and location IDs not found")
 			return
 		}
-		let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertedToCoordinate(), type: .user)
+		let location = Bus.Location(
+			id: locationID,
+			date: Date(),
+			coordinate: coordinate.convertedToCoordinate(),
+			type: .user
+		)
 		API.provider.request(.updateBus(busID, location: location)) { (_) in
 			return
 		}
 	}
+	#endif // !os(macOS)
 	
 }
 
@@ -211,7 +218,7 @@ extension URL {
 	
 	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
-		struct Strategy: Foundation.ParseStrategy {
+		struct ParseStrategy: Foundation.ParseStrategy {
 			
 			enum ParseError: Error {
 				
@@ -228,12 +235,24 @@ extension URL {
 			
 		}
 		
-		var parseStrategy = Strategy()
+		var parseStrategy = ParseStrategy()
 		
 		func format(_ value: URL) -> String {
 			return value.absoluteString
 		}
 		
+	}
+	
+}
+
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
+extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+	
+	static var compatibilityURL: Self {
+		get {
+			return Self()
+		}
 	}
 	
 }
@@ -270,19 +289,15 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
-@available(iOS, introduced: 15, deprecated: 16)
-@available(macOS, introduced: 12, deprecated: 13)
-extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+#if canImport(UIKit)
+extension UIKeyboardType {
 	
-	static var compatibilityURL: Self {
-		get {
-			return Self()
-		}
-	}
+	static let url: Self = .URL
 	
 }
+#endif // canImport(UIKit)
 
-#if os(macOS)
+#if canImport(AppKit)
 extension NSImage {
 	
 	func withTintColor(_ color: NSColor) -> NSImage {
@@ -296,4 +311,4 @@ extension NSImage {
 	}
 	
 }
-#endif // os(macOS)
+#endif // canImport(AppKit)

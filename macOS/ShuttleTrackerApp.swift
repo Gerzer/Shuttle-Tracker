@@ -19,6 +19,8 @@ import OnboardingKit
 	
 	@ObservedObject private var viewState = ViewState.shared
 	
+	@ObservedObject private var appStorageManager = AppStorageManager.shared
+	
 	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
@@ -46,6 +48,7 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.contentViewSheetStack)
 		}
 			.commands {
@@ -70,11 +73,9 @@ import OnboardingKit
 						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
 					Divider()
 					Button("Re-Center Map") {
-						self.mapState.mapView?.setVisibleMapRect(
-							self.mapState.routes.boundingMapRect,
-							edgePadding: MapUtilities.Constants.mapRectInsets,
-							animated: true
-						)
+						Task {
+							await self.mapState.resetVisibleMapRect()
+						}
 					}
 						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
 					Button("Refresh") {
@@ -88,8 +89,9 @@ import OnboardingKit
 		Settings {
 			SettingsView()
 				.padding()
-				.frame(width: 400, height: 100)
+				.frame(minWidth: 320, minHeight: 150)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.settingsViewSheetStack)
 		}
 	}
@@ -101,7 +103,12 @@ import OnboardingKit
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+		Task {
+			if #available(macOS 13, *) {
+				try await Task.sleep(for: .seconds(1))
+			} else {
+				try await Task.sleep(nanoseconds: 1_0100_000_00000_000_000)
+			}
 			sheetStack.push(sheetType)
 		}
 	}

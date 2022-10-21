@@ -9,21 +9,21 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
-	private var unviewedAnnouncementsCount: Int {
-		get {
-			return self.announcements.reduce(into: 0) { (partialResult, announcement) in
-				if !self.viewedAnnouncementIDs.contains(announcement.id) {
-					partialResult += 1
-				}
-			}
-		}
-	}
-	
 	@State private var announcements: [Announcement] = []
 	
 	@EnvironmentObject private var mapState: MapState
 	
-	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	@EnvironmentObject private var appStorageManager: AppStorageManager
+	
+	private var unviewedAnnouncementsCount: Int {
+		get {
+			return self.announcements
+				.filter { (announcement) in
+					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
+				}
+				.count
+		}
+	}
 	
 	var body: some View {
 		VStack {
@@ -75,11 +75,9 @@ struct SecondaryOverlay: View {
 				)
 			VStack(spacing: 0) {
 				SecondaryOverlayButton(iconSystemName: "location.fill.viewfinder") {
-					self.mapState.mapView?.setVisibleMapRect(
-						self.mapState.routes.boundingMapRect,
-						edgePadding: MapUtilities.Constants.mapRectInsets,
-						animated: true
-					)
+					Task {
+						await self.mapState.resetVisibleMapRect()
+					}
 				}
 			}
 				.background(

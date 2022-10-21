@@ -11,7 +11,7 @@ struct AnnouncementDetailView: View {
 	
 	@Binding private(set) var didResetViewedAnnouncements: Bool
 	
-	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
 	let announcement: Announcement
 	
@@ -58,7 +58,7 @@ struct AnnouncementDetailView: View {
 			}
 			.onAppear {
 				self.didResetViewedAnnouncements = false
-				self.viewedAnnouncementIDs.insert(self.announcement.id)
+				self.appStorageManager.viewedAnnouncementIDs.insert(self.announcement.id)
 			}
 	}
 	

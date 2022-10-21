@@ -5,33 +5,31 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
-import SwiftUI
+import Foundation
 import MapKit
-import Moya
+import SwiftUI
 
 struct ContentView: View {
+	
+	@State private var announcements: [Announcement] = []
 	
 	@EnvironmentObject private var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
 	
+	@EnvironmentObject private var appStorageManager: AppStorageManager
+	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
-    
-    @AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
-    
-    @State private var announcements: [Announcement] = []
-    
-    private var unviewedAnnouncementsCount: Int {
-        get {
-            return self.announcements.reduce(into: 0) { (partialResult, announcement) in
-                if !self.viewedAnnouncementIDs.contains(announcement.id) {
-                    partialResult += 1
-                }
-            }
-        }
-    }
+	private var unviewedAnnouncementsCount: Int {
+		get {
+			return self.announcements
+				.filter { (announcement) in
+					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
+				}
+				.count
+		}
+	}
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -91,7 +89,7 @@ struct ContentView: View {
 						// Displays a message when the user attempts to board bus when there’s no nearby stop
 						return Alert(
 							title: Text("No Nearby Stop"),
-							message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
+							message: Text("You can’t board a bus if you’re not within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop."),
 							dismissButton: .default(Text("Dismiss"))
 						)
 					case .updateAvailable:
@@ -146,36 +144,34 @@ struct ContentView: View {
 					Button {
 						self.sheetStack.push(.announcements)
 					} label: {
-                        if #available(macOS 12.0, *) {
-                            ZStack {
-                                Label("View Announcements", systemImage: "exclamationmark.bubble")
-                                if self.unviewedAnnouncementsCount > 0 {
-                                    Circle()
-                                        .foregroundColor(.red)
-                                        .frame(width: 20, height: 20)
-                                        .offset(x: 10, y: -10)
-                                    Text("\(self.unviewedAnnouncementsCount)")
-                                        .foregroundColor(.white)
-                                        .font(.caption)
-                                        .offset(x: 10, y: -10)
-                                }
-                            }
-                            .badge(self.unviewedAnnouncementsCount)
-                            .task {
-                                self.announcements = await [Announcement].download()
-                            }
-                        } else {
-                            Label("View Announcements", systemImage: "exclamationmark.bubble")
-                        }
+						if #available(macOS 12, *) {
+							ZStack {
+								Label("View Announcements", systemImage: "exclamationmark.bubble")
+								if self.unviewedAnnouncementsCount > 0 {
+									Circle()
+										.foregroundColor(.red)
+										.frame(width: 20, height: 20)
+										.offset(x: 10, y: -10)
+									Text("\(self.unviewedAnnouncementsCount)")
+										.foregroundColor(.white)
+										.font(.caption)
+										.offset(x: 10, y: -10)
+								}
+							}
+								.badge(self.unviewedAnnouncementsCount)
+								.task {
+									self.announcements = await [Announcement].download()
+								}
+						} else {
+							Label("View Announcements", systemImage: "exclamationmark.bubble")
+						}
 					}
 				}
 				ToolbarItem {
 					Button {
-						self.mapState.mapView?.setVisibleMapRect(
-							self.mapState.routes.boundingMapRect,
-							edgePadding: MapUtilities.Constants.mapRectInsets,
-							animated: true
-						)
+						Task {
+							await self.mapState.resetVisibleMapRect()
+						}
 					} label: {
 						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 					}
@@ -187,7 +183,7 @@ struct ContentView: View {
 						Button {
 							NotificationCenter.default.post(name: .refreshBuses, object: nil)
 						} label: {
-                                Label("Refresh", systemImage: "arrow.clockwise")
+							Label("Refresh", systemImage: "arrow.clockwise")
 						}
 					}
 				}
@@ -199,34 +195,24 @@ struct ContentView: View {
 				withAnimation {
 					self.isRefreshing = true
 				}
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					self.refreshBuses()
-					[Stop].download { (stops) in
-						DispatchQueue.main.async {
-							self.mapState.stops = stops
-						}
+				Task {
+					if #available(macOS 13, *) {
+						try await Task.sleep(for: .milliseconds(500))
+					} else {
+						try await Task.sleep(nanoseconds: 500_000_000)
 					}
-					[Route].download { (routes) in
-						DispatchQueue.main.async {
-							self.mapState.routes = routes
-						}
+					await self.mapState.refreshAll()
+					withAnimation {
+						self.isRefreshing = false
 					}
 				}
 			}
 			.onReceive(self.timer) { (_) in
-				self.refreshBuses()
-			}
-	}
-	
-	private func refreshBuses() {
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-				withAnimation {
-					self.isRefreshing = false
+				Task {
+					// For “standard” refresh operations, we only refresh the buses.
+					await self.mapState.refreshBuses()
 				}
 			}
-		}
 	}
 	#else // os(macOS)
 	private var mapView: some View {
@@ -242,6 +228,8 @@ struct ContentViewPreviews: PreviewProvider {
 		ContentView()
 			.environmentObject(MapState.shared)
 			.environmentObject(ViewState.shared)
+			.environmentObject(AppStorageManager.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }
