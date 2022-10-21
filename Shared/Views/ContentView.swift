@@ -150,7 +150,7 @@ struct ContentView: View {
 								if self.unviewedAnnouncementsCount > 0 {
 									Circle()
 										.foregroundColor(.red)
-										.frame(width: 20, height: 20)
+										.frame(width: 15, height: 15)
 										.offset(x: 10, y: -10)
 									Text("\(self.unviewedAnnouncementsCount)")
 										.foregroundColor(.white)
@@ -158,7 +158,6 @@ struct ContentView: View {
 										.offset(x: 10, y: -10)
 								}
 							}
-								.badge(self.unviewedAnnouncementsCount)
 								.task {
 									self.announcements = await [Announcement].download()
 								}
