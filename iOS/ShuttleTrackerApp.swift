@@ -69,7 +69,6 @@ import OnboardingKit
 		} conditions: {
 			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
-		
 	}
 	
 	var body: some Scene {
