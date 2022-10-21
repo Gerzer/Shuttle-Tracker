@@ -11,6 +11,8 @@ import SwiftUI
 
 struct ContentView: View {
 	
+	@State private var announcements: [Announcement] = []
+	
 	@EnvironmentObject private var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
@@ -18,6 +20,16 @@ struct ContentView: View {
 	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject private var sheetStack: SheetStack
+	
+	private var unviewedAnnouncementsCount: Int {
+		get {
+			return self.announcements
+				.filter { (announcement) in
+					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
+				}
+				.count
+		}
+	}
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -132,7 +144,26 @@ struct ContentView: View {
 					Button {
 						self.sheetStack.push(.announcements)
 					} label: {
-						Label("View Announcements", systemImage: "exclamationmark.bubble")
+						if #available(macOS 12, *) {
+							ZStack {
+								Label("View Announcements", systemImage: "exclamationmark.bubble")
+								if self.unviewedAnnouncementsCount > 0 {
+									Circle()
+										.foregroundColor(.red)
+										.frame(width: 15, height: 15)
+										.offset(x: 10, y: -10)
+									Text("\(self.unviewedAnnouncementsCount)")
+										.foregroundColor(.white)
+										.font(.caption)
+										.offset(x: 10, y: -10)
+								}
+							}
+								.task {
+									self.announcements = await [Announcement].download()
+								}
+						} else {
+							Label("View Announcements", systemImage: "exclamationmark.bubble")
+						}
 					}
 				}
 				ToolbarItem {

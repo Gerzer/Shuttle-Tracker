@@ -91,12 +91,12 @@ struct SettingsView: View {
 				}
 				#endif // os(macOS)
 			}
-			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
-				withAnimation {
-					self.viewState.toastType = .legend
-					self.viewState.legendToastHeadlineText = nil
+				.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
+					withAnimation {
+						self.viewState.toastType = .legend
+						self.viewState.legendToastHeadlineText = nil
+					}
 				}
-			}
 		}
 	}
 	

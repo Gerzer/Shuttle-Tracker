@@ -9,6 +9,12 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
+	@State private var announcements: [Announcement] = []
+	
+	@EnvironmentObject private var mapState: MapState
+	
+	@EnvironmentObject private var appStorageManager: AppStorageManager
+	
 	private var unviewedAnnouncementsCount: Int {
 		get {
 			return self.announcements
@@ -18,12 +24,6 @@ struct SecondaryOverlay: View {
 				.count
 		}
 	}
-	
-	@State private var announcements: [Announcement] = []
-	
-	@EnvironmentObject private var mapState: MapState
-	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
 	var body: some View {
 		VStack {
