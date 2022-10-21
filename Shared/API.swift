@@ -22,13 +22,13 @@ enum API: TargetType {
 	
 	case readAllBuses
 	
-	case readBus(_ id: Int)
+	case readBus(id: Int)
 	
-	case updateBus(_ id: Int, location: Bus.Location)
+	case updateBus(id: Int, location: Bus.Location)
 	
-	case boardBus(_ id: Int)
+	case boardBus(id: Int)
 	
-	case leaveBus(_ id: Int)
+	case leaveBus(id: Int)
 	
 	case readRoutes
 	
