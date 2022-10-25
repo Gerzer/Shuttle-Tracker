@@ -94,7 +94,7 @@ import OnboardingKit
 	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
 		Task {
 			if #available(iOS 16, *) {
-				try await Task.sleep(for: .seconds(1))
+                try await Task.sleep(nanoseconds: 100_000_000)
 			} else {
 				try await Task.sleep(nanoseconds: 1_000_000_000)
 			}

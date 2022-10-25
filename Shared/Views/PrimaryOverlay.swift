@@ -65,7 +65,7 @@ struct PrimaryOverlay: View {
 								SKStoreReviewController.requestReview(in: windowScene)
 							}
 							if #available(iOS 16, *) {
-								try await Task.sleep(for: .seconds(5))
+                                try await Task.sleep(nanoseconds: 500_000_000 )
 							} else {
 								try await Task.sleep(nanoseconds: 5_000_000_000)
 							}
@@ -138,7 +138,7 @@ struct PrimaryOverlay: View {
 				}
 				Task {
 					if #available(iOS 16, *) {
-						try await Task.sleep(for: .milliseconds(500))
+                        try await Task.sleep(nanoseconds: 500_000_000)
 					} else {
 						try await Task.sleep(nanoseconds: 500_000_000)
 					}
