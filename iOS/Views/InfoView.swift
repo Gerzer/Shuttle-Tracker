@@ -17,11 +17,23 @@ struct InfoView: View {
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
+	private var highQualityMessage: String {
+		get {
+			return self.appStorageManager.colorBlindMode ? "The scope icon indicates high-quality location data" : "Green buses indicate high-quality location data" // Capitalization is appropriate for the beginning of a sentence
+		}
+	}
+	
+	private var lowQualityMessage: String {
+		get {
+			return self.appStorageManager.colorBlindMode ? "the dotted-circle icon indicates low-quality location data" : "red buses indicate low-quality location data" // Capitalization is appropriate for the middle of a sentence
+		}
+	}
+	
 	var body: some View {
 		SheetPresentationWrapper {
 			ScrollView {
 				VStack(alignment: .leading, spacing: 0) {
-					Text("Shuttle Tracker shows you the real-time locations of the RPI campus shuttles, powered by crowd-sourced location data.")
+					Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
 						.padding(.bottom)
 					if let schedule = self.schedule {
 						Section {
@@ -53,7 +65,7 @@ struct InfoView: View {
 						}
 					}
 					Section {
-						Text("The map is automatically refreshed every 5 seconds. Green buses have high-quality location data, and red buses have low-quality location data. When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+						Text("The map is automatically refreshed every 5 seconds. \(self.highQualityMessage), and \(self.lowQualityMessage). When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
 							.padding(.bottom)
 					} header: {
 						Text("Instructions")
@@ -67,7 +79,7 @@ struct InfoView: View {
 							.font(.headline)
 					}
 				}
-				.padding(.horizontal)
+					.padding(.horizontal)
 			}
 				.navigationTitle("Shuttle Tracker 🚐")
 				.toolbar {
@@ -90,6 +102,8 @@ struct InfoViewPreviews: PreviewProvider {
 	static var previews: some View {
 		InfoView()
 			.environmentObject(ViewState.shared)
+			.environmentObject(AppStorageManager.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }
