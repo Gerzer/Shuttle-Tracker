@@ -5,11 +5,11 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
-import Foundation
 import Combine
+import Foundation
 import OnboardingKit
 
-final class ViewState: OnboardingFlags {
+@MainActor final class ViewState: OnboardingFlags {
 	
 	final class Handles {
 		
