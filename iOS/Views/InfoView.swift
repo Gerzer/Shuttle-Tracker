@@ -10,47 +10,31 @@ import SwiftUI
 struct InfoView: View {
 	
 	@State private var schedule: Schedule?
-    
+	
 	@EnvironmentObject private var viewState: ViewState
 	
 	@EnvironmentObject private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 	
-    @AppStorage("ColorBlindMode") private var colorBlindMode = false
-
-    
-    
-    //these 2 change when colorblind mode is enabled/disabled
-    private var High_Quality_Message: String {
-        get {
-            return self.colorBlindMode ? "The scope icon indicates high-quality location data." : "Green buses indicate high-quality location data."
-        }
-    }
-
-
-    private var Low_Quality_message: String {
-        get {
-            return self.colorBlindMode ? "The dotted-circle icon indicates low-quality location data." : "Red buses indicate low-quality location data."
-        }
-    }
-  
-    
-    
-    
-    
-    
-   
+	private var highQualityMessage: String {
+		get {
+			return self.appStorageManager.colorBlindMode ? "The scope icon indicates high-quality location data" : "Green buses indicate high-quality location data" // Capitalization is appropriate for the beginning of a sentence
+		}
+	}
+	
+	private var lowQualityMessage: String {
+		get {
+			return self.appStorageManager.colorBlindMode ? "the dotted-circle icon indicates low-quality location data" : "red buses indicate low-quality location data" // Capitalization is appropriate for the middle of a sentence
+		}
+	}
+	
 	var body: some View {
-        
-     
-        
 		SheetPresentationWrapper {
 			ScrollView {
 				VStack(alignment: .leading, spacing: 0) {
-					Text("Shuttle Tracker shows you the real-time locations of the RPI campus shuttles, powered by crowd-sourced location data.")
+					Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
 						.padding(.bottom)
-                    
 					if let schedule = self.schedule {
 						Section {
 							HStack {
@@ -81,9 +65,7 @@ struct InfoView: View {
 						}
 					}
 					Section {
-         
-             Text("The map is automatically refreshed every 5 seconds. \(High_Quality_Message) and \(Low_Quality_message)  When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
-
+						Text("The map is automatically refreshed every 5 seconds. \(self.highQualityMessage), and \(self.lowQualityMessage). When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
 							.padding(.bottom)
 					} header: {
 						Text("Instructions")
@@ -97,7 +79,7 @@ struct InfoView: View {
 							.font(.headline)
 					}
 				}
-				.padding(.horizontal)
+					.padding(.horizontal)
 			}
 				.navigationTitle("Shuttle Tracker 🚐")
 				.toolbar {
@@ -122,6 +104,8 @@ struct InfoViewPreviews: PreviewProvider {
 	static var previews: some View {
 		InfoView()
 			.environmentObject(ViewState.shared)
+			.environmentObject(AppStorageManager.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }
