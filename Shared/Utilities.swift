@@ -64,7 +64,7 @@ enum LocationUtilities {
 	#if !os(macOS)
 	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
 		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
-			LoggingUtilities.logger.log(level: .fault, "Required bus and location IDs not found")
+			LoggingUtilities.logger(for: .boardBus).log(level: .error, "Required bus and location IDs not found")
 			return
 		}
 		let location = Bus.Location(
@@ -117,7 +117,59 @@ enum CalendarUtilities {
 
 enum LoggingUtilities {
 	
-	static let logger = Logger()
+	enum Category: String {
+		
+		case location = "Location"
+		
+		case permissions = "Permissions"
+		
+		case boardBus = "BoardBus"
+		
+	}
+	
+	struct Log: Encodable {
+		
+		enum ClientPlatform: Encodable {
+			
+			case ios, macos
+			
+		}
+		
+		let content: String
+		
+		#if os(macOS)
+		let clientPlatform: ClientPlatform = .macos
+		#elseif os(iOS) // os(macOS)
+		let clientPlatform: ClientPlatform = .ios
+		#endif // os(iOS)
+		
+		let date = Date()
+		
+	}
+	
+	static let subsystem = "com.gerzer.shuttletracker"
+	
+	private static var loggers: [Category: Logger] = [:]
+	
+	static func logger(for category: Category) -> Logger {
+		if let logger = self.loggers[category] {
+			return logger
+		} else {
+			let logger = Logger(subsystem: self.subsystem, category: category.rawValue)
+			self.loggers[category] = logger
+			return logger
+		}
+	}
+	
+	static func upload() async throws {
+		let content = try OSLogStore(scope: .currentProcessIdentifier)
+			.getEntries()
+			.reduce(into: "") { (partialResult, entry) in
+				partialResult += "\(entry)\n"
+			}
+		let log = Log(content: content)
+		try await API.uploadLog(log: log).perform()
+	}
 	
 }
 
@@ -172,6 +224,38 @@ extension MKMapPoint: Equatable {
 extension Notification.Name {
 	
 	static let refreshBuses = Notification.Name("RefreshBuses")
+	
+}
+
+extension JSONEncoder {
+	
+	convenience init(
+		dateEncodingStrategy: DateEncodingStrategy = .deferredToDate,
+		dataEncodingStrategy: DataEncodingStrategy = .base64,
+		nonConformingFloatEncodingStrategy: NonConformingFloatEncodingStrategy = .throw
+	) {
+		self.init()
+		self.keyEncodingStrategy = keyEncodingStrategy
+		self.dateEncodingStrategy = dateEncodingStrategy
+		self.dataEncodingStrategy = dataEncodingStrategy
+		self.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
+	}
+	
+}
+
+extension JSONDecoder {
+	
+	convenience init(
+		dateDecodingStrategy: DateDecodingStrategy = .deferredToDate,
+		dataDecodingStrategy: DataDecodingStrategy = .base64,
+		nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy = .throw
+	) {
+		self.init()
+		self.keyDecodingStrategy = keyDecodingStrategy
+		self.dateDecodingStrategy = dateDecodingStrategy
+		self.dataDecodingStrategy = dataDecodingStrategy
+		self.nonConformingFloatDecodingStrategy = nonConformingFloatDecodingStrategy
+	}
 	
 }
 

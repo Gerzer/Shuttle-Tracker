@@ -153,7 +153,7 @@ struct PrimaryOverlay: View {
 					switch await self.boardBusManager.travelState {
 					case .onBus:
 						guard let coordinate = LocationUtilities.locationManager.location?.coordinate else {
-							LoggingUtilities.logger.log(level: .info, "User location unavailable")
+							LoggingUtilities.logger(for: .boardBus).log(level: .default, "User location unavailable")
 							break
 						}
 						await LocationUtilities.sendToServer(coordinate: coordinate)

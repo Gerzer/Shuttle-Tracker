@@ -36,6 +36,8 @@ enum API: TargetType {
 	
 	case schedule
 	
+	case uploadLog(log: LoggingUtilities.Log)
+	
 	static let provider = MoyaProvider<API>()
 	
 	static let lastVersion = 3
@@ -69,15 +71,19 @@ enum API: TargetType {
 				return "/stops"
 			case .schedule:
 				return "/schedule"
+			case .uploadLog:
+				return "/logs"
 			}
 		}
 	}
 	
-	public var method: HTTPMethod {
+	var method: HTTPMethod {
 		get {
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .schedule:
 				return .get
+			case .uploadLog:
+				return .post
 			case .updateBus:
 				return .patch
 			case .boardBus, .leaveBus:
@@ -88,6 +94,7 @@ enum API: TargetType {
 	
 	var task: HTTPTask {
 		get {
+			let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
 				return .requestPlain
@@ -97,9 +104,9 @@ enum API: TargetType {
 				]
 				return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
 			case .updateBus(_, let location):
-				let encoder = JSONEncoder()
-				encoder.dateEncodingStrategy = .iso8601
 				return .requestCustomJSONEncodable(location, encoder: encoder)
+			case .uploadLog(let log):
+				return .requestCustomJSONEncodable(log, encoder: encoder)
 			}
 		}
 	}
@@ -110,10 +117,19 @@ enum API: TargetType {
 		}
 	}
 	
-	var sampleData: Data {
-		get {
-			return "{}".data(using: .utf8)!
-		}
+	@discardableResult
+	func perform() async throws -> Data {
+		let request = try API.provider.endpoint(self).urlRequest()
+		let (data, _) = try await URLSession.shared.data(for: request)
+		return data
+	}
+	
+	func perform<ResponseType>(
+		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
+		as _: ResponseType
+	) async throws -> ResponseType where ResponseType: Decodable {
+		let data = try await self.perform()
+		return try decoder.decode(ResponseType.self, from: data)
 	}
 	
 }

@@ -93,7 +93,7 @@ struct BusSelectionSheet: View {
 								case .reducedAccuracy:
 									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 									guard case .fullAccuracy = LocationUtilities.locationManager.accuracyAuthorization else {
-										LoggingUtilities.logger.log(level: .info, "User declined full accuracy authorization")
+										LoggingUtilities.logger(for: .permissions).log(level: .default, "User declined full accuracy authorization")
 										return
 									}
 									await self.boardBus()
@@ -145,7 +145,7 @@ struct BusSelectionSheet: View {
 	private func boardBus() async {
 		precondition(LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy)
 		guard let busID = self.selectedBusID?.rawValue else {
-			LoggingUtilities.logger.log(level: .error, "No selected bus ID")
+			LoggingUtilities.logger(for: .boardBus).log(level: .error, "No selected bus ID")
 			return
 		}
 		await self.boardbusManager.boardBus(id: busID)
@@ -168,7 +168,7 @@ struct BusSelectionSheet: View {
 			do {
 				try await UserNotificationUtilities.requestAuthorization()
 			} catch let error {
-				LoggingUtilities.logger.log(level: .error, "\(error)")
+				LoggingUtilities.logger(for: .permissions).log(level: .error, "\(error)")
 			}
 			try await UNUserNotificationCenter
 				.current()
