@@ -98,11 +98,11 @@ struct ContentView: View {
 							message: Text("An update to the app is available. Please update to the latest version to continue using Shuttle Tracker."),
 							dismissButton: .default(Text("Update")) {
 								let url = URL(string: "itms-apps://apps.apple.com/us/app/shuttle-tracker/id1583503452")!
-								#if os(macOS)
+								#if canImport(AppKit)
 								NSWorkspace.shared.open(url)
-								#else // os(macOS)
+								#elseif canImport(UIKit) // canImport(AppKit)
 								UIApplication.shared.open(url)
-								#endif
+								#endif // canImport(UIKit)
 							}
 						)
 					case .serverUnavailable:

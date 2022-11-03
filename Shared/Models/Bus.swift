@@ -81,11 +81,11 @@ class Bus: NSObject, Codable, CustomAnnotation {
 				colorBlindSymbolName = "scope"
 			}
 			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
-			#if os(macOS)
+			#if canImport(AppKit)
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
-			#else // os(macOS)
+			#elseif canImport(UIKit) // canImport(AppKit)
 			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
-			#endif
+			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
 	}
@@ -109,16 +109,16 @@ extension Array where Element == Bus {
 				Task {
 					let decoder = JSONDecoder()
 					decoder.dateDecodingStrategy = .iso8601
-					#if !os(macOS)
+					#if os(iOS)
 					let busID = await BoardBusManager.shared.busID
 					let travelState = await BoardBusManager.shared.travelState
-					#endif // !os(macOS)
+					#endif // os(iOS)
 					let buses = try? result.get()
 						.map([Bus].self, using: decoder)
 						.filter { (bus) -> Bool in
 							return bus.location.date.timeIntervalSinceNow > -300
 						}
-						#if !os(macOS)
+						#if os(iOS)
 						.filter { (bus) in
 							switch travelState {
 							case .onBus:
@@ -127,7 +127,7 @@ extension Array where Element == Bus {
 								return true
 							}
 						}
-						#endif // !os(macOS)
+						#endif // os(iOS)
 					continuation.resume(returning: buses ?? [])
 				}
 			}

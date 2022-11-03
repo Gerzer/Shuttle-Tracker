@@ -35,13 +35,13 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		let annotationView = MKAnnotationView()
 		annotationView.displayPriority = .defaultHigh
 		annotationView.canShowCallout = true
-		#if os(macOS)
+		#if canImport(AppKit)
 		annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?
 			.withTintColor(.white)
 		annotationView.layer?.borderColor = .black
 		annotationView.layer?.borderWidth = 2
 		annotationView.layer?.cornerRadius = annotationView.frame.width / 2
-		#else // os(macOS)
+		#elseif canImport(UIKit) // canImport(AppKit)
 		let image = UIImage(systemName: "circle.fill")!
 		let imageView = UIImageView(image: image)
 		imageView.tintColor = .white
@@ -50,7 +50,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		imageView.layer.cornerRadius = imageView.frame.width / 2
 		imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
 		annotationView.addSubview(imageView)
-		#endif
+		#endif // canImport(UIKit)
 		return annotationView
 	}()
 	

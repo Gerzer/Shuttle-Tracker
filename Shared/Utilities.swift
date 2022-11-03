@@ -30,15 +30,15 @@ enum ViewUtilities {
 		
 	}
 	
-	#if os(macOS)
+	#if canImport(AppKit)
 	static var standardVisualEffectView: some View {
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
 	}
-	#else // os(macOS)
+	#elseif canImport(UIKit) // canImport(AppKit)
 	static var standardVisualEffectView: some View {
 		VisualEffectView(UIBlurEffect(style: .systemMaterial))
 	}
-	#endif
+	#endif // canImport(UIKit)
 	
 }
 
@@ -95,11 +95,11 @@ enum MapUtilities {
 			)
 		)
 		
-		#if os(macOS)
+		#if canImport(AppKit)
 		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
-		#else // os(macOS)
+		#elseif canImport(UIKit) // canImport(AppKit)
 		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
-		#endif
+		#endif // canImport(UIKit)
 		
 	}
 	

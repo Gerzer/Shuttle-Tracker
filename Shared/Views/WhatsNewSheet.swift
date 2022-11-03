@@ -68,7 +68,7 @@ struct WhatsNewSheet: View {
 				}
 					.padding(.bottom)
 			}
-			#if !os(macOS)
+			#if os(iOS)
 			Button {
 				self.sheetStack.pop()
 				self.viewState.handles.whatsNew?.increment()
@@ -77,7 +77,7 @@ struct WhatsNewSheet: View {
 					.bold()
 			}
 				.buttonStyle(.block)
-			#endif // !os(macOS)
+			#endif // os(iOS)
 		}
 			.padding()
 			.toolbar {

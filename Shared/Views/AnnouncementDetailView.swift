@@ -50,11 +50,11 @@ struct AnnouncementDetailView: View {
 			.frame(minWidth: 300)
 			.navigationTitle(self.announcement.subject)
 			.toolbar {
-				#if !os(macOS)
+				#if os(iOS)
 				ToolbarItem {
 					CloseButton()
 				}
-				#endif // !os(macOS)
+				#endif // os(iOS)
 			}
 			.onAppear {
 				self.didResetViewedAnnouncements = false
