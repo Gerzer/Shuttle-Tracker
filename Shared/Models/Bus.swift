@@ -116,7 +116,7 @@ extension Array where Element == Bus {
 					let buses = try? result.get()
 						.map([Bus].self, using: decoder)
 						.filter { (bus) -> Bool in
-							return bus.location.date.timeIntervalSinceNow > -300
+							return abs(bus.location.date.timeIntervalSinceNow) < 300
 						}
 						#if os(iOS)
 						.filter { (bus) in
