@@ -149,7 +149,7 @@ struct PermissionsSheet: View {
 										do {
 											try await UserNotificationUtilities.requestAuthorization()
 										} catch let error {
-											print("[PermissionSheet body] Notification authorization request error: \(error.localizedDescription)")
+											LoggingUtilities.logger(for: .permissions).log(level: .error, "Notification authorization request error: \(error)")
 										}
 									}
 								@unknown default:
@@ -166,7 +166,7 @@ struct PermissionsSheet: View {
 								do {
 									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 								} catch let error {
-									print("[PermissionsSheet body] Full-accuracy location authorization request error: \(error.localizedDescription)")
+									LoggingUtilities.logger(for: .permissions).log(level: .error, "Full-accuracy location authorization request error: \(error)")
 								}
 							}
 						@unknown default:
