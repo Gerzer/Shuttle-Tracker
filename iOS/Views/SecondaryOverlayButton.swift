@@ -1,6 +1,6 @@
 //
 //  SecondaryOverlayButton.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 10/23/21.
 //
@@ -9,17 +9,19 @@ import SwiftUI
 
 struct SecondaryOverlayButton: View {
 	
-	private let iconSystemName: String
+	let iconSystemName: String
 	
-	private let sheetType: SheetStack.SheetType?
+	let sheetType: SheetStack.SheetType?
 	
-	private let action: (() -> Void)?
+	let action: (() -> Void)?
 	
 	let badgeNumber: Int
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		Button {

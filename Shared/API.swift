@@ -5,7 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/2/20.
 //
 
-import SwiftUI
+import Foundation
 import Moya
 
 typealias HTTPMethod = Moya.Method

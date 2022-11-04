@@ -9,15 +9,20 @@ import SwiftUI
 
 struct PermissionsSheet: View {
 	
-	@State private var notificationAuthorizationStatus: UNAuthorizationStatus?
+	@State
+	private var notificationAuthorizationStatus: UNAuthorizationStatus?
 	
-	@State private var locationScale: CGFloat = 0
+	@State
+	private var locationScale: CGFloat = 0
 	
-	@State private var notificationScale: CGFloat = 0
+	@State
+	private var notificationScale: CGFloat = 0
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
-	@Environment(\.openURL) private var openURL
+	@Environment(\.openURL)
+	private var openURL
 	
 	var body: some View {
 		SheetPresentationWrapper {

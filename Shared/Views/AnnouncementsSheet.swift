@@ -9,15 +9,20 @@ import SwiftUI
 
 struct AnnouncementsSheet: View {
 	
-	@State private var announcements: [Announcement]?
+	@State
+	private var announcements: [Announcement]?
 	
-	@State private var didResetViewedAnnouncements = false
+	@State
+	private var didResetViewedAnnouncements = false
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		NavigationView {

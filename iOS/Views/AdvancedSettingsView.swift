@@ -9,11 +9,14 @@ import SwiftUI
 
 struct AdvancedSettingsView: View {
 	
-	@State private var didResetViewedAnnouncements = false
+	@State
+	private var didResetViewedAnnouncements = false
 	
-	@State private var didResetAdvancedSettings = false
+	@State
+	private var didResetAdvancedSettings = false
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	var body: some View {
 		Form {

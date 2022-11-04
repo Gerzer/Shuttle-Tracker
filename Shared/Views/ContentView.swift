@@ -5,21 +5,25 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
-import Foundation
 import MapKit
 import SwiftUI
 
 struct ContentView: View {
 	
-	@State private var announcements: [Announcement] = []
+	@State
+	private var announcements: [Announcement] = []
 	
-	@EnvironmentObject private var mapState: MapState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	private var unviewedAnnouncementsCount: Int {
 		get {
@@ -131,7 +135,8 @@ struct ContentView: View {
 	}
 	
 	#if os(macOS)
-	@State private var isRefreshing = false
+	@State
+	private var isRefreshing = false
 	
 	private let timer = Timer
 		.publish(every: 5, on: .main, in: .common)

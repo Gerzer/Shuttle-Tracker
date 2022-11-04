@@ -9,9 +9,11 @@ import SwiftUI
 
 struct AnnouncementDetailView: View {
 	
-	@Binding private(set) var didResetViewedAnnouncements: Bool
+	@Binding
+	private(set) var didResetViewedAnnouncements: Bool
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	let announcement: Announcement
 	

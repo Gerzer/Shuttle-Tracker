@@ -11,9 +11,10 @@ struct BusOption: View {
 	
 	private let busID: BusID
 	
-	private let feedbackGenerator = UISelectionFeedbackGenerator()
+	@Binding
+	private var selectedBusID: BusID?
 	
-	@Binding private var selectedBusID: BusID?
+	private let feedbackGenerator = UISelectionFeedbackGenerator()
 	
 	var body: some View {
 		Button {

@@ -5,8 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 9/12/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	

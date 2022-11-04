@@ -9,7 +9,8 @@ import SwiftUI
 
 struct BoardBusToast: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
 	var body: some View {
 		Toast("You can help!") {

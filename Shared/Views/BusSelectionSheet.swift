@@ -6,23 +6,29 @@
 //
 
 import SwiftUI
-import CoreLocation
 
 struct BusSelectionSheet: View {
 	
-	@State private var busIDs: [BusID]?
+	@State
+	private var busIDs: [BusID]?
 	
-	@State private var suggestedBusID: BusID?
+	@State
+	private var suggestedBusID: BusID?
 	
-	@State private var selectedBusID: BusID?
+	@State
+	private var selectedBusID: BusID?
 	
-	@EnvironmentObject private var mapState: MapState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var boardbusManager: BoardBusManager
+	@EnvironmentObject
+	private var boardbusManager: BoardBusManager
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		NavigationView {

@@ -23,13 +23,17 @@ final class AppStorageManager: ObservableObject {
 	
 	static let shared = AppStorageManager()
 	
-	@AppStorage("ColorBlindMode") var colorBlindMode = Defaults.colorBlindMode
+	@AppStorage("ColorBlindMode")
+	var colorBlindMode = Defaults.colorBlindMode
 	
-	@AppStorage("MaximumStopDistance") var maximumStopDistance = Defaults.maximumStopDistance
+	@AppStorage("MaximumStopDistance")
+	var maximumStopDistance = Defaults.maximumStopDistance
 	
-	@AppStorage("BaseURL") var baseURL = Defaults.baseURL
+	@AppStorage("BaseURL")
+	var baseURL = Defaults.baseURL
 	
-	@AppStorage("ViewedAnnouncementIDs") var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
+	@AppStorage("ViewedAnnouncementIDs")
+	var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
 	
 	private init() { }
 	

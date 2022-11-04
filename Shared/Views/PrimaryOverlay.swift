@@ -5,26 +5,10 @@
 //  Created by Gabriel Jacoby-Cooper on 10/22/21.
 //
 
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 struct PrimaryOverlay: View {
-	
-	@State private var isRefreshing = false
-	
-	@EnvironmentObject private var mapState: MapState
-	
-	@EnvironmentObject private var viewState: ViewState
-	
-	@EnvironmentObject private var boardBusManager: BoardBusManager
-	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
-	
-	@EnvironmentObject private var sheetStack: SheetStack
-	
-	private let timer = Timer
-		.publish(every: 5, on: .main, in: .common)
-		.autoconnect()
 	
 	private var buttonText: String {
 		get {
@@ -36,6 +20,28 @@ struct PrimaryOverlay: View {
 			}
 		}
 	}
+	
+	@State
+	private var isRefreshing = false
+	
+	@EnvironmentObject
+	private var mapState: MapState
+	
+	@EnvironmentObject
+	private var viewState: ViewState
+	
+	@EnvironmentObject
+	private var boardBusManager: BoardBusManager
+	
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	private let timer = Timer
+		.publish(every: 5, on: .main, in: .common)
+		.autoconnect()
 	
 	var body: some View {
 		HStack {

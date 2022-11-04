@@ -5,10 +5,9 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
-import UserNotifications
 import OSLog
+import SwiftUI
 
 enum ViewUtilities {
 	
@@ -30,15 +29,13 @@ enum ViewUtilities {
 		
 	}
 	
-	#if canImport(AppKit)
 	static var standardVisualEffectView: some View {
+		#if canImport(AppKit)
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
-	#elseif canImport(UIKit) // canImport(AppKit)
-	static var standardVisualEffectView: some View {
+		#elseif canImport(UIKit) // canImport(AppKit)
 		VisualEffectView(UIBlurEffect(style: .systemMaterial))
+		#endif // canImport(UIKit)
 	}
-	#endif // canImport(UIKit)
 	
 }
 

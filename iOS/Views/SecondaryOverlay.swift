@@ -1,6 +1,6 @@
 //
 //  SecondaryOverlay.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
@@ -9,11 +9,14 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
-	@State private var announcements: [Announcement] = []
+	@State
+	private var announcements: [Announcement] = []
 	
-	@EnvironmentObject private var mapState: MapState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	private var unviewedAnnouncementsCount: Int {
 		get {
