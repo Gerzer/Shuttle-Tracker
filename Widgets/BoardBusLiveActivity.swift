@@ -134,3 +134,42 @@ struct BoardBusLiveActivity: Widget {
 //	}
 //
 //}
+
+@available(iOSApplicationExtension 16.1, *)
+struct LockScreenView: View {
+    var context: ActivityViewContext<BoardBusAttributes>
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                VStack(alignment: .center) {
+//                    Text(context.state.courierName + " is on the way!").font(.headline)
+//                    Text("You ordered \(context.attributes.numberOfGroceyItems) grocery items.")
+//                        .font(.subheadline)
+//                    BottomLineView(time: context.state.deliveryTime)
+                }
+            }
+        }.padding(15)
+    }
+}
+
+struct BottomLineView: View {
+    var time: Date
+    var body: some View {
+        HStack {
+            /*
+             Divider().frame(width: 50,
+                             height: 10)
+             .overlay(.gray).cornerRadius(5)
+             */
+            Image("delivery")
+            VStack {
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(style: StrokeStyle(lineWidth: 1,
+                                               dash: [4]))
+                    .frame(height: 20)
+                    .overlay(Text(time, style: .timer).font(.system(size: 8)).multilineTextAlignment(.center))
+            }
+            Image("home-address")
+        }
+    }
+}

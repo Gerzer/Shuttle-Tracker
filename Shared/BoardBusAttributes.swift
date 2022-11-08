@@ -8,6 +8,10 @@
 import ActivityKit
 import CoreLocation
 
+
+// Every stop [routesID]
+// Routes = [coord,coord,coord]
+// Distance travel pro - num of meter from 1 []
 @available(iOS 16.1, *)
 struct BoardBusAttributes: ActivityAttributes {
 	
