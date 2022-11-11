@@ -27,6 +27,17 @@ struct NetworkEntrySheet: View {
                 ScrollView{
                     VStack(alignment: .leading, spacing: 25 ){
                         Group{
+                            
+                            HStack {
+                                Spacer()
+                                Text("Enroll in the Shuttle Tracker Network!")
+                                    .font(.largeTitle)
+                                    .bold()
+                                    .multilineTextAlignment(.center)
+                                Spacer()
+                            }
+                            
+                            
                             HStack {
                                 Image(systemName: "bus")
                                     .resizable()
@@ -76,7 +87,6 @@ struct NetworkEntrySheet: View {
                             }
                     }
                 }
-                .navigationTitle("Shuttle Tracker Network")
                 .toolbar {
                     ToolbarItem {
                         CloseButton()
