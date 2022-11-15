@@ -29,21 +29,21 @@ struct NetworkEntrySheet: View {
                         Group{
                             
                             HStack {
-                                Spacer()
                                 Text("Enroll in the Shuttle Tracker Network!")
                                     .font(.largeTitle)
                                     .bold()
                                     .multilineTextAlignment(.center)
-                                Spacer()
                             }
                             
                             
-                            HStack {
+                            HStack(){
                                 Image(systemName: "bus")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
                                     .foregroundColor(.accentColor)
+
+                                    
                                 
                                 Text("Get live location data of busses 24/7!")
                             }
@@ -55,7 +55,7 @@ struct NetworkEntrySheet: View {
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
                                     .foregroundColor(.accentColor)
-                                    
+
                                 Text("Automaticlly board busses in close proximity!")
                             }
                             
