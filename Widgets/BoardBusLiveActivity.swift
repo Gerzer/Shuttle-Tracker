@@ -64,12 +64,28 @@ struct BoardBusLiveActivity: Widget {
 					Text("🚐")
 				}
 			} compactLeading: {
-				Text("🚐")
-			} compactTrailing: {
-				Text("🚐")
-			} minimal: {
-				Text("🚐")
-			}
+                Label {
+                    //Text(context.attributes.discount)
+                } icon: {
+                    Image(systemName: "dollarsign.circle.fill")
+                }
+                .font(.caption2)
+                .foregroundColor(.red)
+            } compactTrailing: {
+                Text("Due")
+                    .multilineTextAlignment(.center)
+                    .frame(width: 40)
+                    .font(.caption2)
+            } minimal: {
+                VStack(alignment: .center) {
+                    Image(systemName: "dollarsign.circle.fill")
+                    //Text(context.attributes.discount)
+                        .multilineTextAlignment(.center)
+                        .monospacedDigit()
+                        .font(.caption2)
+                }
+            }
+            .keylineTint(.accentColor)
 		}
 	}
 	
