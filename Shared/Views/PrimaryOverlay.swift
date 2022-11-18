@@ -45,6 +45,9 @@ struct PrimaryOverlay: View {
 					Task {
 						switch await self.boardBusManager.travelState {
 						case .onBus:
+							Logging.withLogger(for: .boardBus) { (logger) in
+								logger.log("Leave Bus button tapped")
+							}
 							await self.boardBusManager.leaveBus()
 							self.viewState.statusText = .thanks
 							LocationUtilities.locationManager.stopUpdatingLocation()
@@ -71,6 +74,10 @@ struct PrimaryOverlay: View {
 							}
 							self.viewState.statusText = .mapRefresh
 						case .notOnBus:
+							Logging.withLogger(for: .boardBus) { (logger) in
+								logger.log("Board Bus button tapped")
+							}
+							
 							// TODO: Rename local `location` identifier to something more descriptive
 							guard let location = LocationUtilities.locationManager.location else {
 								break
@@ -150,10 +157,13 @@ struct PrimaryOverlay: View {
 			}
 			.onReceive(self.timer) { (_) in
 				Task {
+					// TODO: Remove because this logic is duplicated in `LocationManagerDelegate`
 					switch await self.boardBusManager.travelState {
 					case .onBus:
 						guard let coordinate = LocationUtilities.locationManager.location?.coordinate else {
-							LoggingUtilities.logger(for: .boardBus).log(level: .default, "User location unavailable")
+							Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+								logger.log(level: .error, "Can’t send Board Bus location submission because the user’s location is unavailable")
+							}
 							break
 						}
 						await LocationUtilities.sendToServer(coordinate: coordinate)

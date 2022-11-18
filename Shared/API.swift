@@ -36,12 +36,13 @@ enum API: TargetType {
 	
 	case schedule
 	
-	case uploadLog(log: LoggingUtilities.Log)
+	case uploadLog(log: Logging.Log)
 	
 	static let provider = MoyaProvider<API>()
 	
 	static let lastVersion = 3
 	
+	@MainActor
 	var baseURL: URL {
 		get {
 			return AppStorageManager.shared.baseURL
@@ -119,6 +120,7 @@ enum API: TargetType {
 	
 	@discardableResult
 	func perform() async throws -> Data {
+		// TODO: Throw error when response status code isn’t “200 OK”
 		let request = try API.provider.endpoint(self).urlRequest()
 		let (data, _) = try await URLSession.shared.data(for: request)
 		return data

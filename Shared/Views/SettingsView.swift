@@ -53,6 +53,9 @@ struct SettingsView: View {
 					}
 				}
 				Section {
+					NavigationLink("Logging & Analytics") {
+						LoggingAnalyticsSettingsView()
+					}
 					NavigationLink("About") {
 						AboutView()
 					}
