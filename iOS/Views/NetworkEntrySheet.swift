@@ -65,13 +65,15 @@ struct NetworkEntrySheet: View {
                                     .scaledToFit()
                                     .frame(width: 50, height: 50)
                                     .foregroundColor(.accentColor)
-                                Text("A more refined user experience!")
+                                Text("More accurate route ETA's!")
                             }
                             
                             
                             HStack{
                                 
-                                Text("The shuttle tracker network ")
+                                Text("Introducing the shuttle tracker network! A new way to improve your shuttle tracker experience. opting in to the network allows you acess to features like live location data 247, automatic board bus, and accurate route ETA's. enroll in the shuttle tracker network today to get the best of your shuttle tracker experience! ")
+                                    .multilineTextAlignment(.center)
+
                             }
                             
                             
