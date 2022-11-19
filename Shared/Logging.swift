@@ -29,7 +29,7 @@ public enum Logging {
 			
 		}
 		
-		public let id: UUID
+		public fileprivate(set) var id: UUID
 		
 		let content: String
 		
@@ -95,13 +95,11 @@ public enum Logging {
 			.reduce(into: "") { (partialResult, entry) in
 				partialResult += "\(entry.composedMessage)\n"
 			}
-		let log = Log(content: content)
-		
-		// TODO: Set log ID based on API response
-		try await API.uploadLog(log: log).perform()
-		
+		var log = Log(content: content)
+		log.id = try await API.uploadLog(log: log).perform(as: UUID.self)
+		let immutableLog = log
 		await MainActor.run {
-			AppStorageManager.shared.uploadedLogs.append(log)
+			AppStorageManager.shared.uploadedLogs.append(immutableLog)
 		}
 	}
 	
