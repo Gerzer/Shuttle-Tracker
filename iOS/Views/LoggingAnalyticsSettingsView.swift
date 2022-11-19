@@ -39,7 +39,7 @@ struct LoggingAnalyticsSettingsView: View {
 							HStack {
 								Text("ID: \(log.id.uuidString)")
 									.onTapGesture {
-										// Copy to system clipboard
+										// TODO: Copy to system clipboard
 									}
 								Spacer()
 							}
