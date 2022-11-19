@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Announcement: Decodable, Identifiable {
+final class Announcement: Sendable, Decodable, Identifiable {
 	
 	enum ScheduleType: String, Decodable {
 		

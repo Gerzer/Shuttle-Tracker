@@ -5,7 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 10/21/21.
 //
 
-import SwiftUI
+import CoreLocation
+@preconcurrency import SwiftUI
 
 struct BusSelectionSheet: View {
 	

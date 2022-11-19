@@ -14,13 +14,14 @@ struct BusOption: View {
 	@Binding
 	private var selectedBusID: BusID?
 	
-	private let feedbackGenerator = UISelectionFeedbackGenerator()
+	@State
+	private var feedbackGenerator: UISelectionFeedbackGenerator?
 	
 	var body: some View {
 		Button {
 			if self.selectedBusID != self.busID {
 				withAnimation {
-					self.feedbackGenerator.selectionChanged()
+					self.feedbackGenerator?.selectionChanged()
 					self.selectedBusID = self.busID
 				}
 			}
@@ -42,8 +43,11 @@ struct BusOption: View {
 						)
 				)
 		}
+			.task {
+				self.feedbackGenerator = UISelectionFeedbackGenerator()
+			}
 			.onAppear {
-				self.feedbackGenerator.prepare()
+				self.feedbackGenerator?.prepare()
 			}
 	}
 	

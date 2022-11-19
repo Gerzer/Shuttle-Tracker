@@ -6,9 +6,9 @@
 //
 
 import MapKit
-import SwiftUI
+@preconcurrency import SwiftUI
 
-class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
+final class Route: NSObject, Sendable, Decodable, Identifiable, Collection, MKOverlay {
 	
 	enum CodingKeys: String, CodingKey {
 		
@@ -18,7 +18,7 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	let startIndex = 0
 	
-	private(set) lazy var endIndex = self.mapPoints.count - 1
+	let endIndex: Int
 	
 	let mapPoints: [MKMapPoint]
 	
@@ -86,6 +86,7 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 			.map { (coordinate) in
 				return MKMapPoint(coordinate)
 			}
+		self.endIndex = self.mapPoints.count - 1
 		self.color = try container.decode(ColorName.self, forKey: .colorName).color
 	}
 	

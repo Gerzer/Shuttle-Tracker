@@ -15,6 +15,7 @@ struct VisualEffectView: UIViewRepresentable {
 		self.effect = effect
 	}
 	
+	@MainActor
 	init(_ style: UIBlurEffect.Style) {
 		self.init(UIBlurEffect(style: style))
 	}

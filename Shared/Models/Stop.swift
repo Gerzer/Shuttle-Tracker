@@ -7,7 +7,7 @@
 
 import MapKit
 
-class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
+final class Stop: NSObject, Sendable, Decodable, Identifiable, CustomAnnotation {
 	
 	enum CodingKeys: String, CodingKey {
 		
@@ -31,6 +31,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		}
 	}
 	
+	@MainActor
 	let annotationView: MKAnnotationView = {
 		let annotationView = MKAnnotationView()
 		annotationView.displayPriority = .defaultHigh

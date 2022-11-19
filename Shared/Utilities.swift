@@ -23,12 +23,13 @@ enum ViewUtilities {
 		static let sheetCloseButtonDimension: CGFloat = 30
 		
 		static let toastCloseButtonDimension: CGFloat = 25
-
+		
 		static let toastCornerRadius: CGFloat = 30
 		#endif
 		
 	}
 	
+	@MainActor
 	static var standardVisualEffectView: some View {
 		#if canImport(AppKit)
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)

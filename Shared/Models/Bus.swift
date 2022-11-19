@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-class Bus: NSObject, Codable, CustomAnnotation {
+final class Bus: NSObject, Sendable, Codable, CustomAnnotation {
 	
 	struct Location: Codable {
 		
@@ -42,7 +42,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 	
 	let id: Int
 	
-	private(set) var location: Location
+	let location: Location
 	
 	var coordinate: CLLocationCoordinate2D {
 		get {
@@ -65,6 +65,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		}
 	}
 	
+	@MainActor
 	var annotationView: MKAnnotationView {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
@@ -106,15 +107,17 @@ extension Array where Element == Bus {
 	static func download() async -> [Bus] {
 		return await withCheckedContinuation { (continuation) in
 			API.provider.request(.readBuses) { (result) in
+				let decoder = JSONDecoder()
+				decoder.dateDecodingStrategy = .iso8601
+				let buses = try? result
+					.get()
+					.map([Bus].self, using: decoder)
 				Task {
-					let decoder = JSONDecoder()
-					decoder.dateDecodingStrategy = .iso8601
 					#if os(iOS)
 					let busID = await BoardBusManager.shared.busID
 					let travelState = await BoardBusManager.shared.travelState
-					#endif // os(iOS)
-					let buses = try? result.get()
-						.map([Bus].self, using: decoder)
+					#endif // osiOS
+					let buses = (buses ?? [])
 						.filter { (bus) -> Bool in
 							return abs(bus.location.date.timeIntervalSinceNow) < 300
 						}
@@ -128,7 +131,7 @@ extension Array where Element == Bus {
 							}
 						}
 						#endif // os(iOS)
-					continuation.resume(returning: buses ?? [])
+					continuation.resume(returning: buses)
 				}
 			}
 		}
