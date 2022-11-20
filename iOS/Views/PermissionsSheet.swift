@@ -142,16 +142,16 @@ struct PermissionsSheet: View {
 								case .authorized, .ephemeral, .provisional:
 									break
 								case .denied:
-									let url = try! UIApplication.openSettingsURLString.asURL()
-									self.openURL(url)
+									self.openURL(URL(string: UIApplication.openSettingsURLString)!)
 								case .notDetermined:
 									Task {
 										do {
 											try await UserNotificationUtilities.requestAuthorization()
 										} catch let error {
 											Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-												logger.log(level: .error, "Notification authorization request failed: \(error)")
+												logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Notification authorization request failed: \(error)")
 											}
+											throw error
 										}
 									}
 								@unknown default:
@@ -159,8 +159,7 @@ struct PermissionsSheet: View {
 								}
 							}
 						case (.restricted, _), (.denied, _):
-							let url = try! UIApplication.openSettingsURLString.asURL()
-							self.openURL(url)
+							self.openURL(URL(string: UIApplication.openSettingsURLString)!)
 						case (.notDetermined, _):
 							LocationUtilities.locationManager.requestWhenInUseAuthorization()
 						case (_, .reducedAccuracy):
@@ -169,8 +168,9 @@ struct PermissionsSheet: View {
 									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 								} catch let error {
 									Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-										logger.log(level: .error, "Full-accuracy location authorization request failed: \(error)")
+										logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Full-accuracy location authorization request failed: \(error)")
 									}
+									throw error
 								}
 							}
 						@unknown default:

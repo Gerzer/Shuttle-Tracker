@@ -64,8 +64,8 @@ enum LocationUtilities {
 	#if !os(macOS)
 	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
 		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
-			Logging.withLogger(for: .boardBus) { (logger) in
-				logger.log(level: .error, "Required bus and location IDs not found while attempting to send location to server")
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Required bus and location IDs not found while attempting to send location to server")
 			}
 			return
 		}
@@ -199,6 +199,22 @@ extension JSONDecoder {
 		self.dateDecodingStrategy = dateDecodingStrategy
 		self.dataDecodingStrategy = dataDecodingStrategy
 		self.nonConformingFloatDecodingStrategy = nonConformingFloatDecodingStrategy
+	}
+	
+}
+
+extension Bundle {
+	
+	var version: String? {
+		get {
+			return self.infoDictionary?["CFBundleShortVersionString"] as? String
+		}
+	}
+	
+	var build: String? {
+		get {
+			return self.infoDictionary?["CFBundleVersion"] as? String
+		}
 	}
 	
 }

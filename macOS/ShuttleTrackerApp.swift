@@ -97,6 +97,21 @@ import OnboardingKit
 	}
 	
 	init() {
+		Logging.withLogger { (logger) in
+			let formattedVersion: String
+			if let version = Bundle.main.version {
+				formattedVersion = " \(version)"
+			} else {
+				formattedVersion = ""
+			}
+			let formattedBuild: String
+			if let build = Bundle.main.build {
+				formattedBuild = " (\(build))"
+			} else {
+				formattedBuild = ""
+			}
+			logger.log("[\(#fileID):\(#line) \(#function)] Shuttle Tracker for macOS\(formattedVersion)\(formattedBuild)")
+		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
@@ -104,10 +119,17 @@ import OnboardingKit
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
 		Task {
-			if #available(macOS 13, *) {
-				try await Task.sleep(for: .seconds(1))
-			} else {
-				try await Task.sleep(nanoseconds: 1_0100_000_00000_000_000)
+			do {
+				if #available(macOS 13, *) {
+					try await Task.sleep(for: .seconds(1))
+				} else {
+					try await Task.sleep(nanoseconds: 1_000_000_000)
+				}
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+				}
+				throw error
 			}
 			sheetStack.push(sheetType)
 		}

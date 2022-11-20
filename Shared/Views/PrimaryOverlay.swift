@@ -46,7 +46,7 @@ struct PrimaryOverlay: View {
 						switch await self.boardBusManager.travelState {
 						case .onBus:
 							Logging.withLogger(for: .boardBus) { (logger) in
-								logger.log("Leave Bus button tapped")
+								logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Leave Bus button tapped")
 							}
 							await self.boardBusManager.leaveBus()
 							self.viewState.statusText = .thanks
@@ -67,15 +67,22 @@ struct PrimaryOverlay: View {
 							if let windowScene = windowScenes.first {
 								SKStoreReviewController.requestReview(in: windowScene)
 							}
-							if #available(iOS 16, *) {
-								try await Task.sleep(for: .seconds(5))
-							} else {
-								try await Task.sleep(nanoseconds: 5_000_000_000)
+							do {
+								if #available(iOS 16, *) {
+									try await Task.sleep(for: .seconds(5))
+								} else {
+									try await Task.sleep(nanoseconds: 5_000_000_000)
+								}
+							} catch let error {
+								Logging.withLogger(doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+								}
+								throw error
 							}
 							self.viewState.statusText = .mapRefresh
 						case .notOnBus:
 							Logging.withLogger(for: .boardBus) { (logger) in
-								logger.log("Board Bus button tapped")
+								logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Board Bus button tapped")
 							}
 							
 							// TODO: Rename local `location` identifier to something more descriptive
@@ -144,10 +151,17 @@ struct PrimaryOverlay: View {
 					self.isRefreshing = true
 				}
 				Task {
-					if #available(iOS 16, *) {
-						try await Task.sleep(for: .milliseconds(500))
-					} else {
-						try await Task.sleep(nanoseconds: 500_000_000)
+					do {
+						if #available(iOS 16, *) {
+							try await Task.sleep(for: .milliseconds(500))
+						} else {
+							try await Task.sleep(nanoseconds: 500_000_000)
+						}
+					} catch let error {
+						Logging.withLogger(doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+						}
+						throw error
 					}
 					await self.mapState.refreshAll()
 					withAnimation {
@@ -162,7 +176,7 @@ struct PrimaryOverlay: View {
 					case .onBus:
 						guard let coordinate = LocationUtilities.locationManager.location?.coordinate else {
 							Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-								logger.log(level: .error, "Can’t send Board Bus location submission because the user’s location is unavailable")
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Can’t send Board Bus location submission because the user’s location is unavailable")
 							}
 							break
 						}

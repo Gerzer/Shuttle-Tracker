@@ -113,22 +113,31 @@ extension Array where Element == Bus {
 					let busID = await BoardBusManager.shared.busID
 					let travelState = await BoardBusManager.shared.travelState
 					#endif // !os(macOS)
-					let buses = try? result.get()
-						.map([Bus].self, using: decoder)
-						.filter { (bus) -> Bool in
-							return bus.location.date.timeIntervalSinceNow > -300
-						}
-						#if !os(macOS)
-						.filter { (bus) in
-							switch travelState {
-							case .onBus:
-								return bus.id != busID
-							case .notOnBus:
-								return true
+					let buses: [Bus]
+					do {
+						buses = try result.get()
+							.map([Bus].self, using: decoder)
+							.filter { (bus) -> Bool in
+								return bus.location.date.timeIntervalSinceNow > -300
 							}
+							#if !os(macOS)
+							.filter { (bus) in
+								switch travelState {
+								case .onBus:
+									return bus.id != busID
+								case .notOnBus:
+									return true
+								}
+							}
+							#endif // !os(macOS)
+					} catch let error {
+						buses = []
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download buses: \(error)")
 						}
-						#endif // !os(macOS)
-					continuation.resume(returning: buses ?? [])
+						throw error
+					}
+					continuation.resume(returning: buses)
 				}
 			}
 		}

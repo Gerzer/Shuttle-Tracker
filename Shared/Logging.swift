@@ -6,12 +6,15 @@
 //
 
 import OSLog
+import SwiftUI
 
 public enum Logging {
 	
 	enum Category: String {
 		
 		case `default` = "Default"
+		
+		case api = "API"
 		
 		case location = "Location"
 		

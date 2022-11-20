@@ -115,9 +115,17 @@ struct ContentView: View {
 				}
 				.onAppear {
 					API.provider.request(.readVersion) { (result) in
-						let version = try? result
-							.get()
-							.map(Int.self)
+						let version: Int?
+						do {
+							version = try result
+								.get()
+								.map(Int.self)
+						} catch let error {
+							version = nil
+							Logging.withLogger(for: .api, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to get server version number: \(error)")
+							}
+						}
 						if let version {
 							if version > API.lastVersion {
 								self.viewState.alertType = .updateAvailable
@@ -185,10 +193,17 @@ struct ContentView: View {
 					self.isRefreshing = true
 				}
 				Task {
-					if #available(macOS 13, *) {
-						try await Task.sleep(for: .milliseconds(500))
-					} else {
-						try await Task.sleep(nanoseconds: 500_000_000)
+					do {
+						if #available(macOS 13, *) {
+							try await Task.sleep(for: .milliseconds(500))
+						} else {
+							try await Task.sleep(nanoseconds: 500_000_000)
+						}
+					} catch let error {
+						Logging.withLogger(doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+						}
+						throw error
 					}
 					await self.mapState.refreshAll()
 					withAnimation {

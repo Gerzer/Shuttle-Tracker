@@ -67,10 +67,18 @@ extension Array where Element == Stop {
 	static func download() async -> [Stop] {
 		return await withCheckedContinuation { (continuation) in
 			API.provider.request(.readStops) { (result) in
-				let stops = try? result
-					.get()
-					.map([Stop].self)
-				continuation.resume(returning: stops ?? [])
+				let stops: [Stop]
+				do {
+					stops = try result
+						.get()
+						.map([Stop].self)
+				} catch let error {
+					stops = []
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download stops: \(error)")
+					}
+				}
+				continuation.resume(returning: stops)
 			}
 		}
 	}
