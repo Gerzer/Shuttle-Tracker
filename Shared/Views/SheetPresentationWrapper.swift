@@ -9,13 +9,16 @@ import SwiftUI
 
 struct SheetPresentationWrapper<Content>: View where Content: View {
 	
-	@State private var sheetType: SheetStack.SheetType?
-	
-	@State private var handle: SheetStack.Handle!
-	
-	@EnvironmentObject private var sheetStack: SheetStack
-	
 	private let content: Content
+	
+	@State
+	private var sheetType: SheetStack.SheetType?
+	
+	@State
+	private var handle: SheetStack.Handle!
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		self.content
@@ -82,7 +85,7 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					WhatsNewSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
 					#endif // !APPCLIP
-				case .plus(featureText: let featureText):
+				case .plus(let featureText):
 					#if os(iOS)
 					PlusSheet(featureText: featureText)
 						.interactiveDismissDisabled()

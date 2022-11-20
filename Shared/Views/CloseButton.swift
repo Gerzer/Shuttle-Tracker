@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CloseButton: View {
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	private let dismissHandler: (() -> Void)?
 	

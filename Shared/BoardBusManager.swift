@@ -5,7 +5,6 @@
 //  Created by Gabriel Jacoby-Cooper on 9/18/22.
 //
 
-import Combine
 import Foundation
 
 actor BoardBusManager: ObservableObject {
@@ -33,7 +32,7 @@ actor BoardBusManager: ObservableObject {
 	private init() { }
 	
 	func boardBus(id busID: Int) async {
-		precondition(self.travelState == .notOnBus)
+		precondition(.notOnBus ~= self.travelState)
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}
@@ -52,7 +51,7 @@ actor BoardBusManager: ObservableObject {
 	}
 	
 	func leaveBus() async {
-		precondition(self.travelState == .onBus)
+		precondition(.onBus ~= self.travelState)
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}

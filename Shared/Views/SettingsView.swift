@@ -10,14 +10,18 @@ import SwiftUI
 struct SettingsView: View {
 	
 	#if os(macOS)
-	@State private var didResetServerBaseURL = false
+	@State
+	private var didResetServerBaseURL = false
 	#endif // os(macOS)
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	var body: some View {
 		#if os(iOS)

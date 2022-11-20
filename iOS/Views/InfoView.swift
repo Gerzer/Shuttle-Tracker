@@ -9,13 +9,17 @@ import SwiftUI
 
 struct InfoView: View {
 	
-	@State private var schedule: Schedule?
+	@State
+	private var schedule: Schedule?
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	private var highQualityMessage: String {
 		get {

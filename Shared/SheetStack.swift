@@ -6,9 +6,9 @@
 //
 
 import Combine
-import SwiftUI
 
-@MainActor final class SheetStack: ObservableObject {
+@MainActor
+final class SheetStack: ObservableObject {
 	
 	enum SheetType: Hashable, Identifiable {
 		

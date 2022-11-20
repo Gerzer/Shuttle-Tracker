@@ -5,21 +5,25 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
-import Foundation
 import MapKit
 import SwiftUI
 
 struct ContentView: View {
 	
-	@State private var announcements: [Announcement] = []
+	@State
+	private var announcements: [Announcement] = []
 	
-	@EnvironmentObject private var mapState: MapState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	private var unviewedAnnouncementsCount: Int {
 		get {
@@ -98,11 +102,11 @@ struct ContentView: View {
 							message: Text("An update to the app is available. Please update to the latest version to continue using Shuttle Tracker."),
 							dismissButton: .default(Text("Update")) {
 								let url = URL(string: "itms-apps://apps.apple.com/us/app/shuttle-tracker/id1583503452")!
-								#if os(macOS)
+								#if canImport(AppKit)
 								NSWorkspace.shared.open(url)
-								#else // os(macOS)
+								#elseif canImport(UIKit) // canImport(AppKit)
 								UIApplication.shared.open(url)
-								#endif
+								#endif // canImport(UIKit)
 							}
 						)
 					case .serverUnavailable:
@@ -139,7 +143,8 @@ struct ContentView: View {
 	}
 	
 	#if os(macOS)
-	@State private var isRefreshing = false
+	@State
+	private var isRefreshing = false
 	
 	private let timer = Timer
 		.publish(every: 5, on: .main, in: .common)

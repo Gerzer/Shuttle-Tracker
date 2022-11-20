@@ -5,10 +5,9 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
-import UserNotifications
 import OSLog
+import SwiftUI
 
 enum ViewUtilities {
 	
@@ -30,15 +29,13 @@ enum ViewUtilities {
 		
 	}
 	
-	#if os(macOS)
 	static var standardVisualEffectView: some View {
+		#if canImport(AppKit)
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
-	#else // os(macOS)
-	static var standardVisualEffectView: some View {
+		#elseif canImport(UIKit) // canImport(AppKit)
 		VisualEffectView(UIBlurEffect(style: .systemMaterial))
+		#endif // canImport(UIKit)
 	}
-	#endif
 	
 }
 
@@ -97,11 +94,11 @@ enum MapUtilities {
 			)
 		)
 		
-		#if os(macOS)
+		#if canImport(AppKit)
 		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
-		#else // os(macOS)
+		#elseif canImport(UIKit) // canImport(AppKit)
 		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
-		#endif
+		#endif // canImport(UIKit)
 		
 	}
 	

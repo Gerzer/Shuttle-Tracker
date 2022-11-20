@@ -1,6 +1,6 @@
 //
 //  SettingsSheet.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //

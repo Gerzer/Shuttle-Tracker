@@ -9,7 +9,7 @@ import CoreLocation
 
 class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
-	#if !os(macOS)
+	#if os(iOS)
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		Task {
 			guard case .onBus = await BoardBusManager.shared.travelState else {
@@ -18,6 +18,6 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 			await LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
 		}
 	}
-	#endif // !os(macOS)
+	#endif // os(iOS)
 	
 }

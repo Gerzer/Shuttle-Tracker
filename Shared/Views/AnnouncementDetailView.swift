@@ -9,9 +9,11 @@ import SwiftUI
 
 struct AnnouncementDetailView: View {
 	
-	@Binding private(set) var didResetViewedAnnouncements: Bool
+	@Binding
+	private(set) var didResetViewedAnnouncements: Bool
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	let announcement: Announcement
 	
@@ -50,11 +52,11 @@ struct AnnouncementDetailView: View {
 			.frame(minWidth: 300)
 			.navigationTitle(self.announcement.subject)
 			.toolbar {
-				#if !os(macOS)
+				#if os(iOS)
 				ToolbarItem {
 					CloseButton()
 				}
-				#endif // !os(macOS)
+				#endif // os(iOS)
 			}
 			.onAppear {
 				self.didResetViewedAnnouncements = false

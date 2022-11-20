@@ -5,14 +5,16 @@
 //  Created by Gabriel Jacoby-Cooper on 11/21/21.
 //
 
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 struct WhatsNewSheet: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		VStack {
@@ -68,7 +70,7 @@ struct WhatsNewSheet: View {
 				}
 					.padding(.bottom)
 			}
-			#if !os(macOS)
+			#if os(iOS)
 			Button {
 				self.sheetStack.pop()
 				self.viewState.handles.whatsNew?.increment()
@@ -77,7 +79,7 @@ struct WhatsNewSheet: View {
 					.bold()
 			}
 				.buttonStyle(.block)
-			#endif // !os(macOS)
+			#endif // os(iOS)
 		}
 			.padding()
 			.toolbar {
