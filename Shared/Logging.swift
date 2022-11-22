@@ -8,6 +8,8 @@
 import OSLog
 import SwiftUI
 
+// TODO: Fix “<private>” placeholders in collected logs!
+
 public enum Logging {
 	
 	enum Category: String {
