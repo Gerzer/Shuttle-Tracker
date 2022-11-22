@@ -5,14 +5,10 @@
 //  Created by Gabriel Jacoby-Cooper on 10/22/21.
 //
 
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 struct PrimaryOverlay: View {
-	
-	private let timer = Timer
-		.publish(every: 5, on: .main, in: .common)
-		.autoconnect()
 	
 	private var buttonText: String {
 		get {
@@ -25,17 +21,27 @@ struct PrimaryOverlay: View {
 		}
 	}
 	
-	@State private var isRefreshing = false
+	@State
+	private var isRefreshing = false
 	
-	@EnvironmentObject private var mapState: MapState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var boardBusManager: BoardBusManager
+	@EnvironmentObject
+	private var boardBusManager: BoardBusManager
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	private let timer = Timer
+		.publish(every: 5, on: .main, in: .common)
+		.autoconnect()
 	
 	var body: some View {
 		HStack {
@@ -45,6 +51,9 @@ struct PrimaryOverlay: View {
 					Task {
 						switch await self.boardBusManager.travelState {
 						case .onBus:
+							Logging.withLogger(for: .boardBus) { (logger) in
+								logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Leave Bus button tapped")
+							}
 							await self.boardBusManager.leaveBus()
 							self.viewState.statusText = .thanks
 							LocationUtilities.locationManager.stopUpdatingLocation()
@@ -68,9 +77,14 @@ struct PrimaryOverlay: View {
                                 try await Task.sleep(nanoseconds: 500_000_000 )
 							} else {
 								try await Task.sleep(nanoseconds: 5_000_000_000)
+
 							}
 							self.viewState.statusText = .mapRefresh
 						case .notOnBus:
+							Logging.withLogger(for: .boardBus) { (logger) in
+								logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Board Bus button tapped")
+							}
+							
 							// TODO: Rename local `location` identifier to something more descriptive
 							guard let location = LocationUtilities.locationManager.location else {
 								break
@@ -141,6 +155,7 @@ struct PrimaryOverlay: View {
                         try await Task.sleep(nanoseconds: 500_000_000)
 					} else {
 						try await Task.sleep(nanoseconds: 500_000_000)
+
 					}
 					await self.mapState.refreshAll()
 					withAnimation {
@@ -150,10 +165,13 @@ struct PrimaryOverlay: View {
 			}
 			.onReceive(self.timer) { (_) in
 				Task {
+					// TODO: Remove because this logic is duplicated in `LocationManagerDelegate`
 					switch await self.boardBusManager.travelState {
 					case .onBus:
 						guard let coordinate = LocationUtilities.locationManager.location?.coordinate else {
-							LoggingUtilities.logger.log(level: .info, "User location unavailable")
+							Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Can’t send Board Bus location submission because the user’s location is unavailable")
+							}
 							break
 						}
 						await LocationUtilities.sendToServer(coordinate: coordinate)

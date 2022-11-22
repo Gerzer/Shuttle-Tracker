@@ -1,6 +1,6 @@
 //
 //  PlusSheet.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 3/19/22.
 //
@@ -11,9 +11,11 @@ struct PlusSheet: View {
 	
 	let featureText: String
 	
-	@State private var doShowAlert = false
+	@State
+	private var doShowAlert = false
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		VStack(alignment: .leading) {

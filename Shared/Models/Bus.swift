@@ -5,8 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 class Bus: NSObject, Codable, CustomAnnotation {
 	
@@ -81,11 +81,11 @@ class Bus: NSObject, Codable, CustomAnnotation {
 				colorBlindSymbolName = "scope"
 			}
 			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
-			#if os(macOS)
+			#if canImport(AppKit)
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
-			#else // os(macOS)
+			#elseif canImport(UIKit) // canImport(AppKit)
 			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
-			#endif
+			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
 	}
@@ -109,26 +109,35 @@ extension Array where Element == Bus {
 				Task {
 					let decoder = JSONDecoder()
 					decoder.dateDecodingStrategy = .iso8601
-					#if !os(macOS)
+					#if os(iOS)
 					let busID = await BoardBusManager.shared.busID
 					let travelState = await BoardBusManager.shared.travelState
-					#endif // !os(macOS)
-					let buses = try? result.get()
-						.map([Bus].self, using: decoder)
-						.filter { (bus) -> Bool in
-							return bus.location.date.timeIntervalSinceNow > -300
-						}
-						#if !os(macOS)
-						.filter { (bus) in
-							switch travelState {
-							case .onBus:
-								return bus.id != busID
-							case .notOnBus:
-								return true
+					#endif // os(iOS)
+					let buses: [Bus]
+					do {
+						buses = try result.get()
+							.map([Bus].self, using: decoder)
+							.filter { (bus) -> Bool in
+								return abs(bus.location.date.timeIntervalSinceNow) < 300
 							}
+							#if !os(macOS)
+							.filter { (bus) in
+								switch travelState {
+								case .onBus:
+									return bus.id != busID
+								case .notOnBus:
+									return true
+								}
+							}
+							#endif // !os(macOS)
+					} catch let error {
+						buses = []
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download buses: \(error)")
 						}
-						#endif // !os(macOS)
-					continuation.resume(returning: buses ?? [])
+						throw error
+					}
+					continuation.resume(returning: buses)
 				}
 			}
 		}

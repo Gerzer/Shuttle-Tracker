@@ -5,21 +5,26 @@
 //  Created by Gabriel Jacoby-Cooper on 9/11/20.
 //
 
-import SwiftUI
 import CoreLocation
 import OnboardingKit
+import SwiftUI
 
-@main struct ShuttleTrackerApp: App {
+@main
+struct ShuttleTrackerApp: App {
+	
+	@ObservedObject
+	private var mapState = MapState.shared
+	
+	@ObservedObject
+	private var viewState = ViewState.shared
+	
+	@ObservedObject
+	private var boardBusManager = BoardBusManager.shared
+	
+	@ObservedObject
+	private var appStorageManager = AppStorageManager.shared
 	
 	private static let sheetStack = SheetStack()
-	
-	@ObservedObject private var mapState = MapState.shared
-	
-	@ObservedObject private var viewState = ViewState.shared
-	
-	@ObservedObject private var boardBusManager = BoardBusManager.shared
-	
-	@ObservedObject private var appStorageManager = AppStorageManager.shared
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
@@ -81,13 +86,35 @@ import OnboardingKit
 	}
 	
 	init() {
+		Logging.withLogger { (logger) in
+			let formattedVersion: String
+			if let version = Bundle.main.version {
+				formattedVersion = " \(version)"
+			} else {
+				formattedVersion = ""
+			}
+			let formattedBuild: String
+			if let build = Bundle.main.build {
+				formattedBuild = " (\(build))"
+			} else {
+				formattedBuild = ""
+			}
+			logger.log("[\(#fileID):\(#line) \(#function)] Shuttle Tracker for iOS\(formattedVersion)\(formattedBuild)")
+		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
 		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 		Task {
-			try await UserNotificationUtilities.requestAuthorization()
+			do {
+				try await UserNotificationUtilities.requestAuthorization()
+			} catch let error {
+				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to request notification authorization: \(error)")
+				}
+				throw error
+			}
 		}
 	}
 	
@@ -97,6 +124,7 @@ import OnboardingKit
                 try await Task.sleep(nanoseconds: 100_000_000)
 			} else {
 				try await Task.sleep(nanoseconds: 1_000_000_000)
+
 			}
 			self.sheetStack.push(sheetType)
 		}

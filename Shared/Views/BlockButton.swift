@@ -9,15 +9,18 @@ import SwiftUI
 
 struct BlockButtonStyle: ButtonStyle {
 	
-	@State var color = Color.accentColor
+	@State
+	var color = Color.accentColor
 	
 	struct BlockButton: View {
 		
 		let configuration: BlockButtonStyle.Configuration
 		
-		@State var color: Color
+		@State
+		var color: Color
 		
-		@Environment(\.isEnabled) var isEnabled
+		@Environment(\.isEnabled)
+		var isEnabled
 		
 		var body: some View {
 			self.configuration.label

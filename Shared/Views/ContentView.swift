@@ -5,21 +5,25 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
-import Foundation
 import MapKit
 import SwiftUI
 
 struct ContentView: View {
 	
-	@State private var announcements: [Announcement] = []
+	@State
+	private var announcements: [Announcement] = []
 	
-	@EnvironmentObject private var mapState: MapState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	private var unviewedAnnouncementsCount: Int {
 		get {
@@ -98,11 +102,11 @@ struct ContentView: View {
 							message: Text("An update to the app is available. Please update to the latest version to continue using Shuttle Tracker."),
 							dismissButton: .default(Text("Update")) {
 								let url = URL(string: "itms-apps://apps.apple.com/us/app/shuttle-tracker/id1583503452")!
-								#if os(macOS)
+								#if canImport(AppKit)
 								NSWorkspace.shared.open(url)
-								#else // os(macOS)
+								#elseif canImport(UIKit) // canImport(AppKit)
 								UIApplication.shared.open(url)
-								#endif
+								#endif // canImport(UIKit)
 							}
 						)
 					case .serverUnavailable:
@@ -115,9 +119,17 @@ struct ContentView: View {
 				}
 				.onAppear {
 					API.provider.request(.readVersion) { (result) in
-						let version = try? result
-							.get()
-							.map(Int.self)
+						let version: Int?
+						do {
+							version = try result
+								.get()
+								.map(Int.self)
+						} catch let error {
+							version = nil
+							Logging.withLogger(for: .api, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to get server version number: \(error)")
+							}
+						}
 						if let version {
 							if version > API.lastVersion {
 								self.viewState.alertType = .updateAvailable
@@ -131,7 +143,8 @@ struct ContentView: View {
 	}
 	
 	#if os(macOS)
-	@State private var isRefreshing = false
+	@State
+	private var isRefreshing = false
 	
 	private let timer = Timer
 		.publish(every: 5, on: .main, in: .common)
@@ -140,46 +153,40 @@ struct ContentView: View {
 	private var mapView: some View {
 		MapView()
 			.toolbar {
-				ToolbarItem {
-					Button {
-						self.sheetStack.push(.announcements)
-					} label: {
-						ZStack {
-							Label("View Announcements", systemImage: "exclamationmark.bubble")
-							if self.unviewedAnnouncementsCount > 0 {
-								Circle()
-									.foregroundColor(.red)
-									.frame(width: 15, height: 15)
-									.offset(x: 10, y: -10)
-								Text("\(self.unviewedAnnouncementsCount)")
-									.foregroundColor(.white)
-									.font(.caption)
-									.offset(x: 10, y: -10)
-							}
+				Button {
+					self.sheetStack.push(.announcements)
+				} label: {
+					ZStack {
+						Label("View Announcements", systemImage: "exclamationmark.bubble")
+						if self.unviewedAnnouncementsCount > 0 {
+							Circle()
+								.foregroundColor(.red)
+								.frame(width: 15, height: 15)
+								.offset(x: 10, y: -10)
+							Text("\(self.unviewedAnnouncementsCount)")
+								.foregroundColor(.white)
+								.font(.caption)
+								.offset(x: 10, y: -10)
 						}
-							.task {
-								self.announcements = await [Announcement].download()
-							}
 					}
-				}
-				ToolbarItem {
-					Button {
-						Task {
-							await self.mapState.resetVisibleMapRect()
+						.task {
+							self.announcements = await [Announcement].download()
 						}
-					} label: {
-						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
+				}
+				Button {
+					Task {
+						await self.mapState.resetVisibleMapRect()
 					}
+				} label: {
+					Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 				}
-				ToolbarItem {
-					if self.isRefreshing {
-						ProgressView()
-					} else {
-						Button {
-							NotificationCenter.default.post(name: .refreshBuses, object: nil)
-						} label: {
-							Label("Refresh", systemImage: "arrow.clockwise")
-						}
+				if self.isRefreshing {
+					ProgressView()
+				} else {
+					Button {
+						NotificationCenter.default.post(name: .refreshBuses, object: nil)
+					} label: {
+						Label("Refresh", systemImage: "arrow.clockwise")
 					}
 				}
 			}
@@ -191,10 +198,17 @@ struct ContentView: View {
 					self.isRefreshing = true
 				}
 				Task {
-					if #available(macOS 13, *) {
-						try await Task.sleep(for: .milliseconds(500))
-					} else {
-						try await Task.sleep(nanoseconds: 500_000_000)
+					do {
+						if #available(macOS 13, *) {
+							try await Task.sleep(for: .milliseconds(500))
+						} else {
+							try await Task.sleep(nanoseconds: 500_000_000)
+						}
+					} catch let error {
+						Logging.withLogger(doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+						}
+						throw error
 					}
 					await self.mapState.refreshAll()
 					withAnimation {

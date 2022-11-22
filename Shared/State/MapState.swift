@@ -5,7 +5,6 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import Combine
 import MapKit
 
 actor MapState: ObservableObject {
@@ -38,7 +37,8 @@ actor MapState: ObservableObject {
 		}
 	}
 	
-	@MainActor func resetVisibleMapRect() async {
+	@MainActor
+	func resetVisibleMapRect() async {
 		Self.mapView?.setVisibleMapRect(
 			await self.routes.boundingMapRect,
 			edgePadding: MapUtilities.Constants.mapRectInsets,

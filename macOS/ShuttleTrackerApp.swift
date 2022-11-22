@@ -5,23 +5,28 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
-import SwiftUI
 import CoreLocation
 import OnboardingKit
+import SwiftUI
 
-@main struct ShuttleTrackerApp: App {
+@main
+struct ShuttleTrackerApp: App {
+	
+	@ObservedObject
+	private var mapState = MapState.shared
+	
+	@ObservedObject
+	private var viewState = ViewState.shared
+	
+	@ObservedObject
+	private var appStorageManager = AppStorageManager.shared
 	
 	private static let contentViewSheetStack = SheetStack()
 	
 	private static let settingsViewSheetStack = SheetStack()
 	
-	@ObservedObject private var mapState = MapState.shared
-	
-	@ObservedObject private var viewState = ViewState.shared
-	
-	@ObservedObject private var appStorageManager = AppStorageManager.shared
-	
-	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+	@NSApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
@@ -89,7 +94,7 @@ import OnboardingKit
 		Settings {
 			SettingsView()
 				.padding()
-				.frame(minWidth: 320, minHeight: 150)
+				.frame(minWidth: 700, minHeight: 300)
 				.environmentObject(self.viewState)
 				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.settingsViewSheetStack)
@@ -97,6 +102,21 @@ import OnboardingKit
 	}
 	
 	init() {
+		Logging.withLogger { (logger) in
+			let formattedVersion: String
+			if let version = Bundle.main.version {
+				formattedVersion = " \(version)"
+			} else {
+				formattedVersion = ""
+			}
+			let formattedBuild: String
+			if let build = Bundle.main.build {
+				formattedBuild = " (\(build))"
+			} else {
+				formattedBuild = ""
+			}
+			logger.log("[\(#fileID):\(#line) \(#function)] Shuttle Tracker for macOS\(formattedVersion)\(formattedBuild)")
+		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
@@ -104,10 +124,17 @@ import OnboardingKit
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
 		Task {
-			if #available(macOS 13, *) {
-				try await Task.sleep(for: .seconds(1))
-			} else {
-				try await Task.sleep(nanoseconds: 1_0100_000_00000_000_000)
+			do {
+				if #available(macOS 13, *) {
+					try await Task.sleep(for: .seconds(1))
+				} else {
+					try await Task.sleep(nanoseconds: 1_000_000_000)
+				}
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+				}
+				throw error
 			}
 			sheetStack.push(sheetType)
 		}

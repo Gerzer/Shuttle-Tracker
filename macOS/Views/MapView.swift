@@ -5,14 +5,15 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct MapView: NSViewRepresentable {
 	
-	@EnvironmentObject private var mapState: MapState
-	
 	private let mapView = MKMapView(frame: .zero)
+	
+	@EnvironmentObject
+	private var mapState: MapState
 	
 	func makeNSView(context: Context) -> MKMapView {
 		Task {

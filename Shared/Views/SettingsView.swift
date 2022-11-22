@@ -10,19 +10,23 @@ import SwiftUI
 struct SettingsView: View {
 	
 	#if os(macOS)
-	@State private var didResetServerBaseURL = false
+	@State
+	private var didResetServerBaseURL = false
 	#endif // os(macOS)
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	var body: some View {
+		#if os(iOS)
 		SheetPresentationWrapper {
 			Form {
-				#if os(iOS)
 				Section {
 					HStack {
 						ZStack {
@@ -48,6 +52,9 @@ struct SettingsView: View {
 				}
 				#endif // !APPCLIP
 				Section {
+					NavigationLink("Logging & Analytics") {
+						LoggingAnalyticsSettingsView()
+					}
 					NavigationLink("Advanced") {
 						AdvancedSettingsView()
 					}
@@ -57,7 +64,17 @@ struct SettingsView: View {
 						AboutView()
 					}
 				}
-				#elseif os(macOS) // os(iOS)
+			}
+		}
+			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
+				withAnimation {
+					self.viewState.toastType = .legend
+					self.viewState.legendToastHeadlineText = nil
+				}
+			}
+		#elseif os(macOS) // os(iOS)
+		TabView {
+			Form {
 				Section {
 					Toggle("Distinguish bus markers by icon", isOn: self.appStorageManager.$colorBlindMode)
 				}
@@ -87,15 +104,24 @@ struct SettingsView: View {
 				} footer: {
 					Text("Changing this setting could make the rest of the app stop working properly.")
 				}
-				#endif // os(macOS)
+				Spacer()
 			}
-				.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
-					withAnimation {
-						self.viewState.toastType = .legend
-						self.viewState.legendToastHeadlineText = nil
-					}
+				.tabItem {
+					Label("General", systemImage: "gear")
+				}
+			LoggingAnalyticsSettingsView()
+				.tabItem {
+					Label("Logging & Analytics", systemImage: "text.redaction")
 				}
 		}
+			.padding()
+			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
+				withAnimation {
+					self.viewState.toastType = .legend
+					self.viewState.legendToastHeadlineText = nil
+				}
+			}
+		#endif // os(macOS)
 	}
 	
 }
@@ -104,6 +130,9 @@ struct SettingsViewPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		SettingsView()
+			.environmentObject(ViewState.shared)
+			.environmentObject(SheetStack())
+			.environmentObject(AppStorageManager.shared)
 	}
 	
 }

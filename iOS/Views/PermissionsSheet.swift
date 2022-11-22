@@ -9,15 +9,20 @@ import SwiftUI
 
 struct PermissionsSheet: View {
 	
-	@State private var notificationAuthorizationStatus: UNAuthorizationStatus?
+	@State
+	private var notificationAuthorizationStatus: UNAuthorizationStatus?
 	
-	@State private var locationScale: CGFloat = 0
+	@State
+	private var locationScale: CGFloat = 0
 	
-	@State private var notificationScale: CGFloat = 0
+	@State
+	private var notificationScale: CGFloat = 0
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
-	@Environment(\.openURL) private var openURL
+	@Environment(\.openURL)
+	private var openURL
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -142,14 +147,16 @@ struct PermissionsSheet: View {
 								case .authorized, .ephemeral, .provisional:
 									break
 								case .denied:
-									let url = try! UIApplication.openSettingsURLString.asURL()
-									self.openURL(url)
+									self.openURL(URL(string: UIApplication.openSettingsURLString)!)
 								case .notDetermined:
 									Task {
 										do {
 											try await UserNotificationUtilities.requestAuthorization()
 										} catch let error {
-											print("[PermissionSheet body] Notification authorization request error: \(error.localizedDescription)")
+											Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+												logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Notification authorization request failed: \(error)")
+											}
+											throw error
 										}
 									}
 								@unknown default:
@@ -157,8 +164,7 @@ struct PermissionsSheet: View {
 								}
 							}
 						case (.restricted, _), (.denied, _):
-							let url = try! UIApplication.openSettingsURLString.asURL()
-							self.openURL(url)
+							self.openURL(URL(string: UIApplication.openSettingsURLString)!)
 						case (.notDetermined, _):
 							LocationUtilities.locationManager.requestWhenInUseAuthorization()
 						case (_, .reducedAccuracy):
@@ -166,7 +172,10 @@ struct PermissionsSheet: View {
 								do {
 									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 								} catch let error {
-									print("[PermissionsSheet body] Full-accuracy location authorization request error: \(error.localizedDescription)")
+									Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+										logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Full-accuracy location authorization request failed: \(error)")
+									}
+									throw error
 								}
 							}
 						@unknown default:

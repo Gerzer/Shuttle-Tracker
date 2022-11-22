@@ -9,9 +9,11 @@ import SwiftUI
 
 struct LegendToast: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var appStorageManager: AppStorageManager
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	enum HeadlineText: String {
 		
@@ -22,13 +24,13 @@ struct LegendToast: View {
 	
 	private var highQualityString: String {
 		get {
-			return self.appStorageManager.colorBlindMode ? "The scope icon indicates high-quality location data." : "Green buses have high-quality location data."
+			return self.appStorageManager.colorBlindMode ? "The scope icon indicates high-quality location data." : "Green buses indicate high-quality location data."
 		}
 	}
 	
 	private var lowQualityString: String {
 		get {
-			return self.appStorageManager.colorBlindMode ? "The dotted-circle icon indicates low-quality location data." : "Red buses have low-quality location data."
+			return self.appStorageManager.colorBlindMode ? "The dotted-circle icon indicates low-quality location data." : "Red buses indicate low-quality location data."
 		}
 	}
 	

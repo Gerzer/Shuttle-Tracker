@@ -5,8 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 9/12/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
@@ -36,13 +36,13 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 				return MKPolyline(points: mapPointsPointer.baseAddress!, count: mapPointsPointer.count)
 			}
 			let polylineRenderer = MKPolylineRenderer(polyline: polyline)
-			#if os(macOS)
+			#if canImport(AppKit)
 			polylineRenderer.strokeColor = NSColor(self.color)
 				.withAlphaComponent(0.7)
-			#else // os(macOS)
+			#elseif canImport(UIKit) // canImport(AppKit)
 			polylineRenderer.strokeColor = UIColor(self.color)
 				.withAlphaComponent(0.7)
-			#endif
+			#endif // canImport(UIKit)
 			polylineRenderer.lineWidth = 5
 			return polylineRenderer
 		}
@@ -116,10 +116,18 @@ extension Array where Element == Route {
 	static func download() async -> [Route] {
 		return await withCheckedContinuation { (continuation) in
 			API.provider.request(.readRoutes) { (result) in
-				let routes = try? result
-					.get()
-					.map([Route].self)
-				continuation.resume(returning: routes ?? [])
+				let routes: [Route]
+				do {
+					routes = try result
+						.get()
+						.map([Route].self)
+				} catch let error {
+					routes = []
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download routes: \(error)")
+					}
+				}
+				continuation.resume(returning: routes)
 			}
 		}
 	}
