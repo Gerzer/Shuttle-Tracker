@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		656FF546292D73F5005C96A1 /* LiveActivityConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656FF545292D73F5005C96A1 /* LiveActivityConfiguration.swift */; };
+		656FF547292D73F5005C96A1 /* LiveActivityConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656FF545292D73F5005C96A1 /* LiveActivityConfiguration.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -201,6 +203,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		656FF545292D73F5005C96A1 /* LiveActivityConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityConfiguration.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
@@ -387,6 +390,7 @@
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
+				656FF545292D73F5005C96A1 /* LiveActivityConfiguration.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -824,6 +828,7 @@
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
+				656FF547292D73F5005C96A1 /* LiveActivityConfiguration.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
@@ -867,6 +872,7 @@
 				C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
 				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
+				656FF546292D73F5005C96A1 /* LiveActivityConfiguration.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
@@ -902,6 +908,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
@@ -911,7 +918,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< Updated upstream
 				MARKETING_VERSION = 1.5;
+=======
+				MARKETING_VERSION = 1.5.1;
+				PRODUCT_BUNDLE_IDENTIFIER = .shuttletracker.appclipnew;
+>>>>>>> Stashed changes
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG APPCLIP";
@@ -928,7 +940,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = SYBLH277NF;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
@@ -1133,7 +1145,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
+<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 33;
+=======
+				CURRENT_PROJECT_VERSION = 36;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
+>>>>>>> Stashed changes
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -1161,8 +1178,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
+<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = SYBLH277NF;
+=======
+				CURRENT_PROJECT_VERSION = 36;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
+>>>>>>> Stashed changes
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
