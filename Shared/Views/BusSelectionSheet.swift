@@ -25,7 +25,7 @@ struct BusSelectionSheet: View {
 	private var viewState: ViewState
 	
 	@EnvironmentObject
-	private var boardbusManager: BoardBusManager
+	private var boardBusManager: BoardBusManager
 	
 	@EnvironmentObject
 	private var sheetStack: SheetStack
@@ -97,9 +97,18 @@ struct BusSelectionSheet: View {
 								case .fullAccuracy:
 									await self.boardBus()
 								case .reducedAccuracy:
-									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+									do {
+										try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+									} catch let error {
+										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+											logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Temporary full-accuracy location authorization request failed: \(error)")
+										}
+										throw error
+									}
 									guard case .fullAccuracy = LocationUtilities.locationManager.accuracyAuthorization else {
-										LoggingUtilities.logger.log(level: .info, "User declined full accuracy authorization")
+										Logging.withLogger(for: .permissions) { (logger) in
+											logger.log("[\(#fileID):\(#line) \(#function)] User declined full location accuracy authorization")
+										}
 										return
 									}
 									await self.boardBus()
@@ -119,13 +128,22 @@ struct BusSelectionSheet: View {
 		}
 			.onAppear {
 				API.provider.request(.readAllBuses) { (result) in
-					self.busIDs = try? result
-						.get()
-						.map([Int].self)
-						.map { (id) in
-							return BusID(id)
+					do {
+						self.busIDs = try result
+							.get()
+							.map([Int].self)
+							.map { (id) in
+								return BusID(id)
+							}
+					} catch let error {
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to get list of known bus IDs from the server: \(error)")
 						}
+					}
 					guard let location = LocationUtilities.locationManager.location else {
+						Logging.withLogger(for: .location, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Can’t suggest nearest bus because the user’s location is unavailable")
+						}
 						return
 					}
 					Task {
@@ -150,11 +168,16 @@ struct BusSelectionSheet: View {
 	/// - Precondition: The user has granted full location accuracy authorization.
 	private func boardBus() async {
 		precondition(LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy)
+		Logging.withLogger(for: .boardBus) { (logger) in
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Activating Board Bus manually…")
+		}
 		guard let busID = self.selectedBusID?.rawValue else {
-			LoggingUtilities.logger.log(level: .error, "No selected bus ID")
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] No selected bus ID while trying to activate manual Board Bus")
+			}
 			return
 		}
-		await self.boardbusManager.boardBus(id: busID)
+		await self.boardBusManager.boardBus(id: busID)
 		self.viewState.statusText = .locationData
 		self.viewState.handles.tripCount?.increment()
 		self.sheetStack.pop()
@@ -174,11 +197,21 @@ struct BusSelectionSheet: View {
 			do {
 				try await UserNotificationUtilities.requestAuthorization()
 			} catch let error {
-				LoggingUtilities.logger.log(level: .error, "\(error)")
+				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to request notification authorization: \(error)")
+				}
+				throw error
 			}
-			try await UNUserNotificationCenter
-				.current()
-				.add(request)
+			do {
+				try await UNUserNotificationCenter
+					.current()
+					.add(request)
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "Failed to schedule local notification: \(error)")
+				}
+				throw error
+			}
 		}
 	}
 	
