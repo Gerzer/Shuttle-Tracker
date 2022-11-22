@@ -9,6 +9,14 @@ import Foundation
 
 actor BoardBusManager: ObservableObject {
 	
+	enum TravelState: Equatable {
+		
+		case onBus(manual: Bool)
+		
+		case notOnBus
+		
+	}
+	
 	static let shared = BoardBusManager()
 	
 	/// The most recent ``travelState`` value for the ``shared`` instance.
@@ -31,14 +39,14 @@ actor BoardBusManager: ObservableObject {
 	
 	private init() { }
 	
-	func boardBus(id busID: Int) async {
+	func boardBus(id busID: Int, manually isManual: Bool) async {
 		precondition(.notOnBus ~= self.travelState)
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}
 		self.busID = busID
 		self.locationID = UUID()
-		self.travelState = .onBus
+		self.travelState = .onBus(manual: isManual)
 		LocationUtilities.locationManager.startUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function)] Activated Board Bus")
@@ -52,7 +60,9 @@ actor BoardBusManager: ObservableObject {
 	}
 	
 	func leaveBus() async {
-		precondition(.onBus ~= self.travelState)
+		guard case .onBus = self.travelState else {
+			preconditionFailure()
+		}
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}

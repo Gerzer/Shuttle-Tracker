@@ -10,17 +10,6 @@ import SwiftUI
 
 struct PrimaryOverlay: View {
 	
-	private var buttonText: String {
-		get {
-			switch BoardBusManager.globalTravelState {
-			case .onBus:
-				return "Leave Bus"
-			case .notOnBus:
-				return "Board Bus"
-			}
-		}
-	}
-	
 	@State
 	private var isRefreshing = false
 	
@@ -38,6 +27,17 @@ struct PrimaryOverlay: View {
 	
 	@EnvironmentObject
 	private var sheetStack: SheetStack
+	
+	private var buttonText: String {
+		get {
+			switch BoardBusManager.globalTravelState {
+			case .onBus:
+				return "Leave Bus"
+			case .notOnBus:
+				return "Board Bus"
+			}
+		}
+	}
 	
 	private let timer = Timer
 		.publish(every: 5, on: .main, in: .common)
@@ -177,20 +177,6 @@ struct PrimaryOverlay: View {
 			}
 			.onReceive(self.timer) { (_) in
 				Task {
-					// TODO: Remove because this logic is duplicated in `LocationManagerDelegate`
-					switch await self.boardBusManager.travelState {
-					case .onBus:
-						guard let coordinate = LocationUtilities.locationManager.location?.coordinate else {
-							Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Can’t send Board Bus location submission because the user’s location is unavailable")
-							}
-							break
-						}
-						await LocationUtilities.sendToServer(coordinate: coordinate)
-					case .notOnBus:
-						break
-					}
-					
 					// For “standard” refresh operations, we only refresh the buses.
 					await self.mapState.refreshBuses()
 				}

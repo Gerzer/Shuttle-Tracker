@@ -8,6 +8,7 @@
 import MapKit
 import OSLog
 import SwiftUI
+import UserNotifications
 
 enum ViewUtilities {
 	
@@ -133,14 +134,6 @@ enum UserNotificationUtilities {
 enum DefaultsKeys {
 	
 	static let coldLaunchCount = "ColdLaunchCount"
-	
-}
-
-enum TravelState {
-	
-	case onBus
-	
-	case notOnBus
 	
 }
 

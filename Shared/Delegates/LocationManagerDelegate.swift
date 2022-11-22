@@ -41,8 +41,8 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 				}
 			case .outside:
 				logger.log("[\(#fileID):\(#line) \(#function)] Outside region: \(region)")
-				if region is CLBeaconRegion { // TODO: Check that Board Bus was activated automatically
-					Task {
+				Task {
+					if region is CLBeaconRegion, case .onBus(manual: false) = await BoardBusManager.shared.travelState {
 						await BoardBusManager.shared.leaveBus()
 					}
 				}
@@ -65,8 +65,8 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
 		Logging.withLogger(for: .location) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did exit region \(region)")
-			if region is CLBeaconRegion { // TODO: Check that Board Bus was activated automatically
-				Task {
+			Task {
+				if region is CLBeaconRegion, case .onBus(manual: false) = await BoardBusManager.shared.travelState {
 					await BoardBusManager.shared.leaveBus()
 				}
 			}
@@ -116,7 +116,7 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 						return
 					}
 					let id = Int(truncating: beacon.major)
-					await BoardBusManager.shared.boardBus(id: id)
+					await BoardBusManager.shared.boardBus(id: id, manually: false)
 					manager.stopRangingBeacons(satisfying: beaconConstraint)
 				}
 			}
