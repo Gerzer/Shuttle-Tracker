@@ -9,36 +9,29 @@ import SwiftUI
 
 struct BlockButtonStyle: ButtonStyle {
 	
-	@State var color = Color.accentColor
+	@State
+	var color = Color.accentColor
 	
 	struct BlockButton: View {
 		
 		let configuration: BlockButtonStyle.Configuration
 		
-		@State var color: Color
+		@State
+		var color: Color
 		
-		@Environment(\.isEnabled) var isEnabled
+		@Environment(\.isEnabled)
+		var isEnabled
 		
 		var body: some View {
-			if #available(iOS 15, macOS 12, *) {
-				self.configuration.label
-					.padding(12)
-					.frame(maxWidth: .infinity)
-					.background(self.isEnabled ? self.color : Color.gray)
-					.foregroundColor(.white)
-					.opacity(self.configuration.isPressed ? 0.5 : 1)
-					.mask {
-						RoundedRectangle(cornerRadius: 10, style: .continuous)
-					}
-			} else {
-				self.configuration.label
-					.padding(12)
-					.frame(maxWidth: .infinity)
-					.background(self.isEnabled ? self.color : Color.gray)
-					.foregroundColor(.white)
-					.opacity(self.configuration.isPressed ? 0.5 : 1)
-					.cornerRadius(10)
-			}
+			self.configuration.label
+				.padding(12)
+				.frame(maxWidth: .infinity)
+				.background(self.isEnabled ? self.color : Color.gray)
+				.foregroundColor(.white)
+				.opacity(self.configuration.isPressed ? 0.5 : 1)
+				.mask {
+					RoundedRectangle(cornerRadius: 10, style: .continuous)
+				}
 		}
 		
 	}

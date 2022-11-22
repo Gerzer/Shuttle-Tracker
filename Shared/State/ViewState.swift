@@ -5,10 +5,10 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
-import Foundation
 import Combine
 import OnboardingKit
 
+@MainActor
 final class ViewState: OnboardingFlags {
 	
 	final class Handles {
@@ -55,13 +55,17 @@ final class ViewState: OnboardingFlags {
 	
 	static let shared = ViewState()
 	
-	@Published var alertType: AlertType?
+	@Published
+	var alertType: AlertType?
 	
-	@Published var toastType: ToastType?
+	@Published
+	var toastType: ToastType?
 	
-	@Published var statusText = StatusText.mapRefresh
+	@Published
+	var statusText = StatusText.mapRefresh
 	
-	@Published var legendToastHeadlineText: LegendToast.HeadlineText?
+	@Published
+	var legendToastHeadlineText: LegendToast.HeadlineText?
 	
 	let handles = Handles()
 	

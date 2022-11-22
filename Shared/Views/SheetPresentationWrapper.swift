@@ -9,13 +9,16 @@ import SwiftUI
 
 struct SheetPresentationWrapper<Content>: View where Content: View {
 	
-	@State private var sheetType: SheetStack.SheetType?
-	
-	@State private var handle: SheetStack.Handle!
-	
-	@EnvironmentObject private var sheetStack: SheetStack
-	
 	private let content: Content
+	
+	@State
+	private var sheetType: SheetStack.SheetType?
+	
+	@State
+	private var handle: SheetStack.Handle!
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		self.content
@@ -51,12 +54,8 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 				switch sheetType {
 				case .welcome:
 					#if os(iOS) && !APPCLIP
-					if #available(iOS 15, *) {
-						WelcomeSheet()
-							.interactiveDismissDisabled()
-					} else {
-						WelcomeSheet()
-					}
+					WelcomeSheet()
+						.interactiveDismissDisabled()
 					#endif // os(iOS) && !APPCLIP
 				case .settings:
 					#if os(iOS) && !APPCLIP
@@ -68,40 +67,28 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					#endif // os(iOS) && !APPCLIP
 				case .busSelection:
 					#if os(iOS)
-					if #available(iOS 15, *) {
-						BusSelectionSheet()
-							.interactiveDismissDisabled()
-					} else {
-						BusSelectionSheet()
-					}
+					BusSelectionSheet()
+						.interactiveDismissDisabled()
 					#endif // os(iOS)
 				case .permissions:
 					#if os(iOS) && !APPCLIP
-					if #available(iOS 15, *) {
-						PermissionsSheet()
-							.interactiveDismissDisabled()
-					} else {
-						PermissionsSheet()
-					}
+					PermissionsSheet()
+						.interactiveDismissDisabled()
 					#endif // os(iOS) && !APPCLIP
 				case .privacy:
 					PrivacySheet()
 				case .announcements:
-					if #available(iOS 15, macOS 12, *) {
-						AnnouncementsSheet()
-							.frame(idealWidth: 500, idealHeight: 500)
-					}
+					AnnouncementsSheet()
+						.frame(idealWidth: 500, idealHeight: 500)
 				case .whatsNew:
 					#if !APPCLIP
 					WhatsNewSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
 					#endif // !APPCLIP
-				case .plus(featureText: let featureText):
+				case .plus(let featureText):
 					#if os(iOS)
-					if #available(iOS 15, *) {
-						PlusSheet(featureText: featureText)
-							.interactiveDismissDisabled()
-					}
+					PlusSheet(featureText: featureText)
+						.interactiveDismissDisabled()
 					#endif // os(iOS)
 				}
 			}

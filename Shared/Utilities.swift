@@ -5,10 +5,9 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
-import UserNotifications
 import OSLog
+import SwiftUI
 
 enum ViewUtilities {
 	
@@ -30,15 +29,13 @@ enum ViewUtilities {
 		
 	}
 	
-	#if os(macOS)
 	static var standardVisualEffectView: some View {
+		#if canImport(AppKit)
 		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
-	#else // os(macOS)
-	static var standardVisualEffectView: some View {
+		#elseif canImport(UIKit) // canImport(AppKit)
 		VisualEffectView(UIBlurEffect(style: .systemMaterial))
+		#endif // canImport(UIKit)
 	}
-	#endif
 	
 }
 
@@ -69,9 +66,12 @@ enum LocationUtilities {
 		self.locationManagerHandlers.append(handler)
 	}
 	
-	static func sendToServer(coordinate: CLLocationCoordinate2D) {
-		guard let busID = MapState.shared.busID, let locationID = MapState.shared.locationID else {
-			LoggingUtilities.logger.log(level: .error, "Required bus and location identifiers not found")
+	#if !os(macOS)
+	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
+		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Required bus and location IDs not found while attempting to send location to server")
+			}
 			return
 		}
 		let location = Bus.Location(
@@ -80,8 +80,9 @@ enum LocationUtilities {
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
-		API.provider.request(.updateBus(busID, location: location)) { (_) in }
+		API.provider.request(.updateBus(id: busID, location: location)) { (_) in }
 	}
+	#endif // !os(macOS)
 	
 }
 
@@ -99,11 +100,11 @@ enum MapUtilities {
 			)
 		)
 		
-		#if os(macOS)
+		#if canImport(AppKit)
 		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
-		#else // os(macOS)
+		#elseif canImport(UIKit) // canImport(AppKit)
 		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
-		#endif
+		#endif // canImport(UIKit)
 		
 	}
 	
@@ -111,17 +112,11 @@ enum MapUtilities {
 
 enum CalendarUtilities {
 	
-	@available(iOS 15, macOS 12, *) static var isAprilFools: Bool {
+	static var isAprilFools: Bool {
 		get {
 			return Calendar.autoupdatingCurrent.dateComponents([.year, .month, .day], from: .now) == DateComponents(year: 2022, month: 4, day: 1)
 		}
 	}
-	
-}
-
-enum LoggingUtilities {
-	
-	static let logger = Logger()
 	
 }
 
@@ -179,6 +174,54 @@ extension Notification.Name {
 	
 }
 
+extension JSONEncoder {
+	
+	convenience init(
+		dateEncodingStrategy: DateEncodingStrategy = .deferredToDate,
+		dataEncodingStrategy: DataEncodingStrategy = .base64,
+		nonConformingFloatEncodingStrategy: NonConformingFloatEncodingStrategy = .throw
+	) {
+		self.init()
+		self.keyEncodingStrategy = keyEncodingStrategy
+		self.dateEncodingStrategy = dateEncodingStrategy
+		self.dataEncodingStrategy = dataEncodingStrategy
+		self.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
+	}
+	
+}
+
+extension JSONDecoder {
+	
+	convenience init(
+		dateDecodingStrategy: DateDecodingStrategy = .deferredToDate,
+		dataDecodingStrategy: DataDecodingStrategy = .base64,
+		nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy = .throw
+	) {
+		self.init()
+		self.keyDecodingStrategy = keyDecodingStrategy
+		self.dateDecodingStrategy = dateDecodingStrategy
+		self.dataDecodingStrategy = dataDecodingStrategy
+		self.nonConformingFloatDecodingStrategy = nonConformingFloatDecodingStrategy
+	}
+	
+}
+
+extension Bundle {
+	
+	var version: String? {
+		get {
+			return self.infoDictionary?["CFBundleShortVersionString"] as? String
+		}
+	}
+	
+	var build: String? {
+		get {
+			return self.infoDictionary?["CFBundleVersion"] as? String
+		}
+	}
+	
+}
+
 extension View {
 	
 	func innerShadow<S: Shape>(using shape: S, color: Color = .black, width: CGFloat = 5) -> some View {
@@ -222,7 +265,7 @@ extension URL {
 	
 	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
-		struct Strategy: Foundation.ParseStrategy {
+		struct ParseStrategy: Foundation.ParseStrategy {
 			
 			enum ParseError: Error {
 				
@@ -239,12 +282,24 @@ extension URL {
 			
 		}
 		
-		var parseStrategy = Strategy()
+		var parseStrategy = ParseStrategy()
 		
 		func format(_ value: URL) -> String {
 			return value.absoluteString
 		}
 		
+	}
+	
+}
+
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
+extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+	
+	static var compatibilityURL: Self {
+		get {
+			return Self()
+		}
 	}
 	
 }
@@ -281,19 +336,15 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
-@available(iOS, introduced: 15, deprecated: 16)
-@available(macOS, introduced: 12, deprecated: 13)
-extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+#if canImport(UIKit)
+extension UIKeyboardType {
 	
-	static var compatibilityURL: Self {
-		get {
-			return Self()
-		}
-	}
+	static let url: Self = .URL
 	
 }
+#endif // canImport(UIKit)
 
-#if os(macOS)
+#if canImport(AppKit)
 extension NSImage {
 	
 	func withTintColor(_ color: NSColor) -> NSImage {
@@ -307,4 +358,4 @@ extension NSImage {
 	}
 	
 }
-#endif // os(macOS)
+#endif // canImport(AppKit)

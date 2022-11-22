@@ -5,19 +5,35 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
-import SwiftUI
 import MapKit
-import Moya
+import SwiftUI
 
 struct ContentView: View {
 	
-	@EnvironmentObject private var mapState: MapState
+	@State
+	private var announcements: [Announcement] = []
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	private var unviewedAnnouncementsCount: Int {
+		get {
+			return self.announcements
+				.filter { (announcement) in
+					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
+				}
+				.count
+		}
+	}
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -77,7 +93,7 @@ struct ContentView: View {
 						// Displays a message when the user attempts to board bus when there’s no nearby stop
 						return Alert(
 							title: Text("No Nearby Stop"),
-							message: Text("You can‘t board a bus if you’re not within \(self.maximumStopDistance) meter\(self.maximumStopDistance == 1 ? "" : "s") of a stop."),
+							message: Text("You can’t board a bus if you’re not within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop."),
 							dismissButton: .default(Text("Dismiss"))
 						)
 					case .updateAvailable:
@@ -86,11 +102,11 @@ struct ContentView: View {
 							message: Text("An update to the app is available. Please update to the latest version to continue using Shuttle Tracker."),
 							dismissButton: .default(Text("Update")) {
 								let url = URL(string: "itms-apps://apps.apple.com/us/app/shuttle-tracker/id1583503452")!
-								#if os(macOS)
+								#if canImport(AppKit)
 								NSWorkspace.shared.open(url)
-								#else // os(macOS)
+								#elseif canImport(UIKit) // canImport(AppKit)
 								UIApplication.shared.open(url)
-								#endif
+								#endif // canImport(UIKit)
 							}
 						)
 					case .serverUnavailable:
@@ -103,9 +119,17 @@ struct ContentView: View {
 				}
 				.onAppear {
 					API.provider.request(.readVersion) { (result) in
-						let version = try? result
-							.get()
-							.map(Int.self)
+						let version: Int?
+						do {
+							version = try result
+								.get()
+								.map(Int.self)
+						} catch let error {
+							version = nil
+							Logging.withLogger(for: .api, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to get server version number: \(error)")
+							}
+						}
 						if let version {
 							if version > API.lastVersion {
 								self.viewState.alertType = .updateAvailable
@@ -119,7 +143,8 @@ struct ContentView: View {
 	}
 	
 	#if os(macOS)
-	@State private var isRefreshing = false
+	@State
+	private var isRefreshing = false
 	
 	private let timer = Timer
 		.publish(every: 5, on: .main, in: .common)
@@ -128,33 +153,40 @@ struct ContentView: View {
 	private var mapView: some View {
 		MapView()
 			.toolbar {
-				ToolbarItem {
-					Button {
-						self.sheetStack.push(.announcements)
-					} label: {
+				Button {
+					self.sheetStack.push(.announcements)
+				} label: {
+					ZStack {
 						Label("View Announcements", systemImage: "exclamationmark.bubble")
-					}
-				}
-				ToolbarItem {
-					Button {
-						self.mapState.mapView?.setVisibleMapRect(
-							self.mapState.routes.boundingMapRect,
-							edgePadding: MapUtilities.Constants.mapRectInsets,
-							animated: true
-						)
-					} label: {
-						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
-					}
-				}
-				ToolbarItem {
-					if self.isRefreshing {
-						ProgressView()
-					} else {
-						Button {
-							NotificationCenter.default.post(name: .refreshBuses, object: nil)
-						} label: {
-							Label("Refresh", systemImage: "arrow.clockwise")
+						if self.unviewedAnnouncementsCount > 0 {
+							Circle()
+								.foregroundColor(.red)
+								.frame(width: 15, height: 15)
+								.offset(x: 10, y: -10)
+							Text("\(self.unviewedAnnouncementsCount)")
+								.foregroundColor(.white)
+								.font(.caption)
+								.offset(x: 10, y: -10)
 						}
+					}
+						.task {
+							self.announcements = await [Announcement].download()
+						}
+				}
+				Button {
+					Task {
+						await self.mapState.resetVisibleMapRect()
+					}
+				} label: {
+					Label("Re-Center Map", systemImage: "location.fill.viewfinder")
+				}
+				if self.isRefreshing {
+					ProgressView()
+				} else {
+					Button {
+						NotificationCenter.default.post(name: .refreshBuses, object: nil)
+					} label: {
+						Label("Refresh", systemImage: "arrow.clockwise")
 					}
 				}
 			}
@@ -165,34 +197,31 @@ struct ContentView: View {
 				withAnimation {
 					self.isRefreshing = true
 				}
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					self.refreshBuses()
-					[Stop].download { (stops) in
-						DispatchQueue.main.async {
-							self.mapState.stops = stops
+				Task {
+					do {
+						if #available(macOS 13, *) {
+							try await Task.sleep(for: .milliseconds(500))
+						} else {
+							try await Task.sleep(nanoseconds: 500_000_000)
 						}
+					} catch let error {
+						Logging.withLogger(doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+						}
+						throw error
 					}
-					[Route].download { (routes) in
-						DispatchQueue.main.async {
-							self.mapState.routes = routes
-						}
+					await self.mapState.refreshAll()
+					withAnimation {
+						self.isRefreshing = false
 					}
 				}
 			}
 			.onReceive(self.timer) { (_) in
-				self.refreshBuses()
-			}
-	}
-	
-	private func refreshBuses() {
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-				withAnimation {
-					self.isRefreshing = false
+				Task {
+					// For “standard” refresh operations, we only refresh the buses.
+					await self.mapState.refreshBuses()
 				}
 			}
-		}
 	}
 	#else // os(macOS)
 	private var mapView: some View {
@@ -208,6 +237,8 @@ struct ContentViewPreviews: PreviewProvider {
 		ContentView()
 			.environmentObject(MapState.shared)
 			.environmentObject(ViewState.shared)
+			.environmentObject(AppStorageManager.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

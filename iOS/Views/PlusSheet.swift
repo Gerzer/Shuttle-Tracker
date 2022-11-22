@@ -1,19 +1,21 @@
 //
 //  PlusSheet.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 3/19/22.
 //
 
 import SwiftUI
 
-@available(iOS 15, *) struct PlusSheet: View {
+struct PlusSheet: View {
 	
 	let featureText: String
 	
-	@State private var doShowAlert = false
+	@State
+	private var doShowAlert = false
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -57,7 +59,7 @@ import SwiftUI
 	
 }
 
-@available(iOS 15, *) struct PlusSheetPreviews: PreviewProvider {
+struct PlusSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		PlusSheet(featureText: "Refreshing the map")

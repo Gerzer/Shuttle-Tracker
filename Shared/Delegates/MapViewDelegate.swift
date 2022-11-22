@@ -5,15 +5,15 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 class MapViewDelegate: NSObject, MKMapViewDelegate {
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		if annotation is MKUserLocation {
 			#if os(iOS)
-			switch MapState.shared.travelState {
+			switch BoardBusManager.globalTravelState {
 			case .onBus:
 				let markerAnnotationView = MKMarkerAnnotationView()
 				markerAnnotationView.annotation = annotation

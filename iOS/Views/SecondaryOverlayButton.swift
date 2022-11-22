@@ -1,6 +1,6 @@
 //
 //  SecondaryOverlayButton.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 10/23/21.
 //
@@ -9,69 +9,51 @@ import SwiftUI
 
 struct SecondaryOverlayButton: View {
 	
-	private let iconSystemName: String
+	let iconSystemName: String
 	
-	private let sheetType: SheetStack.SheetType?
+	let sheetType: SheetStack.SheetType?
 	
-	private let action: (() -> Void)?
+	let action: (() -> Void)?
 	
 	let badgeNumber: Int
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
-		if #available(iOS 15, *) {
-			Button {
-				if let sheetType = self.sheetType {
-					self.sheetStack.push(sheetType)
-				} else {
-					self.action?()
-				}
-			} label: {
-				Group {
-					Image(systemName: self.iconSystemName)
-						.resizable()
-						.aspectRatio(1, contentMode: .fit)
-						.opacity(0.5)
-						.frame(width: 20)
-				}
-					.frame(width: 45, height: 45)
-					.overlay {
-						if self.badgeNumber > 0 {
-							ZStack {
-								Circle()
-									.foregroundColor(.red)
-								Text("\(self.badgeNumber)")
-									.foregroundColor(.white)
-									.font(.caption)
-							}
-								.frame(width: 20, height: 20)
-								.offset(x: 20, y: -20)
+		Button {
+			if let sheetType = self.sheetType {
+				self.sheetStack.push(sheetType)
+			} else {
+				self.action?()
+			}
+		} label: {
+			Group {
+				Image(systemName: self.iconSystemName)
+					.resizable()
+					.aspectRatio(1, contentMode: .fit)
+					.opacity(0.5)
+					.frame(width: 20)
+			}
+				.frame(width: 45, height: 45)
+				.overlay {
+					if self.badgeNumber > 0 {
+						ZStack {
+							Circle()
+								.foregroundColor(.red)
+							Text("\(self.badgeNumber)")
+								.foregroundColor(.white)
+								.font(.caption)
 						}
+							.frame(width: 20, height: 20)
+							.offset(x: 20, y: -20)
 					}
-			}
-				.tint(.primary)
-		} else {
-			Button {
-				if let sheetType = self.sheetType {
-					self.sheetStack.push(sheetType)
-				} else {
-					self.action?()
 				}
-			} label: {
-				Group {
-					Image(systemName: self.iconSystemName)
-						.resizable()
-						.aspectRatio(1, contentMode: .fit)
-						.opacity(0.5)
-						.frame(width: 20)
-				}
-					.frame(width: 45, height: 45)
-			}
-				.buttonStyle(.plain)
 		}
+			.tint(.primary)
 	}
 	
 	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Int = 0) {

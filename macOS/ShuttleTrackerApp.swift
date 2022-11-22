@@ -5,21 +5,28 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
-import SwiftUI
 import CoreLocation
 import OnboardingKit
+import SwiftUI
 
-@main struct ShuttleTrackerApp: App {
+@main
+struct ShuttleTrackerApp: App {
+	
+	@ObservedObject
+	private var mapState = MapState.shared
+	
+	@ObservedObject
+	private var viewState = ViewState.shared
+	
+	@ObservedObject
+	private var appStorageManager = AppStorageManager.shared
 	
 	private static let contentViewSheetStack = SheetStack()
 	
 	private static let settingsViewSheetStack = SheetStack()
 	
-	@ObservedObject private var mapState = MapState.shared
-	
-	@ObservedObject private var viewState = ViewState.shared
-	
-	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+	@NSApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
@@ -46,6 +53,7 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.contentViewSheetStack)
 		}
 			.commands {
@@ -70,11 +78,9 @@ import OnboardingKit
 						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
 					Divider()
 					Button("Re-Center Map") {
-						self.mapState.mapView?.setVisibleMapRect(
-							self.mapState.routes.boundingMapRect,
-							edgePadding: MapUtilities.Constants.mapRectInsets,
-							animated: true
-						)
+						Task {
+							await self.mapState.resetVisibleMapRect()
+						}
 					}
 						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
 					Button("Refresh") {
@@ -88,20 +94,48 @@ import OnboardingKit
 		Settings {
 			SettingsView()
 				.padding()
-				.frame(width: 400, height: 100)
+				.frame(minWidth: 700, minHeight: 300)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.settingsViewSheetStack)
 		}
 	}
 	
 	init() {
+		Logging.withLogger { (logger) in
+			let formattedVersion: String
+			if let version = Bundle.main.version {
+				formattedVersion = " \(version)"
+			} else {
+				formattedVersion = ""
+			}
+			let formattedBuild: String
+			if let build = Bundle.main.build {
+				formattedBuild = " (\(build))"
+			} else {
+				formattedBuild = ""
+			}
+			logger.log("[\(#fileID):\(#line) \(#function)] Shuttle Tracker for macOS\(formattedVersion)\(formattedBuild)")
+		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+		Task {
+			do {
+				if #available(macOS 13, *) {
+					try await Task.sleep(for: .seconds(1))
+				} else {
+					try await Task.sleep(nanoseconds: 1_000_000_000)
+				}
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+				}
+				throw error
+			}
 			sheetStack.push(sheetType)
 		}
 	}

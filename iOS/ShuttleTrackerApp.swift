@@ -5,19 +5,26 @@
 //  Created by Gabriel Jacoby-Cooper on 9/11/20.
 //
 
-import SwiftUI
 import CoreLocation
 import OnboardingKit
+import SwiftUI
 
-@main struct ShuttleTrackerApp: App {
+@main
+struct ShuttleTrackerApp: App {
+	
+	@ObservedObject
+	private var mapState = MapState.shared
+	
+	@ObservedObject
+	private var viewState = ViewState.shared
+	
+	@ObservedObject
+	private var boardBusManager = BoardBusManager.shared
+	
+	@ObservedObject
+	private var appStorageManager = AppStorageManager.shared
 	
 	private static let sheetStack = SheetStack()
-	
-	@ObservedObject private var mapState = MapState.shared
-	
-	@ObservedObject private var viewState = ViewState.shared
-	
-	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
@@ -37,9 +44,7 @@ import OnboardingKit
 			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles, comparator: ==)
 			OnboardingConditions.Disjunction {
 				OnboardingConditions.ColdLaunch(threshold: 3, comparator: >)
-				if #available(iOS 15, *) {
-					OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
-				}
+				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
@@ -67,7 +72,6 @@ import OnboardingKit
 		} conditions: {
 			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
-
 	}
 	
 	var body: some Scene {
@@ -75,11 +79,28 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.boardBusManager)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.sheetStack)
 		}
 	}
 	
 	init() {
+		Logging.withLogger { (logger) in
+			let formattedVersion: String
+			if let version = Bundle.main.version {
+				formattedVersion = " \(version)"
+			} else {
+				formattedVersion = ""
+			}
+			let formattedBuild: String
+			if let build = Bundle.main.build {
+				formattedBuild = " (\(build))"
+			} else {
+				formattedBuild = ""
+			}
+			logger.log("[\(#fileID):\(#line) \(#function)] Shuttle Tracker for iOS\(formattedVersion)\(formattedBuild)")
+		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
@@ -96,12 +117,31 @@ import OnboardingKit
 			LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		}
 		Task {
-			try await UserNotificationUtilities.requestAuthorization()
+			do {
+				try await UserNotificationUtilities.requestAuthorization()
+			} catch let error {
+				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to request notification authorization: \(error)")
+				}
+				throw error
+			}
 		}
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+		Task {
+			do {
+				if #available(iOS 16, *) {
+					try await Task.sleep(for: .seconds(1))
+				} else {
+					try await Task.sleep(nanoseconds: 1_000_000_000)
+				}
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+				}
+				throw error
+			}
 			self.sheetStack.push(sheetType)
 		}
 	}

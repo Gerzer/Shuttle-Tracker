@@ -22,25 +22,14 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 					.font(.headline)
 				Spacer()
 				#if os(iOS)
-				if #available(iOS 15, *) {
-					Button {
-						self.dismissalHandler()
-					} label: {
-						Image(systemName: "xmark.circle.fill")
-							.resizable()
-							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
-					}
-						.tint(.primary)
-				} else {
-					Button {
-						self.dismissalHandler()
-					} label: {
-						Image(systemName: "xmark.circle.fill")
-							.resizable()
-							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
-					}
-						.buttonStyle(.plain)
+				Button {
+					self.dismissalHandler()
+				} label: {
+					Image(systemName: "xmark.circle.fill")
+						.resizable()
+						.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
 				}
+					.tint(.primary)
 				#else // os(iOS)
 				Button {
 					self.dismissalHandler()

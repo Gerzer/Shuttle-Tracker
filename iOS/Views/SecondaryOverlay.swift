@@ -1,6 +1,6 @@
 //
 //  SecondaryOverlay.swift
-//  Shuttle Tracker
+//  Shuttle Tracker (iOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
@@ -9,26 +9,29 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
+	@State
+	private var announcements: [Announcement] = []
+	
+	@EnvironmentObject
+	private var mapState: MapState
+	
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
+	
 	private var unviewedAnnouncementsCount: Int {
 		get {
-			return self.announcements.reduce(into: 0) { (partialResult, announcement) in
-				if !self.viewedAnnouncementIDs.contains(announcement.id) {
-					partialResult += 1
+			return self.announcements
+				.filter { (announcement) in
+					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
 				}
-			}
+				.count
 		}
 	}
-	
-	@State private var announcements: [Announcement] = []
-	
-	@EnvironmentObject private var mapState: MapState
-	
-	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
 	
 	var body: some View {
 		VStack {
 			VStack(spacing: 0) {
-				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
+				if CalendarUtilities.isAprilFools {
 					SecondaryOverlayButton(
 						iconSystemName: "gearshape.fill",
 						sheetType: .plus(featureText: "Changing settings"),
@@ -42,7 +45,7 @@ struct SecondaryOverlay: View {
 				}
 				Divider()
 					.frame(width: 45, height: 0)
-				if #available(iOS 15, *), CalendarUtilities.isAprilFools {
+				if CalendarUtilities.isAprilFools {
 					SecondaryOverlayButton(
 						iconSystemName: "info.circle.fill",
 						sheetType: .plus(featureText: "Viewing app information"),
@@ -54,19 +57,16 @@ struct SecondaryOverlay: View {
 						sheetType: .info
 					)
 				}
-				if #available(iOS 15, *) {
-					Divider()
-						.frame(width: 45, height: 0)
-					SecondaryOverlayButton(
-						iconSystemName: "exclamationmark.bubble.fill",
-						sheetType: .announcements,
-						badgeNumber: self.unviewedAnnouncementsCount
-					)
-						.badge(self.unviewedAnnouncementsCount)
-						.task {
-							self.announcements = await [Announcement].download()
-						}
-				}
+				Divider()
+					.frame(width: 45, height: 0)
+				SecondaryOverlayButton(
+					iconSystemName: "exclamationmark.bubble.fill",
+					sheetType: .announcements,
+					badgeNumber: self.unviewedAnnouncementsCount
+				)
+					.task {
+						self.announcements = await [Announcement].download()
+					}
 			}
 				.background(
 					VisualEffectView(.systemThickMaterial)
@@ -75,11 +75,9 @@ struct SecondaryOverlay: View {
 				)
 			VStack(spacing: 0) {
 				SecondaryOverlayButton(iconSystemName: "location.fill.viewfinder") {
-					self.mapState.mapView?.setVisibleMapRect(
-						self.mapState.routes.boundingMapRect,
-						edgePadding: MapUtilities.Constants.mapRectInsets,
-						animated: true
-					)
+					Task {
+						await self.mapState.resetVisibleMapRect()
+					}
 				}
 			}
 				.background(

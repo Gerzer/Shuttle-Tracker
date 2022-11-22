@@ -5,8 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 class Bus: NSObject, Codable, CustomAnnotation {
 	
@@ -81,11 +81,11 @@ class Bus: NSObject, Codable, CustomAnnotation {
 				colorBlindSymbolName = "scope"
 			}
 			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
-			#if os(macOS)
+			#if canImport(AppKit)
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
-			#else // os(macOS)
+			#elseif canImport(UIKit) // canImport(AppKit)
 			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
-			#endif
+			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
 	}
@@ -103,25 +103,43 @@ class Bus: NSObject, Codable, CustomAnnotation {
 
 extension Array where Element == Bus {
 	
-	static func download(_ busesCallback:  @escaping (_ buses: [Bus]) -> Void) {
-		API.provider.request(.readBuses) { (result) in
-			let decoder = JSONDecoder()
-			decoder.dateDecodingStrategy = .iso8601
-			let buses = try? result
-				.get()
-				.map([Bus].self, using: decoder)
-				.filter { (bus) in
-					return bus.location.date.timeIntervalSinceNow > -300
-				}
-				.filter { (bus) in
-					switch MapState.shared.travelState {
-					case .onBus:
-						return bus.id != MapState.shared.busID
-					case .notOnBus:
-						return true
+	static func download() async -> [Bus] {
+		return await withCheckedContinuation { (continuation) in
+			API.provider.request(.readBuses) { (result) in
+				Task {
+					let decoder = JSONDecoder()
+					decoder.dateDecodingStrategy = .iso8601
+					#if os(iOS)
+					let busID = await BoardBusManager.shared.busID
+					let travelState = await BoardBusManager.shared.travelState
+					#endif // os(iOS)
+					let buses: [Bus]
+					do {
+						buses = try result.get()
+							.map([Bus].self, using: decoder)
+							.filter { (bus) -> Bool in
+								return abs(bus.location.date.timeIntervalSinceNow) < 300
+							}
+							#if !os(macOS)
+							.filter { (bus) in
+								switch travelState {
+								case .onBus:
+									return bus.id != busID
+								case .notOnBus:
+									return true
+								}
+							}
+							#endif // !os(macOS)
+					} catch let error {
+						buses = []
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download buses: \(error)")
+						}
+						throw error
 					}
+					continuation.resume(returning: buses)
 				}
-			busesCallback(buses ?? [])
+			}
 		}
 	}
 	

@@ -17,11 +17,11 @@ struct PrivacyView: View {
 			.padding()
 			.navigationTitle("Privacy")
 			.toolbar {
-				#if !os(macOS)
+				#if os(iOS)
 				ToolbarItem {
 					CloseButton()
 				}
-				#endif // !os(macOS)
+				#endif // os(iOS)
 			}
 	}
 	

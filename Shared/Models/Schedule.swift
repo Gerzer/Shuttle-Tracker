@@ -50,17 +50,25 @@ final class Schedule: Decodable, Identifiable {
 		self.content = content
 	}
 	
-	@available(iOS 15, macOS 12, *) static func download() async -> Schedule? {
+	static func download() async -> Schedule? {
 		return await withCheckedContinuation { (continuation) in
 			API.provider.request(.schedule) { (result) in
 				let decoder = JSONDecoder()
 				decoder.dateDecodingStrategy = .iso8601
-				let schedule = try? result
-					.get()
-					.map([Schedule].self, using: decoder)
-					.first { (schedule) in
-						return schedule.start <= Date.now && schedule.end >= Date.now
+				let schedule: Schedule?
+				do {
+					schedule = try result
+						.get()
+						.map([Schedule].self, using: decoder)
+						.first { (schedule) in
+							return schedule.start <= Date.now && schedule.end >= Date.now
+						}
+				} catch let error {
+					schedule = nil
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download schedule: \(error)")
 					}
+				}
 				continuation.resume(returning: schedule)
 			}
 		}
