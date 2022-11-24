@@ -5,7 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 9/18/22.
 //
 
-import Foundation
+import UserNotifications
 
 actor BoardBusManager: ObservableObject {
 	
@@ -50,6 +50,25 @@ actor BoardBusManager: ObservableObject {
 		LocationUtilities.locationManager.startUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function)] Activated Board Bus")
+		}
+		if !isManual {
+			// Schedule Automatic Board Bus notification
+			let content = UNMutableNotificationContent()
+			content.title = "Automatic Board Bus"
+			content.body = "Shuttle Tracker detected that you’re on a bus and activated Automatic Board Bus."
+			content.sound = .default
+			content.interruptionLevel = .timeSensitive
+			let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications with a time interval of `0`
+			let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
+			do {
+				try await UNUserNotificationCenter
+					.current()
+					.add(request)
+			} catch let error {
+				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to schedule Automatic Board Bus notification: \(error)")
+				}
+			}
 		}
 		await MainActor.run {
 			self.oldUserLocationTitle = MapState.mapView?.userLocation.title
