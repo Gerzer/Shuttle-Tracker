@@ -99,7 +99,7 @@ struct ShuttleTrackerApp: App {
 			} else {
 				formattedBuild = ""
 			}
-			logger.log("[\(#fileID):\(#line) \(#function)] Shuttle Tracker for iOS\(formattedVersion)\(formattedBuild)")
+			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
@@ -121,7 +121,7 @@ struct ShuttleTrackerApp: App {
 				try await UserNotificationUtilities.requestAuthorization()
 			} catch let error {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to request notification authorization: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
 				}
 				throw error
 			}
@@ -138,7 +138,7 @@ struct ShuttleTrackerApp: App {
 				}
 			} catch let error {
 				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 				}
 				throw error
 			}

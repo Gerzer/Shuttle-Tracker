@@ -101,13 +101,13 @@ struct BusSelectionSheet: View {
 										try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 									} catch let error {
 										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-											logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Temporary full-accuracy location authorization request failed: \(error)")
+											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 										}
 										throw error
 									}
 									guard case .fullAccuracy = LocationUtilities.locationManager.accuracyAuthorization else {
 										Logging.withLogger(for: .permissions) { (logger) in
-											logger.log("[\(#fileID):\(#line) \(#function)] User declined full location accuracy authorization")
+											logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
 										}
 										return
 									}
@@ -137,12 +137,12 @@ struct BusSelectionSheet: View {
 							}
 					} catch let error {
 						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to get list of known bus IDs from the server: \(error)")
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
 						}
 					}
 					guard let location = LocationUtilities.locationManager.location else {
 						Logging.withLogger(for: .location, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Can’t suggest nearest bus because the user’s location is unavailable")
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t suggest nearest bus because the user’s location is unavailable")
 						}
 						return
 					}
@@ -169,11 +169,11 @@ struct BusSelectionSheet: View {
 	private func boardBus() async {
 		precondition(LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy)
 		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Activating Board Bus manually…")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Activating Board Bus manually…")
 		}
 		guard let id = self.selectedBusID?.rawValue else {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] No selected bus ID while trying to activate manual Board Bus")
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] No selected bus ID while trying to activate manual Board Bus")
 			}
 			return
 		}
@@ -198,7 +198,7 @@ struct BusSelectionSheet: View {
 				try await UserNotificationUtilities.requestAuthorization()
 			} catch let error {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to request notification authorization: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
 				}
 				throw error
 			}
@@ -208,7 +208,7 @@ struct BusSelectionSheet: View {
 					.add(request)
 			} catch let error {
 				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "Failed to schedule local notification: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule local notification: \(error, privacy: .public)")
 				}
 				throw error
 			}

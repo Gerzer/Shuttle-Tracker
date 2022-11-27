@@ -49,7 +49,7 @@ actor BoardBusManager: ObservableObject {
 		self.travelState = .onBus(manual: isManual)
 		LocationUtilities.locationManager.startUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log("[\(#fileID):\(#line) \(#function)] Activated Board Bus")
+			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
 		}
 		if !isManual {
 			// Schedule Automatic Board Bus notification
@@ -99,7 +99,7 @@ actor BoardBusManager: ObservableObject {
 		self.travelState = .notOnBus
 		LocationUtilities.locationManager.stopUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log("[\(#fileID):\(#line) \(#function)] Deactivated Board Bus")
+			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Deactivated Board Bus")
 		}
 		await MainActor.run {
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle

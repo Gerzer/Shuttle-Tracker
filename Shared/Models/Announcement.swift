@@ -78,7 +78,7 @@ extension Array where Element == Announcement {
 				} catch let error {
 					announcements = []
 					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download announcements: \(error)")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download announcements: \(error, privacy: .public)")
 					}
 				}
 				continuation.resume(returning: announcements)

@@ -127,7 +127,7 @@ struct ContentView: View {
 						} catch let error {
 							version = nil
 							Logging.withLogger(for: .api, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to get server version number: \(error)")
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 							}
 						}
 						if let version {
@@ -206,7 +206,7 @@ struct ContentView: View {
 						}
 					} catch let error {
 						Logging.withLogger(doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 						}
 						throw error
 					}

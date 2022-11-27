@@ -124,7 +124,7 @@ extension Array where Element == Route {
 				} catch let error {
 					routes = []
 					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download routes: \(error)")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
 					}
 				}
 				continuation.resume(returning: routes)

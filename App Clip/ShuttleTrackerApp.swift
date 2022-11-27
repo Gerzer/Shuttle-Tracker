@@ -62,7 +62,7 @@ struct ShuttleTrackerApp: App {
 			} else {
 				formattedBuild = ""
 			}
-			logger.log("[\(#fileID):\(#line) \(#function)] Shuttle Tracker App Clip\(formattedVersion)\(formattedBuild)")
+			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker App Clip\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()

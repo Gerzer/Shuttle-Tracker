@@ -154,7 +154,7 @@ struct PermissionsSheet: View {
 											try await UserNotificationUtilities.requestAuthorization()
 										} catch let error {
 											Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-												logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Notification authorization request failed: \(error)")
+												logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization request failed: \(error, privacy: .public)")
 											}
 											throw error
 										}
@@ -173,7 +173,7 @@ struct PermissionsSheet: View {
 									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 								} catch let error {
 									Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-										logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Full-accuracy location authorization request failed: \(error)")
+										logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Full-accuracy location authorization request failed: \(error, privacy: .public)")
 									}
 									throw error
 								}

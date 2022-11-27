@@ -228,7 +228,7 @@ struct LoggingAnalyticsSettingsView: View {
 			} catch let error {
 				self.logUploadError = WrappedError(error)
 				Logging.withLogger { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to upload logs: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload logs: \(error, privacy: .public)")
 				}
 				throw error
 			}
