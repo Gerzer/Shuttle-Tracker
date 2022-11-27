@@ -66,7 +66,7 @@ actor BoardBusManager: ObservableObject {
 				try await UserNotificationUtilities.requestAuthorization()
 			} catch let error {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to request notification authorization: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
 				}
 			}
 			do {
@@ -75,7 +75,7 @@ actor BoardBusManager: ObservableObject {
 					.add(request)
 			} catch let error {
 				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to schedule Automatic Board Bus notification: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
 				}
 			}
 		}

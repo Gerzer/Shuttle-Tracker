@@ -12,7 +12,7 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	#if os(iOS)
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		Logging.withLogger(for: .location) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did update locations \(locations)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did update locations \(locations, privacy: .private(mask: .hash))")
 		}
 		Task {
 			if case .onBus = await BoardBusManager.shared.travelState {
@@ -24,47 +24,47 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
 	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
 		Logging.withLogger(for: .location, doUpload: true) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did fail with error \(error)")
-			logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Location update failed: \(error)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did fail with error \(error, privacy: .public)")
+			logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Location update failed: \(error, privacy: .public)")
 		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
 		Logging.withLogger(for: .location) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did determine state \(state.rawValue) for \(region)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did determine state \(state.rawValue) for \(region, privacy: .private(mask: .hash))")
 			switch state {
 			case .inside:
-				logger.log("[\(#fileID):\(#line) \(#function)] Inside region: \(region)")
+				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Inside region: \(region, privacy: .private(mask: .hash))")
 				if let beaconRegion = region as? CLBeaconRegion {
 					manager.startRangingBeacons(satisfying: beaconRegion.beaconIdentityConstraint)
-					logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Started ranging beacons: \(beaconRegion)")
+					logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Started ranging beacons: \(beaconRegion, privacy: .public)")
 				}
 			case .outside:
-				logger.log("[\(#fileID):\(#line) \(#function)] Outside region: \(region)")
+				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Outside region: \(region, privacy: .private(mask: .hash))")
 				Task {
 					if region is CLBeaconRegion, case .onBus(manual: false) = await BoardBusManager.shared.travelState {
 						await BoardBusManager.shared.leaveBus()
 					}
 				}
 			case .unknown:
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Unknown state for region: \(region)")
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Unknown state for region: \(region, privacy: .private(mask: .hash))")
 			}
 		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
 		Logging.withLogger(for: .location) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did enter region \(region)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did enter region \(region, privacy: .private(mask: .hash))")
 			if let beaconRegion = region as? CLBeaconRegion {
 				manager.startRangingBeacons(satisfying: beaconRegion.beaconIdentityConstraint)
-				logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Started ranging beacons: \(beaconRegion)")
+				logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Started ranging beacons: \(beaconRegion, privacy: .private(mask: .hash))")
 			}
 		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
 		Logging.withLogger(for: .location) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did exit region \(region)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did exit region \(region, privacy: .private(mask: .hash))")
 			Task {
 				if region is CLBeaconRegion, case .onBus(manual: false) = await BoardBusManager.shared.travelState {
 					await BoardBusManager.shared.leaveBus()
@@ -75,14 +75,14 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
 	func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
 		Logging.withLogger(for: .location, doUpload: true) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Monitoring did fail for region \(region) with error \(error)")
-			logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Region monitoring failed: \(error)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Monitoring did fail for region \(region, privacy: .private(mask: .hash)) with error \(error, privacy: .public)")
+			logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Region monitoring failed: \(error, privacy: .public)")
 		}
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didRange beacons: [CLBeacon], satisfying beaconConstraint: CLBeaconIdentityConstraint) {
 		Logging.withLogger(for: .location) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did range \(beacons) satisfying \(beaconConstraint)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did range \(beacons, privacy: .public) satisfying \(beaconConstraint, privacy: .public)")
 			Task {
 				if case .notOnBus = await BoardBusManager.shared.travelState {
 					let beacon = beacons
@@ -108,7 +108,7 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 							}
 						}
 					guard let beacon else {
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] No beacons remain after filtering")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] No beacons remain after filtering")
 						return
 					}
 					let id = Int(truncating: beacon.major)
@@ -121,27 +121,27 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
 	func locationManager(_ manager: CLLocationManager, didFailRangingFor beaconConstraint: CLBeaconIdentityConstraint, error: Error) {
 		Logging.withLogger(for: .location, doUpload: true) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did fail ranging for \(beaconConstraint) error \(error)")
-			logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Ranging failed: \(error)")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did fail ranging for \(beaconConstraint, privacy: .public) error \(error, privacy: .public)")
+			logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Ranging failed: \(error, privacy: .public)")
 		}
 	}
 	
 	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
 		Logging.withLogger(for: .location) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Did change authorization")
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did change authorization")
 			switch manager.authorizationStatus {
 			case .notDetermined:
-				logger.log("[\(#fileID):\(#line) \(#function)] Location authorization status: not determined")
+				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Location authorization status: not determined")
 			case .restricted:
-				logger.log("[\(#fileID):\(#line) \(#function)] Location authorization status: restricted")
+				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Location authorization status: restricted")
 			case .denied:
-				logger.log("[\(#fileID):\(#line) \(#function)] Location authorization status: denied")
+				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Location authorization status: denied")
 			case .authorizedWhenInUse:
-				logger.log("[\(#fileID):\(#line) \(#function)] Location authorization status: authorized when in use")
+				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Location authorization status: authorized when in use")
 			case .authorizedAlways:
-				logger.log("[\(#fileID):\(#line) \(#function)] Location authorization status: authorized always")
+				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Location authorization status: authorized always")
 			@unknown default:
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Unknown location authorization status")
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Unknown location authorization status")
 			}
 		}
 	}
