@@ -57,9 +57,18 @@ actor BoardBusManager: ObservableObject {
 			content.title = "Automatic Board Bus"
 			content.body = "Shuttle Tracker detected that you’re on a bus and activated Automatic Board Bus."
 			content.sound = .default
+			#if !APPCLIP
 			content.interruptionLevel = .timeSensitive
-			let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications with a time interval of `0`
+			#endif // !APPCLIP
+			let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications
 			let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
+			do {
+				try await UserNotificationUtilities.requestAuthorization()
+			} catch let error {
+				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to request notification authorization: \(error)")
+				}
+			}
 			do {
 				try await UNUserNotificationCenter
 					.current()
