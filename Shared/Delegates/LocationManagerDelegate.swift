@@ -86,29 +86,25 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 			Task {
 				if case .notOnBus = await BoardBusManager.shared.travelState {
 					let beacon = beacons
-						.filter { (beacon) in
-							return beacon.proximity != .unknown && beacon.accuracy >= 0
-						}
-						.min { (lhs, rhs) in
-							switch (lhs.proximity, rhs.proximity) {
-							case (.immediate, .immediate), (.near, .near), (.far, .far):
-								assert(lhs.accuracy >= 0)
-								assert(rhs.accuracy >= 0)
-								return lhs.accuracy < rhs.accuracy
-							case (.far, .immediate):
-								return false
-							case (.far, .near):
-								return false
-							case (.near, .immediate):
-								return false
-							case (.near, .far):
-								return false
-							case (.immediate, .near):
+						.min { (first, second) in // Select the physically nearest beacon
+							switch (first.proximity, second.proximity) {
+							case (.immediate, .near), (.immediate, .far), (.near, .far):
 								return true
-							case (.immediate, .far):
-								return true
+							case (.far, .immediate), (.far, .near), (.near, .immediate):
+								return false
+							case (let firstProximity, .unknown) where firstProximity != .unknown:
+								return true // Prefer the first beacon because only it has known proximity
+							case (.unknown, let secondProximity) where secondProximity != .unknown:
+								return false // Prefer the second beacon because only it has known proximity
 							default:
-								fatalError("Beacons with unknown proximity should already have been filtered out!")
+								switch (first.accuracy, second.accuracy) {
+								case (let firstAccuracy, let secondAccuracy) where firstAccuracy >= 0 && secondAccuracy < 0:
+									return true // Prefer the first beacon because only it has known accuracy
+								case (let firstAccuracy, let secondAccuracy) where firstAccuracy < 0 && secondAccuracy >= 0:
+									return false // Prefer the second beacon because only it has known accuracy
+								default:
+									return first.accuracy < second.accuracy // Prefer the beacon with the lower accuracy value, which, per the documentation, typically indicates that it’s nearer
+								}
 							}
 						}
 					guard let beacon else {
