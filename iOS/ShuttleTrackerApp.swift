@@ -108,8 +108,8 @@ struct ShuttleTrackerApp: App {
 		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
 			LocationUtilities.locationManager.requestAlwaysAuthorization()
 			let beaconRegion = CLBeaconRegion(
-				uuid: LocationUtilities.Constants.networkUUID,
-				identifier: LocationUtilities.Constants.beaconID
+				uuid: BoardBusManager.networkUUID,
+				identifier: BoardBusManager.beaconID
 			)
 			beaconRegion.notifyEntryStateOnDisplay = true
 			LocationUtilities.locationManager.startMonitoring(for: beaconRegion)

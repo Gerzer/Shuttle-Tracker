@@ -42,14 +42,6 @@ enum ViewUtilities {
 
 enum LocationUtilities {
 	
-	enum Constants {
-		
-		static let networkUUID = UUID(uuidString: "3BB7876D-403D-CB84-5E4C-907ADC953F9C")!
-		
-		static let beaconID = "com.gerzer.shuttletracker.node"
-		
-	}
-	
 	private static let locationManagerDelegate = LocationManagerDelegate()
 	
 	private static var locationManagerHandlers: [(CLLocationManager) -> Void] = []

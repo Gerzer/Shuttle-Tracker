@@ -19,6 +19,10 @@ actor BoardBusManager: ObservableObject {
 	
 	static let shared = BoardBusManager()
 	
+	static let networkUUID = UUID(uuidString: "3BB7876D-403D-CB84-5E4C-907ADC953F9C")!
+	
+	static let beaconID = "com.gerzer.shuttletracker.node"
+	
 	/// The most recent ``travelState`` value for the ``shared`` instance.
 	///
 	/// This property is provided so that the travel state can be read in synchronous contexts. Where possible, it’s safer to access ``travelState`` directly in an asynchronous manner.
