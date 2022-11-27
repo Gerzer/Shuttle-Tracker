@@ -58,7 +58,7 @@ public enum Logging {
 				try self.content.write(to: url, atomically: false, encoding: .utf8)
 			} catch let error {
 				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to save log file to temporary directory: \(error)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save log file to temporary directory: \(error, privacy: .public)")
 				}
 				throw error
 			}
@@ -95,7 +95,7 @@ public enum Logging {
 					try await self.uploadLog()
 				} catch let error {
 					self.withLogger { (logger) in // Leave `doUpload` set to `false` (the default) to avoid the potential for infinite recursion
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to upload logs: \(error)")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload logs: \(error, privacy: .public)")
 					}
 					throw error
 				}

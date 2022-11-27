@@ -75,7 +75,7 @@ extension Array where Element == Stop {
 				} catch let error {
 					stops = []
 					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download stops: \(error)")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download stops: \(error, privacy: .public)")
 					}
 				}
 				continuation.resume(returning: stops)

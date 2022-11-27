@@ -62,7 +62,7 @@ enum LocationUtilities {
 	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
 		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Required bus and location IDs not found while attempting to send location to server")
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Required bus and location IDs not found while attempting to send location to server")
 			}
 			return
 		}

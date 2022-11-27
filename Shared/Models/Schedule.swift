@@ -66,7 +66,7 @@ final class Schedule: Decodable, Identifiable {
 				} catch let error {
 					schedule = nil
 					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Failed to download schedule: \(error)")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download schedule: \(error, privacy: .public)")
 					}
 				}
 				continuation.resume(returning: schedule)

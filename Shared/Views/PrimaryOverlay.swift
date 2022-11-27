@@ -52,7 +52,7 @@ struct PrimaryOverlay: View {
 						switch await self.boardBusManager.travelState {
 						case .onBus:
 							Logging.withLogger(for: .boardBus) { (logger) in
-								logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Leave Bus button tapped")
+								logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Leave Bus” button tapped")
 							}
 							await self.boardBusManager.leaveBus()
 							self.viewState.statusText = .thanks
@@ -81,14 +81,14 @@ struct PrimaryOverlay: View {
 								}
 							} catch let error {
 								Logging.withLogger(doUpload: true) { (logger) in
-									logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 								}
 								throw error
 							}
 							self.viewState.statusText = .mapRefresh
 						case .notOnBus:
 							Logging.withLogger(for: .boardBus) { (logger) in
-								logger.log(level: .info, "[\(#fileID):\(#line) \(#function)] Board Bus button tapped")
+								logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
 							}
 							
 							// TODO: Rename local `location` identifier to something more descriptive
@@ -165,7 +165,7 @@ struct PrimaryOverlay: View {
 						}
 					} catch let error {
 						Logging.withLogger(doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Task sleep error: \(error)")
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 						}
 						throw error
 					}
@@ -182,7 +182,7 @@ struct PrimaryOverlay: View {
 					case .onBus:
 						guard let coordinate = LocationUtilities.locationManager.location?.coordinate else {
 							Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function)] Can’t send Board Bus location submission because the user’s location is unavailable")
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t send Board Bus location submission because the user’s location is unavailable")
 							}
 							break
 						}
