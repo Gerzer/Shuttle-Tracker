@@ -38,35 +38,35 @@ struct PermissionsSheet: View {
 						Group {
 							switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
 							case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
-								HStack {
+								HStack(alignment: .top) {
 									Image(systemName: "gear.badge.checkmark")
 										.resizable()
 										.scaledToFit()
-										.frame(width: 50, height: 50)
+										.frame(width: 40, height: 40)
 									Text("You’ve already granted location permission. Thanks!")
 								}
 							case (.restricted, _), (.denied, _):
-								HStack {
+								HStack(alignment: .top) {
 									Image(systemName: "gear.badge.xmark")
 										.resizable()
 										.scaledToFit()
-										.frame(width: 50, height: 50)
+										.frame(width: 40, height: 40)
 									Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
 								}
 							case (.notDetermined, _):
-								HStack {
+								HStack(alignment: .top) {
 									Image(systemName: "gear.badge.questionmark")
 										.resizable()
 										.scaledToFit()
-										.frame(width: 50, height: 50)
+										.frame(width: 40, height: 40)
 									Text("Tap “Continue” and then grant location permission.")
 								}
 							case (_, .reducedAccuracy):
-								HStack {
+								HStack(alignment: .top) {
 									Image(systemName: "gear.badge.questionmark")
 										.resizable()
 										.scaledToFit()
-										.frame(width: 50, height: 50)
+										.frame(width: 40, height: 40)
 									Text("Tap “Continue” and then grant full-accuracy location permission.")
 								}
 							@unknown default:
@@ -86,27 +86,27 @@ struct PermissionsSheet: View {
 							Group {
 								switch notificationAuthorizationStatus {
 								case .authorized, .ephemeral, .provisional:
-									HStack {
+									HStack(alignment: .top) {
 										Image(systemName: "gear.badge.checkmark")
 											.resizable()
 											.scaledToFit()
-											.frame(width: 50, height: 50)
+											.frame(width: 40, height: 40)
 										Text("You’ve already granted notification permission. Thanks!")
 									}
 								case .denied:
-									HStack {
+									HStack(alignment: .top) {
 										Image(systemName: "gear.badge.xmark")
 											.resizable()
 											.scaledToFit()
-											.frame(width: 50, height: 50)
+											.frame(width: 40, height: 40)
 										Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
 									}
 								case .notDetermined:
-									HStack {
+									HStack(alignment: .top) {
 										Image(systemName: "gear.badge.questionmark")
 											.resizable()
 											.scaledToFit()
-											.frame(width: 50, height: 50)
+											.frame(width: 40, height: 40)
 										switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
 										case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
 											Text("Tap “Continue” and then grant notification permission.")
