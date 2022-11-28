@@ -86,6 +86,7 @@ struct AdvancedSettingsViewPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		AdvancedSettingsView()
+			.environmentObject(AppStorageManager.shared)
 	}
 	
 }

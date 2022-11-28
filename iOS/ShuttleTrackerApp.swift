@@ -86,22 +86,51 @@ struct ShuttleTrackerApp: App {
 	}
 	
 	init() {
+		Logging.withLogger { (logger) in
+			let formattedVersion: String
+			if let version = Bundle.main.version {
+				formattedVersion = " \(version)"
+			} else {
+				formattedVersion = ""
+			}
+			let formattedBuild: String
+			if let build = Bundle.main.build {
+				formattedBuild = " (\(build))"
+			} else {
+				formattedBuild = ""
+			}
+			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
+		}
 		LocationUtilities.locationManager = CLLocationManager()
 		LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
 		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 		Task {
-			try await UserNotificationUtilities.requestAuthorization()
+			do {
+				try await UserNotificationUtilities.requestAuthorization()
+			} catch let error {
+				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+				}
+				throw error
+			}
 		}
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
 		Task {
-			if #available(iOS 16, *) {
-				try await Task.sleep(for: .seconds(1))
-			} else {
-				try await Task.sleep(nanoseconds: 1_000_000_000)
+			do {
+				if #available(iOS 16, *) {
+					try await Task.sleep(for: .seconds(1))
+				} else {
+					try await Task.sleep(nanoseconds: 1_000_000_000)
+				}
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
+				}
+				throw error
 			}
 			self.sheetStack.push(sheetType)
 		}

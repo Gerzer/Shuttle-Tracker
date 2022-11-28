@@ -8,6 +8,7 @@
 import MapKit
 import OSLog
 import SwiftUI
+import UserNotifications
 
 enum ViewUtilities {
 	
@@ -61,7 +62,9 @@ enum LocationUtilities {
 	#if !os(macOS)
 	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
 		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
-			LoggingUtilities.logger.log(level: .fault, "Required bus and location IDs not found")
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Required bus and location IDs not found while attempting to send location to server")
+			}
 			return
 		}
 		let location = Bus.Location(
@@ -109,12 +112,6 @@ enum CalendarUtilities {
 			return Calendar.autoupdatingCurrent.dateComponents([.year, .month, .day], from: .now) == DateComponents(year: 2022, month: 4, day: 1)
 		}
 	}
-	
-}
-
-enum LoggingUtilities {
-	
-	static let logger = Logger()
 	
 }
 
@@ -169,6 +166,54 @@ extension MKMapPoint: Equatable {
 extension Notification.Name {
 	
 	static let refreshBuses = Notification.Name("RefreshBuses")
+	
+}
+
+extension JSONEncoder {
+	
+	convenience init(
+		dateEncodingStrategy: DateEncodingStrategy = .deferredToDate,
+		dataEncodingStrategy: DataEncodingStrategy = .base64,
+		nonConformingFloatEncodingStrategy: NonConformingFloatEncodingStrategy = .throw
+	) {
+		self.init()
+		self.keyEncodingStrategy = keyEncodingStrategy
+		self.dateEncodingStrategy = dateEncodingStrategy
+		self.dataEncodingStrategy = dataEncodingStrategy
+		self.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
+	}
+	
+}
+
+extension JSONDecoder {
+	
+	convenience init(
+		dateDecodingStrategy: DateDecodingStrategy = .deferredToDate,
+		dataDecodingStrategy: DataDecodingStrategy = .base64,
+		nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy = .throw
+	) {
+		self.init()
+		self.keyDecodingStrategy = keyDecodingStrategy
+		self.dateDecodingStrategy = dateDecodingStrategy
+		self.dataDecodingStrategy = dataDecodingStrategy
+		self.nonConformingFloatDecodingStrategy = nonConformingFloatDecodingStrategy
+	}
+	
+}
+
+extension Bundle {
+	
+	var version: String? {
+		get {
+			return self.infoDictionary?["CFBundleShortVersionString"] as? String
+		}
+	}
+	
+	var build: String? {
+		get {
+			return self.infoDictionary?["CFBundleVersion"] as? String
+		}
+	}
 	
 }
 

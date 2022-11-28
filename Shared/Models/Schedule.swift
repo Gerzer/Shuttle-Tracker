@@ -55,12 +55,20 @@ final class Schedule: Decodable, Identifiable {
 			API.provider.request(.schedule) { (result) in
 				let decoder = JSONDecoder()
 				decoder.dateDecodingStrategy = .iso8601
-				let schedule = try? result
-					.get()
-					.map([Schedule].self, using: decoder)
-					.first { (schedule) in
-						return schedule.start <= Date.now && schedule.end >= Date.now
+				let schedule: Schedule?
+				do {
+					schedule = try result
+						.get()
+						.map([Schedule].self, using: decoder)
+						.first { (schedule) in
+							return schedule.start <= Date.now && schedule.end >= Date.now
+						}
+				} catch let error {
+					schedule = nil
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download schedule: \(error, privacy: .public)")
 					}
+				}
 				continuation.resume(returning: schedule)
 			}
 		}

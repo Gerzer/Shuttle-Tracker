@@ -37,10 +37,13 @@ enum API: TargetType {
 	
 	case schedule
 	
+	case uploadLog(log: Logging.Log)
+	
 	static let provider = MoyaProvider<API>()
 	
 	static let lastVersion = 3
 	
+	@MainActor
 	var baseURL: URL {
 		get {
 			return AppStorageManager.shared.baseURL
@@ -70,15 +73,19 @@ enum API: TargetType {
 				return "/stops"
 			case .schedule:
 				return "/schedule"
+			case .uploadLog:
+				return "/logs"
 			}
 		}
 	}
 	
-	public var method: HTTPMethod {
+	var method: HTTPMethod {
 		get {
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .schedule:
 				return .get
+			case .uploadLog:
+				return .post
 			case .updateBus:
 				return .patch
 			case .boardBus, .leaveBus:
@@ -89,6 +96,7 @@ enum API: TargetType {
 	
 	var task: HTTPTask {
 		get {
+			let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
 				return .requestPlain
@@ -98,9 +106,9 @@ enum API: TargetType {
 				]
 				return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
 			case .updateBus(_, let location):
-				let encoder = JSONEncoder()
-				encoder.dateEncodingStrategy = .iso8601
 				return .requestCustomJSONEncodable(location, encoder: encoder)
+			case .uploadLog(let log):
+				return .requestCustomJSONEncodable(log, encoder: encoder)
 			}
 		}
 	}
@@ -129,11 +137,7 @@ enum API: TargetType {
 	}
 	
 	func perform<ResponseType>(
-		decodingJSONWith decoder: JSONDecoder = {
-			let decoder = JSONDecoder()
-			decoder.dateDecodingStrategy = .iso8601
-			return decoder
-		}(),
+		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
 		as _: ResponseType.Type
 	) async throws -> ResponseType where ResponseType: Decodable {
 		let data = try await self.perform()

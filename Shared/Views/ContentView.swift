@@ -119,9 +119,17 @@ struct ContentView: View {
 				}
 				.onAppear {
 					API.provider.request(.readVersion) { (result) in
-						let version = try? result
-							.get()
-							.map(Int.self)
+						let version: Int?
+						do {
+							version = try result
+								.get()
+								.map(Int.self)
+						} catch let error {
+							version = nil
+							Logging.withLogger(for: .api, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
+							}
+						}
 						if let version {
 							if version > API.lastVersion {
 								self.viewState.alertType = .updateAvailable
@@ -145,46 +153,40 @@ struct ContentView: View {
 	private var mapView: some View {
 		MapView()
 			.toolbar {
-				ToolbarItem {
-					Button {
-						self.sheetStack.push(.announcements)
-					} label: {
-						ZStack {
-							Label("View Announcements", systemImage: "exclamationmark.bubble")
-							if self.unviewedAnnouncementsCount > 0 {
-								Circle()
-									.foregroundColor(.red)
-									.frame(width: 15, height: 15)
-									.offset(x: 10, y: -10)
-								Text("\(self.unviewedAnnouncementsCount)")
-									.foregroundColor(.white)
-									.font(.caption)
-									.offset(x: 10, y: -10)
-							}
+				Button {
+					self.sheetStack.push(.announcements)
+				} label: {
+					ZStack {
+						Label("View Announcements", systemImage: "exclamationmark.bubble")
+						if self.unviewedAnnouncementsCount > 0 {
+							Circle()
+								.foregroundColor(.red)
+								.frame(width: 15, height: 15)
+								.offset(x: 10, y: -10)
+							Text("\(self.unviewedAnnouncementsCount)")
+								.foregroundColor(.white)
+								.font(.caption)
+								.offset(x: 10, y: -10)
 						}
-							.task {
-								self.announcements = await [Announcement].download()
-							}
 					}
-				}
-				ToolbarItem {
-					Button {
-						Task {
-							await self.mapState.resetVisibleMapRect()
+						.task {
+							self.announcements = await [Announcement].download()
 						}
-					} label: {
-						Label("Re-Center Map", systemImage: "location.fill.viewfinder")
+				}
+				Button {
+					Task {
+						await self.mapState.resetVisibleMapRect()
 					}
+				} label: {
+					Label("Re-Center Map", systemImage: "location.fill.viewfinder")
 				}
-				ToolbarItem {
-					if self.isRefreshing {
-						ProgressView()
-					} else {
-						Button {
-							NotificationCenter.default.post(name: .refreshBuses, object: nil)
-						} label: {
-							Label("Refresh", systemImage: "arrow.clockwise")
-						}
+				if self.isRefreshing {
+					ProgressView()
+				} else {
+					Button {
+						NotificationCenter.default.post(name: .refreshBuses, object: nil)
+					} label: {
+						Label("Refresh", systemImage: "arrow.clockwise")
 					}
 				}
 			}
@@ -196,10 +198,17 @@ struct ContentView: View {
 					self.isRefreshing = true
 				}
 				Task {
-					if #available(macOS 13, *) {
-						try await Task.sleep(for: .milliseconds(500))
-					} else {
-						try await Task.sleep(nanoseconds: 500_000_000)
+					do {
+						if #available(macOS 13, *) {
+							try await Task.sleep(for: .milliseconds(500))
+						} else {
+							try await Task.sleep(nanoseconds: 500_000_000)
+						}
+					} catch let error {
+						Logging.withLogger(doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
+						}
+						throw error
 					}
 					await self.mapState.refreshAll()
 					withAnimation {

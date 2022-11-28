@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 final class AppStorageManager: ObservableObject {
 	
 	enum Defaults {
@@ -18,6 +19,10 @@ final class AppStorageManager: ObservableObject {
 		static let baseURL = URL(string: "https://shuttletracker.app")!
 		
 		static let viewedAnnouncementIDs: Set<UUID> = []
+		
+		static let doUploadLogs = true
+		
+		static let uploadedLogs: [Logging.Log] = []
 		
 	}
 	
@@ -34,6 +39,12 @@ final class AppStorageManager: ObservableObject {
 	
 	@AppStorage("ViewedAnnouncementIDs")
 	var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
+	
+	@AppStorage("DoUploadLogs")
+	var doUploadLogs = Defaults.doUploadLogs
+	
+	@AppStorage("UploadedLogs")
+	var uploadedLogs = Defaults.uploadedLogs
 	
 	private init() { }
 	
