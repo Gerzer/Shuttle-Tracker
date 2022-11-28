@@ -92,6 +92,9 @@
 		C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */; };
 		C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
 		C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
+		C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB4562934765F00CCE01B /* HTTPStatus */; };
+		C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB4582934766900CCE01B /* HTTPStatus */; };
+		C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB45A2934766F00CCE01B /* HTTPStatus */; };
 		C0A1E7262749EDFD00DBF248 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
 		C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7272749EE3D00DBF248 /* Announcement.swift */; };
 		C0A1E7292749F33C00DBF248 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -252,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
+				C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */,
 				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
+				C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */,
 				C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */,
+				C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */,
 				C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,6 +501,7 @@
 			packageProductDependencies = (
 				C0ACA02527A4ABEF007FF08A /* Moya */,
 				C0ACA02E27A4AC1D007FF08A /* OnboardingKit */,
+				C09EB45A2934766F00CCE01B /* HTTPStatus */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -518,6 +525,7 @@
 			packageProductDependencies = (
 				C0ACA02327A4ABDD007FF08A /* Moya */,
 				C0ACA02C27A4AC18007FF08A /* OnboardingKit */,
+				C09EB4582934766900CCE01B /* HTTPStatus */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -539,6 +547,7 @@
 			packageProductDependencies = (
 				C0ACA02727A4ABF3007FF08A /* Moya */,
 				C0ACA02A27A4AC12007FF08A /* OnboardingKit */,
+				C09EB4562934765F00CCE01B /* HTTPStatus */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -576,6 +585,7 @@
 			packageReferences = (
 				C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */,
 				C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */,
+				C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */,
 			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
@@ -1105,6 +1115,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Gerzer/HTTP-Status/";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya";
@@ -1124,6 +1142,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C09EB4562934765F00CCE01B /* HTTPStatus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
+			productName = HTTPStatus;
+		};
+		C09EB4582934766900CCE01B /* HTTPStatus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
+			productName = HTTPStatus;
+		};
+		C09EB45A2934766F00CCE01B /* HTTPStatus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
+			productName = HTTPStatus;
+		};
 		C0ACA02327A4ABDD007FF08A /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
