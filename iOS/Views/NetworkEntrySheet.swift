@@ -1,19 +1,13 @@
 //
-//  NetworkOptIn.swift
-//  iOS
+//  PermissionsSheet.swift
+//  Shuttle Tracker (iOS)
 //
-//  Created by John Foster on 10/7/22.
+//  Created by Gabriel Jacoby-Cooper on 11/14/21.
 //
+
 import SwiftUI
 
-
- 
 struct NetworkEntrySheet: View {
-    @EnvironmentObject private var sheetStack: SheetStack
-    
-    @State private var schedule: Schedule?
-    
-    @EnvironmentObject private var viewState: ViewState
     
     @State private var notificationAuthorizationStatus: UNAuthorizationStatus?
     
@@ -21,89 +15,194 @@ struct NetworkEntrySheet: View {
     
     @State private var notificationScale: CGFloat = 0
     
+    @EnvironmentObject private var sheetStack: SheetStack
+    
+    @Environment(\.openURL) private var openURL
+    
     var body: some View {
-        SheetPresentationWrapper{
-            NavigationView{
-                ScrollView{
-                    VStack(alignment: .leading, spacing: 25 ){
-                        Group{
-                            
-                            HStack {
-                                Text("Enroll in the Shuttle Tracker Network!")
-                                    .font(.largeTitle)
-                                    .bold()
-                                    .multilineTextAlignment(.center)
-                            }
-                            
-                            
-                            HStack(){
-                                Image(systemName: "bus")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(.accentColor)
+        SheetPresentationWrapper {
+            NavigationView {
+               
 
-                                    
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Enroll in the Shuttle Tracker Network!")
+                            .font(.largeTitle)
+                            .bold()
+                            .multilineTextAlignment(.center)
+                        }
+                    
+                    
+            
+                    Button("View Privacy Information") {
+                        self.sheetStack.push(.privacy)
+                    }
+                        .padding(.bottom)
+                    if #available(iOS 15, *) {
+                        VStack(alignment: .leading) {
+                            Group {
                                 
-                                Text("Get live location data of busses 24/7!")
-                            }
-                            
-                            
-                            HStack {
-                                Image(systemName: "figure.walk.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(.accentColor)
-
-                                Text("Automaticlly board busses in close proximity!")
-                            }
-                            
-                            HStack {
-                                Image(systemName: "network")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(.accentColor)
-                                Text("More accurate route ETA's!")
-                            }
-                            
-                            
-                            HStack{
+                               
                                 
-                                Text("Introducing the shuttle tracker network! A new way to improve your shuttle tracker experience. opting in to the network allows you acess to features like live location data 247, automatic board bus, and accurate route ETA's. enroll in the shuttle tracker network today to get the best of your shuttle tracker experience! ")
-                                    .multilineTextAlignment(.center)
-
-                            }
-                            
-                            
-                            
-                        }    .scaleEffect(self.notificationScale)
-                            .onAppear {
-                                withAnimation(.easeIn(duration: 0.5).delay(0.5)) {
-                                    self.notificationScale = 1.3
-                                }
-                                withAnimation(.easeOut(duration: 0.2).delay(1)) {
-                                    self.notificationScale = 1
+                                
+                                switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+                                case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
+                                    HStack {
+                                        Image(systemName: "gear.badge.checkmark")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50, height: 50)
+                                        Text("You’ve already granted location permission. Thanks!")
+                                    }
+                                case (.restricted, _), (.denied, _):
+                                    HStack {
+                                        Image(systemName: "gear.badge.xmark")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50, height: 50)
+                                        Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
+                                    }
+                                case (.notDetermined, _):
+                                    HStack {
+                                        Image(systemName: "gear.badge.questionmark")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50, height: 50)
+                                        Text("Tap “Continue” and then grant location permission.")
+                                    }
+                                case (_, .reducedAccuracy):
+                                    HStack {
+                                        Image(systemName: "gear.badge.questionmark")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50, height: 50)
+                                        Text("Tap “Continue” and then grant full-accuracy location permission.")
+                                    }
+                                @unknown default:
+                                    fatalError()
                                 }
                             }
+                                .scaleEffect(self.locationScale)
+                                .onAppear {
+                                    withAnimation(.easeIn(duration: 0.5)) {
+                                        self.locationScale = 1.3
+                                    }
+                                    withAnimation(.easeOut(duration: 0.2).delay(0.5)) {
+                                        self.locationScale = 1
+                                    }
+                                }
+                            if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
+                                Group {
+                                    switch notificationAuthorizationStatus {
+                                    case .authorized, .ephemeral, .provisional:
+                                        HStack {
+                                            Image(systemName: "gear.badge.checkmark")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 50, height: 50)
+                                            Text("You’ve already granted notification permission. Thanks!")
+                                        }
+                                    case .denied:
+                                        HStack {
+                                            Image(systemName: "gear.badge.xmark")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 50, height: 50)
+                                            Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
+                                        }
+                                    case .notDetermined:
+                                        HStack {
+                                            Image(systemName: "gear.badge.questionmark")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 50, height: 50)
+                                            switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+                                            case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
+                                                Text("Tap “Continue” and then grant notification permission.")
+                                            case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
+                                                Text("You haven’t yet granted notification permission.")
+                                            @unknown default:
+                                                fatalError()
+                                            }
+                                        }
+                                    @unknown default:
+                                        fatalError()
+                                    }
+                                }
+                                    .scaleEffect(self.notificationScale)
+                                    .onAppear {
+                                        withAnimation(.easeIn(duration: 0.5).delay(0.5)) {
+                                            self.notificationScale = 1.3
+                                        }
+                                        withAnimation(.easeOut(duration: 0.2).delay(1)) {
+                                            self.notificationScale = 1
+                                        }
+                                    }
+                            }
+                        }
+                            .symbolRenderingMode(.multicolor)
+                            .task {
+                                self.notificationAuthorizationStatus = await UNUserNotificationCenter
+                                    .current()
+                                    .notificationSettings()
+                                    .authorizationStatus
+                            }
                     }
-                }
-                .toolbar {
-                    ToolbarItem {
-                        CloseButton()
+                    Spacer()
+                    Button {
+                        switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+                        case (.authorizedAlways, .fullAccuracy), (.authorizedWhenInUse, .fullAccuracy):
+                            if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
+                                switch notificationAuthorizationStatus {
+                                case .authorized, .ephemeral, .provisional:
+                                    break
+                                case .denied:
+                                    let url = try! UIApplication.openSettingsURLString.asURL()
+                                    self.openURL(url)
+                                case .notDetermined:
+                                    Task {
+                                        do {
+                                            try await UserNotificationUtilities.requestAuthorization()
+                                        } catch let error {
+                                            print("[PermissionSheet body] Notification authorization request error: \(error.localizedDescription)")
+                                        }
+                                    }
+                                @unknown default:
+                                    fatalError()
+                                }
+                            }
+                        case (.restricted, _), (.denied, _):
+                            let url = try! UIApplication.openSettingsURLString.asURL()
+                            self.openURL(url)
+                        case (.notDetermined, _):
+                            LocationUtilities.locationManager.requestWhenInUseAuthorization()
+                        case (_, .reducedAccuracy):
+                            Task {
+                                do {
+                                    try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+                                } catch let error {
+                                    print("[PermissionsSheet body] Full-accuracy location authorization request error: \(error.localizedDescription)")
+                                }
+                            }
+                        @unknown default:
+                            fatalError()
+                        }
+                        self.sheetStack.pop()
+                    } label: {
+                        Text("Continue")
+                            .bold()
                     }
+                        .buttonStyle(BlockButtonStyle())
                 }
-                
-                
-            }
-        }.onAppear {
-            if #available(iOS 15, *) {
-                Task {
-                    self.schedule = await Schedule.download()
-                }
+                    .padding()
+                    .toolbar {
+                        ToolbarItem {
+                            CloseButton()
+                        }
+                    }
             }
         }
     }
+    
 }
 
