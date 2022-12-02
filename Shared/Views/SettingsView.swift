@@ -41,9 +41,6 @@ struct SettingsView: View {
 					Button("View Permissions") {
 						self.sheetStack.push(.permissions)
 					}
-                    Button("View_Network"){
-                        self.sheetStack.push(.Net_Entry)
-                    }
 				}
 				#endif // !APPCLIP
 				Section {
