@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  macOS
+//  Shuttle Tracker (macOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 2/22/22.
 //
