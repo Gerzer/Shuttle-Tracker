@@ -7,7 +7,7 @@
 
 import CoreLocation
 
-class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
+final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
 	#if os(iOS)
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
