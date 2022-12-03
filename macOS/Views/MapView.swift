@@ -10,25 +10,24 @@ import SwiftUI
 
 struct MapView: NSViewRepresentable {
 	
-	private let mapView = MKMapView(frame: .zero)
-	
 	@EnvironmentObject
 	private var mapState: MapState
 	
 	func makeNSView(context: Context) -> MKMapView {
+		let nsView = MKMapView(frame: .zero)
 		Task {
-			MapState.mapView = self.mapView
+			MapState.mapView = nsView
 			await self.mapState.refreshAll()
 			await self.mapState.resetVisibleMapRect()
 		}
-		self.mapView.delegate = context.coordinator
-		self.mapView.showsUserLocation = true
-		self.mapView.showsCompass = true
-		return self.mapView
+		nsView.delegate = context.coordinator
+		nsView.showsUserLocation = true
+		nsView.showsCompass = true
+		return nsView
 	}
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
-		self.mapView.delegate = context.coordinator
+		nsView.delegate = context.coordinator
 		Task {
 			let buses = await self.mapState.buses
 			let stops = await self.mapState.stops

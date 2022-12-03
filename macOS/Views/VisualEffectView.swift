@@ -9,17 +9,17 @@ import SwiftUI
 
 struct VisualEffectView: NSViewRepresentable {
 	
-	var blendingMode: NSVisualEffectView.BlendingMode
+	let material: NSVisualEffectView.Material
 	
-	var material: NSVisualEffectView.Material
+	let blendingMode: NSVisualEffectView.BlendingMode
 	
 	func makeNSView(context: Context) -> NSVisualEffectView {
 		return NSVisualEffectView()
 	}
 	
 	func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
-		nsView.blendingMode = self.blendingMode
 		nsView.material = self.material
+		nsView.blendingMode = self.blendingMode
 	}
 	
 }
