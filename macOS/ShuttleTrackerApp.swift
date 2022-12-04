@@ -74,8 +74,15 @@ struct ShuttleTrackerApp: App {
 							Self.contentViewSheetStack.push(.whatsNew)
 						}
 					}
-						.keyboardShortcut(KeyEquivalent("w"), modifiers: [.command, .shift])
 						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
+					Button("\(Self.contentViewSheetStack.top == .whatsNew ? "Hide" : "Show") Privacy Information") {
+						if Self.contentViewSheetStack.top == .privacy {
+							Self.contentViewSheetStack.pop()
+						} else {
+							Self.contentViewSheetStack.push(.privacy)
+						}
+					}
+						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .privacy)
 					Divider()
 					Button("Re-Center Map") {
 						Task {

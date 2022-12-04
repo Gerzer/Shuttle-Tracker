@@ -32,7 +32,7 @@ enum ViewUtilities {
 	
 	static var standardVisualEffectView: some View {
 		#if canImport(AppKit)
-		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
+		VisualEffectView(material: .hudWindow, blendingMode: .withinWindow)
 		#elseif canImport(UIKit) // canImport(AppKit)
 		VisualEffectView(UIBlurEffect(style: .systemMaterial))
 		#endif // canImport(UIKit)
