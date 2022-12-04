@@ -52,44 +52,72 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 				}
 			} content: { (sheetType) in
 				switch sheetType {
-				case .welcome:
-					#if os(iOS) && !APPCLIP
-					WelcomeSheet()
-						.interactiveDismissDisabled()
-					#endif // os(iOS) && !APPCLIP
-				case .settings:
-					#if os(iOS) && !APPCLIP
-					SettingsSheet()
-					#endif // os(iOS) && !APPCLIP
-				case .info:
-					#if os(iOS) && !APPCLIP
-					InfoSheet()
-					#endif // os(iOS) && !APPCLIP
+				case .announcements:
+					AnnouncementsSheet()
+						.frame(idealWidth: 500, idealHeight: 500)
 				case .busSelection:
 					#if os(iOS)
 					BusSelectionSheet()
 						.interactiveDismissDisabled()
 					#endif // os(iOS)
+				case .info:
+					#if os(iOS) && !APPCLIP
+					InfoSheet()
+					#endif // os(iOS) && !APPCLIP
+				#if os(iOS)
+				case .mailCompose(
+					let subject,
+					let toRecipients,
+					let ccRecipients,
+					let bccRecipients,
+					let messageBody,
+					let isHTMLMessageBody,
+					let attachments
+				):
+					MailComposeView(
+						subject: subject,
+						toRecipients: toRecipients,
+						ccRecipients: ccRecipients,
+						bccRecipients: bccRecipients,
+						messageBody: messageBody,
+						isHTMLMessageBody: isHTMLMessageBody,
+						attachments: attachments
+					) { (_) in 
+						self.sheetStack.pop()
+					}
+				#endif // os(iOS)
 				case .permissions:
 					#if os(iOS) && !APPCLIP
 					PermissionsSheet()
 						.interactiveDismissDisabled()
 					#endif // os(iOS) && !APPCLIP
-				case .privacy:
-					PrivacySheet()
-				case .announcements:
-					AnnouncementsSheet()
-						.frame(idealWidth: 500, idealHeight: 500)
-				case .whatsNew:
-					#if !APPCLIP
-					WhatsNewSheet()
-						.frame(idealWidth: 500, idealHeight: 500)
-					#endif // !APPCLIP
 				case .plus(let featureText):
 					#if os(iOS)
 					PlusSheet(featureText: featureText)
 						.interactiveDismissDisabled()
 					#endif // os(iOS)
+				case .privacy:
+					#if os(macOS)
+					// Don’t use a navigation view on macOS
+					PrivacyView()
+						.frame(idealWidth: 500, idealHeight: 500)
+					#else // os(macOS)
+					PrivacySheet()
+					#endif
+				case .settings:
+					#if os(iOS) && !APPCLIP
+					SettingsSheet()
+					#endif // os(iOS) && !APPCLIP
+				case .welcome:
+					#if os(iOS) && !APPCLIP
+					WelcomeSheet()
+						.interactiveDismissDisabled()
+					#endif // os(iOS) && !APPCLIP
+				case .whatsNew:
+					#if !APPCLIP
+					WhatsNewSheet()
+						.frame(idealWidth: 500, idealHeight: 500)
+					#endif // !APPCLIP
 				}
 			}
 	}

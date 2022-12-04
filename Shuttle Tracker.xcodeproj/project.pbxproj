@@ -51,7 +51,6 @@
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
-		C059831E27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832127D1551400299D27 /* WelcomeSheet.swift */; };
@@ -61,7 +60,6 @@
 		C059833B27D2C77900299D27 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833A27D2C77900299D27 /* AboutView.swift */; };
 		C059833D27D2C82E00299D27 /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833C27D2C82E00299D27 /* InfoSheet.swift */; };
 		C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
-		C059834027D2CF0300299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
 		C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
 		C0730C1727F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
 		C0730C1827F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
@@ -95,6 +93,15 @@
 		C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB4562934765F00CCE01B /* HTTPStatus */; };
 		C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB4582934766900CCE01B /* HTTPStatus */; };
 		C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB45A2934766F00CCE01B /* HTTPStatus */; };
+		C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09EB45C293A6D8C00CCE01B /* MailComposeView.swift */; };
+		C09EB45E293A6D8C00CCE01B /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09EB45C293A6D8C00CCE01B /* MailComposeView.swift */; };
+		C09EB461293A70CF00CCE01B /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB460293A70CF00CCE01B /* OrderedCollections */; };
+		C09EB463293A70DE00CCE01B /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB462293A70DE00CCE01B /* OrderedCollections */; };
+		C09EB465293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09EB464293A718000CCE01B /* MailComposeViewDelegate.swift */; };
+		C09EB466293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09EB464293A718000CCE01B /* MailComposeViewDelegate.swift */; };
+		C09EB46B293A9A1F00CCE01B /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB46A293A9A1F00CCE01B /* OrderedCollections */; };
+		C09EB46C293A9BEE00CCE01B /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
+		C09EB46D293A9BF600CCE01B /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
 		C0A1E7262749EDFD00DBF248 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
 		C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7272749EE3D00DBF248 /* Announcement.swift */; };
 		C0A1E7292749F33C00DBF248 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -222,6 +229,8 @@
 		C08FC24C2525157D008589C1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		C08FC25E252515C8008589C1 /* AppClip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppClip.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/AppClip.framework; sourceTree = DEVELOPER_DIR; };
 		C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerDelegate.swift; sourceTree = "<group>"; };
+		C09EB45C293A6D8C00CCE01B /* MailComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeView.swift; sourceTree = "<group>"; };
+		C09EB464293A718000CCE01B /* MailComposeViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeViewDelegate.swift; sourceTree = "<group>"; };
 		C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementsSheet.swift; sourceTree = "<group>"; };
 		C0A1E7272749EE3D00DBF248 /* Announcement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailView.swift; sourceTree = "<group>"; };
@@ -256,6 +265,7 @@
 			files = (
 				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
 				C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */,
+				C09EB463293A70DE00CCE01B /* OrderedCollections in Frameworks */,
 				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,6 +276,7 @@
 			files = (
 				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
 				C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */,
+				C09EB461293A70CF00CCE01B /* OrderedCollections in Frameworks */,
 				C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +287,7 @@
 			files = (
 				C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */,
 				C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */,
+				C09EB46B293A9A1F00CCE01B /* OrderedCollections in Frameworks */,
 				C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */,
+				C09EB464293A718000CCE01B /* MailComposeViewDelegate.swift */,
 				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
 			);
 			path = Delegates;
@@ -341,6 +354,7 @@
 				C03EE72026DEAD1F00878D77 /* LegendToast.swift */,
 				C0FB5D4F2929B2430019E266 /* LogDetailView.swift */,
 				C0F420CD29274C1400CC0F91 /* LoggingAnalyticsSettingsView.swift */,
+				C09EB45C293A6D8C00CCE01B /* MailComposeView.swift */,
 				C01527E12517CFA60069092C /* MapView.swift */,
 				C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */,
 				C059833E27D2CEFA00299D27 /* PrivacySheet.swift */,
@@ -502,6 +516,7 @@
 				C0ACA02527A4ABEF007FF08A /* Moya */,
 				C0ACA02E27A4AC1D007FF08A /* OnboardingKit */,
 				C09EB45A2934766F00CCE01B /* HTTPStatus */,
+				C09EB462293A70DE00CCE01B /* OrderedCollections */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -526,6 +541,7 @@
 				C0ACA02327A4ABDD007FF08A /* Moya */,
 				C0ACA02C27A4AC18007FF08A /* OnboardingKit */,
 				C09EB4582934766900CCE01B /* HTTPStatus */,
+				C09EB460293A70CF00CCE01B /* OrderedCollections */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -548,6 +564,7 @@
 				C0ACA02727A4ABF3007FF08A /* Moya */,
 				C0ACA02A27A4AC12007FF08A /* OnboardingKit */,
 				C09EB4562934765F00CCE01B /* HTTPStatus */,
+				C09EB46A293A9A1F00CCE01B /* OrderedCollections */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -586,6 +603,7 @@
 				C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */,
 				C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */,
 				C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */,
+				C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
@@ -654,6 +672,7 @@
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
+				C09EB466293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
 				C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C03B1D382741E18B007B318E /* SheetStack.swift in Sources */,
@@ -667,6 +686,7 @@
 				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
 				C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */,
 				C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */,
+				C09EB45E293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
 				C08FC1F025250A73008589C1 /* LocationManagerDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -695,6 +715,7 @@
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
 				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
+				C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
 				C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */,
 				C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */,
@@ -721,6 +742,7 @@
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
+				C09EB465293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
 				C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C039B06027961FE200416725 /* BusID.swift in Sources */,
@@ -733,6 +755,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C09EB46D293A9BF600CCE01B /* PrivacySheet.swift in Sources */,
 				C0A1E72B2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C0FB5D542929CC3F0019E266 /* LogDetailView.swift in Sources */,
@@ -744,17 +767,16 @@
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
-				C059831E27D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */,
+				C09EB46C293A9BEE00CCE01B /* PrivacyView.swift in Sources */,
 				C0A1E7292749F33C00DBF248 /* (null) in Sources */,
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
-				C059834027D2CF0300299D27 /* PrivacySheet.swift in Sources */,
 				C039B06127961FE300416725 /* BusID.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
@@ -1123,6 +1145,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya";
@@ -1156,6 +1186,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
 			productName = HTTPStatus;
+		};
+		C09EB460293A70CF00CCE01B /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+		C09EB462293A70DE00CCE01B /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+		C09EB46A293A9A1F00CCE01B /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 		C0ACA02327A4ABDD007FF08A /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;

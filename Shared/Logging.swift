@@ -16,11 +16,13 @@ public enum Logging {
 		
 		case api = "API"
 		
+		case boardBus = "BoardBus"
+		
 		case location = "Location"
 		
-		case permissions = "Permissions"
+		case mailCompose = "MailCompose"
 		
-		case boardBus = "BoardBus"
+		case permissions = "Permissions"
 		
 	}
 	
