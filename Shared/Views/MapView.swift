@@ -23,6 +23,12 @@ struct MapView: UIViewRepresentable {
 		uiView.delegate = context.coordinator
 		uiView.showsUserLocation = true
 		uiView.showsCompass = true
+		if #available(iOS 16, *) {
+			// Set a custom preferred map configuration
+			let configuration = MKStandardMapConfiguration(emphasisStyle: .muted)
+			configuration.pointOfInterestFilter = .excludingAll
+			uiView.preferredConfiguration = configuration
+		}
 		return uiView
 	}
 	

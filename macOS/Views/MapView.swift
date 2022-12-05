@@ -23,6 +23,12 @@ struct MapView: NSViewRepresentable {
 		nsView.delegate = context.coordinator
 		nsView.showsUserLocation = true
 		nsView.showsCompass = true
+		if #available(macOS 13, *) {
+			// Set a custom preferred map configuration
+			let configuration = MKStandardMapConfiguration(emphasisStyle: .muted)
+			configuration.pointOfInterestFilter = .excludingAll
+			nsView.preferredConfiguration = configuration
+		}
 		return nsView
 	}
 	
