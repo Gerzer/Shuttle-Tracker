@@ -41,14 +41,14 @@ struct ShuttleTrackerApp: App {
 			OnboardingConditions.ColdLaunch(threshold: 5)
 		}
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .boardBus) {
-			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles)
 			OnboardingConditions.Disjunction {
 				OnboardingConditions.ColdLaunch(threshold: 3, comparator: >)
 				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.5", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
 		}
 		OnboardingEvent(flags: flags) { (_) in
