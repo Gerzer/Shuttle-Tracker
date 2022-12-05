@@ -58,31 +58,13 @@ struct ShuttleTrackerApp: App {
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
-					Button("\(Self.contentViewSheetStack.top == .announcements ? "Hide" : "Show") Announcements") {
-						if Self.contentViewSheetStack.top == .announcements {
-							Self.contentViewSheetStack.pop()
-						} else {
-							Self.contentViewSheetStack.push(.announcements)
-						}
+					Group {
+						// Extract commands into separate view to work around a bug in SwiftUI (https://stackoverflow.com/questions/68553092/menu-not-updating-swiftui-bug)
+						AnnouncementsCommandView()
+						WhatsNewCommandView()
+						PrivacyCommandView()
 					}
-						.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
-						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .announcements)
-					Button("\(Self.contentViewSheetStack.top == .whatsNew ? "Hide" : "Show") What’s New") {
-						if Self.contentViewSheetStack.top == .whatsNew {
-							Self.contentViewSheetStack.pop()
-						} else {
-							Self.contentViewSheetStack.push(.whatsNew)
-						}
-					}
-						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
-					Button("\(Self.contentViewSheetStack.top == .whatsNew ? "Hide" : "Show") Privacy Information") {
-						if Self.contentViewSheetStack.top == .privacy {
-							Self.contentViewSheetStack.pop()
-						} else {
-							Self.contentViewSheetStack.push(.privacy)
-						}
-					}
-						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .privacy)
+						.environmentObject(Self.contentViewSheetStack)
 					Divider()
 					Button("Re-Center Map") {
 						Task {
@@ -145,6 +127,61 @@ struct ShuttleTrackerApp: App {
 			}
 			sheetStack.push(sheetType)
 		}
+	}
+	
+}
+
+fileprivate struct AnnouncementsCommandView: View {
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	var body: some View {
+		Button("\(self.sheetStack.top ~= .announcements ? "Hide" : "Show") Announcements") {
+			if case .announcements = self.sheetStack.top {
+				self.sheetStack.pop()
+			} else {
+				self.sheetStack.push(.announcements)
+			}
+		}
+			.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
+			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .announcements))
+	}
+	
+}
+
+fileprivate struct WhatsNewCommandView: View {
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	var body: some View {
+		Button("\(self.sheetStack.top ~= .whatsNew ? "Hide" : "Show") What’s New") {
+			if case .whatsNew = self.sheetStack.top {
+				self.sheetStack.pop()
+			} else {
+				self.sheetStack.push(.whatsNew)
+			}
+		}
+			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .whatsNew))
+	}
+	
+}
+
+fileprivate struct PrivacyCommandView: View {
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	var body: some View {
+		Button("\(self.sheetStack.top ~= .privacy ? "Hide" : "Show") Privacy Information") {
+			if case .privacy = self.sheetStack.top {
+				self.sheetStack.pop()
+			} else {
+				self.sheetStack.push(.privacy)
+			}
+		}
+			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .privacy))
 	}
 	
 }
