@@ -53,6 +53,10 @@ struct ContentView: View {
 					case .boardBus:
 						BoardBusToast()
 							.padding()
+                        
+                    case .Network_Location_request:
+                            ShuttleTrackerNetworkToast()
+                            .padding()
 					default:
 						HStack {
 							SecondaryOverlay()
