@@ -19,6 +19,17 @@ struct ShuttleTrackerNetworkToast: View {
             }
         } content: {
             Text("Enable location services for optimal usage of the Shuttle Tracker Network.")
+            
+            VStack{
+                Button{
+                    
+                }label: {
+                    
+                    Text("Enable Location")
+                        .bold()
+                    
+                }.buttonStyle(BlockButtonStyle())
+            }
         }
     }
 
