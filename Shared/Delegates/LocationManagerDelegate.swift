@@ -15,5 +15,9 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 		}
 		LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
 	}
+    //case on manager auth status to show the toast
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        
+    }
 	
 }
