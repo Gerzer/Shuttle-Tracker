@@ -63,6 +63,9 @@ struct PrimaryOverlay: View {
 								.current()
 								.removeAllPendingNotificationRequests()
 							
+							// Request a review on the App Store
+							// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires iOS 16 or newer, and stored properties can’t be gated on OS version.
+							// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for iOS 15
 							let windowScenes = UIApplication.shared.connectedScenes
 								.filter { (scene) in
 									return scene.activationState == .foregroundActive
@@ -73,6 +76,7 @@ struct PrimaryOverlay: View {
 							if let windowScene = windowScenes.first {
 								SKStoreReviewController.requestReview(in: windowScene)
 							}
+							
 							do {
 								if #available(iOS 16, *) {
 									try await Task.sleep(for: .seconds(5))
