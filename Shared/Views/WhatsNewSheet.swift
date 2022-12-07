@@ -86,6 +86,7 @@ struct WhatsNewSheet: View {
 					}
 						.symbolRenderingMode(.hierarchical)
 				}
+					.padding(.horizontal)
 					.padding(.bottom)
 			}
 			#if os(iOS)
@@ -97,9 +98,10 @@ struct WhatsNewSheet: View {
 					.bold()
 			}
 				.buttonStyle(.block)
+				.padding(.horizontal)
 			#endif // os(iOS)
 		}
-			.padding()
+			.padding(.bottom)
 			.toolbar {
 				#if os(macOS)
 				ToolbarItem(placement: .confirmationAction) {
