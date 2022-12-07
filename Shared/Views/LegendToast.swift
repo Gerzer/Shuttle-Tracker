@@ -69,7 +69,7 @@ struct LegendToast: View {
 	}
 	
 	var body: some View {
-		Toast(self.viewState.legendToastHeadlineText?.rawValue ?? "Legend") {
+		Toast(self.viewState.legendToastHeadlineText?.rawValue ?? "Legend", item: self.$viewState.toastType) { (_, _) in
 			HStack {
 				ZStack {
 					Circle()
