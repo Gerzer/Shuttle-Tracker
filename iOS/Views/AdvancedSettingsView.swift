@@ -43,21 +43,35 @@ struct AdvancedSettingsView: View {
 				Text("The base URL for the API server. Changing this setting could make the rest of the app stop working properly.")
 			}
 			Section {
-				Button(
-					"Reset Viewed Announcements" + (self.didResetViewedAnnouncements ? " ✓" : ""),
-					role: .destructive
-				) {
-					self.appStorageManager.viewedAnnouncementIDs.removeAll()
-					self.didResetViewedAnnouncements = true
+				Button(role: .destructive) {
+					withAnimation {
+						self.appStorageManager.viewedAnnouncementIDs.removeAll()
+						self.didResetViewedAnnouncements = true
+					}
+				} label: {
+					HStack {
+						Text("Reset Viewed Announcements")
+						if self.didResetViewedAnnouncements {
+							Spacer()
+							Text("✓")
+						}
+					}
 				}
 					.disabled(self.appStorageManager.viewedAnnouncementIDs.isEmpty)
-				Button(
-					"Reset Advanced Settings" + (self.didResetAdvancedSettings ? " ✓" : ""),
-					role: .destructive
-				) {
+				Button(role: .destructive) {
 					self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
 					self.appStorageManager.maximumStopDistance = AppStorageManager.Defaults.maximumStopDistance
-					self.didResetAdvancedSettings = true
+					withAnimation {
+						self.didResetAdvancedSettings = true
+					}
+				} label: {
+					HStack {
+						Text("Reset Advanced Settings")
+						if self.didResetAdvancedSettings {
+							Spacer()
+							Text("✓")
+						}
+					}
 				}
 					.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance)
 					.onChange(of: self.appStorageManager.baseURL) { (_) in

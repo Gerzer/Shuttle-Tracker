@@ -38,6 +38,7 @@ struct SettingsView: View {
 								.foregroundColor(.white)
 						}
 							.frame(width: 30)
+							.animation(.default, value: self.appStorageManager.colorBlindMode)
 						Toggle("Color-Blind Mode", isOn: self.appStorageManager.$colorBlindMode)
 					}
 						.frame(height: 30)
@@ -88,7 +89,12 @@ struct SettingsView: View {
 							self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
 							self.didResetServerBaseURL = true
 						} label: {
-							Text("Reset" + (self.didResetServerBaseURL ? " ✓" : ""))
+							HStack {
+								Text("Reset")
+								if self.didResetServerBaseURL {
+									Text("✓")
+								}
+							}
 								.frame(minWidth: 50)
 						}
 							.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)

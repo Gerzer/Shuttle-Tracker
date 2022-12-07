@@ -110,6 +110,7 @@ struct LoggingAnalyticsSettingsView: View {
 					}
 						.listStyle(.plain)
 						.frame(width: 300)
+						.animation(.default, value: self.appStorageManager.uploadedLogs)
 					Divider()
 					if let log = self.selectedLog {
 						LogDetailView(log: log)
@@ -187,17 +188,26 @@ struct LoggingAnalyticsSettingsView: View {
 			.alert(isPresented: self.$logUploadError.isNotNil, error: self.logUploadError) {
 				Button("Retry", action: self.uploadLog)
 				Button("Cancel", role: .cancel) {
+					#if os(iOS)
 					withAnimation {
 						self.logUploadState = .waiting
 					}
+					#elseif os(macOS) // os(iOS)
+					self.logUploadState = .waiting
+					#endif // os(macOS)
 				}
 			}
 			.confirmationDialog("Clear Uploaded Logs", isPresented: self.$doShowConfirmationDialog) {
 				Button("Clear Uploaded Logs", role: .destructive) {
+					#if os(iOS)
 					withAnimation {
 						self.appStorageManager.uploadedLogs.removeAll()
 						self.didClearUploadedLogs = true
 					}
+					#elseif os(macOS) // os(iOS)
+					self.appStorageManager.uploadedLogs.removeAll()
+					self.didClearUploadedLogs = true
+					#endif // os(macOS)
 				}
 				Button("Cancel", role: .cancel) { }
 			} message: {
@@ -208,23 +218,35 @@ struct LoggingAnalyticsSettingsView: View {
 			}
 			.onChange(of: self.appStorageManager.uploadedLogs) { (newValue) in
 				if !newValue.isEmpty {
+					#if os(iOS)
 					withAnimation {
 						self.didClearUploadedLogs = false
 					}
+					#elseif os(macOS) // os(iOS)
+					self.didClearUploadedLogs = false
+					#endif // os(macOS)
 				}
 			}
 	}
 	
 	private func uploadLog() {
+		#if os(iOS)
 		withAnimation {
 			self.logUploadState = .uploading
 		}
+		#elseif os(macOS) // os(iOS)
+		self.logUploadState = .uploading
+		#endif // os(macOS)
 		Task {
 			do {
 				try await Logging.uploadLog()
+				#if os(iOS)
 				withAnimation {
 					self.logUploadState = .uploaded
 				}
+				#elseif os(macOS) // os(iOS)
+				self.logUploadState = .uploaded
+				#endif // os(macOS)
 			} catch let error {
 				self.logUploadError = WrappedError(error)
 				Logging.withLogger { (logger) in

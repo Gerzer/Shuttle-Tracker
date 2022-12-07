@@ -129,9 +129,13 @@ public enum Logging {
 		log.id = try await API.uploadLog(log: log).perform(as: UUID.self) // The API server is the authoritative source for log IDs, so we overwrite the local default ID with the one that the server returns
 		let immutableLog = log
 		await MainActor.run {
+			#if os(iOS)
 			withAnimation {
 				AppStorageManager.shared.uploadedLogs.append(immutableLog)
 			}
+			#elseif os(macOS) // os(iOS)
+			AppStorageManager.shared.uploadedLogs.append(immutableLog)
+			#endif // os(macOS)
 		}
 	}
 	
