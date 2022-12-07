@@ -30,7 +30,7 @@ struct PermissionsSheet: View {
 				VStack(alignment: .leading) {
 					Text("Shuttle Tracker requires access to your location to provide shuttle-tracking features and to improve data accuracy for everyone.")
 						.padding(.bottom)
-					Button("View Privacy Information") {
+					Button("Show Privacy Information") {
 						self.sheetStack.push(.privacy)
 					}
 						.padding(.bottom)

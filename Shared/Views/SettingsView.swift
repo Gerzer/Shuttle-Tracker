@@ -47,7 +47,7 @@ struct SettingsView: View {
 				}
 				#if !APPCLIP
 				Section {
-					Button("View Permissions") {
+					Button("Show Permissions") {
 						self.sheetStack.push(.permissions)
 					}
 				}

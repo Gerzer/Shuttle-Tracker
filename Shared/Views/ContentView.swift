@@ -157,7 +157,7 @@ struct ContentView: View {
 					self.sheetStack.push(.announcements)
 				} label: {
 					ZStack {
-						Label("View Announcements", systemImage: "exclamationmark.bubble")
+						Label("Show Announcements", systemImage: "exclamationmark.bubble")
 						if self.unviewedAnnouncementsCount > 0 {
 							Circle()
 								.foregroundColor(.red)

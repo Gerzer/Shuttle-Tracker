@@ -76,7 +76,7 @@ struct InfoView: View {
 							.font(.headline)
 					}
 					Section {
-						Button("View Privacy Information") {
+						Button("Show Privacy Information") {
 							self.sheetStack.push(.privacy)
 						}
 							.padding(.bottom)

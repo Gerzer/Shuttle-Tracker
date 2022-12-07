@@ -21,7 +21,7 @@ struct AboutView: View {
 				NavigationLink("Privacy Information") {
 					PrivacyView()
 				}
-				Button("See What’s New") {
+				Button("Show What’s New") {
 					self.sheetStack.push(.whatsNew)
 				}
 			}
