@@ -49,7 +49,7 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 			.shadow(radius: 5)
 	}
 	
-	init(_ headlineString: StringType, @ViewBuilder content: (() -> Void) -> Content, dismissalHandler: (() -> Void)? = nil) {
+	init(_ headlineString: StringType, @ViewBuilder content: (@escaping () -> Void) -> Content, dismissalHandler: (() -> Void)? = nil) {
 		self.headlineString = headlineString
 		self.dismissalHandler = dismissalHandler
 		self.content = content {
