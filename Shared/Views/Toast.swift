@@ -11,9 +11,12 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 	
 	private var headlineString: StringType
 	
-	private var dismissalHandler: () -> Void
+	private var dismissalHandler: (() -> Void)?
 	
 	private var content: Content
+	
+	@EnvironmentObject
+	private var viewState: ViewState
 	
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -22,18 +25,14 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 					.font(.headline)
 				Spacer()
 				#if os(iOS)
-				Button {
-					self.dismissalHandler()
-				} label: {
+				Button(action: self.dismiss) {
 					Image(systemName: "xmark.circle.fill")
 						.resizable()
 						.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
 				}
 					.tint(.primary)
 				#else // os(iOS)
-				Button {
-					self.dismissalHandler()
-				} label: {
+				Button(action: self.dismiss) {
 					Image(systemName: "xmark.circle.fill")
 						.resizable()
 						.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
@@ -50,10 +49,31 @@ struct Toast<StringType, Content>: View where StringType: StringProtocol, Conten
 			.shadow(radius: 5)
 	}
 	
-	init(_ headlineString: StringType, dismissalHandler: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+	init(_ headlineString: StringType, @ViewBuilder content: (() -> Void) -> Content, dismissalHandler: (() -> Void)? = nil) {
 		self.headlineString = headlineString
 		self.dismissalHandler = dismissalHandler
-		self.content = content()
+		self.content = content {
+			withAnimation {
+				ViewState.shared.toastType = nil
+			}
+			dismissalHandler?()
+		}
+	}
+	
+	init(_ headlineString: StringType, @ViewBuilder content: () -> Content, dismissalHandler: (() -> Void)? = nil) {
+		self.init(headlineString) { (_) in
+			return content()
+		} dismissalHandler: {
+			dismissalHandler?()
+		}
+
+	}
+	
+	private func dismiss() {
+		withAnimation {
+			self.viewState.toastType = nil
+		}
+		self.dismissalHandler?()
 	}
 	
 }

@@ -70,10 +70,6 @@ struct LegendToast: View {
 	
 	var body: some View {
 		Toast(self.viewState.legendToastHeadlineText?.rawValue ?? "Legend") {
-			withAnimation {
-				self.viewState.toastType = nil
-			}
-		} content: {
 			HStack {
 				ZStack {
 					Circle()

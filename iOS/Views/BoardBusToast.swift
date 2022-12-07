@@ -14,10 +14,6 @@ struct BoardBusToast: View {
 	
 	var body: some View {
 		Toast("You can help!") {
-			withAnimation {
-				self.viewState.toastType = nil
-			}
-		} content: {
 			Text("Tap “Board Bus” whenever you board a bus to help make Shuttle Tracker more accurate for everyone.")
 		}
 	}
