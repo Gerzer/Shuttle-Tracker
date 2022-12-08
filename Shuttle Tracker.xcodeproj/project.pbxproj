@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65C93B812941871700D72BE2 /* RouteProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C93B802941871700D72BE2 /* RouteProgress.swift */; };
+		65C93B822941871700D72BE2 /* RouteProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C93B802941871700D72BE2 /* RouteProgress.swift */; };
+		65C93B832941871700D72BE2 /* RouteProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C93B802941871700D72BE2 /* RouteProgress.swift */; };
+		65C93B8529418B5800D72BE2 /* RouteProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C93B8429418B5800D72BE2 /* RouteProgressView.swift */; };
+		65C93B8629418B5800D72BE2 /* RouteProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C93B8429418B5800D72BE2 /* RouteProgressView.swift */; };
+		65C93B8729418B5800D72BE2 /* RouteProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C93B8429418B5800D72BE2 /* RouteProgressView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -174,6 +180,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		65C93B802941871700D72BE2 /* RouteProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteProgress.swift; sourceTree = "<group>"; };
+		65C93B8429418B5800D72BE2 /* RouteProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteProgressView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
@@ -350,6 +358,7 @@
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
+				65C93B8429418B5800D72BE2 /* RouteProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,6 +373,7 @@
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				A1ED8B8727BC558A000A26E5 /* Schedule.swift */,
 				C0019DCD251910E80020574D /* Stop.swift */,
+				65C93B802941871700D72BE2 /* RouteProgress.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -651,6 +661,7 @@
 				A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */,
 				C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
+				65C93B832941871700D72BE2 /* RouteProgress.swift in Sources */,
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
@@ -663,6 +674,7 @@
 				C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
+				65C93B8729418B5800D72BE2 /* RouteProgressView.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
 				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
 				C0A232BA252508CA00FAAD50 /* Stop.swift in Sources */,
@@ -677,6 +689,7 @@
 			files = (
 				C0A7A89128D7E65D00A2ACAA /* BoardBusManager.swift in Sources */,
 				C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */,
+				65C93B822941871700D72BE2 /* RouteProgress.swift in Sources */,
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
@@ -694,6 +707,7 @@
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
 				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
+				65C93B8629418B5800D72BE2 /* RouteProgressView.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
 				C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */,
@@ -742,12 +756,14 @@
 				C0F420D22927570900CC0F91 /* WrappedError.swift in Sources */,
 				C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */,
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
+				65C93B8529418B5800D72BE2 /* RouteProgressView.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
 				C059831E27D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
+				65C93B812941871700D72BE2 /* RouteProgress.swift in Sources */,
 				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */,
