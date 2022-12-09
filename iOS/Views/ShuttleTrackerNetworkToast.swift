@@ -44,7 +44,7 @@ struct ShuttleTrackerNetworkToast: View {
                                            @unknown default:
                                                fatalError()
                                            }
-                                           self.sheetStack.pop()
+                    self.viewState.toastType = nil
                     
                 }label: {
                     
