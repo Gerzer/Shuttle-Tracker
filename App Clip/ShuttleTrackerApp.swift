@@ -19,6 +19,9 @@ struct ShuttleTrackerApp: App {
 	private var viewState = ViewState.shared
 	
 	@ObservedObject
+	private var boardBusManager = BoardBusManager.shared
+	
+	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
 	private static let sheetStack = SheetStack()
@@ -28,6 +31,7 @@ struct ShuttleTrackerApp: App {
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.boardBusManager)
 				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.sheetStack)
 				.refreshable {

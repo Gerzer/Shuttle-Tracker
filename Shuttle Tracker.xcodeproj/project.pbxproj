@@ -136,6 +136,7 @@
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
+		C0C8DCF42945C3E1009D6047 /* PermissionsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */; };
 		C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */; };
 		C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
@@ -679,6 +680,7 @@
 				C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */,
 				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
+				C0C8DCF42945C3E1009D6047 /* PermissionsSheet.swift in Sources */,
 				C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,

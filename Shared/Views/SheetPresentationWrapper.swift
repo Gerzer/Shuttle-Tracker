@@ -87,10 +87,10 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					}
 				#endif // os(iOS)
 				case .permissions:
-					#if os(iOS) && !APPCLIP
+					#if os(iOS)
 					PermissionsSheet()
 						.interactiveDismissDisabled()
-					#endif // os(iOS) && !APPCLIP
+					#endif // os(iOS)
 				case .plus(let featureText):
 					#if os(iOS)
 					PlusSheet(featureText: featureText)

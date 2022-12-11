@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/22/21.
 //
 
+import CoreLocation
 import StoreKit
 import SwiftUI
 
@@ -58,7 +59,7 @@ struct PrimaryOverlay: View {
 							self.viewState.statusText = .thanks
 							LocationUtilities.locationManager.stopUpdatingLocation()
 							
-							// Remove any pending leave-bus notifications
+							// Remove all pending leave-bus notifications
 							UNUserNotificationCenter
 								.current()
 								.removeAllPendingNotificationRequests()
@@ -94,24 +95,34 @@ struct PrimaryOverlay: View {
 							Logging.withLogger(for: .boardBus) { (logger) in
 								logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
 							}
-							
-							// TODO: Rename local `location` identifier to something more descriptive
-							guard let location = LocationUtilities.locationManager.location else {
+							guard let userLocation = LocationUtilities.locationManager.location else {
+								self.sheetStack.push(.permissions)
+								Logging.withLogger(for: .location) { (logger) in
+									logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User location is unavailable")
+								}
 								break
 							}
-							let closestStopDistance = await self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-								let newDistance = stop.location.distance(from: location)
-								if newDistance < distance {
-									distance = newDistance
+							switch LocationUtilities.locationManager.accuracyAuthorization {
+							case .fullAccuracy:
+								await self.boardBus(userLocation: userLocation)
+							case .reducedAccuracy:
+								do {
+									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+								} catch let error {
+									Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+										logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
+									}
+									throw error
 								}
-							}
-							if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
-								self.sheetStack.push(.busSelection)
-								if self.viewState.toastType == .boardBus {
-									self.viewState.toastType = nil
+								guard case .fullAccuracy = LocationUtilities.locationManager.accuracyAuthorization else {
+									Logging.withLogger(for: .permissions) { (logger) in
+										logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
+									}
+									return
 								}
-							} else {
-								self.viewState.alertType = .noNearbyStop
+								await self.boardBus(userLocation: userLocation)
+							@unknown default:
+								fatalError()
 							}
 						}
 					}
@@ -199,6 +210,23 @@ struct PrimaryOverlay: View {
 					await self.mapState.refreshBuses()
 				}
 			}
+	}
+	
+	private func boardBus(userLocation: CLLocation) async {
+		let closestStopDistance = await self.mapState.stops.reduce(into: .greatestFiniteMagnitude) { (distance, stop) in
+			let newDistance = stop.location.distance(from: userLocation)
+			if newDistance < distance {
+				distance = newDistance
+			}
+		}
+		if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
+			self.sheetStack.push(.busSelection)
+			if self.viewState.toastType == .boardBus {
+				self.viewState.toastType = nil
+			}
+		} else {
+			self.viewState.alertType = .noNearbyStop
+		}
 	}
 	
 }

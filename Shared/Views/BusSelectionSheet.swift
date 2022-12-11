@@ -49,12 +49,16 @@ struct BusSelectionSheet: View {
 							}
 							if let suggestedBusID = self.suggestedBusID {
 								HStack {
-									Label("Suggested", systemImage: "sparkles")
-										.font(
-											.caption
-												.italic()
-										)
-										.foregroundColor(.secondary)
+									if #available(iOS 16, *) {
+										Label("Suggested", systemImage: "sparkles")
+											.font(.caption)
+											.italic()
+											.foregroundColor(.secondary)
+									} else {
+										Label("Suggested", systemImage: "sparkles")
+											.font(.caption.italic())
+											.foregroundColor(.secondary)
+									}
 									VStack {
 										Divider()
 											.background(.secondary)
@@ -103,6 +107,7 @@ struct BusSelectionSheet: View {
 										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 										}
+										self.sheetStack.pop()
 										throw error
 									}
 									guard case .fullAccuracy = LocationUtilities.locationManager.accuracyAuthorization else {
