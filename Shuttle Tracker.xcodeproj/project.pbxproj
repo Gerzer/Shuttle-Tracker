@@ -908,7 +908,6 @@
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
@@ -918,12 +917,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-<<<<<<< Updated upstream
 				MARKETING_VERSION = 1.5;
-=======
-				MARKETING_VERSION = 1.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = .shuttletracker.appclipnew;
->>>>>>> Stashed changes
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG APPCLIP";
@@ -940,7 +934,7 @@
 				CODE_SIGN_ENTITLEMENTS = "App Clip/App Clip.entitlements";
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_ASSET_PATHS = "\"App Clip/Preview Content\"";
-				DEVELOPMENT_TEAM = 44N856UZ6R;
+				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/App Clip/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
@@ -1145,12 +1139,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 33;
-=======
-				CURRENT_PROJECT_VERSION = 36;
-				DEVELOPMENT_TEAM = 44N856UZ6R;
->>>>>>> Stashed changes
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -1178,13 +1167,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
-<<<<<<< Updated upstream
 				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = SYBLH277NF;
-=======
-				CURRENT_PROJECT_VERSION = 36;
-				DEVELOPMENT_TEAM = 44N856UZ6R;
->>>>>>> Stashed changes
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
