@@ -50,7 +50,7 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	var coordinate: CLLocationCoordinate2D {
 		get {
-			return MapUtilities.Constants.originCoordinate
+			return MapConstants.originCoordinate
 		}
 	}
 	

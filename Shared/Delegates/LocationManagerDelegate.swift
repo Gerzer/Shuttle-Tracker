@@ -9,6 +9,8 @@ import CoreLocation
 
 final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
+	fileprivate static let `privateDefault` = LocationManagerDelegate()
+	
 	#if os(iOS)
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		Task {
@@ -19,5 +21,16 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 		}
 	}
 	#endif // os(iOS)
+	
+}
+
+extension CLLocationManagerDelegate where Self == LocationManagerDelegate {
+	
+	/// The default location manager delegate, which is automatically set as the delegate for the default location manager.
+	static var `default`: Self {
+		get {
+			return .privateDefault
+		}
+	}
 	
 }

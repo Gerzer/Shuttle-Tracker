@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 11/14/21.
 //
 
+import CoreLocation
 import SwiftUI
 
 struct PermissionsSheet: View {
@@ -37,7 +38,7 @@ struct PermissionsSheet: View {
 						.padding(.bottom)
 					VStack(alignment: .leading) {
 						Group {
-							switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+							switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 							case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
 								HStack(alignment: .top) {
 									Image(systemName: "gear.badge.checkmark")
@@ -114,7 +115,7 @@ struct PermissionsSheet: View {
 											.resizable()
 											.scaledToFit()
 											.frame(width: 40, height: 40)
-										switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+										switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 										case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
 											Text("Tap “Continue” and then grant notification permission.")
 												.accessibilityShowsLargeContentViewer()
@@ -149,7 +150,7 @@ struct PermissionsSheet: View {
 						}
 					Spacer()
 					Button {
-						switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+						switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 						case (.authorizedAlways, .fullAccuracy), (.authorizedWhenInUse, .fullAccuracy):
 							if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
 								switch notificationAuthorizationStatus {
@@ -160,7 +161,7 @@ struct PermissionsSheet: View {
 								case .notDetermined:
 									Task {
 										do {
-											try await UserNotificationUtilities.requestAuthorization()
+											try await UNUserNotificationCenter.requestDefaultAuthorization()
 										} catch let error {
 											Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 												logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization request failed: \(error, privacy: .public)")
@@ -175,11 +176,11 @@ struct PermissionsSheet: View {
 						case (.restricted, _), (.denied, _):
 							self.openURL(URL(string: UIApplication.openSettingsURLString)!)
 						case (.notDetermined, _):
-							LocationUtilities.locationManager.requestWhenInUseAuthorization()
+							CLLocationManager.default.requestWhenInUseAuthorization()
 						case (_, .reducedAccuracy):
 							Task {
 								do {
-									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+									try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 								} catch let error {
 									Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 										logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Full-accuracy location authorization request failed: \(error, privacy: .public)")

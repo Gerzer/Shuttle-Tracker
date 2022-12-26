@@ -5,59 +5,46 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
+import HTTPStatus
 import MapKit
 import OSLog
 import SwiftUI
 import UserNotifications
 
-enum ViewUtilities {
+enum ViewConstants {
+		
+	#if os(macOS)
+	static let sheetCloseButtonDimension: CGFloat = 15
 	
-	enum Constants {
-		
-		#if os(macOS)
-		static let sheetCloseButtonDimension: CGFloat = 15
-		
-		static let toastCloseButtonDimension: CGFloat = 15
-		
-		static let toastCornerRadius: CGFloat = 10
-		#else // os(macOS)
-		static let sheetCloseButtonDimension: CGFloat = 30
-		
-		static let toastCloseButtonDimension: CGFloat = 25
+	static let toastCloseButtonDimension: CGFloat = 15
+	
+	static let toastCornerRadius: CGFloat = 10
+	#else // os(macOS)
+	static let sheetCloseButtonDimension: CGFloat = 30
+	
+	static let toastCloseButtonDimension: CGFloat = 25
 
-		static let toastCornerRadius: CGFloat = 30
-		#endif
-		
-	}
+	static let toastCornerRadius: CGFloat = 30
+	#endif
 	
-	static var standardVisualEffectView: some View {
-		#if canImport(AppKit)
-		VisualEffectView(material: .hudWindow, blendingMode: .withinWindow)
-		#elseif canImport(UIKit) // canImport(AppKit)
-		VisualEffectView(UIBlurEffect(style: .systemMaterial))
-		#endif // canImport(UIKit)
+}
+
+extension VisualEffectView {
+	
+	/// The standard visual-effect view, which is optimized for the current context.
+	static var standard: VisualEffectView {
+		get {
+			#if canImport(AppKit)
+			return VisualEffectView(material: .hudWindow, blendingMode: .withinWindow)
+			#elseif canImport(UIKit) // canImport(AppKit)
+			return VisualEffectView(UIBlurEffect(style: .systemMaterial))
+			#endif // canImport(UIKit)
+		}
 	}
 	
 }
 
 enum LocationUtilities {
-	
-	private static let locationManagerDelegate = LocationManagerDelegate()
-	
-	private static var locationManagerHandlers: [(CLLocationManager) -> Void] = []
-	
-	static var locationManager: CLLocationManager! {
-		didSet {
-			self.locationManager.delegate = self.locationManagerDelegate
-			for locationManagerHandler in self.locationManagerHandlers {
-				locationManagerHandler(self.locationManager)
-			}
-		}
-	}
-	
-	static func registerLocationManagerHandler(_ handler: @escaping (CLLocationManager) -> Void) {
-		self.locationManagerHandlers.append(handler)
-	}
 	
 	#if !os(macOS)
 	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
@@ -81,43 +68,29 @@ enum LocationUtilities {
 	
 }
 
-enum MapUtilities {
-	
-	enum Constants {
-		
-		static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
-		
-		static let mapRect = MKMapRect(
-			origin: MKMapPoint(Constants.originCoordinate),
-			size: MKMapSize(
-				width: 10000,
-				height: 10000
-			)
-		)
-		
-		#if canImport(AppKit)
-		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
-		#elseif canImport(UIKit) // canImport(AppKit)
-		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
-		#endif // canImport(UIKit)
-		
-	}
-	
-}
-
-enum UserNotificationUtilities {
-	
-	static func requestAuthorization() async throws {
-		try await UNUserNotificationCenter
-			.current()
-			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
-	}
-	
-}
-
 enum DefaultsKeys {
 	
 	static let coldLaunchCount = "ColdLaunchCount"
+	
+}
+
+enum MapConstants {
+	
+	static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
+	
+	static let mapRect = MKMapRect(
+		origin: MKMapPoint(MapConstants.originCoordinate),
+		size: MKMapSize(
+			width: 10000,
+			height: 10000
+		)
+	)
+	
+	#if canImport(AppKit)
+	static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
+	#elseif canImport(UIKit) // canImport(AppKit)
+	static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
+	#endif // canImport(UIKit)
 	
 }
 
@@ -126,6 +99,57 @@ enum TravelState {
 	case onBus
 	
 	case notOnBus
+	
+}
+
+enum UserLocationError: Error {
+	
+	case unavailable
+	
+	var localizedDescription: String {
+		get {
+			switch self {
+			case .unavailable:
+				return "The user’s location is unavailable."
+			}
+		}
+	}
+	
+}
+
+extension CLLocationManager {
+	
+	private static var handlers: [(CLLocationManager) -> Void] = []
+	
+	/// The default location manager.
+	/// - Important: This property is set to `nil` by default, and references to it will crash. The app **must** set a concrete value immediately upon launch.
+	static var `default`: CLLocationManager! {
+		get {
+			if self.privateDefault == nil {
+				Logging.withLogger(for: .location, doUpload: true) { (logger) in
+					logger.log(level: .error, "The default location manager was referenced, but no value is set. This is a fatal programmer error!")
+				}
+			}
+			return self.privateDefault
+		}
+		set {
+			newValue.delegate = .default
+			for handler in self.handlers {
+				handler(newValue)
+			}
+			self.privateDefault = newValue
+		}
+	}
+	
+	private static var privateDefault: CLLocationManager?
+	
+	/// Register a handler to be invoked whenever a new default location manager is set.
+	///
+	/// Handlers are invoked in the order in which they were registered. This means that a later handler could potentially undo or overwrite modifications to the location manager that were performed by an earlier handler.
+	/// - Parameter handler: The handler to invoke with the new value.
+	static func registerHandler(_ handler: @escaping (CLLocationManager) -> Void) {
+		self.handlers.append(handler)
+	}
 	
 }
 
@@ -149,6 +173,19 @@ extension MKMapPoint: Equatable {
 	
 	public static func == (_ left: MKMapPoint, _ right: MKMapPoint) -> Bool {
 		return left.coordinate == right.coordinate
+	}
+	
+}
+
+extension UNUserNotificationCenter {
+	
+	/// Requests notification authorization with default options.
+	///
+	/// Provisional authorization for alerts, sounds, and badges is requested.
+	static func requestDefaultAuthorization() async throws {
+		try await UNUserNotificationCenter
+			.current()
+			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
 	}
 	
 }

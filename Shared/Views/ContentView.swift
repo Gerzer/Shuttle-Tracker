@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
+import AsyncAlgorithms
 import MapKit
 import SwiftUI
 
@@ -190,6 +191,25 @@ struct ContentView: View {
 					}
 				}
 			}
+			.task {
+				if #available(macOS 13, *) {
+					let sequence = AsyncTimerSequence(
+						interval: .seconds(5),
+						clock: .continuous
+					)
+					for await _ in sequence {
+						// For “standard” refresh operations, we only refresh the buses.
+						await self.mapState.refreshBuses()
+					}
+				} else {
+					Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (_) in
+						Task {
+							// For “standard” refresh operations, we only refresh the buses.
+							await self.mapState.refreshBuses()
+						}
+					}
+				}
+			}
 			.onAppear {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
@@ -214,12 +234,6 @@ struct ContentView: View {
 					withAnimation {
 						self.isRefreshing = false
 					}
-				}
-			}
-			.onReceive(self.timer) { (_) in
-				Task {
-					// For “standard” refresh operations, we only refresh the buses.
-					await self.mapState.refreshBuses()
 				}
 			}
 	}

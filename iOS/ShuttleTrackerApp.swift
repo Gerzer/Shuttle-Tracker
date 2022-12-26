@@ -52,7 +52,7 @@ struct ShuttleTrackerApp: App {
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
 		}
 		OnboardingEvent(flags: flags) { (_) in
-			LocationUtilities.registerLocationManagerHandler { (locationManager) in
+			CLLocationManager.registerHandler { (locationManager) in
 				switch locationManager.authorizationStatus {
 				case .notDetermined, .restricted, .denied:
 					Self.pushSheet(.permissions)
@@ -101,14 +101,14 @@ struct ShuttleTrackerApp: App {
 			}
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
-		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestWhenInUseAuthorization()
-		LocationUtilities.locationManager.activityType = .automotiveNavigation
-		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
-		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
+		CLLocationManager.default = CLLocationManager()
+		CLLocationManager.default.requestWhenInUseAuthorization()
+		CLLocationManager.default.activityType = .automotiveNavigation
+		CLLocationManager.default.showsBackgroundLocationIndicator = true
+		CLLocationManager.default.allowsBackgroundLocationUpdates = true
 		Task {
 			do {
-				try await UserNotificationUtilities.requestAuthorization()
+				try await UNUserNotificationCenter.requestDefaultAuthorization()
 			} catch let error {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")

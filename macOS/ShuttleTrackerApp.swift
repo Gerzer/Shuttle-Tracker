@@ -106,9 +106,9 @@ struct ShuttleTrackerApp: App {
 			}
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for macOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
-		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestWhenInUseAuthorization()
-		LocationUtilities.locationManager.activityType = .automotiveNavigation
+		CLLocationManager.default = CLLocationManager()
+		CLLocationManager.default.requestWhenInUseAuthorization()
+		CLLocationManager.default.activityType = .automotiveNavigation
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
