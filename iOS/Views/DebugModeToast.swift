@@ -24,14 +24,18 @@ struct DebugModeToast: View {
 					if statusCode is any Error {
 						Text("The location submission failed.")
 							.foregroundColor(.red)
+							.accessibilityShowsLargeContentViewer()
 					} else {
 						Text("The location submission succeeded.")
 							.foregroundColor(.green)
+							.accessibilityShowsLargeContentViewer()
 					}
 					Text("HTTP \(statusCode.rawValue) \(statusCode.message)")
 						.monospaced()
+						.accessibilityShowsLargeContentViewer()
 				default:
 					Text("The submission status is unknown.")
+						.accessibilityShowsLargeContentViewer()
 				}
 				ProgressView(timerInterval: .now ... .now.addingTimeInterval(DebugMode.toastTimeInterval)) {
 					EmptyView()
