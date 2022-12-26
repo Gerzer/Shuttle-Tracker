@@ -12,17 +12,6 @@ import SwiftUI
 
 struct PrimaryOverlay: View {
 	
-	private var buttonText: String {
-		get {
-			switch BoardBusManager.globalTravelState {
-			case .onBus:
-				return "Leave Bus"
-			case .notOnBus:
-				return "Board Bus"
-			}
-		}
-	}
-	
 	@State
 	private var isRefreshing = false
 	
@@ -41,6 +30,16 @@ struct PrimaryOverlay: View {
 	@EnvironmentObject
 	private var sheetStack: SheetStack
 	
+	private var buttonText: String {
+		get {
+			switch BoardBusManager.globalTravelState {
+			case .onBus:
+				return "Leave Bus"
+			case .notOnBus:
+				return "Board Bus"
+			}
+		}
+	}
 	
 	var body: some View {
 		HStack {
