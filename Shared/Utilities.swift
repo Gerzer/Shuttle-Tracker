@@ -285,6 +285,7 @@ extension View {
 @available(macOS, introduced: 12, deprecated: 13)
 extension URL {
 	
+	/// A URL format style that can be backported before the introduction of the official format style.
 	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
 		struct ParseStrategy: Foundation.ParseStrategy {
@@ -366,6 +367,9 @@ extension Set: RawRepresentable where Element == UUID {
 #if canImport(UIKit)
 extension UIKeyboardType {
 	
+	/// A keyboard type that’s optimized for URL entry.
+	///
+	/// This static property is the same as the `UIKeyboardType.URL` enumeration case, but unlike the enumeration case, it follows standard Swift naming conventions.
 	static let url: Self = .URL
 	
 }
