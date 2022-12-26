@@ -62,6 +62,7 @@ struct PrimaryOverlay: View {
 				HStack {
 					Text(self.viewState.statusText.string)
 						.layoutPriority(1)
+						.animation(.default, value: self.viewState.statusText)
 						.accessibilityShowsLargeContentViewer()
 					Spacer()
 					Group {
