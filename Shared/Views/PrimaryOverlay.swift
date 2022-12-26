@@ -132,7 +132,7 @@ struct PrimaryOverlay: View {
 				}
 					.buttonStyle(.block)
 				HStack {
-					Text(self.viewState.statusText.rawValue)
+					Text(self.viewState.statusText.string)
 						.layoutPriority(1)
 					Spacer()
 					Group {

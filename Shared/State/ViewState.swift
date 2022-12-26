@@ -43,13 +43,26 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	enum StatusText: String {
+	enum StatusText {
 		
-		case mapRefresh = "The map automatically refreshes every 5 seconds."
+		case mapRefresh
 		
-		case locationData = "You’re helping out other users with real-time bus location data."
+		case locationData
 		
-		case thanks = "Thanks for helping other users with real-time bus location data!"
+		case thanks
+		
+		var string: String {
+			get {
+				switch self {
+				case .mapRefresh:
+					return "The map automatically refreshes every 5 seconds."
+				case .locationData:
+					return "You’re helping out other users with real-time bus location data."
+				case .thanks:
+					return "Thanks for helping other users with real-time bus location data!"
+				}
+			}
+		}
 		
 	}
 	
