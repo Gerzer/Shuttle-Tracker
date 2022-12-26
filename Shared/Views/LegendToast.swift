@@ -81,6 +81,7 @@ struct LegendToast: View {
 				}
 					.frame(width: 50)
 				Text(self.highQualityAttributedString)
+					.accessibilityShowsLargeContentViewer()
 			}
 				.frame(height: 50)
 			Spacer()
@@ -96,6 +97,7 @@ struct LegendToast: View {
 				}
 					.frame(width: 50)
 				Text(self.lowQualityAttributedString)
+					.accessibilityShowsLargeContentViewer()
 			}
 				.frame(height: 50)
 		}
