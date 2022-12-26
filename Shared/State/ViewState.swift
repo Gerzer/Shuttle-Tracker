@@ -45,11 +45,7 @@ final class ViewState: OnboardingFlags {
 	
 	enum StatusText {
 		
-		case mapRefresh
-		
-		case locationData
-		
-		case thanks
+		case mapRefresh, locationData, thanks
 		
 		var string: String {
 			get {
@@ -57,7 +53,7 @@ final class ViewState: OnboardingFlags {
 				case .mapRefresh:
 					return "The map automatically refreshes every 5 seconds."
 				case .locationData:
-					return "You’re helping out other users with real-time bus location data."
+					return "You’re helping other users with real-time bus location data."
 				case .thanks:
 					return "Thanks for helping other users with real-time bus location data!"
 				}
