@@ -30,6 +30,7 @@ struct PermissionsSheet: View {
 				VStack(alignment: .leading) {
 					Text("Shuttle Tracker requires access to your location to provide shuttle-tracking features and to improve data accuracy for everyone.")
 						.padding(.bottom)
+						.accessibilityShowsLargeContentViewer()
 					Button("Show Privacy Information") {
 						self.sheetStack.push(.privacy)
 					}
@@ -44,6 +45,7 @@ struct PermissionsSheet: View {
 										.scaledToFit()
 										.frame(width: 40, height: 40)
 									Text("You’ve already granted location permission. Thanks!")
+										.accessibilityShowsLargeContentViewer()
 								}
 							case (.restricted, _), (.denied, _):
 								HStack(alignment: .top) {
@@ -52,6 +54,7 @@ struct PermissionsSheet: View {
 										.scaledToFit()
 										.frame(width: 40, height: 40)
 									Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
+										.accessibilityShowsLargeContentViewer()
 								}
 							case (.notDetermined, _):
 								HStack(alignment: .top) {
@@ -60,6 +63,7 @@ struct PermissionsSheet: View {
 										.scaledToFit()
 										.frame(width: 40, height: 40)
 									Text("Tap “Continue” and then grant location permission.")
+										.accessibilityShowsLargeContentViewer()
 								}
 							case (_, .reducedAccuracy):
 								HStack(alignment: .top) {
@@ -68,6 +72,7 @@ struct PermissionsSheet: View {
 										.scaledToFit()
 										.frame(width: 40, height: 40)
 									Text("Tap “Continue” and then grant full-accuracy location permission.")
+										.accessibilityShowsLargeContentViewer()
 								}
 							@unknown default:
 								fatalError()
@@ -92,6 +97,7 @@ struct PermissionsSheet: View {
 											.scaledToFit()
 											.frame(width: 40, height: 40)
 										Text("You’ve already granted notification permission. Thanks!")
+											.accessibilityShowsLargeContentViewer()
 									}
 								case .denied:
 									HStack(alignment: .top) {
@@ -100,6 +106,7 @@ struct PermissionsSheet: View {
 											.scaledToFit()
 											.frame(width: 40, height: 40)
 										Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
+											.accessibilityShowsLargeContentViewer()
 									}
 								case .notDetermined:
 									HStack(alignment: .top) {
@@ -110,8 +117,10 @@ struct PermissionsSheet: View {
 										switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
 										case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
 											Text("Tap “Continue” and then grant notification permission.")
+												.accessibilityShowsLargeContentViewer()
 										case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
 											Text("You haven’t yet granted notification permission.")
+												.accessibilityShowsLargeContentViewer()
 										@unknown default:
 											fatalError()
 										}

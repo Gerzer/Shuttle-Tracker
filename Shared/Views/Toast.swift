@@ -27,6 +27,7 @@ struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, 
 				HStack {
 					Text(self.headlineString)
 						.font(.headline)
+						.accessibilityShowsLargeContentViewer()
 					Spacer()
 					#if os(iOS)
 					Button {

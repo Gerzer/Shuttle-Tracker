@@ -134,6 +134,7 @@ struct PrimaryOverlay: View {
 				HStack {
 					Text(self.viewState.statusText.string)
 						.layoutPriority(1)
+						.accessibilityShowsLargeContentViewer()
 					Spacer()
 					Group {
 						if self.isRefreshing {
