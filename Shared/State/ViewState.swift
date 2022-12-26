@@ -61,9 +61,21 @@ final class ViewState: OnboardingFlags {
 		static func == (lhs: Self, rhs: Self) -> Bool {
 			switch lhs {
 			case .legend:
-				return .legend ~= rhs
+				// Use an explicit switch statement to avoid infinite recursion
+				switch rhs {
+				case .legend:
+					return true
+				default:
+					return false
+				}
 			case .boardBus:
-				return .boardBus ~= rhs
+				// Use an explicit switch statement to avoid infinite recursion
+				switch rhs {
+				case .boardBus:
+					return true
+				default:
+					return false
+				}
 			case .debugMode(let lhsStatusCode):
 				if case .debugMode(let rhsStatusCode) = rhs {
 					return lhsStatusCode.rawValue == rhsStatusCode.rawValue

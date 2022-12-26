@@ -84,11 +84,9 @@ actor BoardBusManager: ObservableObject {
 		)
 		do {
 			let (_, statusCode) = try await API.updateBus(id: busID, location: location).perform()
-			if await AppStorageManager.shared.debugMode {
-				await MainActor.run {
-					ViewState.shared.toastType = .debugMode(statusCode: statusCode)
-				}
-			}
+			#if !APPCLIP
+			await DebugMode.shared.showToast(statusCode: statusCode)
+			#endif // !APPCLIP
 		} catch let error {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public) Failed to send location to server: \(error, privacy: .public)")

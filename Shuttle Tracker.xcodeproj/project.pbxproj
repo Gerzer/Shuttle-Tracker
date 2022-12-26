@@ -146,6 +146,7 @@
 		C0E952282958FD3E00945ABC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952272958FD3E00945ABC /* AsyncAlgorithms */; };
 		C0E9522A2958FD4B00945ABC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952292958FD4B00945ABC /* AsyncAlgorithms */; };
 		C0E9522C2958FD5000945ABC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = C0E9522B2958FD5000945ABC /* AsyncAlgorithms */; };
+		C0E9522E2959327400945ABC /* DebugMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E9522D2959327400945ABC /* DebugMode.swift */; };
 		C0F420C62926EDA100CC0F91 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420C52926EDA100CC0F91 /* Logging.swift */; };
 		C0F420C72926EDA100CC0F91 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420C52926EDA100CC0F91 /* Logging.swift */; };
 		C0F420C82926EDA100CC0F91 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420C52926EDA100CC0F91 /* Logging.swift */; };
@@ -250,6 +251,7 @@
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
 		C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
 		C0C9D3CF270FA70C00AE58BE /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		C0E9522D2959327400945ABC /* DebugMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMode.swift; sourceTree = "<group>"; };
 		C0F420C52926EDA100CC0F91 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		C0F420CD29274C1400CC0F91 /* LoggingAnalyticsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingAnalyticsSettingsView.swift; sourceTree = "<group>"; };
 		C0F420D12927570900CC0F91 /* WrappedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappedError.swift; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 			isa = PBXGroup;
 			children = (
 				C03FD52626DD6E6A00A2532E /* Views */,
+				C0E9522D2959327400945ABC /* DebugMode.swift */,
 				C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */,
 				C0FFD6DF250C33C900945F01 /* Info.plist */,
 				C0FFD6F6250C33E700945F01 /* iOS.entitlements */,
@@ -747,6 +750,7 @@
 				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0F420D32927570900CC0F91 /* WrappedError.swift in Sources */,
 				C0F420C72926EDA100CC0F91 /* Logging.swift in Sources */,
+				C0E9522E2959327400945ABC /* DebugMode.swift in Sources */,
 				C0A1E730274A03BC00DBF248 /* Announcement.swift in Sources */,
 				C059833D27D2C82E00299D27 /* InfoSheet.swift in Sources */,
 				6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */,

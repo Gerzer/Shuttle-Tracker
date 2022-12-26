@@ -119,6 +119,7 @@ enum API: TargetType {
 		}
 	}
 	
+	@_disfavoredOverload
 	func perform() async throws -> (Data, any HTTPStatusCode) {
 		let request = try API.provider.endpoint(self).urlRequest()
 		let (data, response) = try await URLSession.shared.data(for: request)
@@ -134,7 +135,7 @@ enum API: TargetType {
 	@discardableResult
 	func perform() async throws -> Data {
 		let (data, statusCode) = try await self.perform()
-		if let error = statusCode as? Error {
+		if let error = statusCode as? any Error {
 			throw error
 		} else {
 			return data
@@ -145,7 +146,7 @@ enum API: TargetType {
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
 		as _: ResponseType.Type
 	) async throws -> ResponseType where ResponseType: Decodable {
-		let data: Data = try await self.perform()
+		let data = try await self.perform()
 		return try decoder.decode(ResponseType.self, from: data)
 	}
 	

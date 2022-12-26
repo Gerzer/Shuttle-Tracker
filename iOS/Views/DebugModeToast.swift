@@ -10,27 +10,44 @@ import SwiftUI
 @available(iOS 16, *)
 struct DebugModeToast: View {
 	
-	private static let dismissalTimeInterval: TimeInterval = 1
+	@State
+	private var dismissalTask: Task<Void, any Error>?
 	
 	@EnvironmentObject
 	private var viewState: ViewState
 	
 	var body: some View {
-		Toast("Location submission", item: self.$viewState.toastType) { (item, dismiss) in
+		Toast("A location was submitted…", item: self.$viewState.toastType) { (item, dismiss) in
 			VStack(alignment: .leading) {
 				switch item {
 				case .debugMode(let statusCode):
-					if statusCode is Error {
+					if statusCode is any Error {
 						Text("The location submission failed.")
+							.foregroundColor(.red)
 					} else {
 						Text("The location submission succeeded.")
+							.foregroundColor(.green)
 					}
 					Text("HTTP \(statusCode.rawValue) \(statusCode.message)")
 						.monospaced()
 				default:
 					Text("The submission status is unknown.")
 				}
+				ProgressView(timerInterval: .now ... .now.addingTimeInterval(DebugMode.toastTimeInterval)) {
+					EmptyView()
+				} currentValueLabel: {
+					EmptyView()
+				}
 			}
+				.onAppear {
+					self.dismissalTask = Task {
+						try await Task.sleep(for: .seconds(DebugMode.toastTimeInterval - 0.3)) // Don’t catch the error because cancellation is expected
+						dismiss()
+					}
+				}
+				.onDisappear {
+					self.dismissalTask?.cancel()
+				}
 		}
 	}
 	
