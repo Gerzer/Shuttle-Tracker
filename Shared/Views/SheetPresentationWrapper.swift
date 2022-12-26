@@ -91,11 +91,6 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					PermissionsSheet()
 						.interactiveDismissDisabled()
 					#endif // os(iOS)
-				case .plus(let featureText):
-					#if os(iOS)
-					PlusSheet(featureText: featureText)
-						.interactiveDismissDisabled()
-					#endif // os(iOS)
 				case .privacy:
 					#if os(macOS)
 					// Don’t use a navigation view on macOS

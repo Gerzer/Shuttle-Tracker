@@ -33,8 +33,6 @@ final class SheetStack: ObservableObject {
 		
 		case permissions
 		
-		case plus(featureText: String)
-		
 		case privacy
 		
 		case settings

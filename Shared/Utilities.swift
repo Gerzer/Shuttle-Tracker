@@ -105,16 +105,6 @@ enum MapUtilities {
 	
 }
 
-enum CalendarUtilities {
-	
-	static var isAprilFools: Bool {
-		get {
-			return Calendar.autoupdatingCurrent.dateComponents([.year, .month, .day], from: .now) == DateComponents(year: 2022, month: 4, day: 1)
-		}
-	}
-	
-}
-
 enum UserNotificationUtilities {
 	
 	static func requestAuthorization() async throws {

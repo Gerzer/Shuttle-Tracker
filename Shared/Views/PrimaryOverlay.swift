@@ -141,11 +141,7 @@ struct PrimaryOverlay: View {
 							ProgressView()
 						} else {
 							Button {
-								if CalendarUtilities.isAprilFools {
-									self.sheetStack.push(.plus(featureText: "Refreshing the map"))
-								} else {
-									NotificationCenter.default.post(name: .refreshBuses, object: nil)
-								}
+								NotificationCenter.default.post(name: .refreshBuses, object: nil)
 							} label: {
 								Image(systemName: "arrow.clockwise")
 									.resizable()
