@@ -14,6 +14,8 @@ final class AppStorageManager: ObservableObject {
 		
 		static let colorBlindMode = false
 		
+		static let debugMode = false
+		
 		static let maximumStopDistance = 50
 		
 		static let baseURL = URL(string: "https://shuttletracker.app")!
@@ -30,6 +32,9 @@ final class AppStorageManager: ObservableObject {
 	
 	@AppStorage("ColorBlindMode")
 	var colorBlindMode = Defaults.colorBlindMode
+	
+	@AppStorage("DebugMode")
+	var debugMode = Defaults.debugMode
 	
 	@AppStorage("MaximumStopDistance")
 	var maximumStopDistance = Defaults.maximumStopDistance

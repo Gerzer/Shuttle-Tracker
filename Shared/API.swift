@@ -119,8 +119,7 @@ enum API: TargetType {
 		}
 	}
 	
-	@discardableResult
-	func perform() async throws -> Data {
+	func perform() async throws -> (Data, any HTTPStatusCode) {
 		let request = try API.provider.endpoint(self).urlRequest()
 		let (data, response) = try await URLSession.shared.data(for: request)
 		guard let httpResponse = response as? HTTPURLResponse else {
@@ -129,6 +128,12 @@ enum API: TargetType {
 		guard let statusCode = HTTPStatusCodes.statusCode(httpResponse.statusCode) else {
 			throw APIError.invalidStatusCode
 		}
+		return (data, statusCode)
+	}
+	
+	@discardableResult
+	func perform() async throws -> Data {
+		let (data, statusCode) = try await self.perform()
 		if let error = statusCode as? Error {
 			throw error
 		} else {
@@ -140,7 +145,7 @@ enum API: TargetType {
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
 		as _: ResponseType.Type
 	) async throws -> ResponseType where ResponseType: Decodable {
-		let data = try await self.perform()
+		let data: Data = try await self.perform()
 		return try decoder.decode(ResponseType.self, from: data)
 	}
 	
@@ -156,9 +161,9 @@ fileprivate enum APIError: Error {
 		get {
 			switch self {
 			case .invalidResponse:
-				return "The server returned an invalid response"
+				return "The server returned an invalid response."
 			case .invalidStatusCode:
-				return "The server returned an invalid HTTP status code"
+				return "The server returned an invalid HTTP status code."
 			}
 		}
 	}

@@ -15,7 +15,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 			guard case .onBus = await BoardBusManager.shared.travelState else {
 				return
 			}
-			await LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
+			await BoardBusManager.sendToServer(coordinate: locations.last!.coordinate)
 		}
 	}
 	#endif // os(iOS)

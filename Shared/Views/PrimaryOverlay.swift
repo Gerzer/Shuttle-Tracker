@@ -201,7 +201,7 @@ struct PrimaryOverlay: View {
 							}
 							break
 						}
-						await LocationUtilities.sendToServer(coordinate: coordinate)
+						await BoardBusManager.sendToServer(coordinate: coordinate)
 					case .notOnBus:
 						break
 					}

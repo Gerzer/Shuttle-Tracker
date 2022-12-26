@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6570999327D2C3CF00E85FDB /* DebugModeToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6570999227D2C3CF00E85FDB /* DebugModeToast.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -90,9 +91,6 @@
 		C08FC23225251252008589C1 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */; };
 		C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
 		C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */; };
-		C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB4562934765F00CCE01B /* HTTPStatus */; };
-		C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB4582934766900CCE01B /* HTTPStatus */; };
-		C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB45A2934766F00CCE01B /* HTTPStatus */; };
 		C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09EB45C293A6D8C00CCE01B /* MailComposeView.swift */; };
 		C09EB45E293A6D8C00CCE01B /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09EB45C293A6D8C00CCE01B /* MailComposeView.swift */; };
 		C09EB461293A70CF00CCE01B /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = C09EB460293A70CF00CCE01B /* OrderedCollections */; };
@@ -124,12 +122,6 @@
 		C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */; };
 		C0A7A89128D7E65D00A2ACAA /* BoardBusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */; };
 		C0A7A89228D7E65D00A2ACAA /* BoardBusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */; };
-		C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02327A4ABDD007FF08A /* Moya */; };
-		C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02527A4ABEF007FF08A /* Moya */; };
-		C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02727A4ABF3007FF08A /* Moya */; };
-		C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02A27A4AC12007FF08A /* OnboardingKit */; };
-		C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02C27A4AC18007FF08A /* OnboardingKit */; };
-		C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0ACA02E27A4AC1D007FF08A /* OnboardingKit */; };
 		C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
 		C0B5E72828BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
 		C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
@@ -142,6 +134,18 @@
 		C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
 		C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
 		C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
+		C0E952132958B11F00945ABC /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952122958B11F00945ABC /* OnboardingKit */; };
+		C0E952162958B14400945ABC /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952152958B14400945ABC /* HTTPStatus */; };
+		C0E952192958B16400945ABC /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952182958B16400945ABC /* Moya */; };
+		C0E9521B2958B17400945ABC /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C0E9521A2958B17400945ABC /* HTTPStatus */; };
+		C0E9521D2958B17700945ABC /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0E9521C2958B17700945ABC /* OnboardingKit */; };
+		C0E9521F2958B17B00945ABC /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0E9521E2958B17B00945ABC /* Moya */; };
+		C0E952212958B17F00945ABC /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952202958B17F00945ABC /* HTTPStatus */; };
+		C0E952232958B18200945ABC /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952222958B18200945ABC /* OnboardingKit */; };
+		C0E952252958B18700945ABC /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952242958B18700945ABC /* Moya */; };
+		C0E952282958FD3E00945ABC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952272958FD3E00945ABC /* AsyncAlgorithms */; };
+		C0E9522A2958FD4B00945ABC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = C0E952292958FD4B00945ABC /* AsyncAlgorithms */; };
+		C0E9522C2958FD5000945ABC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = C0E9522B2958FD5000945ABC /* AsyncAlgorithms */; };
 		C0F420C62926EDA100CC0F91 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420C52926EDA100CC0F91 /* Logging.swift */; };
 		C0F420C72926EDA100CC0F91 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420C52926EDA100CC0F91 /* Logging.swift */; };
 		C0F420C82926EDA100CC0F91 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420C52926EDA100CC0F91 /* Logging.swift */; };
@@ -182,6 +186,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6570999227D2C3CF00E85FDB /* DebugModeToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugModeToast.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
@@ -264,10 +269,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
-				C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */,
+				C0E952232958B18200945ABC /* OnboardingKit in Frameworks */,
+				C0E952212958B17F00945ABC /* HTTPStatus in Frameworks */,
+				C0E952252958B18700945ABC /* Moya in Frameworks */,
 				C09EB463293A70DE00CCE01B /* OrderedCollections in Frameworks */,
-				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
+				C0E9522C2958FD5000945ABC /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,10 +281,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
-				C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */,
+				C0E9521D2958B17700945ABC /* OnboardingKit in Frameworks */,
+				C0E9521B2958B17400945ABC /* HTTPStatus in Frameworks */,
+				C0E9521F2958B17B00945ABC /* Moya in Frameworks */,
 				C09EB461293A70CF00CCE01B /* OrderedCollections in Frameworks */,
-				C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */,
+				C0E9522A2958FD4B00945ABC /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,10 +293,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */,
-				C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */,
+				C0E952132958B11F00945ABC /* OnboardingKit in Frameworks */,
 				C09EB46B293A9A1F00CCE01B /* OrderedCollections in Frameworks */,
-				C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */,
+				C0E952192958B16400945ABC /* Moya in Frameworks */,
+				C0E952162958B14400945ABC /* HTTPStatus in Frameworks */,
+				C0E952282958FD3E00945ABC /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +334,7 @@
 				6B3B2B432710E5BB001D6C8E /* InfoView.swift */,
 				C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */,
 				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
+				6570999227D2C3CF00E85FDB /* DebugModeToast.swift */,
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
 				C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */,
 				C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */,
@@ -514,10 +523,11 @@
 			);
 			name = "App Clip";
 			packageProductDependencies = (
-				C0ACA02527A4ABEF007FF08A /* Moya */,
-				C0ACA02E27A4AC1D007FF08A /* OnboardingKit */,
-				C09EB45A2934766F00CCE01B /* HTTPStatus */,
 				C09EB462293A70DE00CCE01B /* OrderedCollections */,
+				C0E952202958B17F00945ABC /* HTTPStatus */,
+				C0E952222958B18200945ABC /* OnboardingKit */,
+				C0E952242958B18700945ABC /* Moya */,
+				C0E9522B2958FD5000945ABC /* AsyncAlgorithms */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -539,10 +549,11 @@
 			);
 			name = iOS;
 			packageProductDependencies = (
-				C0ACA02327A4ABDD007FF08A /* Moya */,
-				C0ACA02C27A4AC18007FF08A /* OnboardingKit */,
-				C09EB4582934766900CCE01B /* HTTPStatus */,
 				C09EB460293A70CF00CCE01B /* OrderedCollections */,
+				C0E9521A2958B17400945ABC /* HTTPStatus */,
+				C0E9521C2958B17700945ABC /* OnboardingKit */,
+				C0E9521E2958B17B00945ABC /* Moya */,
+				C0E952292958FD4B00945ABC /* AsyncAlgorithms */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -562,10 +573,11 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				C0ACA02727A4ABF3007FF08A /* Moya */,
-				C0ACA02A27A4AC12007FF08A /* OnboardingKit */,
-				C09EB4562934765F00CCE01B /* HTTPStatus */,
 				C09EB46A293A9A1F00CCE01B /* OrderedCollections */,
+				C0E952122958B11F00945ABC /* OnboardingKit */,
+				C0E952152958B14400945ABC /* HTTPStatus */,
+				C0E952182958B16400945ABC /* Moya */,
+				C0E952272958FD3E00945ABC /* AsyncAlgorithms */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -601,10 +613,11 @@
 			);
 			mainGroup = C0FFD6CF250C33C800945F01;
 			packageReferences = (
-				C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */,
-				C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */,
-				C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */,
 				C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */,
+				C0E952112958B11F00945ABC /* XCRemoteSwiftPackageReference "OnboardingKit" */,
+				C0E952142958B14400945ABC /* XCRemoteSwiftPackageReference "HTTP-Status" */,
+				C0E952172958B16400945ABC /* XCRemoteSwiftPackageReference "Moya" */,
+				C0E952262958FD3E00945ABC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
@@ -718,6 +731,7 @@
 				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
+				6570999327D2C3CF00E85FDB /* DebugModeToast.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
 				C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */,
 				C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */,
@@ -1139,14 +1153,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Gerzer/HTTP-Status/";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -1155,40 +1161,41 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */ = {
+		C0E952112958B11F00945ABC /* XCRemoteSwiftPackageReference "OnboardingKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Moya/Moya";
+			repositoryURL = "https://github.com/Gerzer/OnboardingKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+		C0E952142958B14400945ABC /* XCRemoteSwiftPackageReference "HTTP-Status" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Gerzer/HTTP-Status.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		C0E952172958B16400945ABC /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 15.0.0;
 			};
 		};
-		C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */ = {
+		C0E952262958FD3E00945ABC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Gerzer/OnboardingKit";
+			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.5.0;
+				kind = exactVersion;
+				version = 0.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C09EB4562934765F00CCE01B /* HTTPStatus */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
-			productName = HTTPStatus;
-		};
-		C09EB4582934766900CCE01B /* HTTPStatus */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
-			productName = HTTPStatus;
-		};
-		C09EB45A2934766F00CCE01B /* HTTPStatus */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
-			productName = HTTPStatus;
-		};
 		C09EB460293A70CF00CCE01B /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
@@ -1204,35 +1211,65 @@
 			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
 		};
-		C0ACA02327A4ABDD007FF08A /* Moya */ = {
+		C0E952122958B11F00945ABC /* OnboardingKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = Moya;
-		};
-		C0ACA02527A4ABEF007FF08A /* Moya */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = Moya;
-		};
-		C0ACA02727A4ABF3007FF08A /* Moya */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
-			productName = Moya;
-		};
-		C0ACA02A27A4AC12007FF08A /* OnboardingKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			package = C0E952112958B11F00945ABC /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
 		};
-		C0ACA02C27A4AC18007FF08A /* OnboardingKit */ = {
+		C0E952152958B14400945ABC /* HTTPStatus */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			package = C0E952142958B14400945ABC /* XCRemoteSwiftPackageReference "HTTP-Status" */;
+			productName = HTTPStatus;
+		};
+		C0E952182958B16400945ABC /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952172958B16400945ABC /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		C0E9521A2958B17400945ABC /* HTTPStatus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952142958B14400945ABC /* XCRemoteSwiftPackageReference "HTTP-Status" */;
+			productName = HTTPStatus;
+		};
+		C0E9521C2958B17700945ABC /* OnboardingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952112958B11F00945ABC /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
 		};
-		C0ACA02E27A4AC1D007FF08A /* OnboardingKit */ = {
+		C0E9521E2958B17B00945ABC /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			package = C0E952172958B16400945ABC /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		C0E952202958B17F00945ABC /* HTTPStatus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952142958B14400945ABC /* XCRemoteSwiftPackageReference "HTTP-Status" */;
+			productName = HTTPStatus;
+		};
+		C0E952222958B18200945ABC /* OnboardingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952112958B11F00945ABC /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
+		};
+		C0E952242958B18700945ABC /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952172958B16400945ABC /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		C0E952272958FD3E00945ABC /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952262958FD3E00945ABC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
+		};
+		C0E952292958FD4B00945ABC /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952262958FD3E00945ABC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
+		};
+		C0E9522B2958FD5000945ABC /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0E952262958FD3E00945ABC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

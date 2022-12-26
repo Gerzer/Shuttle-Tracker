@@ -6,6 +6,7 @@
 //
 
 import Combine
+import HTTPStatus
 import OnboardingKit
 
 @MainActor
@@ -31,13 +32,44 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	enum ToastType: Identifiable {
+	enum ToastType: Equatable, Hashable, Identifiable {
 		
-		case legend, boardBus
+		case legend
+		
+		case boardBus
+		
+		case debugMode(statusCode: any HTTPStatusCode)
 		
 		var id: Self {
 			get {
 				return self
+			}
+		}
+		
+		func hash(into hasher: inout Hasher) {
+			switch self {
+			case .legend:
+				hasher.combine("legend")
+			case .boardBus:
+				hasher.combine("boardBus")
+			case .debugMode(let statusCode):
+				hasher.combine("debugMode")
+				hasher.combine(statusCode)
+			}
+		}
+		
+		static func == (lhs: Self, rhs: Self) -> Bool {
+			switch lhs {
+			case .legend:
+				return .legend ~= rhs
+			case .boardBus:
+				return .boardBus ~= rhs
+			case .debugMode(let lhsStatusCode):
+				if case .debugMode(let rhsStatusCode) = rhs {
+					return lhsStatusCode.rawValue == rhsStatusCode.rawValue
+				} else {
+					return false
+				}
 			}
 		}
 		

@@ -69,6 +69,11 @@ struct ContentView: View {
 					case .boardBus:
 						BoardBusToast()
 							.padding()
+					case .debugMode:
+						if #available(iOS 16, *) {
+							DebugModeToast()
+								.padding()
+						}
 					default:
 						HStack {
 							SecondaryOverlay()
@@ -208,7 +213,7 @@ struct ContentView: View {
 						Logging.withLogger(doUpload: true) { (logger) in
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 						}
-						throw error
+						return
 					}
 					await self.mapState.refreshAll()
 					withAnimation {

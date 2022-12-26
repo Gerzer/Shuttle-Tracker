@@ -20,6 +20,13 @@ struct AdvancedSettingsView: View {
 	
 	var body: some View {
 		Form {
+			if #available(iOS 16, *) { // All Debug Mode functionality requires iOS 16, so we shouldn’t show the toggle on older OSes
+				Section {
+					Toggle("Debug Mode", isOn: self.appStorageManager.$debugMode)
+				} footer: {
+					Text("Shows information that’s useful for debugging Board Bus functionality.")
+				}
+			}
 			Section {
 				HStack {
 					Text("\(self.appStorageManager.maximumStopDistance) meters")
@@ -59,8 +66,9 @@ struct AdvancedSettingsView: View {
 				}
 					.disabled(self.appStorageManager.viewedAnnouncementIDs.isEmpty)
 				Button(role: .destructive) {
-					self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
+					self.appStorageManager.debugMode = AppStorageManager.Defaults.debugMode
 					self.appStorageManager.maximumStopDistance = AppStorageManager.Defaults.maximumStopDistance
+					self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
 					withAnimation {
 						self.didResetAdvancedSettings = true
 					}
@@ -73,14 +81,19 @@ struct AdvancedSettingsView: View {
 						}
 					}
 				}
-					.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance)
-					.onChange(of: self.appStorageManager.baseURL) { (_) in
-						if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
+					.disabled(self.appStorageManager.debugMode == AppStorageManager.Defaults.debugMode && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance && self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)
+					.onChange(of: self.appStorageManager.debugMode) { (_) in
+						if self.appStorageManager.debugMode != AppStorageManager.Defaults.debugMode {
 							self.didResetAdvancedSettings = false
 						}
 					}
 					.onChange(of: self.appStorageManager.maximumStopDistance) { (_) in
 						if self.appStorageManager.maximumStopDistance != AppStorageManager.Defaults.maximumStopDistance {
+							self.didResetAdvancedSettings = false
+						}
+					}
+					.onChange(of: self.appStorageManager.baseURL) { (_) in
+						if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
 							self.didResetAdvancedSettings = false
 						}
 					}

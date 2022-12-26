@@ -5,7 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 9/18/22.
 //
 
-import Foundation
+import CoreLocation
+import HTTPStatus
 
 actor BoardBusManager: ObservableObject {
 	
@@ -65,6 +66,33 @@ actor BoardBusManager: ObservableObject {
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
 			self.objectWillChange.send()
 			MapState.mapView?.showsUserLocation.toggle()
+		}
+	}
+	
+	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
+		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Required bus and location IDs not found while attempting to send location to server")
+			}
+			return
+		}
+		let location = Bus.Location(
+			id: locationID,
+			date: Date(),
+			coordinate: coordinate.convertedToCoordinate(),
+			type: .user
+		)
+		do {
+			let (_, statusCode) = try await API.updateBus(id: busID, location: location).perform()
+			if await AppStorageManager.shared.debugMode {
+				await MainActor.run {
+					ViewState.shared.toastType = .debugMode(statusCode: statusCode)
+				}
+			}
+		} catch let error {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public) Failed to send location to server: \(error, privacy: .public)")
+			}
 		}
 	}
 	
