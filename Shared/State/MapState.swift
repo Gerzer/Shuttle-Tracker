@@ -23,6 +23,9 @@ actor MapState: ObservableObject {
 	
 	func refreshBuses() async {
 		self.buses = await [Bus].download()
+		await MainActor.run {
+			self.objectWillChange.send()
+		}
 	}
 	
 	func refreshAll() async {
