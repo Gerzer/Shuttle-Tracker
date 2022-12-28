@@ -138,10 +138,17 @@ enum API: TargetType {
 	
 	func perform<ResponseType>(
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
-		as _: ResponseType.Type
+		as _: ResponseType.Type,
+		onMainActor: Bool = false
 	) async throws -> ResponseType where ResponseType: Decodable {
 		let data = try await self.perform()
-		return try decoder.decode(ResponseType.self, from: data)
+		if onMainActor {
+			return try await MainActor.run {
+				return try decoder.decode(ResponseType.self, from: data)
+			}
+		} else {
+			return try decoder.decode(ResponseType.self, from: data)
+		}
 	}
 	
 }
