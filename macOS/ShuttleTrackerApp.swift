@@ -73,7 +73,13 @@ struct ShuttleTrackerApp: App {
 					}
 						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
 					Button("Refresh") {
-						NotificationCenter.default.post(name: .refreshBuses, object: nil)
+						if #available(macOS 13, *) {
+							Task {
+								await self.viewState.refreshSequence.trigger()
+							}
+						} else {
+							NotificationCenter.default.post(name: .refreshBuses, object: nil)
+						}
 					}
 						.keyboardShortcut(KeyEquivalent("r"), modifiers: [.command])
 					Divider()

@@ -60,8 +60,12 @@ enum LocationUtilities {
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
-		API.provider.request(.updateBus(id: busID, location: location)) { (_) in
-			return
+		do {
+			try await API.updateBus(id: busID, location: location).perform()
+		} catch let error {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
+			}
 		}
 	}
 	#endif // !os(macOS)

@@ -78,6 +78,24 @@ final class ViewState: OnboardingFlags {
 	
 	let handles = Handles()
 	
-	private init() { }
+	// TODO: Simplify to a single stored property when we drop support for iOS 15 and macOS 12
+	// We have to do this annoying dance with a separate refreshSequenceStorage backing because Swift doesn’t yet support gating stored properties on API availability.
+	
+	@available(iOS 16, macOS 13, *)
+	var refreshSequence: RefreshSequence {
+		get {
+			return self.refreshSequenceStorage as! RefreshSequence
+		}
+	}
+	
+	private let refreshSequenceStorage: Any!
+	
+	private init() {
+		if #available(iOS 16, macOS 13, *) {
+			self.refreshSequenceStorage = RefreshSequence(interval: .seconds(5))
+		} else {
+			self.refreshSequenceStorage = nil
+		}
+	}
 	
 }
