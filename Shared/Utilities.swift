@@ -125,23 +125,23 @@ extension CLLocationManager {
 	/// - Important: This property is set to `nil` by default, and references to it will crash. The app **must** set a concrete value immediately upon launch.
 	static var `default`: CLLocationManager! {
 		get {
-			if self.privateDefault == nil {
+			if self.defaultStorage == nil {
 				Logging.withLogger(for: .location, doUpload: true) { (logger) in
 					logger.log(level: .error, "The default location manager was referenced, but no value is set. This is a fatal programmer error!")
 				}
 			}
-			return self.privateDefault
+			return self.defaultStorage
 		}
 		set {
 			newValue.delegate = .default
 			for handler in self.handlers {
 				handler(newValue)
 			}
-			self.privateDefault = newValue
+			self.defaultStorage = newValue
 		}
 	}
 	
-	private static var privateDefault: CLLocationManager?
+	private static var defaultStorage: CLLocationManager?
 	
 	/// Register a handler to be invoked whenever a new default location manager is set.
 	///
