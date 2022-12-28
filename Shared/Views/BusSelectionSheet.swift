@@ -132,40 +132,34 @@ struct BusSelectionSheet: View {
 					}
 				}
 		}
-			.onAppear {
-				API.provider.request(.readAllBuses) { (result) in
-					do {
-						self.busIDs = try result
-							.get()
-							.map([Int].self)
-							.map { (id) in
-								return BusID(id)
-							}
-					} catch let error {
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
+			.task {
+				do {
+					self.busIDs = try await API.readAllBuses.perform(as: [Int].self)
+						.map { (id) in
+							return BusID(id)
 						}
+				} catch let error {
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
 					}
-					guard let location = CLLocationManager.default.location else {
-						Logging.withLogger(for: .location, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t suggest nearest bus because the user’s location is unavailable")
-						}
-						return
+				}
+				guard let location = CLLocationManager.default.location else {
+					Logging.withLogger(for: .location, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t suggest nearest bus because the user’s location is unavailable")
 					}
-					Task {
-						let closestBus = await self.mapState.buses.min { (firstBus, secondBus) -> Bool in
-							let firstBusDistance = firstBus.location
-								.convertedForCoreLocation()
-								.distance(from: location)
-							let secondBusDistance = secondBus.location
-								.convertedForCoreLocation()
-								.distance(from: location)
-							return firstBusDistance < secondBusDistance
-						}
-						self.suggestedBusID = closestBus.map { (bus) in
-							return BusID(bus.id)
-						}
-					}
+					return
+				}
+				let closestBus = await self.mapState.buses.min { (first, second) in
+					let firstBusDistance = first.location
+						.convertedForCoreLocation()
+						.distance(from: location)
+					let secondBusDistance = second.location
+						.convertedForCoreLocation()
+						.distance(from: location)
+					return firstBusDistance < secondBusDistance
+				}
+				self.suggestedBusID = closestBus.map { (bus) in
+					return BusID(bus.id)
 				}
 			}
 	}
