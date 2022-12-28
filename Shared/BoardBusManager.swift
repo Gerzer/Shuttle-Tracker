@@ -5,7 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 9/18/22.
 //
 
-import Foundation
+import UserNotifications
 
 actor BoardBusManager: ObservableObject {
 	
@@ -32,7 +32,10 @@ actor BoardBusManager: ObservableObject {
 	private init() { }
 	
 	func boardBus(id busID: Int) async {
+		// Require that Board Bus be currently inactive
 		precondition(.notOnBus ~= self.travelState)
+		
+		// Toggle showsUserLocation twice to ensure that MapKit picks up the UI changes
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}
@@ -51,7 +54,15 @@ actor BoardBusManager: ObservableObject {
 	}
 	
 	func leaveBus() async {
+		// Require that Board Bus be currently active
 		precondition(.onBus ~= self.travelState)
+		
+		// Remove all pending leave-bus notifications
+		UNUserNotificationCenter
+			.current()
+			.removeAllPendingNotificationRequests()
+		
+		// Toggle showsUserLocation twice to ensure that MapKit picks up the UI changes
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}
@@ -63,6 +74,7 @@ actor BoardBusManager: ObservableObject {
 		}
 		await MainActor.run {
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
+			self.oldUserLocationTitle = nil
 			self.objectWillChange.send()
 			MapState.mapView?.showsUserLocation.toggle()
 		}
