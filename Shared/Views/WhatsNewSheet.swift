@@ -112,9 +112,9 @@ struct WhatsNewSheet: View {
 						self.sheetStack.pop()
 						self.viewState.handles.whatsNew?.increment()
 						
-						// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for iOS 15
+						// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for macOS 12
 						// Request a review on the App Store
-						// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires iOS 16 or newer, and stored properties can’t be gated on OS version.
+						// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires macOS 13 or newer, and stored properties can’t be gated on OS version.
 						SKStoreReviewController.requestReview()
 					}
 				}
