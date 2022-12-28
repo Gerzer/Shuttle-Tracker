@@ -29,7 +29,7 @@ public enum Logging {
 		
 	}
 	
-	public struct Log: Codable, Equatable, Hashable, Identifiable {
+	public struct Log: Codable, Hashable, Identifiable {
 		
 		enum ClientPlatform: String, Codable {
 			
