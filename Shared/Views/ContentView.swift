@@ -118,25 +118,16 @@ struct ContentView: View {
 						)
 					}
 				}
-				.onAppear {
-					API.provider.request(.readVersion) { (result) in
-						let version: Int?
-						do {
-							version = try result
-								.get()
-								.map(Int.self)
-						} catch let error {
-							version = nil
-							Logging.withLogger(for: .api, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
-							}
+				.task {
+					do {
+						let version = try await API.readVersion.perform(as: Int.self)
+						if version > API.lastVersion {
+							self.viewState.alertType = .updateAvailable
 						}
-						if let version {
-							if version > API.lastVersion {
-								self.viewState.alertType = .updateAvailable
-							}
-						} else {
-							self.viewState.alertType = .serverUnavailable
+					} catch let error {
+						self.viewState.alertType = .serverUnavailable
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 						}
 					}
 				}
