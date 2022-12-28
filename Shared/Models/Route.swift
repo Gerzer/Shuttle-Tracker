@@ -114,21 +114,13 @@ extension Array where Element == Route {
 	}
 	
 	static func download() async -> [Route] {
-		return await withCheckedContinuation { (continuation) in
-			API.provider.request(.readRoutes) { (result) in
-				let routes: [Route]
-				do {
-					routes = try result
-						.get()
-						.map([Route].self)
-				} catch let error {
-					routes = []
-					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
-					}
-				}
-				continuation.resume(returning: routes)
+		do {
+			return try await API.readRoutes.perform(as: [Route].self)
+		} catch let error {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
 			}
+			return []
 		}
 	}
 	
