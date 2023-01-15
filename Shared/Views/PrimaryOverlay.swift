@@ -82,8 +82,7 @@ struct PrimaryOverlay: View {
 							if closestStopDistance < Double(self.maximumStopDistance) {
 								self.mapState.locationID = UUID()
 								self.sheetStack.push(.busSelection)
-                                if self.viewState.toastType == .boardBus
-                                {
+								if self.viewState.toastType == .boardBus {
 									self.viewState.toastType = nil
 								}
 							} else {

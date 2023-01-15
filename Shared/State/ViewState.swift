@@ -33,7 +33,7 @@ final class ViewState: OnboardingFlags {
 	
 	enum ToastType: Identifiable {
 		
-		case legend, boardBus, Network_Location_request
+		case legend, boardBus, network
 		
 		var id: Self {
 			get {
