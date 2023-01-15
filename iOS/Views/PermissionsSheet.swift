@@ -166,7 +166,6 @@ struct PermissionsSheet: View {
 											Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 												logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization request failed: \(error, privacy: .public)")
 											}
-											throw error
 										}
 									}
 								@unknown default:
@@ -185,7 +184,6 @@ struct PermissionsSheet: View {
 									Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 										logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Full-accuracy location authorization request failed: \(error, privacy: .public)")
 									}
-									throw error
 								}
 							}
 						@unknown default:
