@@ -5,46 +5,41 @@
 //  Created by John Foster on 12/1/22.
 //
 
+import CoreLocation
 import SwiftUI
 
 struct NetworkToast: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
-	
 	@Environment(\.openURL) private var openURL
 	
 	var body: some View {
-		Toast("Join the Network!") {
-			withAnimation {
-				self.viewState.toastType = nil
-			}
-		} content: {
+		Toast("Join the Network!", item: self.$viewState.toastType) { (_, dismiss) in
 			VStack {
 				Text("The Shuttle Tracker Network unlocks vastly improved tracking coverage. Enable location permission to join the Network!")
 				Button {
-					switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
+					switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 					case (.authorizedAlways, .fullAccuracy), (.authorizedWhenInUse, .fullAccuracy):
 						break
 					case (.restricted, _), (.denied, _):
-						let url = URL(string: UIApplication.openSettingsURLString)!
-						self.openURL(url)
+						self.openURL(URL(string: UIApplication.openSettingsURLString)!)
 					case (.notDetermined, _):
-						LocationUtilities.locationManager.requestAlwaysAuthorization()
+						CLLocationManager.default.requestAlwaysAuthorization()
 					case (_, .reducedAccuracy):
 						Task {
 							do {
-								try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+								try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 							} catch let error {
-								print("[NetworkToast body] Full-accuracy location authorization request error: \(error.localizedDescription)")
+								Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Full-accuracy location authorization request failed: \(error, privacy: .public)")
+								}
 							}
 						}
 					@unknown default:
 						fatalError()
 					}
-					self.viewState.toastType = nil
-					
+					dismiss()
 				} label: {
 					Text("Join the Network")
 						.bold()
