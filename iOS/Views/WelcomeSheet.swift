@@ -9,9 +9,11 @@ import SwiftUI
 
 struct WelcomeSheet: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		VStack(alignment: .leading) {

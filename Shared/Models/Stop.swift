@@ -31,17 +31,18 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		}
 	}
 	
+	@MainActor
 	let annotationView: MKAnnotationView = {
 		let annotationView = MKAnnotationView()
 		annotationView.displayPriority = .defaultHigh
 		annotationView.canShowCallout = true
-		#if os(macOS)
+		#if canImport(AppKit)
 		annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?
 			.withTintColor(.white)
 		annotationView.layer?.borderColor = .black
 		annotationView.layer?.borderWidth = 2
 		annotationView.layer?.cornerRadius = annotationView.frame.width / 2
-		#else // os(macOS)
+		#elseif canImport(UIKit) // canImport(AppKit)
 		let image = UIImage(systemName: "circle.fill")!
 		let imageView = UIImageView(image: image)
 		imageView.tintColor = .white
@@ -50,10 +51,11 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		imageView.layer.cornerRadius = imageView.frame.width / 2
 		imageView.frame = imageView.frame.offsetBy(dx: imageView.frame.width / -2, dy: imageView.frame.height / -2)
 		annotationView.addSubview(imageView)
-		#endif
+		#endif // canImport(UIKit)
 		return annotationView
 	}()
 	
+	@MainActor
 	required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.name = try container.decode(String.self, forKey: .name)
@@ -64,12 +66,14 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 
 extension Array where Element == Stop {
 	
-	static func download(_ stopsCallback: @escaping (_ stops: Self) -> Void) {
-		API.provider.request(.readStops) { (result) in
-			let stops = try? result
-				.get()
-				.map([Stop].self)
-			stopsCallback(stops ?? [])
+	static func download() async -> [Stop] {
+		do {
+			return try await API.readStops.perform(as: [Stop].self, onMainActor: true) // Stops must be decoded on the main thread because initializing the annotationView property indirectly invokes UIView’s main-thread-isolated init() initializer.
+		} catch let error {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download stops: \(error, privacy: .public)")
+			}
+			return []
 		}
 	}
 	

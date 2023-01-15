@@ -5,122 +5,70 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
+import HTTPStatus
 import MapKit
-import UserNotifications
 import OSLog
+import SwiftUI
+import UserNotifications
 
-enum ViewUtilities {
-	
-	enum Constants {
+enum ViewConstants {
 		
-		#if os(macOS)
-		static let sheetCloseButtonDimension: CGFloat = 15
-		
-		static let toastCloseButtonDimension: CGFloat = 15
-		
-		static let toastCornerRadius: CGFloat = 10
-		#else // os(macOS)
-		static let sheetCloseButtonDimension: CGFloat = 30
-		
-		static let toastCloseButtonDimension: CGFloat = 25
-
-		static let toastCornerRadius: CGFloat = 30
-		#endif
-		
-	}
-	
 	#if os(macOS)
-	static var standardVisualEffectView: some View {
-		VisualEffectView(blendingMode: .withinWindow, material: .hudWindow)
-	}
+	static let sheetCloseButtonDimension: CGFloat = 15
+	
+	static let toastCloseButtonDimension: CGFloat = 15
+	
+	static let toastCornerRadius: CGFloat = 10
 	#else // os(macOS)
-	static var standardVisualEffectView: some View {
-		VisualEffectView(UIBlurEffect(style: .systemMaterial))
-	}
+	static let sheetCloseButtonDimension: CGFloat = 30
+	
+	static let toastCloseButtonDimension: CGFloat = 25
+
+	static let toastCornerRadius: CGFloat = 30
 	#endif
+	
+}
+
+extension VisualEffectView {
+	
+	/// The standard visual-effect view, which is optimized for the current context.
+	static var standard: VisualEffectView {
+		get {
+			#if canImport(AppKit)
+			return VisualEffectView(material: .hudWindow, blendingMode: .withinWindow)
+			#elseif canImport(UIKit) // canImport(AppKit)
+			return VisualEffectView(UIBlurEffect(style: .systemMaterial))
+			#endif // canImport(UIKit)
+		}
+	}
 	
 }
 
 enum LocationUtilities {
 	
-	private static let locationManagerDelegate = LocationManagerDelegate()
-	
-	private static var locationManagerHandlers: [(CLLocationManager) -> Void] = []
-	
-	static var locationManager: CLLocationManager! {
-		didSet {
-			self.locationManager.delegate = self.locationManagerDelegate
-			for locationManagerHandler in self.locationManagerHandlers {
-				locationManagerHandler(self.locationManager)
+	#if !os(macOS)
+	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
+		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Required bus and location IDs not found while attempting to send location to server")
+			}
+			return
+		}
+		let location = Bus.Location(
+			id: locationID,
+			date: Date(),
+			coordinate: coordinate.convertedToCoordinate(),
+			type: .user
+		)
+		do {
+			try await API.updateBus(id: busID, location: location).perform()
+		} catch let error {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
 			}
 		}
 	}
-	
-	static func registerLocationManagerHandler(_ handler: @escaping (CLLocationManager) -> Void) {
-		self.locationManagerHandlers.append(handler)
-	}
-	
-	static func sendToServer(coordinate: CLLocationCoordinate2D) {
-		guard let busID = MapState.shared.busID, let locationID = MapState.shared.locationID else {
-			LoggingUtilities.logger.log(level: .fault, "Required bus and location identifiers not found")
-			return
-		}
-		let location = Bus.Location(id: locationID, date: Date(), coordinate: coordinate.convertedToCoordinate(), type: .user)
-		API.provider.request(.updateBus(busID, location: location)) { (_) in
-			return
-		}
-	}
-	
-}
-
-enum MapUtilities {
-	
-	enum Constants {
-		
-		static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
-		
-		static let mapRect = MKMapRect(
-			origin: MKMapPoint(Constants.originCoordinate),
-			size: MKMapSize(
-				width: 10000,
-				height: 10000
-			)
-		)
-		
-		#if os(macOS)
-		static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
-		#else // os(macOS)
-		static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
-		#endif
-		
-	}
-	
-}
-
-enum CalendarUtilities {
-	
-	@available(iOS 15, macOS 12, *) static var isAprilFools: Bool {
-		get {
-			return Calendar.autoupdatingCurrent.dateComponents([.year, .month, .day], from: .now) == DateComponents(year: 2022, month: 4, day: 1)
-		}
-	}
-	
-}
-
-enum LoggingUtilities {
-	
-	static let logger = Logger()
-	
-}
-
-enum UserNotificationUtilities {
-	
-	static func requestAuthorization() async throws {
-		try await UNUserNotificationCenter
-			.current()
-			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
-	}
+	#endif // !os(macOS)
 	
 }
 
@@ -130,11 +78,82 @@ enum DefaultsKeys {
 	
 }
 
+enum MapConstants {
+	
+	static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
+	
+	static let mapRect = MKMapRect(
+		origin: MKMapPoint(MapConstants.originCoordinate),
+		size: MKMapSize(
+			width: 10000,
+			height: 10000
+		)
+	)
+	
+	#if canImport(AppKit)
+	static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
+	#elseif canImport(UIKit) // canImport(AppKit)
+	static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
+	#endif // canImport(UIKit)
+	
+}
+
 enum TravelState {
 	
 	case onBus
 	
 	case notOnBus
+	
+}
+
+enum UserLocationError: Error {
+	
+	case unavailable
+	
+	var localizedDescription: String {
+		get {
+			switch self {
+			case .unavailable:
+				return "The user’s location is unavailable."
+			}
+		}
+	}
+	
+}
+
+extension CLLocationManager {
+	
+	private static var handlers: [(CLLocationManager) -> Void] = []
+	
+	/// The default location manager.
+	/// - Important: This property is set to `nil` by default, and references to it will crash. The app **must** set a concrete value immediately upon launch.
+	static var `default`: CLLocationManager! {
+		get {
+			if self.defaultStorage == nil {
+				Logging.withLogger(for: .location, doUpload: true) { (logger) in
+					logger.log(level: .error, "The default location manager was referenced, but no value is set. This is a fatal programmer error!")
+				}
+			}
+			return self.defaultStorage
+		}
+		set {
+			newValue.delegate = .default
+			for handler in self.handlers {
+				handler(newValue)
+			}
+			self.defaultStorage = newValue
+		}
+	}
+	
+	private static var defaultStorage: CLLocationManager?
+	
+	/// Register a handler to be invoked whenever a new default location manager is set.
+	///
+	/// Handlers are invoked in the order in which they were registered. This means that a later handler could potentially undo or overwrite modifications to the location manager that were performed by an earlier handler.
+	/// - Parameter handler: The handler to invoke with the new value.
+	static func registerHandler(_ handler: @escaping (CLLocationManager) -> Void) {
+		self.handlers.append(handler)
+	}
 	
 }
 
@@ -162,9 +181,70 @@ extension MKMapPoint: Equatable {
 	
 }
 
+extension UNUserNotificationCenter {
+	
+	/// Requests notification authorization with default options.
+	///
+	/// Provisional authorization for alerts, sounds, and badges is requested.
+	static func requestDefaultAuthorization() async throws {
+		try await UNUserNotificationCenter
+			.current()
+			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
+	}
+	
+}
+
 extension Notification.Name {
 	
 	static let refreshBuses = Notification.Name("RefreshBuses")
+	
+}
+
+extension JSONEncoder {
+	
+	convenience init(
+		dateEncodingStrategy: DateEncodingStrategy = .deferredToDate,
+		dataEncodingStrategy: DataEncodingStrategy = .base64,
+		nonConformingFloatEncodingStrategy: NonConformingFloatEncodingStrategy = .throw
+	) {
+		self.init()
+		self.keyEncodingStrategy = keyEncodingStrategy
+		self.dateEncodingStrategy = dateEncodingStrategy
+		self.dataEncodingStrategy = dataEncodingStrategy
+		self.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
+	}
+	
+}
+
+extension JSONDecoder {
+	
+	convenience init(
+		dateDecodingStrategy: DateDecodingStrategy = .deferredToDate,
+		dataDecodingStrategy: DataDecodingStrategy = .base64,
+		nonConformingFloatDecodingStrategy: NonConformingFloatDecodingStrategy = .throw
+	) {
+		self.init()
+		self.keyDecodingStrategy = keyDecodingStrategy
+		self.dateDecodingStrategy = dateDecodingStrategy
+		self.dataDecodingStrategy = dataDecodingStrategy
+		self.nonConformingFloatDecodingStrategy = nonConformingFloatDecodingStrategy
+	}
+	
+}
+
+extension Bundle {
+	
+	var version: String? {
+		get {
+			return self.infoDictionary?["CFBundleShortVersionString"] as? String
+		}
+	}
+	
+	var build: String? {
+		get {
+			return self.infoDictionary?["CFBundleVersion"] as? String
+		}
+	}
 	
 }
 
@@ -209,9 +289,10 @@ extension View {
 @available(macOS, introduced: 12, deprecated: 13)
 extension URL {
 	
+	/// A URL format style that can be backported before the introduction of the official format style.
 	struct CompatibilityFormatStyle: ParseableFormatStyle {
 		
-		struct Strategy: Foundation.ParseStrategy {
+		struct ParseStrategy: Foundation.ParseStrategy {
 			
 			enum ParseError: Error {
 				
@@ -228,7 +309,7 @@ extension URL {
 			
 		}
 		
-		var parseStrategy = Strategy()
+		var parseStrategy = ParseStrategy()
 		
 		func format(_ value: URL) -> String {
 			return value.absoluteString
@@ -238,12 +319,29 @@ extension URL {
 	
 }
 
+@available(iOS, introduced: 15, deprecated: 16)
+@available(macOS, introduced: 12, deprecated: 13)
+extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+	
+	static var compatibilityURL: Self {
+		get {
+			return Self()
+		}
+	}
+	
+}
+
+// TODO: Find a different way to persist sets of UUIDs in User Defaults because this code is fragile and might break if the standard library ever evolves to include its own conformance of Set to RawRepresentable or if UUID’s uuidString implementation in Foundation ever changes
+// To maintain syntactic consistency with the array literal (from which a set can be initialized), the raw value is represented as a comma-separated list of UUID strings with “[” and “]” as the first and last characters, respectively, of the overall string. This list is sorted by the natural ordering of the UUID strings to achieve determinism and the ability to compare equivalent raw values directly. The format of the individual UUIDs is deferred to the UUID structure and is assumed to be consistent and deterministic. Note that unlike array-of-string literals, quotation marks are not included in the raw value.
 extension Set: RawRepresentable where Element == UUID {
 	
 	public var rawValue: String {
 		get {
 			var string = "["
-			for element in self {
+			let sorted = self.sorted { (first, second) in
+				return first.uuidString < second.uuidString
+			}
+			for element in sorted {
 				string += element.uuidString + ","
 			}
 			string.removeLast()
@@ -270,19 +368,18 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
-@available(iOS, introduced: 15, deprecated: 16)
-@available(macOS, introduced: 12, deprecated: 13)
-extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
+#if canImport(UIKit)
+extension UIKeyboardType {
 	
-	static var compatibilityURL: Self {
-		get {
-			return Self()
-		}
-	}
+	/// A keyboard type that’s optimized for URL entry.
+	///
+	/// This static property is the same as the `UIKeyboardType.URL` enumeration case, but unlike the enumeration case, it follows standard Swift naming conventions.
+	static let url: Self = .URL
 	
 }
+#endif // canImport(UIKit)
 
-#if os(macOS)
+#if canImport(AppKit)
 extension NSImage {
 	
 	func withTintColor(_ color: NSColor) -> NSImage {
@@ -296,4 +393,4 @@ extension NSImage {
 	}
 	
 }
-#endif // os(macOS)
+#endif // canImport(AppKit)

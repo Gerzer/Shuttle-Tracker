@@ -5,21 +5,28 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
-import SwiftUI
 import CoreLocation
 import OnboardingKit
+import SwiftUI
 
-@main struct ShuttleTrackerApp: App {
+@main
+struct ShuttleTrackerApp: App {
+	
+	@ObservedObject
+	private var mapState = MapState.shared
+	
+	@ObservedObject
+	private var viewState = ViewState.shared
+	
+	@ObservedObject
+	private var appStorageManager = AppStorageManager.shared
 	
 	private static let contentViewSheetStack = SheetStack()
 	
 	private static let settingsViewSheetStack = SheetStack()
 	
-	@ObservedObject private var mapState = MapState.shared
-	
-	@ObservedObject private var viewState = ViewState.shared
-	
-	@NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+	@NSApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
@@ -37,7 +44,7 @@ import OnboardingKit
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew) { (value) in
 			Self.pushSheet(value, to: Self.contentViewSheetStack)
 		} conditions: {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.5", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
 	}
 	
@@ -46,39 +53,33 @@ import OnboardingKit
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.contentViewSheetStack)
 		}
 			.commands {
 				CommandGroup(before: .sidebar) {
-					Button("\(Self.contentViewSheetStack.top == .announcements ? "Hide" : "Show") Announcements") {
-						if Self.contentViewSheetStack.top == .announcements {
-							Self.contentViewSheetStack.pop()
-						} else {
-							Self.contentViewSheetStack.push(.announcements)
-						}
+					Group {
+						// Extract commands into separate view to work around a bug in SwiftUI (https://stackoverflow.com/questions/68553092/menu-not-updating-swiftui-bug)
+						AnnouncementsCommandView()
+						WhatsNewCommandView()
+						PrivacyCommandView()
 					}
-						.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
-						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .announcements)
-					Button("\(Self.contentViewSheetStack.top == .whatsNew ? "Hide" : "Show") What’s New") {
-						if Self.contentViewSheetStack.top == .whatsNew {
-							Self.contentViewSheetStack.pop()
-						} else {
-							Self.contentViewSheetStack.push(.whatsNew)
-						}
-					}
-						.keyboardShortcut(KeyEquivalent("w"), modifiers: [.command, .shift])
-						.disabled(Self.contentViewSheetStack.count > 0 && Self.contentViewSheetStack.top != .whatsNew)
+						.environmentObject(Self.contentViewSheetStack)
 					Divider()
 					Button("Re-Center Map") {
-						self.mapState.mapView?.setVisibleMapRect(
-							self.mapState.routes.boundingMapRect,
-							edgePadding: MapUtilities.Constants.mapRectInsets,
-							animated: true
-						)
+						Task {
+							await self.mapState.resetVisibleMapRect()
+						}
 					}
 						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
 					Button("Refresh") {
-						NotificationCenter.default.post(name: .refreshBuses, object: nil)
+						if #available(macOS 13, *) {
+							Task {
+								await self.viewState.refreshSequence.trigger()
+							}
+						} else {
+							NotificationCenter.default.post(name: .refreshBuses, object: nil)
+						}
 					}
 						.keyboardShortcut(KeyEquivalent("r"), modifiers: [.command])
 					Divider()
@@ -88,22 +89,105 @@ import OnboardingKit
 		Settings {
 			SettingsView()
 				.padding()
-				.frame(width: 400, height: 100)
+				.frame(minWidth: 700, minHeight: 300)
 				.environmentObject(self.viewState)
+				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.settingsViewSheetStack)
 		}
 	}
 	
 	init() {
-		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestWhenInUseAuthorization()
-		LocationUtilities.locationManager.activityType = .automotiveNavigation
+		Logging.withLogger { (logger) in
+			let formattedVersion: String
+			if let version = Bundle.main.version {
+				formattedVersion = " \(version)"
+			} else {
+				formattedVersion = ""
+			}
+			let formattedBuild: String
+			if let build = Bundle.main.build {
+				formattedBuild = " (\(build))"
+			} else {
+				formattedBuild = ""
+			}
+			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for macOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
+		}
+		CLLocationManager.default = CLLocationManager()
+		CLLocationManager.default.requestWhenInUseAuthorization()
+		CLLocationManager.default.activityType = .automotiveNavigation
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+		Task {
+			do {
+				if #available(macOS 13, *) {
+					try await Task.sleep(for: .seconds(1))
+				} else {
+					try await Task.sleep(nanoseconds: 1_000_000_000)
+				}
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
+				}
+				throw error
+			}
 			sheetStack.push(sheetType)
 		}
+	}
+	
+}
+
+fileprivate struct AnnouncementsCommandView: View {
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	var body: some View {
+		Button("\(self.sheetStack.top ~= .announcements ? "Hide" : "Show") Announcements") {
+			if case .announcements = self.sheetStack.top {
+				self.sheetStack.pop()
+			} else {
+				self.sheetStack.push(.announcements)
+			}
+		}
+			.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
+			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .announcements))
+	}
+	
+}
+
+fileprivate struct WhatsNewCommandView: View {
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	var body: some View {
+		Button("\(self.sheetStack.top ~= .whatsNew ? "Hide" : "Show") What’s New") {
+			if case .whatsNew = self.sheetStack.top {
+				self.sheetStack.pop()
+			} else {
+				self.sheetStack.push(.whatsNew)
+			}
+		}
+			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .whatsNew))
+	}
+	
+}
+
+fileprivate struct PrivacyCommandView: View {
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	var body: some View {
+		Button("\(self.sheetStack.top ~= .privacy ? "Hide" : "Show") Privacy Information") {
+			if case .privacy = self.sheetStack.top {
+				self.sheetStack.pop()
+			} else {
+				self.sheetStack.push(.privacy)
+			}
+		}
+			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .privacy))
 	}
 	
 }

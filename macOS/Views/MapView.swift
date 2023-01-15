@@ -5,60 +5,56 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct MapView: NSViewRepresentable {
 	
-	@EnvironmentObject private var mapState: MapState
-	
-	private let mapView = MKMapView(frame: .zero)
+	@EnvironmentObject
+	private var mapState: MapState
 	
 	func makeNSView(context: Context) -> MKMapView {
-		self.mapView.delegate = context.coordinator
-		self.mapView.showsUserLocation = true
-		self.mapView.showsCompass = true
-		self.mapView.setVisibleMapRect(MapUtilities.Constants.mapRect, animated: true)
-		[Bus].download { (buses) in
-			DispatchQueue.main.async {
-				self.mapState.buses = buses
-			}
+		let nsView = MKMapView(frame: .zero)
+		Task {
+			MapState.mapView = nsView
+			await self.mapState.refreshAll()
+			await self.mapState.resetVisibleMapRect()
 		}
-		[Stop].download { (stops) in
-			DispatchQueue.main.async {
-				self.mapState.stops = stops
-			}
+		nsView.delegate = context.coordinator
+		nsView.showsUserLocation = true
+		nsView.showsCompass = true
+		if #available(macOS 13, *) {
+			// Set a custom preferred map configuration
+			let configuration = MKStandardMapConfiguration(emphasisStyle: .muted)
+			configuration.pointOfInterestFilter = .excludingAll
+			nsView.preferredConfiguration = configuration
 		}
-		[Route].download { (routes) in
-			DispatchQueue.main.async {
-				self.mapState.routes = routes
-				self.mapState.mapView?.setVisibleMapRect(
-					self.mapState.routes.boundingMapRect,
-					edgePadding: MapUtilities.Constants.mapRectInsets,
-					animated: true
-				)
-			}
-		}
-		self.mapState.mapView = self.mapView
-		return self.mapView
+		return nsView
 	}
 	
 	func updateNSView(_ nsView: MKMapView, context: Context) {
-		self.mapView.delegate = context.coordinator
-		let allRoutesOnMap = self.mapState.routes.allSatisfy { (route) in
-			return nsView.overlays.contains { (overlay) in
-				if let existingRoute = overlay as? Route, existingRoute == route {
-					return true
+		nsView.delegate = context.coordinator
+		Task {
+			let buses = await self.mapState.buses
+			let stops = await self.mapState.stops
+			let routes = await self.mapState.routes
+			await MainActor.run {
+				let allRoutesOnMap = routes.allSatisfy { (route) in
+					return nsView.overlays.contains { (overlay) in
+						if let existingRoute = overlay as? Route, existingRoute == route {
+							return true
+						}
+						return false
+					}
 				}
-				return false
+				nsView.removeAnnotations(nsView.annotations)
+				nsView.addAnnotations(buses)
+				nsView.addAnnotations(stops)
+				if !allRoutesOnMap {
+					nsView.removeOverlays(nsView.overlays)
+					nsView.addOverlays(routes)
+				}
 			}
-		}
-		nsView.removeAnnotations(nsView.annotations)
-		nsView.addAnnotations(Array(self.mapState.buses))
-		nsView.addAnnotations(Array(self.mapState.stops))
-		if !allRoutesOnMap {
-			nsView.removeOverlays(nsView.overlays)
-			nsView.addOverlays(self.mapState.routes)
 		}
 	}
 	

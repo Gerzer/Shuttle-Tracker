@@ -7,18 +7,22 @@
 
 import SwiftUI
 
-@available(iOS 15, macOS 12, *)
 struct AnnouncementsSheet: View {
 	
-	@State private var announcements: [Announcement]?
+	@State
+	private var announcements: [Announcement]?
 	
-	@State private var didResetViewedAnnouncements = false
+	@State
+	private var didResetViewedAnnouncements = false
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
-	@AppStorage("ViewedAnnouncementIDs") private var viewedAnnouncementIDs: Set<UUID> = []
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -33,27 +37,16 @@ struct AnnouncementsSheet: View {
 								)
 							} label: {
 								HStack {
-									let isUnviewed = !self.viewedAnnouncementIDs.contains(announcement.id)
+									let isUnviewed = !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
 									Circle()
 										.fill(isUnviewed ? .blue : .clear)
 										.frame(width: 10, height: 10)
-									
-									// Since macOS 13 Ventura is delayed until later this fall (2022), we have to build against the macOS 12.3 Monterey SDK. This older SDK doesn’t contain the `bold(_:)` view modifier for `Text` views, so we employ this ugly fallback on macOS. Once the final macOS 13 Ventura SDK is released, we should be able to remove the fallback.
-									#if os(macOS)
-									if isUnviewed {
-										Text(announcement.subject)
-											.bold()
-									} else {
-										Text(announcement.subject)
-									}
-									#else // os(macOS)
-									if #available(iOS 16, *) {
+									if #available(iOS 16, macOS 13, *) {
 										Text(announcement.subject)
 											.bold(isUnviewed)
 									} else {
 										Text(announcement.subject)
 									}
-									#endif
 								}
 							}
 						}
@@ -71,7 +64,7 @@ struct AnnouncementsSheet: View {
 							.multilineTextAlignment(.center)
 							.foregroundColor(.secondary)
 							.padding()
-						#endif // os(macOS)
+						#endif
 					}
 				} else {
 					ProgressView("Loading")
@@ -89,11 +82,11 @@ struct AnnouncementsSheet: View {
 				.navigationTitle("Announcements")
 				.frame(minHeight: 300)
 				.toolbar {
-					#if !os(macOS)
+					#if os(iOS)
 					ToolbarItem {
 						CloseButton()
 					}
-					#endif // !os(macOS)
+					#endif // os(iOS)
 				}
 		}
 			.task {
@@ -102,14 +95,18 @@ struct AnnouncementsSheet: View {
 			.toolbar {
 				#if os(macOS)
 				ToolbarItem {
-					Button(
-						"Reset Viewed Announcements" + (self.didResetViewedAnnouncements ? " ✓" : ""),
-						role: .destructive
-					) {
-						self.viewedAnnouncementIDs.removeAll()
+					Button(role: .destructive) {
+						self.appStorageManager.viewedAnnouncementIDs.removeAll()
 						self.didResetViewedAnnouncements = true
+					} label: {
+						HStack {
+							Text("Reset Viewed Announcements")
+							if self.didResetViewedAnnouncements {
+								Text("✓")
+							}
+						}
 					}
-						.disabled(self.viewedAnnouncementIDs.isEmpty)
+						.disabled(self.appStorageManager.viewedAnnouncementIDs.isEmpty)
 						.focusable(false)
 				}
 				ToolbarItem(placement: .cancellationAction) {
@@ -125,7 +122,6 @@ struct AnnouncementsSheet: View {
 	
 }
 
-@available(iOS 15, macOS 12, *)
 struct AnnouncementsSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {

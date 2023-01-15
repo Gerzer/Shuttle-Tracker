@@ -9,28 +9,38 @@ import SwiftUI
 
 struct SettingsView: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	#if os(macOS)
+	@State
+	private var didResetServerBaseURL = false
+	#endif // os(macOS)
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@AppStorage("ColorBlindMode") private var colorBlindMode = false
+	@EnvironmentObject
+	private var sheetStack: SheetStack
+	
+	@EnvironmentObject
+	private var appStorageManager: AppStorageManager
 	
 	var body: some View {
+		#if os(iOS)
 		SheetPresentationWrapper {
 			Form {
-				#if os(iOS)
 				Section {
 					HStack {
 						ZStack {
 							Circle()
 								.fill(.green)
-							Image(systemName: self.colorBlindMode ? "scope" : "bus")
+							Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
 								.resizable()
 								.frame(width: 15, height: 15)
 								.foregroundColor(.white)
 						}
 							.frame(width: 30)
-						Toggle("Color-Blind Mode", isOn: self.$colorBlindMode)
+							.animation(.default, value: self.appStorageManager.colorBlindMode)
+						Toggle("Color-Blind Mode", isOn: self.appStorageManager.$colorBlindMode)
+							.accessibilityShowsLargeContentViewer()
 					}
 						.frame(height: 30)
 				} footer: {
@@ -38,12 +48,15 @@ struct SettingsView: View {
 				}
 				#if !APPCLIP
 				Section {
-					Button("View Permissions") {
+					Button("Show Permissions") {
 						self.sheetStack.push(.permissions)
 					}
 				}
 				#endif // !APPCLIP
 				Section {
+					NavigationLink("Logging & Analytics") {
+						LoggingAnalyticsSettingsView()
+					}
 					NavigationLink("Advanced") {
 						AdvancedSettingsView()
 					}
@@ -53,17 +66,69 @@ struct SettingsView: View {
 						AboutView()
 					}
 				}
-				#elseif os(macOS) // os(iOS)
-				Toggle("Distinguish bus markers by icon", isOn: self.$colorBlindMode)
-				#endif // os(macOS)
 			}
-				.onChange(of: self.colorBlindMode) { (_) in
-					withAnimation {
-						self.viewState.toastType = .legend
-						self.viewState.legendToastHeadlineText = nil
+		}
+			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
+				withAnimation {
+					self.viewState.toastType = .legend
+					self.viewState.legendToastHeadlineText = nil
+				}
+			}
+		#elseif os(macOS) // os(iOS)
+		TabView {
+			Form {
+				Section {
+					Toggle("Distinguish bus markers by icon", isOn: self.appStorageManager.$colorBlindMode)
+				}
+				Divider()
+				Section {
+					HStack {
+						// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
+						TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
+							.labelsHidden()
+						Button(role: .destructive) {
+							self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
+							self.didResetServerBaseURL = true
+						} label: {
+							HStack {
+								Text("Reset")
+								if self.didResetServerBaseURL {
+									Text("✓")
+								}
+							}
+								.frame(minWidth: 50)
+						}
+							.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)
+							.onChange(of: self.appStorageManager.baseURL) { (_) in
+								if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
+									self.didResetServerBaseURL = false
+								}
+							}
 					}
+				} header: {
+					Text("Server Base URL")
+						.bold()
+				} footer: {
+					Text("Changing this setting could make the rest of the app stop working properly.")
+				}
+				Spacer()
+			}
+				.tabItem {
+					Label("General", systemImage: "gear")
+				}
+			LoggingAnalyticsSettingsView()
+				.tabItem {
+					Label("Logging & Analytics", systemImage: "text.redaction")
 				}
 		}
+			.padding()
+			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
+				withAnimation {
+					self.viewState.toastType = .legend
+					self.viewState.legendToastHeadlineText = nil
+				}
+			}
+		#endif // os(macOS)
 	}
 	
 }
@@ -72,6 +137,9 @@ struct SettingsViewPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		SettingsView()
+			.environmentObject(ViewState.shared)
+			.environmentObject(SheetStack())
+			.environmentObject(AppStorageManager.shared)
 	}
 	
 }

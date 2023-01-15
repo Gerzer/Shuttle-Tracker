@@ -37,11 +37,7 @@ final class Announcement: Decodable, Identifiable {
 		get {
 			let formatter = RelativeDateTimeFormatter()
 			formatter.formattingContext = .dynamic
-			if #available(iOS 15, macOS 12, *) {
-				return formatter.localizedString(for: self.start, relativeTo: .now)
-			} else {
-				return formatter.localizedString(for: self.start, relativeTo: Date())
-			}
+			return formatter.localizedString(for: self.start, relativeTo: .now)
 		}
 	}
 	
@@ -49,11 +45,7 @@ final class Announcement: Decodable, Identifiable {
 		get {
 			let formatter = RelativeDateTimeFormatter()
 			formatter.formattingContext = .dynamic
-			if #available(iOS 15, macOS 12, *) {
-				return formatter.localizedString(for: self.end, relativeTo: .now)
-			} else {
-				return formatter.localizedString(for: self.end, relativeTo: Date())
-			}
+			return formatter.localizedString(for: self.end, relativeTo: .now)
 		}
 	}
 	
@@ -61,29 +53,26 @@ final class Announcement: Decodable, Identifiable {
 
 extension Array where Element == Announcement {
 	
-	@available(iOS 15, macOS 12, *)
 	static func download() async -> [Announcement] {
-		return await withCheckedContinuation { continuation in
-			API.provider.request(.readAnnouncements) { (result) in
-				let decoder = JSONDecoder()
-				decoder.dateDecodingStrategy = .iso8601
-				let announcements = try? result
-					.get()
-					.map([Announcement].self, using: decoder)
-					.filter { (announcement) in
-						switch announcement.scheduleType {
-						case .none:
-							return true
-						case .startOnly:
-							return announcement.start <= .now
-						case .endOnly:
-							return announcement.end > .now
-						case .startAndEnd:
-							return announcement.start <= .now && announcement.end > .now
-						}
+		do {
+			return try await API.readAnnouncements.perform(as: [Announcement].self)
+				.filter { (announcement) in
+					switch announcement.scheduleType {
+					case .none:
+						return true
+					case .startOnly:
+						return announcement.start <= .now
+					case .endOnly:
+						return announcement.end > .now
+					case .startAndEnd:
+						return announcement.start <= .now && announcement.end > .now
 					}
-				continuation.resume(returning: announcements ?? [])
+				}
+		} catch let error {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download announcements: \(error, privacy: .public)")
 			}
+			return []
 		}
 	}
 	

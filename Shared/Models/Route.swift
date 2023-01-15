@@ -5,8 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 9/12/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
@@ -36,13 +36,13 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 				return MKPolyline(points: mapPointsPointer.baseAddress!, count: mapPointsPointer.count)
 			}
 			let polylineRenderer = MKPolylineRenderer(polyline: polyline)
-			#if os(macOS)
+			#if canImport(AppKit)
 			polylineRenderer.strokeColor = NSColor(self.color)
 				.withAlphaComponent(0.7)
-			#else // os(macOS)
+			#elseif canImport(UIKit) // canImport(AppKit)
 			polylineRenderer.strokeColor = UIColor(self.color)
 				.withAlphaComponent(0.7)
-			#endif
+			#endif // canImport(UIKit)
 			polylineRenderer.lineWidth = 5
 			return polylineRenderer
 		}
@@ -50,7 +50,7 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	var coordinate: CLLocationCoordinate2D {
 		get {
-			return MapUtilities.Constants.originCoordinate
+			return MapConstants.originCoordinate
 		}
 	}
 	
@@ -113,12 +113,14 @@ extension Array where Element == Route {
 		}
 	}
 	
-	static func download(_ routesCallback: @escaping (_ routes: [Route]) -> Void) {
-		API.provider.request(.readRoutes) { (result) in
-			let routes = try? result
-				.get()
-				.map([Route].self)
-			routesCallback(routes ?? [])
+	static func download() async -> [Route] {
+		do {
+			return try await API.readRoutes.perform(as: [Route].self)
+		} catch let error {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
+			}
+			return []
 		}
 	}
 	

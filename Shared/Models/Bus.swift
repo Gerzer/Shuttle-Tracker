@@ -5,8 +5,8 @@
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 class Bus: NSObject, Codable, CustomAnnotation {
 	
@@ -65,6 +65,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		}
 	}
 	
+	@MainActor
 	var annotationView: MKAnnotationView {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
@@ -81,11 +82,11 @@ class Bus: NSObject, Codable, CustomAnnotation {
 				colorBlindSymbolName = "scope"
 			}
 			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
-			#if os(macOS)
+			#if canImport(AppKit)
 			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
-			#else // os(macOS)
+			#elseif canImport(UIKit) // canImport(AppKit)
 			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
-			#endif
+			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
 	}
@@ -103,25 +104,31 @@ class Bus: NSObject, Codable, CustomAnnotation {
 
 extension Array where Element == Bus {
 	
-	static func download(_ busesCallback:  @escaping (_ buses: [Bus]) -> Void) {
-		API.provider.request(.readBuses) { (result) in
-			let decoder = JSONDecoder()
-			decoder.dateDecodingStrategy = .iso8601
-			let buses = try? result
-				.get()
-				.map([Bus].self, using: decoder)
+	static func download() async -> [Bus] {
+		#if os(iOS)
+		let busID = await BoardBusManager.shared.busID
+		let travelState = await BoardBusManager.shared.travelState
+		#endif // os(iOS)
+		do {
+			return try await API.readBuses.perform(as: [Bus].self)
 				.filter { (bus) in
-					return bus.location.date.timeIntervalSinceNow > -300
+					return abs(bus.location.date.timeIntervalSinceNow) < 300 // 5 minutes
 				}
+				#if os(iOS)
 				.filter { (bus) in
-					switch MapState.shared.travelState {
+					switch travelState {
 					case .onBus:
-						return bus.id != MapState.shared.busID
+						return bus.id != busID
 					case .notOnBus:
 						return true
 					}
 				}
-			busesCallback(buses ?? [])
+				#endif // os(iOS)
+		} catch let error {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
+			}
+			return []
 		}
 	}
 	

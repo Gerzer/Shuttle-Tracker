@@ -7,64 +7,83 @@
 
 import SwiftUI
 
-struct Toast<StringType, Content>: View where StringType: StringProtocol, Content: View {
+struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, Item: Equatable, Content: View {
 	
 	private var headlineString: StringType
 	
-	private var dismissalHandler: () -> Void
+	@Binding
+	private var item: Item?
 	
-	private var content: Content
+	private var onDismiss: (() -> Void)?
+	
+	private var content: (Item) -> Content
+	
+	@EnvironmentObject
+	private var viewState: ViewState
 	
 	var body: some View {
-		VStack(alignment: .leading) {
-			HStack {
-				Text(self.headlineString)
-					.font(.headline)
-				Spacer()
-				#if os(iOS)
-				if #available(iOS 15, *) {
+		if let item = self.item {
+			VStack(alignment: .leading) {
+				HStack {
+					Text(self.headlineString)
+						.font(.headline)
+						.accessibilityShowsLargeContentViewer()
+					Spacer()
+					#if os(iOS)
 					Button {
-						self.dismissalHandler()
+						withAnimation {
+							self.item = nil
+						}
 					} label: {
 						Image(systemName: "xmark.circle.fill")
 							.resizable()
-							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
+							.frame(width: ViewConstants.toastCloseButtonDimension, height: ViewConstants.toastCloseButtonDimension)
 					}
 						.tint(.primary)
-				} else {
+					#else // os(iOS)
 					Button {
-						self.dismissalHandler()
+						withAnimation {
+							self.item = item
+						}
 					} label: {
 						Image(systemName: "xmark.circle.fill")
 							.resizable()
-							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
+							.frame(width: ViewConstants.toastCloseButtonDimension, height: ViewConstants.toastCloseButtonDimension)
 					}
 						.buttonStyle(.plain)
+					#endif
 				}
-				#else // os(iOS)
-				Button {
-					self.dismissalHandler()
-				} label: {
-					Image(systemName: "xmark.circle.fill")
-						.resizable()
-						.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
-				}
-					.buttonStyle(.plain)
-				#endif
+				self.content(item)
 			}
-			self.content
+				.layoutPriority(0)
+				.padding()
+				.background(VisualEffectView.standard)
+				.cornerRadius(ViewConstants.toastCornerRadius)
+				.shadow(radius: 5)
+				.onChange(of: self.item) { (newValue) in
+					if newValue == nil {
+						self.onDismiss?()
+					}
+				}
 		}
-			.layoutPriority(0)
-			.padding()
-			.background(ViewUtilities.standardVisualEffectView)
-			.cornerRadius(ViewUtilities.Constants.toastCornerRadius)
-			.shadow(radius: 5)
 	}
 	
-	init(_ headlineString: StringType, dismissalHandler: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+	init(
+		_ headlineString: StringType,
+		item: Binding<Item?>,
+		@ViewBuilder content: @escaping (_ item: Item, _ dismiss: @escaping () -> Void) -> Content,
+		onDismiss: (() -> Void)? = nil
+	) {
 		self.headlineString = headlineString
-		self.dismissalHandler = dismissalHandler
-		self.content = content()
+		self._item = item
+		self.onDismiss = onDismiss
+		self.content = { (unwrappedItem) in
+			return content(unwrappedItem) {
+				withAnimation {
+					item.wrappedValue = nil
+				}
+			}
+		}
 	}
 	
 }

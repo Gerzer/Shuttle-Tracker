@@ -5,22 +5,31 @@
 //  Created by Gabriel Jacoby-Cooper on 10/21/21.
 //
 
-import SwiftUI
 import CoreLocation
+import SwiftUI
 
 struct BusSelectionSheet: View {
 	
-	@State private var busIDs: [BusID]?
+	@State
+	private var busIDs: [BusID]?
 	
-	@State private var suggestedBusID: BusID?
+	@State
+	private var suggestedBusID: BusID?
 	
-	@State private var selectedBusID: BusID?
+	@State
+	private var selectedBusID: BusID?
 	
-	@EnvironmentObject private var mapState: MapState
+	@EnvironmentObject
+	private var mapState: MapState
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var boardBusManager: BoardBusManager
+	
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -41,32 +50,25 @@ struct BusSelectionSheet: View {
 							}
 							if let suggestedBusID = self.suggestedBusID {
 								HStack {
-									Label("Suggested", systemImage: "sparkles")
-										.font(
-											.caption
-												.italic()
-										)
-										.foregroundColor(.secondary)
+									if #available(iOS 16, *) {
+										Label("Suggested", systemImage: "sparkles")
+											.font(.caption)
+											.italic()
+											.foregroundColor(.secondary)
+									} else {
+										Label("Suggested", systemImage: "sparkles")
+											.font(.caption.italic())
+											.foregroundColor(.secondary)
+									}
 									VStack {
-										if #available(iOS 15, *) {
-											Divider()
-												.background(.secondary)
-										} else {
-											Divider()
-												.background(Color.secondary)
-										}
+										Divider()
+											.background(.secondary)
 									}
 								}
 								BusOption(suggestedBusID, selection: self.$selectedBusID)
-								if #available(iOS 15, *) {
-									Divider()
-										.background(.secondary)
-										.padding(.vertical, 10)
-								} else {
-									Divider()
-										.background(Color.secondary)
-										.padding(.vertical, 10)
-								}
+								Divider()
+									.background(.secondary)
+									.padding(.vertical, 10)
 							}
 							LazyVGrid(
 								columns: [GridItem](
@@ -95,16 +97,30 @@ struct BusSelectionSheet: View {
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
-							switch LocationUtilities.locationManager.accuracyAuthorization {
-							case .fullAccuracy:
-								self.boardBus()
-							case .reducedAccuracy:
-								Task {
-									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-									self.boardBus()
+							Task {
+								switch CLLocationManager.default.accuracyAuthorization {
+								case .fullAccuracy:
+									await self.boardBus()
+								case .reducedAccuracy:
+									do {
+										try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+									} catch let error {
+										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
+										}
+										self.sheetStack.pop()
+										throw error
+									}
+									guard case .fullAccuracy = CLLocationManager.default.accuracyAuthorization else {
+										Logging.withLogger(for: .permissions) { (logger) in
+											logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
+										}
+										return
+									}
+									await self.boardBus()
+								@unknown default:
+									fatalError()
 								}
-							@unknown default:
-								fatalError()
 							}
 						} label: {
 							Text("Continue")
@@ -116,43 +132,56 @@ struct BusSelectionSheet: View {
 					}
 				}
 		}
-			.onAppear {
-				API.provider.request(.readAllBuses) { (result) in
-					self.busIDs = try? result
-						.get()
-						.map([Int].self)
+			.task {
+				do {
+					self.busIDs = try await API.readAllBuses.perform(as: [Int].self)
 						.map { (id) in
 							return BusID(id)
 						}
-					guard let location = LocationUtilities.locationManager.location else {
-						return
+				} catch let error {
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
 					}
-					let closestBus = self.mapState.buses.min { (firstBus, secondBus) -> Bool in
-						let firstBusDistance = firstBus.location
-							.convertedForCoreLocation()
-							.distance(from: location)
-						let secondBusDistance = secondBus.location
-							.convertedForCoreLocation()
-							.distance(from: location)
-						return firstBusDistance < secondBusDistance
+				}
+				guard let location = CLLocationManager.default.location else {
+					Logging.withLogger(for: .location, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t suggest nearest bus because the user’s location is unavailable")
 					}
-					self.suggestedBusID = closestBus.map { (bus) in
-						return BusID(bus.id)
-					}
+					return
+				}
+				let closestBus = await self.mapState.buses.min { (first, second) in
+					let firstBusDistance = first.location
+						.convertedForCoreLocation()
+						.distance(from: location)
+					let secondBusDistance = second.location
+						.convertedForCoreLocation()
+						.distance(from: location)
+					return firstBusDistance < secondBusDistance
+				}
+				self.suggestedBusID = closestBus.map { (bus) in
+					return BusID(bus.id)
 				}
 			}
 	}
 	
-	private func boardBus() {
-		guard LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy else {
+	/// Works with ``BoardBusManager`` to activate Board Bus.
+	/// - Precondition: The user has granted full location accuracy authorization.
+	private func boardBus() async {
+		precondition(CLLocationManager.default.accuracyAuthorization == .fullAccuracy)
+		Logging.withLogger(for: .boardBus) { (logger) in
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Activating Board Bus manually…")
+		}
+		guard let busID = self.selectedBusID?.rawValue else {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] No selected bus ID while trying to activate manual Board Bus")
+			}
 			return
 		}
-		self.mapState.busID = self.selectedBusID?.rawValue
-		self.mapState.travelState = .onBus
+		await self.boardBusManager.boardBus(id: busID)
 		self.viewState.statusText = .locationData
 		self.viewState.handles.tripCount?.increment()
 		self.sheetStack.pop()
-		LocationUtilities.locationManager.startUpdatingLocation()
+		CLLocationManager.default.startUpdatingLocation()
 		
 		// Schedule leave-bus notification
 		let content = UNMutableNotificationContent()
@@ -160,21 +189,29 @@ struct BusSelectionSheet: View {
 		content.body = "Did you leave the bus? Remember to tap “Leave Bus” next time."
 		content.sound = .default
 		#if !APPCLIP
-		if #available(iOS 15, *) {
-			content.interruptionLevel = .timeSensitive
-		}
+		content.interruptionLevel = .timeSensitive
 		#endif // !APPCLIP
 		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
 		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
 		Task {
 			do {
-				try await UserNotificationUtilities.requestAuthorization()
+				try await UNUserNotificationCenter.requestDefaultAuthorization()
 			} catch let error {
-				print("[\(#fileID):\(#line) \(#function)] \(error)")
+				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+				}
+				throw error
 			}
-			try await UNUserNotificationCenter
-				.current()
-				.add(request)
+			do {
+				try await UNUserNotificationCenter
+					.current()
+					.add(request)
+			} catch let error {
+				Logging.withLogger(doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule local notification: \(error, privacy: .public)")
+				}
+				throw error
+			}
 		}
 	}
 	
@@ -184,6 +221,10 @@ struct BusSelectionSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		BusSelectionSheet()
+			.environmentObject(MapState.shared)
+			.environmentObject(ViewState.shared)
+			.environmentObject(BoardBusManager.shared)
+			.environmentObject(SheetStack())
 	}
 	
 }

@@ -5,14 +5,16 @@
 //  Created by Gabriel Jacoby-Cooper on 11/21/21.
 //
 
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 struct WhatsNewSheet: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		VStack {
@@ -25,52 +27,72 @@ struct WhatsNewSheet: View {
 								.font(.largeTitle)
 								.bold()
 								.multilineTextAlignment(.center)
-							if #available(iOS 15, macOS 12, *) {
-								Text("Version 1.5")
-									.font(
-										.system(
-											.callout,
-											design: .monospaced
-										)
+							Text("Version 1.6")
+								.font(
+									.system(
+										.callout,
+										design: .monospaced
 									)
-									.bold()
-									.padding(5)
-									.background(
-										.tertiary,
-										in: RoundedRectangle(
-											cornerRadius: 10,
-											style: .continuous
-										)
+								)
+								.bold()
+								.padding(5)
+								.background(
+									.tertiary,
+									in: RoundedRectangle(
+										cornerRadius: 10,
+										style: .continuous
 									)
-							}
+								)
 						}
 						Spacer()
 					}
-						.padding(.top)
-					Group {
-						Text("Dynamic Routes")
-							.font(.headline)
-							.padding(.top)
-						Text("Shuttle Tracker will now show discrete routes separately, complete with color-coding.")
-						Text("Announcements")
-							.font(.headline)
-							.padding(.top)
-						#if os(iOS)
-						Text("When you view an announcement, it won’t be included anymore in the badge number. You can reset the record of viewed announcements within the app in Settings > Advanced.")
-						#elseif os(macOS) // os(iOS)
-						Text("When you view an announcement, it won’t be included anymore in the badge number. You can reset the record of viewed announcements in the announcements sheet.")
-						#else // os(macOS)
-						Text("When you view an announcement, it won’t be included anymore in the badge number.")
-						#endif
-						Text("Re-Centering")
-							.font(.headline)
-							.padding(.top)
-						Text("The re-center button and menu item will now ensure that all routes are completely visible on the map.")
+						.padding(.vertical)
+					VStack(alignment: .leading, spacing: 20) {
+						HStack(alignment: .top) {
+							Image(systemName: "text.redaction")
+								.resizable()
+								.scaledToFit()
+								.frame(width: 40, height: 40)
+							VStack(alignment: .leading) {
+								Text("Logging")
+									.font(.headline)
+								Text("Shuttle Tracker now automatically detects errors and uploads diagnostic logs when they occur. You can see a record of recently uploaded logs or disable automatic uploads entirely in Settings > Logging & Analytics.")
+							}
+						}
+						#if os(macOS)
+						HStack(alignment: .top) {
+							Image(systemName: "exclamationmark.bubble")
+								.resizable()
+								.scaledToFit()
+								.frame(width: 40, height: 40)
+							VStack(alignment: .leading) {
+								Text("Announcements")
+									.font(.headline)
+								Text("The Announcements button in the toolbar now shows a badge with the number of unviewed announcements.")
+							}
+						}
+						#endif // os(macOS)
+						HStack(alignment: .top) {
+							Image(systemName: "squareshape.squareshape.dashed")
+								.resizable()
+								.scaledToFit()
+								.frame(width: 40, height: 40)
+							VStack(alignment: .leading) {
+								Text("Design")
+									.font(.headline)
+								Text("We’ve made many small design improvements throughout the app.")
+							}
+						}
 					}
+						.symbolRenderingMode(.hierarchical)
 				}
+					.padding(.horizontal)
 					.padding(.bottom)
+					#if os(iOS)
+					.padding(.top)
+					#endif // os(iOS)
 			}
-			#if !os(macOS)
+			#if os(iOS)
 			Button {
 				self.sheetStack.pop()
 				self.viewState.handles.whatsNew?.increment()
@@ -79,15 +101,20 @@ struct WhatsNewSheet: View {
 					.bold()
 			}
 				.buttonStyle(.block)
-			#endif // !os(macOS)
+				.padding(.horizontal)
+				.padding(.bottom)
+			#endif // os(iOS)
 		}
-			.padding()
 			.toolbar {
 				#if os(macOS)
 				ToolbarItem(placement: .confirmationAction) {
 					Button("Close") {
 						self.sheetStack.pop()
 						self.viewState.handles.whatsNew?.increment()
+						
+						// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for macOS 12
+						// Request a review on the App Store
+						// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires macOS 13 or newer, and stored properties can’t be gated on OS version.
 						SKStoreReviewController.requestReview()
 					}
 				}
