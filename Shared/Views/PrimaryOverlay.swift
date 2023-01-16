@@ -15,6 +15,9 @@ struct PrimaryOverlay: View {
 	@State
 	private var isRefreshing = false
 	
+	@State
+	private var doShowLocationsPermissionsAlert = false
+	
 	@EnvironmentObject
 	private var mapState: MapState
 	
@@ -99,6 +102,11 @@ struct PrimaryOverlay: View {
 			Spacer()
 		}
 			.padding()
+			.alert("Location Access", isPresented: self.$doShowLocationsPermissionsAlert) {
+				Link("Continue", destination: URL(string: UIApplication.openSettingsURLString)!)
+			} message: {
+				Text("Shuttle Tracker requires access to your location. Enable precise location access in Settings.")
+			}
 			.task {
 				if #available(iOS 16, *) {
 					for await refreshType in self.viewState.refreshSequence {
@@ -185,7 +193,11 @@ struct PrimaryOverlay: View {
 		if let userLocation = CLLocationManager.default.location {
 			return userLocation
 		} else {
+			#if APPCLIP
+			self.doShowLocationsPermissionsAlert = true
+			#else // APPCLIP
 			self.sheetStack.push(.permissions)
+			#endif
 			throw UserLocationError.unavailable
 		}
 	}
@@ -193,6 +205,17 @@ struct PrimaryOverlay: View {
 	private func boardBus() async {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
+		}
+		
+		switch CLLocationManager.default.authorizationStatus {
+		case .authorizedAlways, .authorizedWhenInUse:
+			break
+		default:
+			#if APPCLIP
+			self.doShowLocationsPermissionsAlert = true
+			#else // APPCLIP
+			self.sheetStack.push(.permissions)
+			#endif
 		}
 		let userLocation: CLLocation
 		switch CLLocationManager.default.accuracyAuthorization {

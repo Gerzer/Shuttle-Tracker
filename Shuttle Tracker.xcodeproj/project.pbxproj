@@ -133,10 +133,12 @@
 		C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
 		C0B5E72828BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
 		C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
+		C0BC276A2974648E008A4BD0 /* NetworkToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BC27692974648E008A4BD0 /* NetworkToast.swift */; };
+		C0BC276B2974BA55008A4BD0 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
+		C0BC276C2974BA63008A4BD0 /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833C27D2C82E00299D27 /* InfoSheet.swift */; };
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
-		C0C8DCF42945C3E1009D6047 /* PermissionsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */; };
 		C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */; };
 		C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
@@ -247,6 +249,7 @@
 		C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsView.swift; sourceTree = "<group>"; };
 		C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBusManager.swift; sourceTree = "<group>"; };
 		C0B5E72628BAA81A00603D22 /* ColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorName.swift; sourceTree = "<group>"; };
+		C0BC27692974648E008A4BD0 /* NetworkToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkToast.swift; sourceTree = "<group>"; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
 		C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
@@ -332,8 +335,7 @@
 				C059833A27D2C77900299D27 /* AboutView.swift */,
 				C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */,
 				C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */,
-				C059833C27D2C82E00299D27 /* InfoSheet.swift */,
-				6B3B2B432710E5BB001D6C8E /* InfoView.swift */,
+				C0BC27692974648E008A4BD0 /* NetworkToast.swift */,
 				C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */,
 				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
@@ -362,6 +364,8 @@
 				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C082CCEE277FB33C005D0209 /* BusOption.swift */,
 				C082CCED277FB33C005D0209 /* BusSelectionSheet.swift */,
+				C059833C27D2C82E00299D27 /* InfoSheet.swift */,
+				6B3B2B432710E5BB001D6C8E /* InfoView.swift */,
 				C03EE72026DEAD1F00878D77 /* LegendToast.swift */,
 				C0FB5D4F2929B2430019E266 /* LogDetailView.swift */,
 				C0F420CD29274C1400CC0F91 /* LoggingAnalyticsSettingsView.swift */,
@@ -673,6 +677,7 @@
 				C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */,
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
 				C0F420C82926EDA100CC0F91 /* Logging.swift in Sources */,
+				C0BC276B2974BA55008A4BD0 /* InfoView.swift in Sources */,
 				C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */,
 				C039B0652796201200416725 /* CloseButton.swift in Sources */,
 				C0A7A89228D7E65D00A2ACAA /* BoardBusManager.swift in Sources */,
@@ -693,10 +698,10 @@
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
 				C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C03B1D382741E18B007B318E /* SheetStack.swift in Sources */,
+				C0BC276C2974BA63008A4BD0 /* InfoSheet.swift in Sources */,
 				C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */,
 				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
-				C0C8DCF42945C3E1009D6047 /* PermissionsSheet.swift in Sources */,
 				C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
@@ -743,6 +748,7 @@
 				C0B5E72828BAA81A00603D22 /* ColorName.swift in Sources */,
 				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
+				C0BC276A2974648E008A4BD0 /* NetworkToast.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */,
 				C059833B27D2C77900299D27 /* AboutView.swift in Sources */,

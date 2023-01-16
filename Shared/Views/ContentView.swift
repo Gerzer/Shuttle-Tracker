@@ -70,6 +70,9 @@ struct ContentView: View {
 					case .boardBus:
 						BoardBusToast()
 							.padding()
+					case .network:
+						NetworkToast()
+							.padding()
 					default:
 						HStack {
 							SecondaryOverlay()

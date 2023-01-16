@@ -1,6 +1,6 @@
 //
 //  InfoView.swift
-//  Shuttle Tracker (iOS)
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 3/4/22.
 //

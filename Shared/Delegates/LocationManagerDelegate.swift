@@ -6,10 +6,11 @@
 //
 
 import CoreLocation
+import SwiftUI
 
 final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
-	fileprivate static let `privateDefault` = LocationManagerDelegate()
+	fileprivate static let privateDefault = LocationManagerDelegate()
 	
 	#if os(iOS)
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -18,6 +19,31 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 				return
 			}
 			await LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
+		}
+	}
+	
+	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+		Task { @MainActor in
+			switch (manager.authorizationStatus, manager.accuracyAuthorization) {
+			case (.authorizedAlways, .fullAccuracy):
+				if case .network = ViewState.shared.toastType {
+					withAnimation {
+						ViewState.shared.toastType = nil
+					}
+				}
+			case (.authorizedWhenInUse, _):
+				manager.requestAlwaysAuthorization()
+				fallthrough
+			default:
+				switch ViewState.shared.toastType {
+				case .network:
+					break
+				default:
+					withAnimation {
+						ViewState.shared.toastType = .network
+					}
+				}
+			}
 		}
 	}
 	#endif // os(iOS)
