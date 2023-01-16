@@ -35,9 +35,9 @@ final class SheetStack: ObservableObject {
 		)
 		#endif // os(iOS)
 		
-		#if !APPCLIP
+		#if os(iOS) && !APPCLIP
 		case permissions
-		#endif // !APPCLIP
+		#endif // os(iOS) && !APPCLIP
 		
 		case privacy
 		
