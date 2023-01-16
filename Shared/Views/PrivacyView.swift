@@ -25,6 +25,7 @@ struct PrivacyView: View {
 					.padding(.vertical)
 				#endif // os(macOS)
 				VStack(alignment: .leading) {
+					#if os(iOS)
 					Section {
 						Text("Shuttle Tracker sends your location data to our server only when you tap “Board Bus” and stops sending these data when you tap “Leave Bus”. Your location data are associated with an anonymous, random identifier that rotates every time you start a new shuttle trip. These data aren’t associated with your name, Apple ID, RCS ID, RIN, or any other information that might identify you or your device. We continuously purge location data that are more than 30 seconds old from our server. We may retain resolved location data that are calculated using a combination of system- and user-reported data indefinitely, but these resolved data don’t correspond with any specific user-reported coordinates.")
 							.padding(.bottom)
@@ -32,6 +33,7 @@ struct PrivacyView: View {
 						Text("Location")
 							.font(.headline)
 					}
+					#endif
 					Section {
 						Text("Shuttle Tracker automatically detects errors and uploads diagnostic logs to our server when they occur. These logs aren’t associated with your name, Apple ID, RCS ID, RIN, or any other information that might identify you or your device. They contain information about, for example, failed network requests. We redact sensitive information like your location, replacing those data with irreversible hashes. These hashes let us correlate different logs without revealing any of the redacted information. Logs are retained indefinitely; contact us if you want to request that we delete a log from our server. Due to the privacy-preserving nature of how we identify logs, we might not be able to find and to verify the log that you want to delete. You can see a record of recently uploaded logs or disable automatic uploads entirely in Settings > Logging & Analytics.")
 							.padding(.bottom)

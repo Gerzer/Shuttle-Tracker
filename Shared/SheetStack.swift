@@ -15,9 +15,13 @@ final class SheetStack: ObservableObject {
 		
 		case announcements
 		
+		#if os(iOS)
 		case busSelection
+		#endif // os(iOS)
 		
+		#if os(iOS)
 		case info
+		#endif // os(iOS)
 		
 		#if os(iOS)
 		case mailCompose(
@@ -31,15 +35,23 @@ final class SheetStack: ObservableObject {
 		)
 		#endif // os(iOS)
 		
+		#if !APPCLIP
 		case permissions
+		#endif // !APPCLIP
 		
 		case privacy
 		
+		#if os(iOS) && !APPCLIP
 		case settings
+		#endif // os(iOS) && !APPCLIP
 		
+		#if os(iOS) && !APPCLIP
 		case welcome
+		#endif // os(iOS) && !APPCLIP
 		
+		#if !APPCLIP
 		case whatsNew
+		#endif // !APPCLIP
 		
 		var id: Self {
 			get {

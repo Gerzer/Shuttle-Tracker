@@ -12,34 +12,19 @@ struct NetworkToast: View {
 	
 	@EnvironmentObject private var viewState: ViewState
 	
-	@Environment(\.openURL) private var openURL
+	@EnvironmentObject private var sheetStack: SheetStack
 	
 	var body: some View {
 		Toast("Join the Network!", item: self.$viewState.toastType) { (_, dismiss) in
-			VStack {
-				Text("The Shuttle Tracker Network unlocks vastly improved tracking coverage. Enable location permission to join the Network!")
+			VStack(alignment: .leading) {
+				Text(try! AttributedString(markdown: "The Shuttle Tracker Network unlocks **vastly improved tracking coverage**. Enable location permission to join the Network!"))
 				Button {
 					switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
-					case (.authorizedAlways, .fullAccuracy), (.authorizedWhenInUse, .fullAccuracy):
-						break
-					case (.restricted, _), (.denied, _):
-						self.openURL(URL(string: UIApplication.openSettingsURLString)!)
-					case (.notDetermined, _):
-						CLLocationManager.default.requestAlwaysAuthorization()
-					case (_, .reducedAccuracy):
-						Task {
-							do {
-								try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-							} catch let error {
-								Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Full-accuracy location authorization request failed: \(error, privacy: .public)")
-								}
-							}
-						}
-					@unknown default:
-						fatalError()
+					case (.authorizedAlways, .fullAccuracy):
+						dismiss()
+					default:
+						self.sheetStack.push(.permissions)
 					}
-					dismiss()
 				} label: {
 					Text("Join the Network")
 						.bold()

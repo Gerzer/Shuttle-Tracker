@@ -55,15 +55,15 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 				case .announcements:
 					AnnouncementsSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
+				#if os(iOS)
 				case .busSelection:
-					#if os(iOS)
 					BusSelectionSheet()
 						.interactiveDismissDisabled()
-					#endif // os(iOS)
+				#endif // os(iOS)
+				#if os(iOS)
 				case .info:
-					#if os(iOS) && !APPCLIP
 					InfoSheet()
-					#endif // os(iOS) && !APPCLIP
+				#endif // os(iOS)
 				#if os(iOS)
 				case .mailCompose(
 					let subject,
@@ -86,11 +86,11 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 						self.sheetStack.pop()
 					}
 				#endif // os(iOS)
+				#if os(iOS) && !APPCLIP
 				case .permissions:
-					#if os(iOS)
 					PermissionsSheet()
 						.interactiveDismissDisabled()
-					#endif // os(iOS)
+				#endif // os(iOS) && !APPCLIP
 				case .privacy:
 					#if os(macOS)
 					// Don’t use a navigation view on macOS
@@ -99,20 +99,20 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					#else // os(macOS)
 					PrivacySheet()
 					#endif
+				#if os(iOS) && !APPCLIP
 				case .settings:
-					#if os(iOS) && !APPCLIP
 					SettingsSheet()
-					#endif // os(iOS) && !APPCLIP
+				#endif // os(iOS) && !APPCLIP
+				#if os(iOS) && !APPCLIP
 				case .welcome:
-					#if os(iOS) && !APPCLIP
 					WelcomeSheet()
 						.interactiveDismissDisabled()
-					#endif // os(iOS) && !APPCLIP
+				#endif // os(iOS) && !APPCLIP
+				#if !APPCLIP
 				case .whatsNew:
-					#if !APPCLIP
 					WhatsNewSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
-					#endif // !APPCLIP
+				#endif // !APPCLIP
 				}
 			}
 	}

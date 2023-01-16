@@ -27,9 +27,6 @@ struct ShuttleTrackerApp: App {
 	private static let sheetStack = SheetStack()
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ColdLaunch(threshold: 1)
-		}
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
 			OnboardingConditions.ColdLaunch(threshold: 5)
@@ -43,7 +40,7 @@ struct ShuttleTrackerApp: App {
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .boardBus) {
 			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles)
 			OnboardingConditions.Disjunction {
-				OnboardingConditions.ColdLaunch(threshold: 3, comparator: >)
+				OnboardingConditions.ColdLaunch(threshold: 5, comparator: >)
 				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
@@ -53,11 +50,13 @@ struct ShuttleTrackerApp: App {
 		}
 		OnboardingEvent(flags: flags) { (_) in
 			CLLocationManager.registerHandler { (locationManager) in
-				switch locationManager.authorizationStatus {
-				case .notDetermined, .restricted, .denied:
-					Self.pushSheet(.permissions)
-				case .authorizedWhenInUse, .authorizedAlways:
+				switch (locationManager.authorizationStatus, locationManager.accuracyAuthorization) {
+				case (.authorizedAlways, .fullAccuracy):
 					break
+				case (.authorizedWhenInUse, .fullAccuracy):
+					ViewState.shared.toastType = .network
+				case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
+					Self.pushSheet(.permissions)
 				@unknown default:
 					fatalError()
 				}
@@ -103,6 +102,7 @@ struct ShuttleTrackerApp: App {
 		}
 		CLLocationManager.default = CLLocationManager()
 		CLLocationManager.default.requestWhenInUseAuthorization()
+		CLLocationManager.default.requestAlwaysAuthorization()
 		CLLocationManager.default.activityType = .automotiveNavigation
 		CLLocationManager.default.showsBackgroundLocationIndicator = true
 		CLLocationManager.default.allowsBackgroundLocationUpdates = true
