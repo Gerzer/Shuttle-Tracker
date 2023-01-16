@@ -23,26 +23,24 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	}
 	
 	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-		Task {
-			await MainActor.run {
-				switch (manager.authorizationStatus, manager.accuracyAuthorization) {
-				case (.authorizedAlways, .fullAccuracy):
-					if case .network = ViewState.shared.toastType {
-						withAnimation {
-							ViewState.shared.toastType = nil
-						}
+		Task { @MainActor in
+			switch (manager.authorizationStatus, manager.accuracyAuthorization) {
+			case (.authorizedAlways, .fullAccuracy):
+				if case .network = ViewState.shared.toastType {
+					withAnimation {
+						ViewState.shared.toastType = nil
 					}
-				case (.authorizedWhenInUse, _):
-					manager.requestAlwaysAuthorization()
-					fallthrough
+				}
+			case (.authorizedWhenInUse, _):
+				manager.requestAlwaysAuthorization()
+				fallthrough
+			default:
+				switch ViewState.shared.toastType {
+				case .network:
+					break
 				default:
-					switch ViewState.shared.toastType {
-					case .network:
-						break
-					default:
-						withAnimation {
-							ViewState.shared.toastType = .network
-						}
+					withAnimation {
+						ViewState.shared.toastType = .network
 					}
 				}
 			}
