@@ -58,7 +58,7 @@ struct PrimaryOverlay: View {
 						}
 					}
 				} label: {
-					Text(self.buttonText)
+					Text("cum man")
 						.bold()
 				}
 					.buttonStyle(.block)
