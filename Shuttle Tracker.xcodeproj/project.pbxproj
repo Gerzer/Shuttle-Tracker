@@ -49,6 +49,12 @@
 		C03B1D362741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
 		C03B1D372741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
 		C03B1D382741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
+		C03C1F1329848C8600D617F7 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C03C1F1229848C8600D617F7 /* WidgetKit.framework */; };
+		C03C1F1529848C8600D617F7 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C03C1F1429848C8600D617F7 /* SwiftUI.framework */; };
+		C03C1F1829848C8600D617F7 /* LiveActivityBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03C1F1729848C8600D617F7 /* LiveActivityBundle.swift */; };
+		C03C1F1A29848C8600D617F7 /* LiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03C1F1929848C8600D617F7 /* LiveActivity.swift */; };
+		C03C1F1E29848C8700D617F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03C1F1D29848C8700D617F7 /* Assets.xcassets */; };
+		C03C1F2229848C8700D617F7 /* Live Activity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C03C1F1129848C8600D617F7 /* Live Activity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
@@ -163,6 +169,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C03C1F2029848C8700D617F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C03C1F1029848C8600D617F7;
+			remoteInfo = "Live ActivityExtension";
+		};
 		C0A232A12525080600FAAD50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
@@ -173,6 +186,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		C03C1F2329848C8700D617F7 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C03C1F2229848C8700D617F7 /* Live Activity.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232A72525080600FAAD50 /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -208,6 +232,13 @@
 		C038BEC4270FC91100A23A2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C039B0622796201200416725 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		C03B1D352741E18B007B318E /* SheetStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStack.swift; sourceTree = "<group>"; };
+		C03C1F1129848C8600D617F7 /* Live Activity.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Live Activity.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C03C1F1229848C8600D617F7 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C03C1F1429848C8600D617F7 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C03C1F1729848C8600D617F7 /* LiveActivityBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityBundle.swift; sourceTree = "<group>"; };
+		C03C1F1929848C8600D617F7 /* LiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivity.swift; sourceTree = "<group>"; };
+		C03C1F1D29848C8700D617F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C03C1F1F29848C8700D617F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shared (App Clip).xcconfig"; sourceTree = "<group>"; };
 		C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
@@ -267,6 +298,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C03C1F0E29848C8600D617F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C03C1F1529848C8600D617F7 /* SwiftUI.framework in Frameworks */,
+				C03C1F1329848C8600D617F7 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232912525080500FAAD50 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,6 +354,17 @@
 				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
 			);
 			path = Delegates;
+			sourceTree = "<group>";
+		};
+		C03C1F1629848C8600D617F7 /* Live Activity */ = {
+			isa = PBXGroup;
+			children = (
+				C03C1F1929848C8600D617F7 /* LiveActivity.swift */,
+				C03C1F1729848C8600D617F7 /* LiveActivityBundle.swift */,
+				C03C1F1D29848C8700D617F7 /* Assets.xcassets */,
+				C03C1F1F29848C8700D617F7 /* Info.plist */,
+			);
+			path = "Live Activity";
 			sourceTree = "<group>";
 		};
 		C03EC6BC270CF7F10004F9F8 /* Config */ = {
@@ -418,6 +469,8 @@
 			children = (
 				C08FC25E252515C8008589C1 /* AppClip.framework */,
 				C08FC24C2525157D008589C1 /* StoreKit.framework */,
+				C03C1F1229848C8600D617F7 /* WidgetKit.framework */,
+				C03C1F1429848C8600D617F7 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -449,6 +502,7 @@
 				C0FFD6DE250C33C900945F01 /* iOS */,
 				C0FFD6E5250C33C900945F01 /* macOS */,
 				C08FC1D3252509E6008589C1 /* App Clip */,
+				C03C1F1629848C8600D617F7 /* Live Activity */,
 				C0FFD6DD250C33C900945F01 /* Products */,
 				C08FC24B2525157D008589C1 /* Frameworks */,
 			);
@@ -481,6 +535,7 @@
 				C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */,
 				C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */,
 				C0A232942525080500FAAD50 /* App Clip.app */,
+				C03C1F1129848C8600D617F7 /* Live Activity.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -512,6 +567,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C03C1F1029848C8600D617F7 /* Live Activity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C03C1F2629848C8700D617F7 /* Build configuration list for PBXNativeTarget "Live Activity" */;
+			buildPhases = (
+				C03C1F0D29848C8600D617F7 /* Sources */,
+				C03C1F0E29848C8600D617F7 /* Frameworks */,
+				C03C1F0F29848C8600D617F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Live Activity";
+			productName = "Live ActivityExtension";
+			productReference = C03C1F1129848C8600D617F7 /* Live Activity.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C0A232932525080500FAAD50 /* App Clip */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */;
@@ -544,11 +616,13 @@
 				C0FFD6D9250C33C900945F01 /* Frameworks */,
 				C0FFD6DA250C33C900945F01 /* Resources */,
 				C0A232A72525080600FAAD50 /* Embed App Clips */,
+				C03C1F2329848C8700D617F7 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C0A232A22525080600FAAD50 /* PBXTargetDependency */,
+				C03C1F2129848C8700D617F7 /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -592,9 +666,12 @@
 		C0FFD6D0250C33C800945F01 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					C03C1F1029848C8600D617F7 = {
+						CreatedOnToolsVersion = 14.2;
+					};
 					C0A232932525080500FAAD50 = {
 						CreatedOnToolsVersion = 12.2;
 					};
@@ -629,11 +706,20 @@
 				C0FFD6E3250C33C900945F01 /* macOS */,
 				C0FFD6DB250C33C900945F01 /* iOS */,
 				C0A232932525080500FAAD50 /* App Clip */,
+				C03C1F1029848C8600D617F7 /* Live Activity */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C03C1F0F29848C8600D617F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C03C1F1E29848C8700D617F7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232922525080500FAAD50 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -662,6 +748,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C03C1F0D29848C8600D617F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C03C1F1829848C8600D617F7 /* LiveActivityBundle.swift in Sources */,
+				C03C1F1A29848C8600D617F7 /* LiveActivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232902525080500FAAD50 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -819,6 +914,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C03C1F2129848C8700D617F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C03C1F1029848C8600D617F7 /* Live Activity */;
+			targetProxy = C03C1F2029848C8700D617F7 /* PBXContainerItemProxy */;
+		};
 		C0A232A22525080600FAAD50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C0A232932525080500FAAD50 /* App Clip */;
@@ -827,6 +927,66 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C03C1F2429848C8700D617F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Live Activity/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Live Activity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.liveactivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C03C1F2529848C8700D617F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SYBLH277NF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Live Activity/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Live Activity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.liveactivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		C0A232A52525080600FAAD50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */;
@@ -1118,6 +1278,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C03C1F2629848C8700D617F7 /* Build configuration list for PBXNativeTarget "Live Activity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C03C1F2429848C8700D617F7 /* Debug */,
+				C03C1F2529848C8700D617F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
