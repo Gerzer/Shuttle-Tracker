@@ -11,6 +11,8 @@
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
+		BC91B4C42989B35400711AE8 /* ShuttleNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */; };
+		BC91B4C52989B35400711AE8 /* ShuttleNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
@@ -192,6 +194,7 @@
 /* Begin PBXFileReference section */
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleNetworkView.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -379,6 +382,7 @@
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
+				BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -752,6 +756,7 @@
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */,
 				C059833B27D2C77900299D27 /* AboutView.swift in Sources */,
+				BC91B4C52989B35400711AE8 /* ShuttleNetworkView.swift in Sources */,
 				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0F420D32927570900CC0F91 /* WrappedError.swift in Sources */,
 				C0F420C72926EDA100CC0F91 /* Logging.swift in Sources */,
@@ -782,6 +787,7 @@
 			files = (
 				C09EB46D293A9BF600CCE01B /* PrivacySheet.swift in Sources */,
 				C0A1E72B2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
+				BC91B4C42989B35400711AE8 /* ShuttleNetworkView.swift in Sources */,
 				C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C0FB5D542929CC3F0019E266 /* LogDetailView.swift in Sources */,
 				C015281E2517F68F0069092C /* MapState.swift in Sources */,
