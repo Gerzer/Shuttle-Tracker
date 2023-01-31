@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct AnnoyView: View {
+struct ShuttleNetworkView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
@@ -16,6 +16,6 @@ struct AnnoyView: View {
 
 struct AnnoyView_Previews: PreviewProvider {
     static var previews: some View {
-        AnnoyView()
+        ShuttleNetworkView()
     }
 }
