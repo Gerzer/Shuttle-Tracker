@@ -8,26 +8,27 @@
 import ActivityKit
 import SwiftUI
 import WidgetKit
+import CoreLocation
 
 struct LiveActivityAttributes: ActivityAttributes {
-	
 	public struct ContentState: Codable, Hashable {
-		// Dynamic stateful properties about your activity go here!
-		var value: Int
+        var latitude: CLLocationDegrees
+        
+        var longitude: CLLocationDegrees
+        
+        var timestamp: Date
 	}
 	
-	// Fixed non-changing properties about your activity go here!
-	var name: String
-	
+	var message: String
 }
 
+@available(iOS 16.1, *)
 struct LiveActivity: Widget {
-	
 	var body: some WidgetConfiguration {
 		ActivityConfiguration(for: LiveActivityAttributes.self) { (context) in
 			// Lock screen/banner UI goes here
 			VStack {
-				Text("Hello")
+                Text(context.attributes.message + " (\(context.state.latitude), \(context.state.longitude)) at \(context.state.timestamp)")
 			}
 				.activityBackgroundTint(Color.cyan)
 				.activitySystemActionForegroundColor(Color.black)
@@ -60,11 +61,12 @@ struct LiveActivity: Widget {
 	
 }
 
+@available(iOS 16.2, *)
 struct LiveActivityPreviews: PreviewProvider {
 	
-	static let attributes = LiveActivityAttributes(name: "Me")
+    static let attributes = LiveActivityAttributes(message: "Temp")
 	
-	static let contentState = LiveActivityAttributes.ContentState(value: 3)
+    static let contentState = LiveActivityAttributes.ContentState(latitude: 0, longitude: 0, timestamp: .now)
 	
 	static var previews: some View {
 		self.attributes

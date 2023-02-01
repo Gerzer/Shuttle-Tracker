@@ -7,6 +7,7 @@
 
 import CoreLocation
 import HTTPStatus
+import ActivityKit
 
 actor BoardBusManager: ObservableObject {
 	
@@ -43,6 +44,25 @@ actor BoardBusManager: ObservableObject {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
 		}
+        
+        let liveActivityAttributes = LiveActivityAttributes(message: "Sent location")
+
+        let initialContentState = LiveActivityAttributes.ContentState(latitude: 0, longitude: 0, timestamp: Date.now)
+        
+        if #available(iOS 16.2, *) {
+            let activityContent = ActivityContent(state: initialContentState, staleDate: Calendar.current.date(byAdding: .minute, value: 3, to: Date())!)
+        
+            do {
+                try Activity<LiveActivityAttributes>.request(
+                    attributes: liveActivityAttributes,
+                    content: activityContent)
+            } catch (let error) {
+                Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+                    logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Unable to activate live activity, \(error)")
+                }
+            }
+        }
+        
 		await MainActor.run {
 			self.oldUserLocationTitle = MapState.mapView?.userLocation.title
 			MapState.mapView?.userLocation.title = "Bus \(busID)"
@@ -62,6 +82,11 @@ actor BoardBusManager: ObservableObject {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Deactivated Board Bus")
 		}
+        if #available(iOS 16.1, *) {
+            for activity in Activity<LiveActivityAttributes>.activities {
+                await activity.end(dismissalPolicy: .immediate)
+            }
+        }
 		await MainActor.run {
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
 			self.objectWillChange.send()
@@ -82,6 +107,16 @@ actor BoardBusManager: ObservableObject {
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
+        
+        if #available(iOS 16.2, *) {
+            let updatedState = LiveActivityAttributes.ContentState(latitude: coordinate.latitude, longitude: coordinate.longitude, timestamp: Date.now)
+            let updatedContent = ActivityContent(state: updatedState, staleDate: nil)
+            
+            for activity in Activity<LiveActivityAttributes>.activities {
+                await activity.update(updatedContent)
+            }
+        }
+        
 		do {
 			let (_, statusCode) = try await API.updateBus(id: busID, location: location).perform()
 			#if !APPCLIP
