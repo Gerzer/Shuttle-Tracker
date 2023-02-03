@@ -8,44 +8,58 @@
 
 import StoreKit
 import SwiftUI
+import CoreLocation
 
 struct ShuttleNetworkView: View {
-
+    
+    @EnvironmentObject
+    private var sheetStack: SheetStack
+    
+    @ScaledMetric var textScale: CGFloat = 1; //used for dynamic type sizing for logos
     var body: some View {
-        VStack {
-            Spacer()
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Text("The Shuttle Tracker \nNetwork")
-                        .font(.largeTitle)
-                        .bold()
-                        .multilineTextAlignment(.center)
+        SheetPresentationWrapper {
+            VStack {
+                
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        Text("The Shuttle Tracker \nNetwork")
+                            .font(.largeTitle)
+                            .bold()
+                            .multilineTextAlignment(.center)
+                    }
                 }
-            }
-            Button {
-                //Add button actions: will push a request to settings for always on location
-            } label: {
-                HStack{
-                    Image(systemName: "location.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 15, height: 15)
-                    Text("Turn Location Servies Always On")
-                        .bold()
+                Button {
+                    switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
+                    case (.authorizedAlways, .fullAccuracy):
+                        break
+                    default:
+                        self.sheetStack.push(.permissions)
+                    }
+                    self.sheetStack.pop()
+                } label: {
+                    HStack{
+                        
+                        Image(systemName: "location.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 15 * textScale, height: 15 * textScale)
+                        Text("Turn Location Servies Always On")
+                            .bold()
+                    }
                 }
-            }
                 .buttonStyle(.block)
                 .padding(.horizontal)
                 .padding(.bottom)
-            Button {
-                //button will close the page
-            } label: {
-                Text("Later")
+                Button {
+                    self.sheetStack.pop()
+                } label: {
+                    Text("Later")
+                }
             }
+            .padding(.top)
+            .padding(.bottom)
         }
-        //.padding(.bottom)
     }
-    
 }
 
 struct AnnoyView_Previews: PreviewProvider {
