@@ -6,12 +6,40 @@
 //
 //Will hold the code for the view that pushes users to turn on always on notifications
 
+import StoreKit
 import SwiftUI
 
 struct ShuttleNetworkView: View {
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Spacer()
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text("The Shuttle Tracker \nNetwork")
+                        .font(.largeTitle)
+                        .bold()
+                        .multilineTextAlignment(.center)
+                }
+            }
+            Button {
+                //Add button actions: will push a request to settings for always on location
+            } label: {
+                //Image("location.fill")
+                Text("Turn Location Servies Always On")
+                    .bold()
+            }
+                .buttonStyle(.block)
+                .padding(.horizontal)
+                .padding(.bottom)
+            Button {
+                //button will close the page
+            } label: {
+                Text("Later")
+            }
+        }
     }
+    
 }
 
 struct AnnoyView_Previews: PreviewProvider {
