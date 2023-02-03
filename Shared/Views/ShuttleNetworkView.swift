@@ -25,9 +25,14 @@ struct ShuttleNetworkView: View {
             Button {
                 //Add button actions: will push a request to settings for always on location
             } label: {
-                //Image("location.fill")
-                Text("Turn Location Servies Always On")
-                    .bold()
+                HStack{
+                    Image(systemName: "location.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 15, height: 15)
+                    Text("Turn Location Servies Always On")
+                        .bold()
+                }
             }
                 .buttonStyle(.block)
                 .padding(.horizontal)
@@ -38,6 +43,7 @@ struct ShuttleNetworkView: View {
                 Text("Later")
             }
         }
+        //.padding(.bottom)
     }
     
 }

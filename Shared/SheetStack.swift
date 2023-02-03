@@ -48,12 +48,17 @@ final class SheetStack: ObservableObject {
 		#if os(iOS) && !APPCLIP
 		case welcome
 		#endif // os(iOS) && !APPCLIP
-		
+        
 		#if !APPCLIP
 		case whatsNew
 		#endif // !APPCLIP
 		
-		var id: Self {
+        #if os(iOS) && !APPCLIP
+        case network
+        #endif // os(iOS) && !APPCLIP
+        
+        
+        var id: Self {
 			get {
 				return self
 			}
