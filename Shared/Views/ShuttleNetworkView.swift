@@ -25,11 +25,33 @@ struct ShuttleNetworkView: View {
         VStack {
             
             ScrollView {
-                VStack(alignment: .leading) {
+                VStack {
                     Text("Shuttle Tracker Network")
                         .font(.largeTitle)
                         .bold()
                         .multilineTextAlignment(.center)
+                    HStack {
+                        Image(systemName: "iphone.gen2")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 80)
+                        Image(systemName: "wave.3.forward")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 80)
+                        Image(systemName: "bus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 70, height: 70)
+                        Image(systemName: "wave.3.forward")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 80)
+                        Image(systemName: "cloud")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                    }
                 }
                     .padding(.top)
             }
