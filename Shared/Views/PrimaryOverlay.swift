@@ -38,7 +38,6 @@ struct PrimaryOverlay: View {
 	var body: some View {
 		HStack {
 			Spacer()
-			if #available(iOS 15, *) {
 				VStack(alignment: .leading) {
 					Button {
 						switch self.mapState.travelState {
@@ -93,7 +92,7 @@ struct PrimaryOverlay: View {
 						Text(self.buttonText)
 							.bold()
 					}
-						.buttonStyle(.block)
+						.buttonStyle(.bordered)
 					HStack {
 						Text(self.viewState.statusText.rawValue)
 							.layoutPriority(1)
@@ -132,79 +131,7 @@ struct PrimaryOverlay: View {
 						RoundedRectangle(cornerRadius: 20, style: .continuous)
 					}
 					.shadow(radius: 5)
-			} else {
-				VStack(alignment: .leading) {
-					Button {
-						switch self.mapState.travelState {
-						case .onBus:
-							self.mapState.busID = nil
-							self.mapState.locationID = nil
-							self.mapState.travelState = .notOnBus
-							self.viewState.statusText = .thanks
-							DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-								self.viewState.statusText = .mapRefresh
-							}
-							LocationUtilities.locationManager.stopUpdatingLocation()
-							
-							// Remove any pending leave-bus notifications
-							UNUserNotificationCenter
-								.current()
-								.removeAllPendingNotificationRequests()
-						case .notOnBus:
-							guard let location = LocationUtilities.locationManager.location else {
-								break
-							}
-							let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-								let newDistance = stop.location.distance(from: location)
-								if newDistance < distance {
-									distance = newDistance
-								}
-							}
-							if closestStopDistance < Double(self.maximumStopDistance) {
-								self.mapState.locationID = UUID()
-								self.sheetStack.push(.busSelection)
-								if self.viewState.toastType == .boardBus {
-									self.viewState.toastType = nil
-								}
-							} else {
-								self.viewState.alertType = .noNearbyStop
-							}
-						}
-					} label: {
-						Text(self.buttonText)
-							.bold()
-					}
-						.buttonStyle(.block)
-					HStack {
-						Text(self.viewState.statusText.rawValue)
-							.layoutPriority(1)
-						Spacer()
-						Group {
-							if self.isRefreshing {
-								ProgressView()
-							} else {
-								Button {
-									withAnimation {
-										self.isRefreshing = true
-									}
-									DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-										self.refreshBuses()
-									}
-								} label: {
-									Image(systemName: "arrow.clockwise.circle.fill")
-										.resizable()
-										.aspectRatio(1, contentMode: .fit)
-								}
-							}
-						}
-							.frame(width: 30)
-					}
-				}
-					.padding()
-					.background(VisualEffectView(.systemMaterial))
-					.cornerRadius(20)
-					.shadow(radius: 5)
-			}
+
 			Spacer()
 		}
 			.padding()
