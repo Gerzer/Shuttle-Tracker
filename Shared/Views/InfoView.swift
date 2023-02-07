@@ -37,10 +37,6 @@ struct InfoView: View {
 		SheetPresentationWrapper {
 			ScrollView {
                 VStack(spacing: 0){
-                    Text("Shuttle Tracker")
-                        .font(.largeTitle)
-                        .bold()
-                    
                     VStack(alignment: .leading, spacing: 0) {
                         Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
                             .padding(.vertical)
@@ -76,7 +72,7 @@ struct InfoView: View {
                                                 }
                                                     .padding(3)
                                                     .padding(.horizontal, 3)
-                                                    .background(.thickMaterial)
+                                                    .background(Color(.systemGray5))
                                                     .cornerRadius(10)
                                                 
                                                 Text(" to ")
@@ -90,12 +86,12 @@ struct InfoView: View {
                                                 }
                                                     .padding(3)
                                                     .padding(.horizontal, 3)
-                                                    .background(.thickMaterial)
+                                                    .background(Color(.systemGray5))
                                                     .cornerRadius(10)
                                             }
                                         }
                                         .padding(3)
-                                        .background(.regularMaterial)
+                                        .background(Color(.systemGray6))
                                         .cornerRadius(10)
                                     }
                                 }
@@ -108,19 +104,19 @@ struct InfoView: View {
                         }
                         Section {
                             VStack {
-                                let colorBlindMode = UserDefaults.standard.bool(forKey: "ColorBlindMode")
-                                let colors = (colorBlindMode ? Color.purple : Color.red, Color.green)
-                                let colorBlindNames = ("circle.dotted", "scope")
-                                
                                 Text("The map is automatically refreshed every 5 seconds.")
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 HStack {
-                                    Image(systemName: colorBlindMode ? colorBlindNames.0 : "bus")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .foregroundColor(colors.0)
-                                        .frame(width: 30, height: 30)
-                                        .padding(.horizontal, 5)
+                                    ZStack {
+                                        Circle()
+                                            .fill(.green)
+                                            .shadow(color: .green, radius: 3)
+                                        Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(.white)
+                                    }
+                                        .frame(width: 50)
                                     
                                     let message = self.lowQualityMessage.prefix(1).uppercased() + self.lowQualityMessage.dropFirst(1)
                                     Text(message)
@@ -131,12 +127,16 @@ struct InfoView: View {
                                 .cornerRadius(10)
                                 
                                 HStack {
-                                    Image(systemName: colorBlindMode ? colorBlindNames.1 : "bus")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .foregroundColor(colors.1)
-                                        .frame(width: 30, height: 30)
-                                        .padding(.horizontal, 5)
+                                    ZStack {
+                                        Circle()
+                                            .fill(self.appStorageManager.colorBlindMode ? .purple : .red)
+                                            .shadow(color: self.appStorageManager.colorBlindMode ? .purple : .red, radius: 3)
+                                        Image(systemName: self.appStorageManager.colorBlindMode ? "circle.dotted" : "bus")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(.white)
+                                    }
+                                        .frame(width: 50)
                                     
                                     let message = self.highQualityMessage.prefix(1).uppercased() + self.highQualityMessage.dropFirst(1)
                                     Text(message)
@@ -168,6 +168,7 @@ struct InfoView: View {
                     .padding(.horizontal)
                 }
 			}
+                .navigationTitle("Shuttle Tracker")
 				.toolbar {
 					ToolbarItem {
 						CloseButton()
