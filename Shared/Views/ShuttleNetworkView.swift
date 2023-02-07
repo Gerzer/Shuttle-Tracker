@@ -15,49 +15,54 @@ struct ShuttleNetworkView: View {
     @EnvironmentObject
     private var sheetStack: SheetStack
     
-    @ScaledMetric var textScale: CGFloat = 1; //used for dynamic type sizing for logos
+    @ScaledMetric
+    var textScale: CGFloat = 1 //used for dynamic type sizing for logos
+    
+    @Environment(\.openURL)
+    private var openURL
+    
     var body: some View {
-        SheetPresentationWrapper {
-            VStack {
-                
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        Text("The Shuttle Tracker \nNetwork")
-                            .font(.largeTitle)
-                            .bold()
-                            .multilineTextAlignment(.center)
-                    }
+        VStack {
+            
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text("Shuttle Tracker Network")
+                        .font(.largeTitle)
+                        .bold()
+                        .multilineTextAlignment(.center)
                 }
-                Button {
-                    switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
-                    case (.authorizedAlways, .fullAccuracy):
-                        break
-                    default:
-                        self.sheetStack.push(.permissions)
-                    }
-                    self.sheetStack.pop()
-                } label: {
-                    HStack{
-                        
-                        Image(systemName: "location.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 15 * textScale, height: 15 * textScale)
-                        Text("Turn Location Servies Always On")
-                            .bold()
-                    }
+                    .padding(.top)
+            }
+            Button {
+                switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
+                case (.authorizedAlways, .fullAccuracy):
+                    break
+                case (.notDetermined, _):
+                    CLLocationManager.default.requestWhenInUseAuthorization()
+                    CLLocationManager.default.requestAlwaysAuthorization()
+                default:
+                    self.openURL(URL(string: UIApplication.openSettingsURLString)!)
                 }
+                self.sheetStack.pop()
+            } label: {
+                HStack{
+                    Image(systemName: "location.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 15 * textScale, height: 15 * textScale)
+                    Text("Turn Location Servies Always On")
+                        .bold()
+                }
+            }
                 .buttonStyle(.block)
                 .padding(.horizontal)
                 .padding(.bottom)
-                Button {
-                    self.sheetStack.pop()
-                } label: {
-                    Text("Later")
-                }
+            Button {
+                self.sheetStack.pop()
+            } label: {
+                Text("Later")
             }
-            .padding(.top)
-            .padding(.bottom)
+                .padding(.bottom)
         }
     }
 }

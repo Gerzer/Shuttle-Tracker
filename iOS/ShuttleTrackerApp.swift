@@ -101,8 +101,6 @@ struct ShuttleTrackerApp: App {
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
 		CLLocationManager.default = CLLocationManager()
-		CLLocationManager.default.requestWhenInUseAuthorization()
-		CLLocationManager.default.requestAlwaysAuthorization()
 		CLLocationManager.default.activityType = .automotiveNavigation
 		CLLocationManager.default.showsBackgroundLocationIndicator = true
 		CLLocationManager.default.allowsBackgroundLocationUpdates = true
