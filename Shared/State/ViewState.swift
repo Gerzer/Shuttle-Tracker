@@ -50,16 +50,23 @@ final class ViewState: OnboardingFlags {
 		case locationData = "You’re helping out other users with real-time bus location data."
 		
 		case thanks = "Thanks for helping other users with real-time bus location data!"
+        
+        case near_stop = "You can Board a Bus that approaches this stop!"
+        
+        case far_from_stop = "you are currently not near a stop! No busses to board!"
 		
 	}
 	
 	static let shared = ViewState()
+    
+
 	
 	@Published var alertType: AlertType?
 	
 	@Published var toastType: ToastType?
-	
-	@Published var statusText = StatusText.mapRefresh
+    @Published var statusText_Far = StatusText.far_from_stop
+
+	@Published var statusText_CLose = StatusText.far_from_stop
 	
 	@Published var legendToastHeadlineText: LegendToast.HeadlineText?
 	

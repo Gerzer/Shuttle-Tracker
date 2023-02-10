@@ -32,10 +32,16 @@ struct PrimaryOverlay: View {
 	@EnvironmentObject private var viewState: ViewState
 	
 	@EnvironmentObject private var sheetStack: SheetStack
-	
+    
+    @State private var close_stop = 0
+    
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
-	
+    	
 	var body: some View {
+        
+
+        
+            
 		HStack {
 			Spacer()
 				VStack(alignment: .leading) {
@@ -93,8 +99,10 @@ struct PrimaryOverlay: View {
 							.bold()
 					}
 						.buttonStyle(.bordered)
+                    
+                        .foregroundColor(mapState.nearestStopDistance < Double(self.maximumStopDistance) ? Color.red : Color.blue)
 					HStack {
-						Text(self.viewState.statusText.rawValue)
+                        Text(mapState.nearestStopDistance < Double(self.maximumStopDistance) ? self.viewState.statusText_CLose.rawValue : self.viewState.statusText_Far.rawValue)
 							.layoutPriority(1)
 						Spacer()
 						Group {

@@ -12,12 +12,28 @@ class MapState: ObservableObject {
 	
 	static let shared = MapState()
 	
+   
+
 	@Published var buses = [Bus]()
 	
 	@Published var stops = [Stop]()
 	
 	@Published var routes = [Route]()
-	
+    
+    @Published var nearestStopDistance = Double.greatestFiniteMagnitude {
+         didSet {
+             if stops.count > 0 {
+                 let newDistance = stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+                     let newStopDistance = stop.location.distance(from: LocationUtilities.locationManager.location!)
+                     if newStopDistance < distance {
+                         distance = newStopDistance
+                     }
+                 }
+                 nearestStopDistance = newDistance
+             }
+         }
+     }
+       
 	@Published var travelState = TravelState.notOnBus {
 		didSet {
 			switch self.travelState {
