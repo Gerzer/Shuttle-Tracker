@@ -21,6 +21,18 @@ struct ShuttleNetworkView: View {
     @Environment(\.openURL)
     private var openURL
     
+    @State
+    private var locationScale: CGFloat = 0
+    
+    @State
+    private var busScale: CGFloat = 0
+    
+    @State
+    private var phoneScale: CGFloat = 0
+    
+    @State
+    private var cloudScale: CGFloat = 0
+    
     var body: some View {
         VStack {
             
@@ -31,27 +43,66 @@ struct ShuttleNetworkView: View {
                         .bold()
                         .multilineTextAlignment(.center)
                     HStack {
-                        Image(systemName: "iphone.gen2")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 80)
-                        Image(systemName: "wave.3.forward")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 80)
                         Image(systemName: "bus")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 70, height: 70)
+                            .frame(width: 50, height: 50)
+                            .scaleEffect(self.busScale)
+                            .onAppear() {
+                                withAnimation(.easeIn(duration: 0.3)) {
+                                    self.busScale = 1.2
+                                }
+                                withAnimation(.easeOut(duration: 0.2).repeatForever()) {
+                                    self.busScale = 1
+                                }
+                            }
                         Image(systemName: "wave.3.forward")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 60, height: 80)
+                            .font(Font.title.weight(.semibold))
+                            .frame(width: 50, height: 50)
+                        Image(systemName: "iphone")
+                            .symbolRenderingMode(.monochrome)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                            .scaleEffect(self.phoneScale)
+                            .onAppear() {
+                                withAnimation(.easeIn(duration: 0.3).delay(0.5)) {
+                                    self.phoneScale = 1.2
+                                }
+                                withAnimation(.easeOut(duration: 0.2).delay(0.3).repeatForever()) {
+                                    self.phoneScale = 1
+                                }
+                            }
+                        Image(systemName: "wave.3.forward")
+                            .resizable()
+                            .scaledToFit()
+                            .font(Font.title.weight(.semibold))
+                            .frame(width: 50, height: 50)
                         Image(systemName: "cloud")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
+                            .scaleEffect(self.cloudScale)
+                            .onAppear() {
+                                withAnimation(.easeIn(duration: 0.3).delay(2)) {
+                                    self.cloudScale = 1.2
+                                }
+                                withAnimation(.easeOut(duration: 0.2).delay(0.6).repeatForever()) {
+                                    self.cloudScale = 1
+                                }
+                            }
                     }
+//                        .scaleEffect(self.locationScale)
+//                        .onAppear {
+//                            withAnimation(.easeIn(duration: 0.5)) {
+//                                self.locationScale = 1.3
+//                            }
+//                            withAnimation(.easeOut(duration: 0.2).delay(0.5).repeatForever()) {
+//                                self.locationScale = 1
+//                            }
+//                        }
                 }
                     .padding(.top)
             }
