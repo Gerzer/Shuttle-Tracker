@@ -24,16 +24,17 @@ struct PrivacyView: View {
 					.bold()
 					.padding(.vertical)
 				#endif // os(macOS)
+                
                 VStack(alignment: .leading, spacing: 0) {
 					#if os(iOS)
 					Section {
                         VStack(spacing: 0){
-                            Text("Shuttle Tracker sends your location data to our server _only_ when you tap **\"Board Bus\"** and stops sending these data when you tap **\"Leave Bus\"**.")
+                            Text("Your location data are associated with an _**anonymous**_, random identifier that rotates every time you start a new shuttle trip. These data aren’t associated with your name, Apple ID, RCS ID, RIN, or any other information that might identify you or your device.")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(10)
                                 .background(Color(.systemGray5))
                                 .padding(.bottom, 10)
-                            Text("Your location data are associated with an **anonymous**, random identifier that rotates every time you start a new shuttle trip. These data aren’t associated with your name, Apple ID, RCS ID, RIN, or any other information that might identify you or your device.")
+                            Text("Shuttle Tracker sends your location data to our server _only_ when you tap **\"Board Bus\"** and stops sending these data when you tap **\"Leave Bus\"**.")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(10)
                                 .background(Color(.systemGray5))

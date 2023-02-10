@@ -105,7 +105,7 @@ struct InfoView: View {
                         Section {
                             VStack {
                                 Text("The map is automatically refreshed every 5 seconds.")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(maxWidth: .infinity, alignment: .center)
                                 HStack {
                                     ZStack {
                                         Circle()
@@ -146,7 +146,7 @@ struct InfoView: View {
                                 .background(.thinMaterial)
                                 .cornerRadius(10)
                                 
-                                Text("When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+                                Text("When boarding a bus, tap **\"Board Bus\"**, and when getting off, tap **\"Leave Bus\"**. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.bottom)
                             }
