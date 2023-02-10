@@ -64,10 +64,9 @@ final class ViewState: OnboardingFlags {
 	@Published var alertType: AlertType?
 	
 	@Published var toastType: ToastType?
+    @Published var statusText = StatusText.thanks
     @Published var statusText_Far = StatusText.far_from_stop
-
 	@Published var statusText_CLose = StatusText.far_from_stop
-	
 	@Published var legendToastHeadlineText: LegendToast.HeadlineText?
 	
 	let handles = Handles()
