@@ -17,6 +17,7 @@ struct DebugModeToast: View {
 	private var viewState: ViewState
 	
 	var body: some View {
+        
 		Toast("A location was submitted…", item: self.$viewState.toastType) { (item, dismiss) in
 			VStack(alignment: .leading) {
 				switch item {

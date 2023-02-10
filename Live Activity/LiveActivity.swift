@@ -13,9 +13,8 @@ struct LiveActivityAttributes: ActivityAttributes {
 	
 	public struct ContentState: Codable, Hashable {
 		// Dynamic stateful properties about your activity go here!
-		var value: Int
+		var status: String
 	}
-	
 	// Fixed non-changing properties about your activity go here!
 	var name: String
 	
@@ -26,8 +25,8 @@ struct LiveActivity: Widget {
 	var body: some WidgetConfiguration {
 		ActivityConfiguration(for: LiveActivityAttributes.self) { (context) in
 			// Lock screen/banner UI goes here
-			VStack {
-				Text("Hello")
+			HStack {
+                Text("Type of debugging " + context.attributes.name)
 			}
 				.activityBackgroundTint(Color.cyan)
 				.activitySystemActionForegroundColor(Color.black)
@@ -57,14 +56,26 @@ struct LiveActivity: Widget {
 				.keylineTint(Color.red)
 		}
 	}
-	
+}
+
+struct LockScreenLiveActivityView : View {
+    
+    let context : ActivityViewContext<LiveActivityAttributes>
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            Text(context.state.status)
+            Spacer()
+        }
+    }
 }
 
 struct LiveActivityPreviews: PreviewProvider {
 	
 	static let attributes = LiveActivityAttributes(name: "Me")
 	
-	static let contentState = LiveActivityAttributes.ContentState(value: 3)
+	static let contentState = LiveActivityAttributes.ContentState(status: "Text")
 	
 	static var previews: some View {
 		self.attributes
