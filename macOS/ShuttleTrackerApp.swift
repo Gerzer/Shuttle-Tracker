@@ -143,7 +143,7 @@ fileprivate struct AnnouncementsCommandView: View {
 	private var sheetStack: SheetStack
 	
 	var body: some View {
-		Button("\(self.sheetStack.top ~= .announcements ? "Hide" : "Show") Announcements") {
+		Button("\(.announcements ~= self.sheetStack.top ? "Hide" : "Show") Announcements") {
 			if case .announcements = self.sheetStack.top {
 				self.sheetStack.pop()
 			} else {
@@ -151,7 +151,7 @@ fileprivate struct AnnouncementsCommandView: View {
 			}
 		}
 			.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
-			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .announcements))
+			.disabled(self.sheetStack.count > 0 && !(.announcements ~= self.sheetStack.top))
 	}
 	
 }
@@ -162,14 +162,14 @@ fileprivate struct WhatsNewCommandView: View {
 	private var sheetStack: SheetStack
 	
 	var body: some View {
-		Button("\(self.sheetStack.top ~= .whatsNew ? "Hide" : "Show") What’s New") {
+		Button("\(.whatsNew ~= self.sheetStack.top ? "Hide" : "Show") What’s New") {
 			if case .whatsNew = self.sheetStack.top {
 				self.sheetStack.pop()
 			} else {
 				self.sheetStack.push(.whatsNew)
 			}
 		}
-			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .whatsNew))
+			.disabled(self.sheetStack.count > 0 && !(.whatsNew ~= self.sheetStack.top))
 	}
 	
 }
@@ -180,14 +180,14 @@ fileprivate struct PrivacyCommandView: View {
 	private var sheetStack: SheetStack
 	
 	var body: some View {
-		Button("\(self.sheetStack.top ~= .privacy ? "Hide" : "Show") Privacy Information") {
+		Button("\(.privacy ~= self.sheetStack.top ? "Hide" : "Show") Privacy Information") {
 			if case .privacy = self.sheetStack.top {
 				self.sheetStack.pop()
 			} else {
 				self.sheetStack.push(.privacy)
 			}
 		}
-			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .privacy))
+			.disabled(self.sheetStack.count > 0 && !(.privacy ~= self.sheetStack.top))
 	}
 	
 }
