@@ -95,7 +95,7 @@ struct PrimaryOverlay: View {
 					}
 						.buttonStyle(.block)
 					HStack {
-						Text(self.viewState.statusText.rawValue)
+                        Text("nearest stop: \(mapState.nearestStopDistance)" )
 							.layoutPriority(1)
 						Spacer()
 						Group {
