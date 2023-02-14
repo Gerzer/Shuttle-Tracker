@@ -36,6 +36,8 @@ enum API: TargetType {
 	case readStops
 	
 	case readSchedule
+    
+    case uploadAnalytics(analytics: Analytics)
 	
 	case uploadLog(log: Logging.Log)
 	
@@ -73,6 +75,8 @@ enum API: TargetType {
 				return "/stops"
 			case .readSchedule:
 				return "/schedule"
+            case .uploadAnalytics:
+                return "/analytics"
 			case .uploadLog:
 				return "/logs"
 			}
@@ -84,7 +88,7 @@ enum API: TargetType {
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .readSchedule:
 				return .get
-			case .uploadLog:
+            case .uploadAnalytics, .uploadLog:
 				return .post
 			case .updateBus:
 				return .patch
@@ -109,6 +113,8 @@ enum API: TargetType {
 				return .requestCustomJSONEncodable(location, encoder: encoder)
 			case .uploadLog(let log):
 				return .requestCustomJSONEncodable(log, encoder: encoder)
+            case .uploadAnalytics(let analytics):
+                return .requestCustomJSONEncodable(analytics, encoder: encoder)
 			}
 		}
 	}

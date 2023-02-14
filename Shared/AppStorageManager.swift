@@ -15,6 +15,8 @@ final class AppStorageManager: ObservableObject {
 		static let colorBlindMode = false
 		
 		static let maximumStopDistance = 50
+        
+        static let boardBusCount = 0
 		
 		static let baseURL = URL(string: "https://shuttletracker.app")!
 		
@@ -24,6 +26,7 @@ final class AppStorageManager: ObservableObject {
 		
 		static let uploadedLogs: [Logging.Log] = []
 		
+        static let uploadedAnalytics: [Analytics] = []
 	}
 	
 	static let shared = AppStorageManager()
@@ -33,6 +36,9 @@ final class AppStorageManager: ObservableObject {
 	
 	@AppStorage("MaximumStopDistance")
 	var maximumStopDistance = Defaults.maximumStopDistance
+    
+    @AppStorage("BoardBusCount")
+    var boardBusCount = Defaults.boardBusCount
 	
 	@AppStorage("BaseURL")
 	var baseURL = Defaults.baseURL
@@ -45,6 +51,9 @@ final class AppStorageManager: ObservableObject {
 	
 	@AppStorage("UploadedLogs")
 	var uploadedLogs = Defaults.uploadedLogs
+    
+    @AppStorage("UploadedAnalytics")
+    var uploadedAnalytics = Defaults.uploadedAnalytics
 	
 	private init() { }
 	
