@@ -37,7 +37,7 @@ enum API: TargetType {
 	
 	case readSchedule
     
-    case uploadAnalytics(analytics: Analytics)
+    case uploadAnalytics(analytics: Analytics.AnalyticsEntry)
 	
 	case uploadLog(log: Logging.Log)
 	

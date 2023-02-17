@@ -368,6 +368,18 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
+extension UUID: RawRepresentable {
+    public var rawValue: String {
+        get {
+            return self.uuidString
+        }
+    }
+    
+    public init?(rawValue: String) {
+        self.init(uuidString: rawValue)
+    }
+}
+
 #if canImport(UIKit)
 extension UIKeyboardType {
 	

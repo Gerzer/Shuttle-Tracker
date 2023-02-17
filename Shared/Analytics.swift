@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-protocol EventPayload : Codable { }
+protocol EventPayload : Codable, Equatable, Hashable { }
 
 struct Payload : EventPayload { }
 
@@ -18,7 +18,7 @@ extension Int : EventPayload { }
 
 extension Bool : EventPayload { }
 
-struct UserSettings: Codable {
+struct UserSettings: Codable, Hashable, Equatable {
     let colorTheme: String
     let colorBlindMode: Bool
     let debugMode: Bool?
@@ -27,48 +27,73 @@ struct UserSettings: Codable {
     let serverBaseURL: URL
 }
 
-struct Analytics : Codable {
-    init(userID: UUID, colorScheme: ColorScheme, eventType: [String : [ String : Payload ]], appStorageManager: AppStorageManager) async {
-        self.id = UUID()
-        self.userID = userID
-        self.eventType = eventType
-        #if os(macOS)
-        self.clientPlatform = .macos
-        #elseif os(iOS) // os(macOS)
-        self.clientPlatform = .ios
-        #endif // os(iOS)
-        self.date = .now
-        self.clientPlatformVersion = Bundle.main.version ?? ""
-        self.appVersion = Bundle.main.build ?? ""
+public enum Analytics {
+    struct AnalyticsEntry : DataCollectionProtocol, Hashable, Identifiable, Equatable {
+        init(_ eventType: [String : [ String : Payload ]]) async {
+            self.id = UUID()
+            self.userID = UUID()
+            
+            #if os(iOS)
+            if let id = await UUID(uuidString: UIDevice.current.identifierForVendor?.uuidString ?? "") {
+                self.userID = id
+            }
+            #endif
+            
+            self.eventType = eventType
+            #if os(macOS)
+                self.clientPlatform = .macos
+            #elseif os(iOS) // os(macOS)
+                self.clientPlatform = .ios
+            #endif // os(iOS)
+            self.date = .now
+            self.clientPlatformVersion = Bundle.main.version ?? ""
+            self.appVersion = Bundle.main.build ?? ""
+            
+            let colorTheme = await AppStorageManager.shared.colorScheme == .dark ? "dark" : "light"
+            let colorBlindMode = await AppStorageManager.shared.colorBlindMode
+            let logging = await AppStorageManager.shared.doUploadLogs
+            let serverBaseURL = await AppStorageManager.shared.baseURL
+            var maximumStopDistance: Int?
+            var debugMode: Bool?
+            #if os(iOS)
+            maximumStopDistance = await AppStorageManager.shared.maximumStopDistance
+            debugMode = false
+            self.boardBusCount = await AppStorageManager.shared.boardBusCount
+            #endif
+            self.userSettings = UserSettings(colorTheme: colorTheme, colorBlindMode: colorBlindMode,
+                                             debugMode: debugMode, logging: logging, maximumStopDistance: maximumStopDistance,
+                                             serverBaseURL: serverBaseURL)
+        }
         
-        let colorTheme = colorScheme == .dark ? "dark" : "light"
-        let colorBlindMode = await appStorageManager.colorBlindMode
-        let logging = await appStorageManager.doUploadLogs
-        let serverBaseURL = await appStorageManager.baseURL
-        var maximumStopDistance: Int?
-        var debugMode: Bool?
-        self.boardBusCount = nil
-        #if os(iOS)
-        maximumStopDistance = await appStorageManager.maximumStopDistance
-        debugMode = false
-        self.boardBusCount = await appStorageManager.boardBusCount
-        #endif
-        self.userSettings = UserSettings(colorTheme: colorTheme, colorBlindMode: colorBlindMode,
-                                         debugMode: debugMode, logging: logging, maximumStopDistance: maximumStopDistance,
-                                         serverBaseURL: serverBaseURL)
+        enum ClientPlatform: String, Codable, Hashable, Equatable {
+            case ios, macos
+        }
+        
+        public fileprivate(set) var id: UUID
+        var userID: UUID
+        let date: Date
+        let clientPlatform: ClientPlatform
+        let clientPlatformVersion: String
+        let appVersion: String
+        let boardBusCount: Int?
+        let userSettings: UserSettings
+        let eventType: [String : [ String : Payload ]]
     }
     
-    enum ClientPlatform: String, Codable {
-        case ios, macos
+    func uploadAnalytics(eventType: [String : [ String : Payload ]]) async throws {
+        var entry = await AnalyticsEntry(eventType)
+        
+        entry.id = try await API.uploadAnalytics(analytics: entry).perform(as: UUID.self)
+        let immutableSelf = entry
+        
+        await MainActor.run {
+            #if os(iOS)
+            withAnimation {
+                AppStorageManager.shared.uploadedAnalytics.append(immutableSelf)
+            }
+            #elseif os(macOS) // os(iOS)
+            AppStorageManager.shared.uploadedAnalytics.append(immutableSelf)
+            #endif // os(macOS)
+        }
     }
-    
-    public fileprivate(set) var id: UUID
-    let userID: UUID
-    let date: Date
-    let clientPlatform: ClientPlatform
-    let clientPlatformVersion: String
-    let appVersion: String
-    let boardBusCount: Int?
-    let userSettings: UserSettings
-    let eventType: [String : [ String : Payload ]]
 }

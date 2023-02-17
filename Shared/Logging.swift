@@ -29,7 +29,7 @@ public enum Logging {
 		
 	}
 	
-	public struct Log: Codable, Hashable, Identifiable {
+	public struct Log: DataCollectionProtocol, Hashable, Identifiable {
 		
 		enum ClientPlatform: String, Codable {
 			
@@ -144,25 +144,3 @@ public enum Logging {
 	}
 	
 }
-
-// Extend [Logging.Log] to conform to RawRepresentable so that an array of logs can be stored in UserDefaults as a single string
-extension Array: RawRepresentable where Element: Codable {
-    public var rawValue: String {
-        get {
-            // Serialize this array into a single JSON string
-            let data = try! JSONEncoder().encode(self)
-            return String(data: data, encoding: .utf8)!
-        }
-    }
-    
-    public init?(rawValue: String) {
-        guard let data = rawValue.data(using: .utf8) else {
-            return nil
-        }
-        guard let log = try? JSONDecoder().decode(Self.self, from: data) else {
-            return nil
-        }
-        self = log
-    }
-}
-

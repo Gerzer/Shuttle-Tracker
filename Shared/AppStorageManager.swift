@@ -9,8 +9,10 @@ import SwiftUI
 
 @MainActor
 final class AppStorageManager: ObservableObject {
+    @Environment(\.colorScheme) var colorScheme
 	
 	enum Defaults {
+        static let userID = UUID()
 		
 		static let colorBlindMode = false
 		
@@ -23,14 +25,19 @@ final class AppStorageManager: ObservableObject {
 		static let viewedAnnouncementIDs: Set<UUID> = []
 		
 		static let doUploadLogs = true
+        
+        static let doUploadAnalytics = true
 		
 		static let uploadedLogs: [Logging.Log] = []
 		
-        static let uploadedAnalytics: [Analytics] = []
+        static let uploadedAnalytics: [Analytics.AnalyticsEntry] = []
 	}
 	
 	static let shared = AppStorageManager()
-	
+    
+    @AppStorage("UserID")
+    var userID = Defaults.userID
+    
 	@AppStorage("ColorBlindMode")
 	var colorBlindMode = Defaults.colorBlindMode
 	
@@ -45,7 +52,10 @@ final class AppStorageManager: ObservableObject {
 	
 	@AppStorage("ViewedAnnouncementIDs")
 	var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
-	
+    
+    @AppStorage("DoUploadAnalytics")
+    var doUploadAnalytics = Defaults.doUploadAnalytics
+    
 	@AppStorage("DoUploadLogs")
 	var doUploadLogs = Defaults.doUploadLogs
 	
