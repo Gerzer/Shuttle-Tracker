@@ -8,6 +8,16 @@
 import SwiftUI
 import StoreKit
 
+extension Double {
+var removeZero:String {
+let nf = NumberFormatter()
+nf.minimumFractionDigits = 1
+nf.maximumFractionDigits = 2
+    return nf.string(from: self as NSNumber)!
+}
+}
+
+
 struct PrimaryOverlay: View {
 	
 	private let timer = Timer
@@ -39,63 +49,87 @@ struct PrimaryOverlay: View {
 		HStack {
 			Spacer()
 			if #available(iOS 15, *) {
-				VStack(alignment: .leading) {
-					Button {
-						switch self.mapState.travelState {
-						case .onBus:
-							self.mapState.busID = nil
-							self.mapState.locationID = nil
-							self.mapState.travelState = .notOnBus
-							self.viewState.statusText = .thanks
-							DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-								self.viewState.statusText = .mapRefresh
-								
-							}
-							LocationUtilities.locationManager.stopUpdatingLocation()
-							
-							// Remove any pending leave-bus notifications
-							UNUserNotificationCenter
-								.current()
-								.removeAllPendingNotificationRequests()
-							
-							let windowScenes = UIApplication.shared.connectedScenes
-								.filter { (scene) in
-									return scene.activationState == .foregroundActive
-								}
-								.compactMap { (scene) in
-									return scene as? UIWindowScene
-								}
-							if let windowScene = windowScenes.first {
-								SKStoreReviewController.requestReview(in: windowScene)
-							}
-						case .notOnBus:
-							// TODO: Rename local `location` identifier to something more descriptive
-							guard let location = LocationUtilities.locationManager.location else {
-								break
-							}
-							let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-								let newDistance = stop.location.distance(from: location)
-								if newDistance < distance {
-									distance = newDistance
-								}
-							}
-							if closestStopDistance < Double(self.maximumStopDistance) {
-								self.mapState.locationID = UUID()
-								self.sheetStack.push(.busSelection)
-								if self.viewState.toastType == .boardBus {
-									self.viewState.toastType = nil
-								}
-							} else {
-								self.viewState.alertType = .noNearbyStop
-							}
-						}
-					} label: {
-						Text(self.buttonText)
-							.bold()
-					}
-						.buttonStyle(.block)
+                VStack(alignment: .leading) {
+                    VStack{
+
+                    HStack(spacing: 75){
+                    Button {
+                        switch self.mapState.travelState {
+                        case .onBus:
+                            self.mapState.busID = nil
+                            self.mapState.locationID = nil
+                            self.mapState.travelState = .notOnBus
+                            self.viewState.statusText = .thanks
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                self.viewState.statusText = .mapRefresh
+                                
+                            }
+                            LocationUtilities.locationManager.stopUpdatingLocation()
+                            
+                            // Remove any pending leave-bus notifications
+                            UNUserNotificationCenter
+                                .current()
+                                .removeAllPendingNotificationRequests()
+                            
+                            let windowScenes = UIApplication.shared.connectedScenes
+                                .filter { (scene) in
+                                    return scene.activationState == .foregroundActive
+                                }
+                                .compactMap { (scene) in
+                                    return scene as? UIWindowScene
+                                }
+                            if let windowScene = windowScenes.first {
+                                SKStoreReviewController.requestReview(in: windowScene)
+                            }
+                        case .notOnBus:
+                            // TODO: Rename local `location` identifier to something more descriptive
+                            guard let location = LocationUtilities.locationManager.location else {
+                                break
+                            }
+                            let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+                                let newDistance = stop.location.distance(from: location)
+                                if newDistance < distance {
+                                    distance = newDistance
+                                }
+                            }
+                            if closestStopDistance < Double(self.maximumStopDistance) {
+                                self.mapState.locationID = UUID()
+                                self.sheetStack.push(.busSelection)
+                                if self.viewState.toastType == .boardBus {
+                                    self.viewState.toastType = nil
+                                }
+                            } else {
+                                self.viewState.alertType = .noNearbyStop
+                            }
+                        }
+                    } label: {
+                        Text("Board Bus")
+                            .bold()
+                    }
+                    .buttonStyle(.borderedProminent)
+                        
+                        HStack{
+                            Text("\(0.278.removeZero) mi")
+                            Image(systemName: "arrow.up.left")
+                            Button(action: {
+                                         
+                            }, label: {
+                                         HStack{
+                                             //call mapstate computation
+                                             
+                                             Image(systemName: "figure.walk")
+
+                                             
+                                         }
+        
+                                     })
+                        }
+                        
+                               
+                        }
+                }
 					HStack {
-                        Text("nearest stop: \(mapState.nearestStopDistance)" )
+                        Text("Enroll in the shuttle tracker network today!" )
 							.layoutPriority(1)
 						Spacer()
 						Group {
