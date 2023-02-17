@@ -22,9 +22,6 @@ struct ShuttleNetworkView: View {
     private var openURL
     
     @State
-    private var locationScale: CGFloat = 0
-    
-    @State
     private var busScale: CGFloat = 0
     
     @State
@@ -32,6 +29,9 @@ struct ShuttleNetworkView: View {
     
     @State
     private var cloudScale: CGFloat = 0
+    
+    @State
+    private var stackScale: CGFloat = 0
     
     var body: some View {
         VStack {
@@ -49,10 +49,14 @@ struct ShuttleNetworkView: View {
                             .frame(width: 50, height: 50)
                             .scaleEffect(self.busScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.3)) {
+                                withAnimation(.easeIn(duration: 0.7)) {
                                     self.busScale = 1.2
                                 }
-                                withAnimation(.easeOut(duration: 0.2).repeatForever()) {
+                                withAnimation(.easeOut(duration: 0.3)
+                                    .delay(1.5)
+                                    .repeatForever()
+                                    .delay(0.3))
+                                {
                                     self.busScale = 1
                                 }
                             }
@@ -68,10 +72,14 @@ struct ShuttleNetworkView: View {
                             .frame(width: 50, height: 50)
                             .scaleEffect(self.phoneScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.3).delay(0.5)) {
+                                withAnimation(.easeIn(duration: 0.5).delay(0.3)) {
                                     self.phoneScale = 1.2
                                 }
-                                withAnimation(.easeOut(duration: 0.2).delay(0.3).repeatForever()) {
+                                withAnimation(.easeOut(duration: 0.3)
+                                    .delay(1.5)
+                                    .repeatForever()
+                                    .delay(0.6))
+                                {
                                     self.phoneScale = 1
                                 }
                             }
@@ -86,23 +94,19 @@ struct ShuttleNetworkView: View {
                             .frame(width: 80, height: 80)
                             .scaleEffect(self.cloudScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.3).delay(2)) {
+                                withAnimation(.easeIn(duration: 0.5).delay(0.6)) {
                                     self.cloudScale = 1.2
                                 }
-                                withAnimation(.easeOut(duration: 0.2).delay(0.6).repeatForever()) {
+                                withAnimation(.easeOut(duration: 0.3)
+                                    .delay(1.5)
+                                    .repeatForever()
+                                    .delay(0.9))
+                                {
                                     self.cloudScale = 1
                                 }
                             }
                     }
-//                        .scaleEffect(self.locationScale)
-//                        .onAppear {
-//                            withAnimation(.easeIn(duration: 0.5)) {
-//                                self.locationScale = 1.3
-//                            }
-//                            withAnimation(.easeOut(duration: 0.2).delay(0.5).repeatForever()) {
-//                                self.locationScale = 1
-//                            }
-//                        }
+                    .scaleEffect(self.stackScale)
                 }
                     .padding(.top)
             }
