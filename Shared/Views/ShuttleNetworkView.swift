@@ -30,9 +30,6 @@ struct ShuttleNetworkView: View {
     @State
     private var cloudScale: CGFloat = 0
     
-    @State
-    private var stackScale: CGFloat = 0
-    
     var body: some View {
         VStack {
             
@@ -49,7 +46,7 @@ struct ShuttleNetworkView: View {
                             .frame(width: 50, height: 50)
                             .scaleEffect(self.busScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.7)) {
+                                withAnimation(.easeIn(duration: 0.4)) {
                                     self.busScale = 1.2
                                 }
                                 withAnimation(.easeOut(duration: 0.3)
@@ -72,7 +69,7 @@ struct ShuttleNetworkView: View {
                             .frame(width: 50, height: 50)
                             .scaleEffect(self.phoneScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.5).delay(0.3)) {
+                                withAnimation(.easeIn(duration: 0.4).delay(0.3)) {
                                     self.phoneScale = 1.2
                                 }
                                 withAnimation(.easeOut(duration: 0.3)
@@ -94,7 +91,7 @@ struct ShuttleNetworkView: View {
                             .frame(width: 80, height: 80)
                             .scaleEffect(self.cloudScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.5).delay(0.6)) {
+                                withAnimation(.easeIn(duration: 0.4).delay(0.6)) {
                                     self.cloudScale = 1.2
                                 }
                                 withAnimation(.easeOut(duration: 0.3)
@@ -104,9 +101,8 @@ struct ShuttleNetworkView: View {
                                 {
                                     self.cloudScale = 1
                                 }
-                            }
+                        }
                     }
-                    .scaleEffect(self.stackScale)
                 }
                     .padding(.top)
             }
