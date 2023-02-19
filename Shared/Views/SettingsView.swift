@@ -7,7 +7,6 @@
 
 import SwiftUI
 import ActivityKit
-import Live_Activity
 
 struct SettingsView: View {
 	
@@ -68,28 +67,6 @@ struct SettingsView: View {
 						AboutView()
 					}
 				}
-                
-                if #available(iOS 16.2, *) {
-//                    Section  {
-//                        Button("Activate live activity") {
-//                            if ActivityAuthorizationInfo().areActivitiesEnabled {
-//                                // Create the activity attributes and activity content objects.
-//                                // ...
-//
-//                               //let activityAttributes = ActivityAttributes(
-//                                // Start the Live Activity.
-//                                do {
-//
-//
-//                                    deliveryActivity = try Activity.request(attributes: activityAttributes, content: activityContent)
-//                                    print("Requested a pizza delivery Live Activity \(String(describing: deliveryActivity?.id)).")
-//                                } catch (let error) {
-//                                    print("Error requesting pizza delivery Live Activity \(error.localizedDescription).")
-//                                }
-//                            }
-//                        }
-//                    }
-                }
                 
 			}
 		}

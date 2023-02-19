@@ -235,15 +235,15 @@ struct ContentView: View {
 	#endif
 	
 }
-
-struct ContentViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		ContentView()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(SheetStack())
-	}
-	
-}
+//
+//struct ContentViewPreviews: PreviewProvider {
+//
+//	static var previews: some View {
+//		ContentView()
+//			.environmentObject(MapState.shared)
+//			.environmentObject(ViewState.shared)
+//			.environmentObject(AppStorageManager.shared)
+//			.environmentObject(SheetStack())
+//	}
+//
+//}

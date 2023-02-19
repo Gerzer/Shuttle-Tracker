@@ -9,7 +9,8 @@ import ActivityKit
 import SwiftUI
 import WidgetKit
 
-struct LiveActivityAttributes: ActivityAttributes {
+@available(iOS 16.2, *)
+struct DebugModeActivityAttributes: ActivityAttributes {
 	
 	public struct ContentState: Codable, Hashable {
 		// Dynamic stateful properties about your activity go here!
@@ -17,13 +18,13 @@ struct LiveActivityAttributes: ActivityAttributes {
 	}
 	// Fixed non-changing properties about your activity go here!
 	var name: String
-	
 }
 
+@available(iOS 16.2, *)
 struct LiveActivity: Widget {
 	
 	var body: some WidgetConfiguration {
-		ActivityConfiguration(for: LiveActivityAttributes.self) { (context) in
+		ActivityConfiguration(for: DebugModeActivityAttributes.self) { (context) in
 			// Lock screen/banner UI goes here
 			HStack {
                 Text("Type of debugging " + context.attributes.name)
@@ -58,9 +59,10 @@ struct LiveActivity: Widget {
 	}
 }
 
+@available(iOS 16.2, *)
 struct LockScreenLiveActivityView : View {
     
-    let context : ActivityViewContext<LiveActivityAttributes>
+    let context : ActivityViewContext<DebugModeActivityAttributes>
     
     var body: some View {
         VStack {
@@ -71,11 +73,12 @@ struct LockScreenLiveActivityView : View {
     }
 }
 
+@available(iOS 16.2, *)
 struct LiveActivityPreviews: PreviewProvider {
 	
-	static let attributes = LiveActivityAttributes(name: "Me")
+	static let attributes = DebugModeActivityAttributes(name: "Me")
 	
-	static let contentState = LiveActivityAttributes.ContentState(status: "Text")
+	static let contentState = DebugModeActivityAttributes.ContentState(status: "Text")
 	
 	static var previews: some View {
 		self.attributes

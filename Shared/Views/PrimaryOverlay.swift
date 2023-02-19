@@ -8,6 +8,9 @@
 import CoreLocation
 import StoreKit
 import SwiftUI
+import ActivityKit
+import Live_Activity
+
 
 struct PrimaryOverlay: View {
 	
@@ -220,7 +223,9 @@ struct PrimaryOverlay: View {
 				distance = newDistance
 			}
 		}
-		if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
+        if closestStopDistance < 9999999 {
+//		if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
+            
 			self.sheetStack.push(.busSelection)
 			if self.viewState.toastType == .boardBus {
 				self.viewState.toastType = nil

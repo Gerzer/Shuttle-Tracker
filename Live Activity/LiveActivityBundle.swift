@@ -12,7 +12,9 @@ import WidgetKit
 struct LiveActivityBundle: WidgetBundle {
 	
 	var body: some Widget {
-		LiveActivity()
+        if #available(iOS 16.2, *) {
+            LiveActivity()
+        }
 	}
 	
 }

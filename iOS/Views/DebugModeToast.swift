@@ -34,9 +34,11 @@ struct DebugModeToast: View {
 					Text("HTTP \(statusCode.rawValue) \(statusCode.message)")
 						.monospaced()
 						.accessibilityShowsLargeContentViewer()
+                
 				default:
 					Text("The submission status is unknown.")
 						.accessibilityShowsLargeContentViewer()
+                
 				}
 				ProgressView(timerInterval: .now ... .now.addingTimeInterval(DebugMode.toastTimeInterval)) {
 					EmptyView()
