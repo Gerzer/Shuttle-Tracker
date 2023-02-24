@@ -42,7 +42,7 @@ struct PrimaryOverlay: View {
 	@EnvironmentObject private var viewState: ViewState
 	
 	@EnvironmentObject private var sheetStack: SheetStack
-	
+
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
 	
 	var body: some View {
@@ -56,6 +56,7 @@ struct PrimaryOverlay: View {
                     Button {
                         switch self.mapState.travelState {
                         case .onBus:
+
                             self.mapState.busID = nil
                             self.mapState.locationID = nil
                             self.mapState.travelState = .notOnBus
@@ -109,7 +110,9 @@ struct PrimaryOverlay: View {
                     .buttonStyle(.borderedProminent)
                         
                         HStack{
-                            Text("\(0.278.removeZero) mi")
+                            
+                            
+                            Text("\(mapState.nearestStopDistance) mi")
                             Image(systemName: "arrow.up.left")
                             Button(action: {
                                          
@@ -119,7 +122,6 @@ struct PrimaryOverlay: View {
                                              
                                              Image(systemName: "figure.walk")
 
-                                             
                                          }
         
                                      })

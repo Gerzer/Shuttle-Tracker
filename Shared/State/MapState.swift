@@ -33,30 +33,33 @@ class MapState: ObservableObject {
 				self.mapView?.userLocation.title = self.oldUserLocationTitle
 				self.mapView?.showsUserLocation.toggle()
 			}
+            
 		}
 	}
     
     
     
     @Published var nearestStopDistance = Double.greatestFiniteMagnitude {
-         didSet {
-             if stops.count > 0 {
-                 if let userLocation = LocationUtilities.locationManager.location  {
-                     
-                     let newDistance = stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-                         let newStopDistance = stop.location.distance(from: userLocation)
-                         if newStopDistance < distance {
-                             distance = newStopDistance
-                         }
-                     }
-                     nearestStopDistance = newDistance
-                 }else{
-                     nearestStopDistance = 33.2
-                 }
-             }
-         }
-     }
-    
+        didSet {
+            if !self.stops.isEmpty {
+                print(LocationUtilities.locationManager.location! ,"hello!")
+                
+                if let userLocation = LocationUtilities.locationManager.location {
+                    let newDistance = stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+                        let newStopDistance = stop.location.distance(from: userLocation)
+                        if newStopDistance < distance {
+                            distance = newStopDistance
+                        }
+                    }
+                    nearestStopDistance = newDistance
+                } else {
+                    nearestStopDistance = 33.2
+                    print("Error: Cannot find your location.")
+                }
+            }
+        }
+    }
+
 	
 	@Published var busID: Int?
 	
