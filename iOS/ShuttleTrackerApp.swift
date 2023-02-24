@@ -105,6 +105,7 @@ struct ShuttleTrackerApp: App {
 		LocationUtilities.locationManager.activityType = .automotiveNavigation
 		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
 		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
+		LocationUtilities.locationManager.pausesLocationUpdatesAutomatically = false
 		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
 			LocationUtilities.locationManager.requestAlwaysAuthorization()
 			let beaconRegion = CLBeaconRegion(
@@ -113,6 +114,9 @@ struct ShuttleTrackerApp: App {
 			)
 			beaconRegion.notifyEntryStateOnDisplay = true
 			LocationUtilities.locationManager.startMonitoring(for: beaconRegion)
+			if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+				LocationUtilities.locationManager.startMonitoringSignificantLocationChanges()
+			}
 		} else {
 			LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		}
