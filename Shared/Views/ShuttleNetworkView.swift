@@ -104,7 +104,15 @@ struct ShuttleNetworkView: View {
                         }
                     }
                 }
-                    .padding(.top)
+                .padding(.top)
+                .padding(.bottom)
+                Text("The STN is the next generation of Shuttle Tracker. With it every campus bus will be equiped with a bluetooth device that allows the busses to be tracked with far less effort for users. Each device uses bluetooth to detect when Shuttle Tracker users are near it and, then using the phones network connection, broadcasts the location of the device (as determined by the phone) to the Shuttle Tracker server. All of this data remains is fully anonymous from each user. Shuttle Tracker will never use location services to track specific users, for more information see our Privacy Policy.")
+                    .padding(.horizontal)
+                    .multilineTextAlignment(.leading)
+                    .font(.body)
+                Button("Show Privacy Information") {
+                    self.sheetStack.push(.privacy)
+                }
             }
             Button {
                 switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
