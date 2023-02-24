@@ -42,7 +42,7 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 			case .outside:
 				logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Outside region: \(region, privacy: .private(mask: .hash))")
 				Task {
-					if region is CLBeaconRegion, case .onBus(manual: false) = await BoardBusManager.shared.travelState {
+					if region is CLBeaconRegion, case .onBus(isManual: false) = await BoardBusManager.shared.travelState {
 						await BoardBusManager.shared.leaveBus()
 					}
 				}
@@ -66,7 +66,7 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 		Logging.withLogger(for: .location) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did exit region \(region, privacy: .private(mask: .hash))")
 			Task {
-				if region is CLBeaconRegion, case .onBus(manual: false) = await BoardBusManager.shared.travelState {
+				if region is CLBeaconRegion, case .onBus(isManual: false) = await BoardBusManager.shared.travelState {
 					await BoardBusManager.shared.leaveBus()
 				}
 			}

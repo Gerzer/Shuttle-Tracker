@@ -178,8 +178,6 @@ struct BusSelectionSheet: View {
 			return
 		}
 		await self.boardBusManager.boardBus(id: id, manually: true)
-		self.viewState.statusText = .locationData
-		self.viewState.handles.tripCount?.increment()
 		self.sheetStack.pop()
 		LocationUtilities.locationManager.startUpdatingLocation()
 		

@@ -5,15 +5,26 @@
 //  Created by Gabriel Jacoby-Cooper on 9/18/22.
 //
 
+import UIKit
+
+@preconcurrency
 import UserNotifications
 
 actor BoardBusManager: ObservableObject {
 	
 	enum TravelState: Equatable {
 		
-		case onBus(manual: Bool)
+		case onBus(isManual: Bool)
 		
 		case notOnBus
+		
+	}
+	
+	private enum NotificationType {
+		
+		case boardBus
+		
+		case leaveBus
 		
 	}
 	
@@ -50,40 +61,19 @@ actor BoardBusManager: ObservableObject {
 		}
 		self.busID = busID
 		self.locationID = UUID()
-		self.travelState = .onBus(manual: isManual)
+		self.travelState = .onBus(isManual: isManual)
 		LocationUtilities.locationManager.startUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
 		}
 		if !isManual {
-			// Schedule Automatic Board Bus notification
-			let content = UNMutableNotificationContent()
-			content.title = "Automatic Board Bus"
-			content.body = "Shuttle Tracker detected that you’re on a bus and activated Automatic Board Bus."
-			content.sound = .default
-			#if !APPCLIP
-			content.interruptionLevel = .timeSensitive
-			#endif // !APPCLIP
-			let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications
-			let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
-			do {
-				try await UserNotificationUtilities.requestAuthorization()
-			} catch let error {
-				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-				}
-			}
-			do {
-				try await UNUserNotificationCenter
-					.current()
-					.add(request)
-			} catch let error {
-				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
-				}
+			Task { // Dispatch a child task because we don’t need to await the result
+				await self.sendBoardBusNotification(type: .boardBus)
 			}
 		}
 		await MainActor.run {
+			ViewState.shared.statusText = .locationData
+			ViewState.shared.handles.tripCount?.increment()
 			self.oldUserLocationTitle = MapState.mapView?.userLocation.title
 			MapState.mapView?.userLocation.title = "Bus \(busID)"
 			self.objectWillChange.send()
@@ -92,8 +82,15 @@ actor BoardBusManager: ObservableObject {
 	}
 	
 	func leaveBus() async {
+		// The ~= operator doesn’t support pattern matching across multiple possible enumeration-case payload values, so we have to resort to a guard-case statement here.
 		guard case .onBus = self.travelState else {
 			preconditionFailure()
+		}
+		
+		if case .background = await UIApplication.shared.applicationState {
+			Task { // Dispatch a child task because we don’t need to await the result
+				await self.sendBoardBusNotification(type: .leaveBus)
+			}
 		}
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
@@ -109,6 +106,39 @@ actor BoardBusManager: ObservableObject {
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
 			self.objectWillChange.send()
 			MapState.mapView?.showsUserLocation.toggle()
+		}
+	}
+	
+	private func sendBoardBusNotification(type: NotificationType) async {
+		let content = UNMutableNotificationContent()
+		content.title = "Automatic Board Bus"
+		switch type {
+		case .boardBus:
+			content.body = "Shuttle Tracker detected that you’re on a bus and activated Automatic Board Bus."
+		case .leaveBus:
+			content.body = "Shuttle Tracker detected that you got off the bus and deactivated Automatic Board Bus."
+		}
+		content.sound = .default
+		#if !APPCLIP
+		content.interruptionLevel = .timeSensitive
+		#endif // !APPCLIP
+		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications
+		let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
+		do {
+			try await UserNotificationUtilities.requestAuthorization()
+		} catch let error {
+			Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+			}
+		}
+		do {
+			try await UNUserNotificationCenter
+				.current()
+				.add(request)
+		} catch let error {
+			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
+			}
 		}
 	}
 	
