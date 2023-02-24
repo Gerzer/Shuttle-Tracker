@@ -206,6 +206,14 @@ struct PrimaryOverlay: View {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
 		}
+        
+        do {
+            try await Analytics.uploadAnalytics(["boardBusTapped": [:]])
+        } catch {
+            Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+            }
+        }
 		
 		switch CLLocationManager.default.authorizationStatus {
 		case .authorizedAlways, .authorizedWhenInUse:
@@ -261,6 +269,15 @@ struct PrimaryOverlay: View {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Leave Bus” button tapped")
 		}
+        
+        do {
+            try await Analytics.uploadAnalytics(["leaveBus": [:]])
+        } catch {
+            Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+            }
+        }
+        
 		await self.boardBusManager.leaveBus()
 		self.viewState.statusText = .thanks
 		CLLocationManager.default.stopUpdatingLocation()

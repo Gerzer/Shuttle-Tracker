@@ -62,248 +62,247 @@ struct LoggingAnalyticsSettingsView: View {
 	}()
 	
 	var body: some View {
-		VStack {
-            Form {
-                Section {
-                    #if os(macOS)
-                    HStack {
-                        Toggle("Automatically upload logs", isOn: self.appStorageManager.$doUploadLogs)
-                        Spacer().frame(width: 20)
-                        Toggle("Automatically upload analytics", isOn: self.appStorageManager.$doUploadAnalytics)
-                        Spacer()
-                        if case .uploading = self.logUploadState {
-                            ProgressView()
-                                .scaleEffect(0.5)
-                        }
-                        Button(action: self.uploadLog) {
-                            HStack {
-                                Text("Upload Log Now")
-                                switch self.logUploadState {
-                                case .waiting, .uploading:
-                                    EmptyView()
-                                case .uploaded:
-                                    Text("✓")
-                                }
-                            }
-                        }
-                        .disabled(.uploading ~= self.logUploadState || .uploaded ~= self.logUploadState)
+		Form {
+            Section {
+                #if os(macOS)
+                HStack {
+                    Toggle("Automatically upload logs", isOn: self.appStorageManager.$doUploadLogs)
+                    Spacer().frame(width: 20)
+                    Toggle("Automatically upload analytics", isOn: self.appStorageManager.$doUploadAnalytics)
+                    Spacer()
+                    if case .uploading = self.logUploadState {
+                        ProgressView()
+                            .scaleEffect(0.5)
                     }
-                    #else // os(macOS)
-                    Toggle("Automatically Upload Logs", isOn: self.appStorageManager.$doUploadLogs)
-                    Toggle("Automatically Upload Analytics", isOn: self.appStorageManager.$doUploadAnalytics)
                     Button(action: self.uploadLog) {
                         HStack {
                             Text("Upload Log Now")
-                            Spacer()
                             switch self.logUploadState {
-                            case .waiting:
+                            case .waiting, .uploading:
                                 EmptyView()
-                            case .uploading:
-                                ProgressView()
                             case .uploaded:
                                 Text("✓")
                             }
                         }
                     }
                     .disabled(.uploading ~= self.logUploadState || .uploaded ~= self.logUploadState)
-                    #endif
                 }
+                #else // os(macOS)
+                Toggle("Automatically Upload Logs", isOn: self.appStorageManager.$doUploadLogs)
+                Toggle("Automatically Upload Analytics", isOn: self.appStorageManager.$doUploadAnalytics)
+                Button(action: self.uploadLog) {
+                    HStack {
+                        Text("Upload Log Now")
+                        Spacer()
+                        switch self.logUploadState {
+                        case .waiting:
+                            EmptyView()
+                        case .uploading:
+                            ProgressView()
+                        case .uploaded:
+                            Text("✓")
+                        }
+                    }
+                }
+                .disabled(.uploading ~= self.logUploadState || .uploaded ~= self.logUploadState)
+                #endif
             }
 			#if os(macOS)
 			Divider()
 			#endif // os(macOS)
             
-            Picker("Selection", selection: $selectedCategory) {
+            Picker("", selection: $selectedCategory) {
                 ForEach(SelectedCategory.allCases, id:\.self) { category in
                     Text(category.rawValue.capitalized)
                 }
             }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 5)
+                .listRowInsets(.init())
             
-            TabView(selection: $selectedCategory) {
-                // Logging
-                Form {
-                    Section {
-                        #if os(macOS)
-                        HStack {
-                            List(
-                                self.appStorageManager.uploadedLogs
-                                    .sorted { (first, second) in
-                                        return first.date < second.date
-                                    }
-                                    .reversed(),
-                                selection: self.$selectedLog
-                            ) { (log) in
-                                VStack(alignment: .leading) {
-                                    Text(self.dateFormatter.string(from: log.date))
-                                        .font(.headline)
-                                    Text(log.id.uuidString)
-                                        .font(.caption)
-                                }
-                                .tag(log)
-                            }
-                            .listStyle(.plain)
-                            .frame(width: 300)
-                            .animation(.default, value: self.appStorageManager.uploadedLogs)
-                            Divider()
-                            if let log = self.selectedLog {
-                                LogDetailView(log: log)
-                            } else {
-                                Spacer()
-                                Text("No Log Selected")
-                                    .font(.title2)
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(.secondary)
-                                    .padding()
-                                Spacer()
-                            }
-                        }
-                        #else // os(iOS)
+            if(selectedCategory == .logs) {
+                Section {
+                    #if os(macOS)
+                    HStack {
                         List(
                             self.appStorageManager.uploadedLogs
                                 .sorted { (first, second) in
                                     return first.date < second.date
                                 }
-                                .reversed()
+                                .reversed(),
+                            selection: self.$selectedLog
                         ) { (log) in
-                            NavigationLink {
-                                LogDetailView(log: log)
-                            } label: {
-                                VStack(alignment: .leading) {
-                                    Text(self.dateFormatter.string(from: log.date))
-                                        .font(.headline)
-                                    Text(log.id.uuidString)
-                                        .font(.caption)
-                                }
+                            VStack(alignment: .leading) {
+                                Text(self.dateFormatter.string(from: log.date))
+                                    .font(.headline)
+                                Text(log.id.uuidString)
+                                    .font(.caption)
+                            }
+                            .tag(log)
+                        }
+                        .listStyle(.plain)
+                        .frame(width: 300)
+                        .animation(.default, value: self.appStorageManager.uploadedLogs)
+                        Divider()
+                        if let log = self.selectedLog {
+                            LogDetailView(log: log)
+                        } else {
+                            Spacer()
+                            Text("No Log Selected")
+                                .font(.title2)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.secondary)
+                                .padding()
+                            Spacer()
+                        }
+                    }
+                    #else // os(iOS)
+                    List(
+                        self.appStorageManager.uploadedLogs
+                            .sorted { (first, second) in
+                                return first.date < second.date
+                            }
+                            .reversed()
+                    ) { (log) in
+                        NavigationLink {
+                            LogDetailView(log: log)
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(self.dateFormatter.string(from: log.date))
+                                    .font(.headline)
+                                Text(log.id.uuidString)
+                                    .font(.caption)
                             }
                         }
+                    }
+                    Button(role: .destructive) {
+                        self.doShowConfirmationDialog = true
+                    } label: {
+                        HStack {
+                            Text("Clear Uploaded Logs")
+                            Spacer()
+                            if self.didClearUploadedLogs {
+                                Text("✓")
+                            }
+                        }
+                    }
+                    .disabled(self.appStorageManager.uploadedLogs.isEmpty)
+                    #endif
+                } header: {
+                    #if os(macOS)
+                    HStack {
+                        Text("Uploaded Logs")
+                            .bold()
+                        Spacer()
                         Button(role: .destructive) {
                             self.doShowConfirmationDialog = true
                         } label: {
                             HStack {
-                                Text("Clear Uploaded Logs")
-                                Spacer()
+                                Text("Clear")
                                 if self.didClearUploadedLogs {
                                     Text("✓")
                                 }
                             }
                         }
                         .disabled(self.appStorageManager.uploadedLogs.isEmpty)
-                        #endif
-                    } header: {
-                        #if os(macOS)
-                        HStack {
-                            Text("Uploaded Logs")
-                                .bold()
-                            Spacer()
-                            Button(role: .destructive) {
-                                self.doShowConfirmationDialog = true
-                            } label: {
-                                HStack {
-                                    Text("Clear")
-                                    if self.didClearUploadedLogs {
-                                        Text("✓")
-                                    }
-                                }
-                            }
-                            .disabled(self.appStorageManager.uploadedLogs.isEmpty)
-                        }
-                        #else // os(macOS)
-                        Text("Uploaded Logs")
-                        #endif
                     }
+                    #else // os(iOS)
+                    Text("Uploaded Logs")
+                    #endif
                 }
-                
-                // Analytics
-                Form {
-                    Section {
-                        #if os(macOS)
-                        HStack {
-                            List(
-                                self.appStorageManager.uploadedAnalytics
-                                    .sorted { (first, second) in
-                                        return first.date < second.date
-                                    }
-                                    .reversed(),
-                                selection: self.$selectedAnalytics
-                            ) { (analytics) in
-                                VStack(alignment: .leading) {
-                                    Text(self.dateFormatter.string(from: analytics.date))
-                                        .font(.headline)
-                                    Text(analytics.id.uuidString)
-                                        .font(.caption)
-                                }
-                                .tag(analytics)
-                            }
-                            .listStyle(.plain)
-                            .frame(width: 300)
-                            .animation(.default, value: self.appStorageManager.uploadedAnalytics)
-                            Divider()
-                            if let analyticsEntry = self.selectedAnalytics {
-                                AnalyticsDetailView(entry: analyticsEntry)
-                            } else {
-                                Spacer()
-                                Text("No Analytics Entry Selected")
-                                    .font(.title2)
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(.secondary)
-                                    .padding()
-                                Spacer()
-                            }
-                        }
-                        #else // os(iOS)
+            } else {
+                Section {
+                    #if os(macOS)
+                    HStack {
                         List(
                             self.appStorageManager.uploadedAnalytics
                                 .sorted { (first, second) in
                                     return first.date < second.date
                                 }
-                                .reversed()
-                        ) { (entry) in
-                            NavigationLink {
-                                AnalyticsDetailView(entry: entry)
-                            } label: {
-                                VStack(alignment: .leading) {
-                                    Text(self.dateFormatter.string(from: entry.date))
-                                        .font(.headline)
-                                    Text(entry.id.uuidString)
+                                .reversed(),
+                            selection: self.$selectedAnalytics
+                        ) { (analytics) in
+                            VStack(alignment: .leading) {
+                                Text(self.dateFormatter.string(from: analytics.date))
+                                    .font(.headline)
+                                if let id = analytics.id {
+                                    Text(id.uuidString)
+                                        .font(.caption)
+                                }
+                            }
+                            .tag(analytics)
+                        }
+                        .listStyle(.plain)
+                        .frame(width: 300)
+                        .animation(.default, value: self.appStorageManager.uploadedAnalytics)
+                        Divider()
+                        if let analyticsEntry = self.selectedAnalytics {
+                            AnalyticsDetailView(entry: analyticsEntry)
+                        } else {
+                            Spacer()
+                            Text("No Analytics Entry Selected")
+                                .font(.title2)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.secondary)
+                                .padding()
+                            Spacer()
+                        }
+                    }
+                    #else // os(iOS)
+                    List(
+                        self.appStorageManager.uploadedAnalytics
+                            .sorted { (first, second) in
+                                return first.date < second.date
+                            }
+                            .reversed()
+                    ) { (entry) in
+                        NavigationLink {
+                            AnalyticsDetailView(entry: entry)
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text(self.dateFormatter.string(from: entry.date))
+                                    .font(.headline)
+                                if let id = entry.id {
+                                    Text(id.uuidString)
                                         .font(.caption)
                                 }
                             }
                         }
+                    }
+                    Button(role: .destructive) {
+                        self.doShowAnalyticsConfirmationDialog = true
+                    } label: {
+                        HStack {
+                            Text("Clear Uploaded Analytics")
+                            Spacer()
+                            if self.didClearUploadedAnalytics {
+                                Text("✓")
+                            }
+                        }
+                    }
+                    .disabled(self.appStorageManager.uploadedAnalytics.isEmpty)
+                    #endif
+                } header: {
+                    #if os(macOS)
+                    HStack {
+                        Text("Uploaded Analytics")
+                            .bold()
+                        Spacer()
                         Button(role: .destructive) {
                             self.doShowAnalyticsConfirmationDialog = true
                         } label: {
                             HStack {
-                                Text("Clear Uploaded Logs")
-                                Spacer()
+                                Text("Clear")
                                 if self.didClearUploadedAnalytics {
                                     Text("✓")
                                 }
                             }
                         }
                         .disabled(self.appStorageManager.uploadedAnalytics.isEmpty)
-                        #endif
-                    } header: {
-                        #if os(macOS)
-                        HStack {
-                            Text("Uploaded Analytics")
-                                .bold()
-                            Spacer()
-                            Button(role: .destructive) {
-                                self.doShowAnalyticsConfirmationDialog = true
-                            } label: {
-                                HStack {
-                                    Text("Clear")
-                                    if self.didClearUploadedAnalytics {
-                                        Text("✓")
-                                    }
-                                }
-                            }
-                            .disabled(self.appStorageManager.uploadedAnalytics.isEmpty)
-                        }
-                        #else // os(macOS)
-                        Text("Uploaded Analytics")
-                        #endif
                     }
+                    #else // os(iOS)
+                    Text("Uploaded Analytics")
+                    #endif
                 }
             }
 		}

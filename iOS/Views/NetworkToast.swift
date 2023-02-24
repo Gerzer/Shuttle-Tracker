@@ -21,10 +21,22 @@ struct NetworkToast: View {
 				Button {
 					switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 					case (.authorizedAlways, .fullAccuracy):
-						dismiss()
+                        dismiss()
 					default:
 						self.sheetStack.push(.permissions)
 					}
+                    
+                    Task {
+                        do {
+                            try await Analytics.uploadAnalytics(["networkToastPermissionsTapped": [:]])
+                            try await Analytics.uploadAnalytics(["locationAuthorizationStatusDidChange": [ "authorizationStatus" : Payload(Int(CLLocationManager.default.authorizationStatus.rawValue)) ]])
+                            try await Analytics.uploadAnalytics(["locationAuthorizationAccuracyDidChange": [ "accuracyAuthorization" : Payload(Int(CLLocationManager.default.accuracyAuthorization.rawValue)) ]])
+                        } catch {
+                            Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                                logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                            }
+                        }
+                    }
 				} label: {
 					Text("Join the Network")
 						.bold()

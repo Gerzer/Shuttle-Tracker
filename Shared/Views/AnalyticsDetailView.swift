@@ -23,33 +23,33 @@ struct AnalyticsDetailView: View {
         ScrollView {
             VStack {
                 HStack {
-                    if #available(iOS 16, macOS 13, *) {
-                        Text("\(self.entry.id.uuidString)")
-                            .font(.subheadline.monospaced().bold())
-                            .textSelection(.enabled)
-                    } else {
-                        Text("\(self.entry.id.uuidString)")
-                            .font(.subheadline.monospaced().bold())
-                            .lineLimit(2)
+                    if let id = self.entry.id {
+                        if #available(iOS 16, macOS 13, *) {
+                            Text(id.uuidString)
+                                .font(.subheadline.monospaced().bold())
+                                .textSelection(.enabled)
+                        } else {
+                            Text(id.uuidString)
+                                .font(.subheadline.monospaced().bold())
+                                .lineLimit(2)
+                        }
                     }
                     Spacer()
                 }
                 Spacer()
                 HStack {
-                    if let eventType = self.entry.eventType.keys.first {
-                        if #available(iOS 16.1, macOS 13, *) {
-                            Text(eventType)
-                                .fontDesign(.monospaced)
-                                #if os(macOS)
-                                .textSelection(.enabled)
-                                #endif // os(macOS)
-                        } else {
-                            Text(eventType)
-                                .font(.body.monospaced())
-                                #if os(macOS)
-                                .textSelection(.enabled)
-                                #endif // os(macOS)
-                        }
+                    if #available(iOS 16.1, macOS 13, *) {
+                        Text(Analytics.toJSONString(self.entry))
+                            .fontDesign(.monospaced)
+                            #if os(macOS)
+                            .textSelection(.enabled)
+                            #endif // os(macOS)
+                    } else {
+                        Text(Analytics.toJSONString(self.entry))
+                            .font(.body.monospaced())
+                            #if os(macOS)
+                            .textSelection(.enabled)
+                            #endif // os(macOS)
                     }
                     Spacer()
                 }
@@ -59,14 +59,8 @@ struct AnalyticsDetailView: View {
             #if os(iOS)
             .navigationTitle(self.dateFormatter.string(from: self.entry.date))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                if #available(iOS 16, *), let url = try? self.entry.writeToDisk() {
-                    ShareLink(item: url)
-                }
-            }
             #endif // os(iOS)
     }
-    
 }
 
 struct AnalyticsDetailViewPreviews: PreviewProvider {

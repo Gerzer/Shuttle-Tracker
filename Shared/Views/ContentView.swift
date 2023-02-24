@@ -121,18 +121,26 @@ struct ContentView: View {
 						)
 					}
 				}
-				.task {
-					do {
-						let version = try await API.readVersion.perform(as: Int.self)
-						if version > API.lastVersion {
-							self.viewState.alertType = .updateAvailable
-						}
-					} catch let error {
-						self.viewState.alertType = .serverUnavailable
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
-						}
-					}
+                .task {
+                    do {
+                        let version = try await API.readVersion.perform(as: Int.self)
+                        if version > API.lastVersion {
+                            self.viewState.alertType = .updateAvailable
+                        }
+                    } catch let error {
+                        self.viewState.alertType = .serverUnavailable
+                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
+                        }
+                    }
+                    
+                    do {
+                        try await Analytics.uploadAnalytics(["coldLaunch": [:]])
+                    } catch {
+                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                        }
+                    }
 				}
 		}
 	}

@@ -76,7 +76,7 @@ enum API: TargetType {
 			case .readSchedule:
 				return "/schedule"
             case .uploadAnalytics:
-                return "/analytics"
+                return "/analytics/entries"
 			case .uploadLog:
 				return "/logs"
 			}

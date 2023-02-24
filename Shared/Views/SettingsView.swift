@@ -68,11 +68,21 @@ struct SettingsView: View {
 				}
 			}
 		}
-			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
+			.onChange(of: self.appStorageManager.colorBlindMode) { (enabled) in
 				withAnimation {
 					self.viewState.toastType = .legend
 					self.viewState.legendToastHeadlineText = nil
 				}
+                
+                Task {
+                    do {
+                        try await Analytics.uploadAnalytics(["colorBlindModeToggled": [ "enabled" : Payload(enabled) ]])
+                    } catch {
+                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                        }
+                    }
+                }
 			}
 		#elseif os(macOS) // os(iOS)
 		TabView {
@@ -99,10 +109,20 @@ struct SettingsView: View {
 								.frame(minWidth: 50)
 						}
 							.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)
-							.onChange(of: self.appStorageManager.baseURL) { (_) in
+							.onChange(of: self.appStorageManager.baseURL) { (url) in
 								if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
 									self.didResetServerBaseURL = false
 								}
+                                
+                                Task {
+                                    do {
+                                        try await Analytics.uploadAnalytics(["serverBaseURLChanged": [ "url" : Payload(url) ]])
+                                    } catch {
+                                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                                        }
+                                    }
+                                }
 							}
 					}
 				} header: {
@@ -122,12 +142,22 @@ struct SettingsView: View {
 				}
 		}
 			.padding()
-			.onChange(of: self.appStorageManager.colorBlindMode) { (_) in
-				withAnimation {
-					self.viewState.toastType = .legend
-					self.viewState.legendToastHeadlineText = nil
-				}
-			}
+			.onChange(of: self.appStorageManager.colorBlindMode) { (enabled) in
+                withAnimation {
+                    self.viewState.toastType = .legend
+                    self.viewState.legendToastHeadlineText = nil
+                }
+                
+                Task {
+                    do {
+                        try await Analytics.uploadAnalytics(["colorBlindModeToggled": [ "enabled" : Payload(enabled) ]])
+                    } catch {
+                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                        }
+                    }
+                }
+            }
 		#endif // os(macOS)
 	}
 	

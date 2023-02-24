@@ -8,36 +8,64 @@
 import Foundation
 import SwiftUI
 
-protocol EventPayload : Codable, Equatable, Hashable { }
+struct Payload: Codable, Hashable {
+    var value: AnyHashable
 
-struct Payload : EventPayload { }
+    struct CodingKeys: CodingKey {
+        var stringValue: String
+        var intValue: Int?
+        init?(intValue: Int) {
+            self.stringValue = "\(intValue)"
+            self.intValue = intValue
+        }
+        init?(stringValue: String) { self.stringValue = stringValue }
+    }
 
-extension String : EventPayload { }
-
-extension Int : EventPayload { }
-
-extension Bool : EventPayload { }
+    init(_ value: AnyHashable) {
+        self.value = value
+    }
+    
+    init(from decoder: Decoder) {
+        if let container = try? decoder.singleValueContainer() {
+            if let boolVal = try? container.decode(Bool.self) {
+                value = boolVal
+            } else if let intVal = try? container.decode(Int.self) {
+                value = intVal
+            } else if let stringVal = try? container.decode(String.self) {
+                value = stringVal
+            } else {
+                value = "invalid"
+            }
+        } else {
+            value = "invalid"
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        if let boolVal = value as? Bool {
+            try container.encode(boolVal)
+        } else if let intVal = value as? Int {
+            try container.encode(intVal)
+        } else if let stringVal = value as? String {
+            try container.encode(stringVal)
+        }
+    }
+}
 
 struct UserSettings: Codable, Hashable, Equatable {
     let colorTheme: String
     let colorBlindMode: Bool
     let debugMode: Bool?
-    let logging: Bool
+    let logging: Bool?
     let maximumStopDistance: Int?
-    let serverBaseURL: URL
+    let serverBaseURL: URL?
 }
 
 public enum Analytics {
     struct AnalyticsEntry : DataCollectionProtocol, Hashable, Identifiable, Equatable {
         init(_ eventType: [String : [ String : Payload ]]) async {
-            self.id = UUID()
-            self.userID = UUID()
-            
-            #if os(iOS)
-            if let id = await UUID(uuidString: UIDevice.current.identifierForVendor?.uuidString ?? "") {
-                self.userID = id
-            }
-            #endif
+            self.userID = await AppStorageManager.shared.userID
             
             self.eventType = eventType
             #if os(macOS)
@@ -59,6 +87,8 @@ public enum Analytics {
             maximumStopDistance = await AppStorageManager.shared.maximumStopDistance
             debugMode = false
             self.boardBusCount = await AppStorageManager.shared.boardBusCount
+            #else
+            self.boardBusCount = 0
             #endif
             self.userSettings = UserSettings(colorTheme: colorTheme, colorBlindMode: colorBlindMode,
                                              debugMode: debugMode, logging: logging, maximumStopDistance: maximumStopDistance,
@@ -69,7 +99,7 @@ public enum Analytics {
             case ios, macos
         }
         
-        public fileprivate(set) var id: UUID
+        public fileprivate(set) var id: UUID?
         var userID: UUID
         let date: Date
         let clientPlatform: ClientPlatform
@@ -80,20 +110,38 @@ public enum Analytics {
         let eventType: [String : [ String : Payload ]]
     }
     
-    func uploadAnalytics(eventType: [String : [ String : Payload ]]) async throws {
-        var entry = await AnalyticsEntry(eventType)
+    static func uploadAnalytics(_ eventType: [String : [ String : Payload ]]) async throws {
+        if(!(await AppStorageManager.shared.doUploadAnalytics)) {
+            return;
+        }
         
-        entry.id = try await API.uploadAnalytics(analytics: entry).perform(as: UUID.self)
-        let immutableSelf = entry
-        
-        await MainActor.run {
-            #if os(iOS)
-            withAnimation {
-                AppStorageManager.shared.uploadedAnalytics.append(immutableSelf)
+        do {
+            let entry = try await API.uploadAnalytics(analytics: await AnalyticsEntry(eventType)).perform(as: AnalyticsEntry.self)
+            
+            await MainActor.run {
+                #if os(iOS)
+                withAnimation {
+                    AppStorageManager.shared.uploadedAnalytics.append(entry)
+                }
+                #elseif os(macOS) // os(iOS)
+                AppStorageManager.shared.uploadedAnalytics.append(entry)
+                #endif // os(macOS)
             }
-            #elseif os(macOS) // os(iOS)
-            AppStorageManager.shared.uploadedAnalytics.append(immutableSelf)
-            #endif // os(macOS)
+        } catch {
+            Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+            }
+        }
+    }
+    
+    static func toJSONString(_ analytics: AnalyticsEntry) -> String {
+        let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
+        do {
+            let json = try encoder.encode(analytics)
+            
+            return String(data: json, encoding: .utf8) ?? ""
+        } catch {
+            return ""
         }
     }
 }

@@ -26,7 +26,7 @@ final class AppStorageManager: ObservableObject {
 		
 		static let doUploadLogs = true
         
-        static let doUploadAnalytics = true
+        static let doUploadAnalytics = false
 		
 		static let uploadedLogs: [Logging.Log] = []
 		
