@@ -49,17 +49,15 @@ struct PrimaryOverlay: View {
 			Spacer()
 			VStack(alignment: .leading) {
 				Button {
-					/*Task {
+					Task {
 						switch await self.boardBusManager.travelState {
 						case .onBus:
 							await self.leaveBus()
 						case .notOnBus:
 							await self.boardBus()
 						}
-					}*/
-                    #if !APPCLIP
-                    self.sheetStack.push(.network)
-                    #endif
+					}
+                    
 				} label: {
 					Text(self.buttonText)
 						.bold()
