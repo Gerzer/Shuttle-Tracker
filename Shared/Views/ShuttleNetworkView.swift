@@ -62,11 +62,21 @@ struct ShuttleNetworkView: View {
                             .scaledToFit()
                             .font(Font.title.weight(.semibold))
                             .frame(width: 50, height: 50)
+                        
                         Image(systemName: "iphone")
-                            .symbolRenderingMode(.monochrome)
                             .resizable()
+                            .overlay(
+                                Image(systemName: "bus.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .font(Font.title.weight(.light))
+                                    
+                            )
+                            .symbolRenderingMode(.monochrome)
+                            //.resizable()
                             .scaledToFit()
-                            .frame(width: 50, height: 50)
+                            .frame(width: 70, height: 70)
                             .scaleEffect(self.phoneScale)
                             .onAppear() {
                                 withAnimation(.easeIn(duration: 0.4).delay(0.3)) {
@@ -106,13 +116,15 @@ struct ShuttleNetworkView: View {
                 }
                 .padding(.top)
                 .padding(.bottom)
-                Text("The STN is the next generation of Shuttle Tracker. With it every campus bus will be equiped with a bluetooth device that allows the busses to be tracked with far less effort for users. Each device uses bluetooth to detect when Shuttle Tracker users are near it and, then using the phones network connection, broadcasts the location of the device (as determined by the phone) to the Shuttle Tracker server. All of this data remains is fully anonymous from each user. Shuttle Tracker will never use location services to track specific users, for more information see our Privacy Policy.")
-                    .padding(.horizontal)
-                    .multilineTextAlignment(.leading)
-                    .font(.body)
-                Button("Show Privacy Information") {
-                    self.sheetStack.push(.privacy)
-                }
+//                HStack {
+//
+//                    Spacer()
+//                    Image(systemName: "cloud")
+//                    Spacer()
+//                }
+//                .frame(height: 100)
+//
+                
             }
             Button {
                 switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
