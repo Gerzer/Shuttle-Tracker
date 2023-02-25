@@ -19,6 +19,9 @@ struct ShuttleTrackerApp: App {
 	private var viewState = ViewState.shared
 	
 	@ObservedObject
+	private var boardBusManager = BoardBusManager.shared
+	
+	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
 	private static let sheetStack = SheetStack()
@@ -28,6 +31,7 @@ struct ShuttleTrackerApp: App {
 			ContentView()
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
+				.environmentObject(self.boardBusManager)
 				.environmentObject(self.appStorageManager)
 				.environmentObject(Self.sheetStack)
 				.refreshable {
@@ -64,10 +68,10 @@ struct ShuttleTrackerApp: App {
 			}
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker App Clip\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
-		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestWhenInUseAuthorization()
-		LocationUtilities.locationManager.activityType = .automotiveNavigation
-		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
+		CLLocationManager.default = CLLocationManager()
+		CLLocationManager.default.requestWhenInUseAuthorization()
+		CLLocationManager.default.activityType = .automotiveNavigation
+		CLLocationManager.default.showsBackgroundLocationIndicator = true
 	}
 	
 }

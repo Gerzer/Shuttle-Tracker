@@ -6,13 +6,52 @@
 //
 
 import Combine
+import OrderedCollections
 
 @MainActor
 final class SheetStack: ObservableObject {
 	
 	enum SheetType: Hashable, Identifiable {
 		
-		case welcome, settings, info, busSelection, permissions, privacy, announcements, whatsNew, plus(featureText: String)
+		case announcements
+		
+		#if os(iOS)
+		case busSelection
+		#endif // os(iOS)
+		
+		#if os(iOS)
+		case info
+		#endif // os(iOS)
+		
+		#if os(iOS)
+		case mailCompose(
+			subject: String = "",
+			toRecipients: OrderedSet<String> = [],
+			ccRecipients: OrderedSet<String> = [],
+			bccRecipients: OrderedSet<String> = [],
+			messageBody: String = "",
+			isHTMLMessageBody: Bool = false,
+			attachments: [MailComposeView.Attachment] = []
+		)
+		#endif // os(iOS)
+		
+		#if os(iOS) && !APPCLIP
+		case permissions
+		#endif // os(iOS) && !APPCLIP
+		
+		case privacy
+		
+		#if os(iOS) && !APPCLIP
+		case settings
+		#endif // os(iOS) && !APPCLIP
+		
+		#if os(iOS) && !APPCLIP
+		case welcome
+		#endif // os(iOS) && !APPCLIP
+		
+		#if !APPCLIP
+		case whatsNew
+		#endif // !APPCLIP
 		
 		var id: Self {
 			get {

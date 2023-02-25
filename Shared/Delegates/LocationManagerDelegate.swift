@@ -6,8 +6,11 @@
 //
 
 import CoreLocation
+import SwiftUI
 
-class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
+final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
+	
+	fileprivate static let privateDefault = LocationManagerDelegate()
 	
 	#if os(iOS)
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -144,7 +147,40 @@ class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Unknown location authorization status")
 			}
 		}
+		Task { @MainActor in
+			switch (manager.authorizationStatus, manager.accuracyAuthorization) {
+			case (.authorizedAlways, .fullAccuracy):
+				if case .network = ViewState.shared.toastType {
+					withAnimation {
+						ViewState.shared.toastType = nil
+					}
+				}
+			case (.authorizedWhenInUse, _):
+				manager.requestAlwaysAuthorization()
+				fallthrough
+			default:
+				switch ViewState.shared.toastType {
+				case .network:
+					break
+				default:
+					withAnimation {
+						ViewState.shared.toastType = .network
+					}
+				}
+			}
+		}
 	}
 	#endif // os(iOS)
+	
+}
+
+extension CLLocationManagerDelegate where Self == LocationManagerDelegate {
+	
+	/// The default location manager delegate, which is automatically set as the delegate for the default location manager.
+	static var `default`: Self {
+		get {
+			return .privateDefault
+		}
+	}
 	
 }

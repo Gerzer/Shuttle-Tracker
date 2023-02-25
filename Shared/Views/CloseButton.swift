@@ -22,7 +22,7 @@ struct CloseButton: View {
 				.symbolRenderingMode(.hierarchical)
 				.resizable()
 				.opacity(0.5)
-				.frame(width: ViewUtilities.Constants.sheetCloseButtonDimension, height: ViewUtilities.Constants.sheetCloseButtonDimension)
+				.frame(width: ViewConstants.sheetCloseButtonDimension, height: ViewConstants.sheetCloseButtonDimension)
 		}
 			.tint(.primary)
 	}

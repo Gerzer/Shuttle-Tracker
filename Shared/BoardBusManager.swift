@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 9/18/22.
 //
 
+import CoreLocation
 import UIKit
 
 @preconcurrency
@@ -55,14 +56,17 @@ actor BoardBusManager: ObservableObject {
 	private init() { }
 	
 	func boardBus(id busID: Int, manually isManual: Bool) async {
+		// Require that Board Bus be currently inactive
 		precondition(.notOnBus ~= self.travelState)
+		
+		// Toggle showsUserLocation twice to ensure that MapKit picks up the UI changes
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}
 		self.busID = busID
 		self.locationID = UUID()
 		self.travelState = .onBus(isManual: isManual)
-		LocationUtilities.locationManager.startUpdatingLocation()
+		CLLocationManager.default.startUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
 		}
@@ -92,18 +96,21 @@ actor BoardBusManager: ObservableObject {
 				await self.sendBoardBusNotification(type: .leaveBus)
 			}
 		}
+		
+		// Toggle showsUserLocation twice to ensure that MapKit picks up the UI changes
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
 		}
 		self.busID = nil
 		self.locationID = nil
 		self.travelState = .notOnBus
-		LocationUtilities.locationManager.stopUpdatingLocation()
+		CLLocationManager.default.stopUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Deactivated Board Bus")
 		}
 		await MainActor.run {
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
+			self.oldUserLocationTitle = nil
 			self.objectWillChange.send()
 			MapState.mapView?.showsUserLocation.toggle()
 		}
@@ -125,7 +132,7 @@ actor BoardBusManager: ObservableObject {
 		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications
 		let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
 		do {
-			try await UserNotificationUtilities.requestAuthorization()
+			try await UNUserNotificationCenter.requestDefaultAuthorization()
 		} catch let error {
 			Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")

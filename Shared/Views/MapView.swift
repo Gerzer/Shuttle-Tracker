@@ -10,25 +10,30 @@ import SwiftUI
 
 struct MapView: UIViewRepresentable {
 	
-	private let mapView = MKMapView(frame: .zero)
-	
 	@EnvironmentObject
 	private var mapState: MapState
 	
-	func makeUIView(context: UIViewRepresentableContext<MapView>) -> MKMapView {
+	func makeUIView(context: Context) -> MKMapView {
+		let uiView = MKMapView(frame: .zero)
 		Task {
-			MapState.mapView = self.mapView
+			MapState.mapView = uiView
 			await self.mapState.refreshAll()
 			await self.mapState.resetVisibleMapRect()
 		}
-		self.mapView.delegate = context.coordinator
-		self.mapView.showsUserLocation = true
-		self.mapView.showsCompass = true
-		return self.mapView
+		uiView.delegate = context.coordinator
+		uiView.showsUserLocation = true
+		uiView.showsCompass = true
+		if #available(iOS 16, *) {
+			// Set a custom preferred map configuration
+			let configuration = MKStandardMapConfiguration(emphasisStyle: .muted)
+			configuration.pointOfInterestFilter = .excludingAll
+			uiView.preferredConfiguration = configuration
+		}
+		return uiView
 	}
 	
-	func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<MapView>) {
-		self.mapView.delegate = context.coordinator
+	func updateUIView(_ uiView: MKMapView, context: Context) {
+		uiView.delegate = context.coordinator
 		Task {
 			let buses = await self.mapState.buses
 			let stops = await self.mapState.stops

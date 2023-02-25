@@ -95,12 +95,16 @@ struct AnnouncementsSheet: View {
 			.toolbar {
 				#if os(macOS)
 				ToolbarItem {
-					Button(
-						"Reset Viewed Announcements" + (self.didResetViewedAnnouncements ? " ✓" : ""),
-						role: .destructive
-					) {
+					Button(role: .destructive) {
 						self.appStorageManager.viewedAnnouncementIDs.removeAll()
 						self.didResetViewedAnnouncements = true
+					} label: {
+						HStack {
+							Text("Reset Viewed Announcements")
+							if self.didResetViewedAnnouncements {
+								Text("✓")
+							}
+						}
 					}
 						.disabled(self.appStorageManager.viewedAnnouncementIDs.isEmpty)
 						.focusable(false)

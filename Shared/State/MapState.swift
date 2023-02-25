@@ -23,6 +23,9 @@ actor MapState: ObservableObject {
 	
 	func refreshBuses() async {
 		self.buses = await [Bus].download()
+		await MainActor.run {
+			self.objectWillChange.send()
+		}
 	}
 	
 	func refreshAll() async {
@@ -41,7 +44,7 @@ actor MapState: ObservableObject {
 	func resetVisibleMapRect() async {
 		Self.mapView?.setVisibleMapRect(
 			await self.routes.boundingMapRect,
-			edgePadding: MapUtilities.Constants.mapRectInsets,
+			edgePadding: MapConstants.mapRectInsets,
 			animated: true
 		)
 	}

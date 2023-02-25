@@ -1,6 +1,6 @@
 //
 //  InfoSheet.swift
-//  Shuttle Tracker (iOS)
+//  Shuttle Tracker
 //
 //  Created by Andrew Emanuel on 10/5/21.
 //

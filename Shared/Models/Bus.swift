@@ -65,6 +65,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		}
 	}
 	
+	@MainActor
 	var annotationView: MKAnnotationView {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
@@ -104,42 +105,30 @@ class Bus: NSObject, Codable, CustomAnnotation {
 extension Array where Element == Bus {
 	
 	static func download() async -> [Bus] {
-		return await withCheckedContinuation { (continuation) in
-			API.provider.request(.readBuses) { (result) in
-				Task {
-					let decoder = JSONDecoder()
-					decoder.dateDecodingStrategy = .iso8601
-					#if os(iOS)
-					let busID = await BoardBusManager.shared.busID
-					let travelState = await BoardBusManager.shared.travelState
-					#endif // os(iOS)
-					let buses: [Bus]
-					do {
-						buses = try result.get()
-							.map([Bus].self, using: decoder)
-							.filter { (bus) -> Bool in
-								return abs(bus.location.date.timeIntervalSinceNow) < 300
-							}
-							#if !os(macOS)
-							.filter { (bus) in
-								switch travelState {
-								case .onBus:
-									return bus.id != busID
-								case .notOnBus:
-									return true
-								}
-							}
-							#endif // !os(macOS)
-					} catch let error {
-						buses = []
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
-						}
-						throw error
-					}
-					continuation.resume(returning: buses)
+		#if os(iOS)
+		let busID = await BoardBusManager.shared.busID
+		let travelState = await BoardBusManager.shared.travelState
+		#endif // os(iOS)
+		do {
+			return try await API.readBuses.perform(as: [Bus].self)
+				.filter { (bus) in
+					return abs(bus.location.date.timeIntervalSinceNow) < 300 // 5 minutes
 				}
+				#if os(iOS)
+				.filter { (bus) in
+					switch travelState {
+					case .onBus:
+						return bus.id != busID
+					case .notOnBus:
+						return true
+					}
+				}
+				#endif // os(iOS)
+		} catch let error {
+			Logging.withLogger(for: .api) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
 			}
+			return []
 		}
 	}
 	

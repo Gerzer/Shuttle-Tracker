@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import HTTPStatus
 import Moya
 
 typealias HTTPMethod = Moya.Method
@@ -34,7 +35,7 @@ enum API: TargetType {
 	
 	case readStops
 	
-	case schedule
+	case readSchedule
 	
 	case uploadLog(log: Logging.Log)
 	
@@ -70,7 +71,7 @@ enum API: TargetType {
 				return "/routes"
 			case .readStops:
 				return "/stops"
-			case .schedule:
+			case .readSchedule:
 				return "/schedule"
 			case .uploadLog:
 				return "/logs"
@@ -81,7 +82,7 @@ enum API: TargetType {
 	var method: HTTPMethod {
 		get {
 			switch self {
-			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .schedule:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .readSchedule:
 				return .get
 			case .uploadLog:
 				return .post
@@ -97,7 +98,7 @@ enum API: TargetType {
 		get {
 			let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
 			switch self {
-			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .readSchedule:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [
@@ -120,18 +121,53 @@ enum API: TargetType {
 	
 	@discardableResult
 	func perform() async throws -> Data {
-		// TODO: Throw error when response status code isn’t “200 OK”
 		let request = try API.provider.endpoint(self).urlRequest()
-		let (data, _) = try await URLSession.shared.data(for: request)
-		return data
+		let (data, response) = try await URLSession.shared.data(for: request)
+		guard let httpResponse = response as? HTTPURLResponse else {
+			throw APIError.invalidResponse
+		}
+		guard let statusCode = HTTPStatusCodes.statusCode(httpResponse.statusCode) else {
+			throw APIError.invalidStatusCode
+		}
+		if let error = statusCode as? Error {
+			throw error
+		} else {
+			return data
+		}
 	}
 	
-	func perform<ResponseType>(
+	func perform<ResponseType: Sendable>(
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
-		as _: ResponseType.Type
+		as _: ResponseType.Type,
+		onMainActor: Bool = false
 	) async throws -> ResponseType where ResponseType: Decodable {
 		let data = try await self.perform()
-		return try decoder.decode(ResponseType.self, from: data)
+		if onMainActor {
+			return try await MainActor.run {
+				return try decoder.decode(ResponseType.self, from: data)
+			}
+		} else {
+			return try decoder.decode(ResponseType.self, from: data)
+		}
+	}
+	
+}
+
+fileprivate enum APIError: Error {
+	
+	case invalidResponse
+	
+	case invalidStatusCode
+	
+	var localizedDescription: String {
+		get {
+			switch self {
+			case .invalidResponse:
+				return "The server returned an invalid response"
+			case .invalidStatusCode:
+				return "The server returned an invalid HTTP status code"
+			}
+		}
 	}
 	
 }

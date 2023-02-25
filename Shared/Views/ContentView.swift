@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 9/30/20.
 //
 
+import AsyncAlgorithms
 import MapKit
 import SwiftUI
 
@@ -69,6 +70,9 @@ struct ContentView: View {
 					case .boardBus:
 						BoardBusToast()
 							.padding()
+					case .network:
+						NetworkToast()
+							.padding()
 					default:
 						HStack {
 							SecondaryOverlay()
@@ -117,25 +121,16 @@ struct ContentView: View {
 						)
 					}
 				}
-				.onAppear {
-					API.provider.request(.readVersion) { (result) in
-						let version: Int?
-						do {
-							version = try result
-								.get()
-								.map(Int.self)
-						} catch let error {
-							version = nil
-							Logging.withLogger(for: .api, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
-							}
+				.task {
+					do {
+						let version = try await API.readVersion.perform(as: Int.self)
+						if version > API.lastVersion {
+							self.viewState.alertType = .updateAvailable
 						}
-						if let version {
-							if version > API.lastVersion {
-								self.viewState.alertType = .updateAvailable
-							}
-						} else {
-							self.viewState.alertType = .serverUnavailable
+					} catch let error {
+						self.viewState.alertType = .serverUnavailable
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 						}
 					}
 				}
@@ -157,7 +152,7 @@ struct ContentView: View {
 					self.sheetStack.push(.announcements)
 				} label: {
 					ZStack {
-						Label("View Announcements", systemImage: "exclamationmark.bubble")
+						Label("Show Announcements", systemImage: "exclamationmark.bubble")
 						if self.unviewedAnnouncementsCount > 0 {
 							Circle()
 								.foregroundColor(.red)
@@ -184,42 +179,73 @@ struct ContentView: View {
 					ProgressView()
 				} else {
 					Button {
-						NotificationCenter.default.post(name: .refreshBuses, object: nil)
+						if #available(macOS 13, *) {
+							Task {
+								await self.viewState.refreshSequence.trigger()
+							}
+						} else {
+							NotificationCenter.default.post(name: .refreshBuses, object: nil)
+						}
 					} label: {
 						Label("Refresh", systemImage: "arrow.clockwise")
+					}
+				}
+			}
+			.task {
+				if #available(macOS 13, *) {
+					for await refreshType in self.viewState.refreshSequence {
+						switch refreshType {
+						case .manual:
+							self.isRefreshing = true
+							do {
+								try await Task.sleep(for: .milliseconds(500))
+							} catch let error {
+								Logging.withLogger(doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
+								}
+							}
+							await self.mapState.refreshAll()
+							self.isRefreshing = false
+						case .automatic:
+							// For automatic refresh operations, we only refresh the buses.
+							await self.mapState.refreshBuses()
+						}
+					}
+				} else {
+					Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { (_) in
+						Task {
+							// For automatic refresh operations, we only refresh the buses.
+							await self.mapState.refreshBuses()
+						}
 					}
 				}
 			}
 			.onAppear {
 				NSWindow.allowsAutomaticWindowTabbing = false
 			}
-			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in
-				withAnimation {
-					self.isRefreshing = true
-				}
-				Task {
-					do {
-						if #available(macOS 13, *) {
-							try await Task.sleep(for: .milliseconds(500))
-						} else {
-							try await Task.sleep(nanoseconds: 500_000_000)
-						}
-					} catch let error {
-						Logging.withLogger(doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-						}
-						throw error
+			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in // TODO: Remove when we drop support for macOS 12
+				if #available(macOS 13, *) {
+					Logging.withLogger(doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Combine publisher for refreshing buses was used even though iOS 16 is available!")
 					}
-					await self.mapState.refreshAll()
+				} else {
 					withAnimation {
-						self.isRefreshing = false
+						self.isRefreshing = true
 					}
-				}
-			}
-			.onReceive(self.timer) { (_) in
-				Task {
-					// For “standard” refresh operations, we only refresh the buses.
-					await self.mapState.refreshBuses()
+					Task {
+						do {
+							try await Task.sleep(nanoseconds: 500_000_000)
+						} catch let error {
+							Logging.withLogger(doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
+							}
+							throw error
+						}
+						await self.mapState.refreshAll()
+						withAnimation {
+							self.isRefreshing = false
+						}
+					}
 				}
 			}
 	}

@@ -27,9 +27,6 @@ struct ShuttleTrackerApp: App {
 	private static let sheetStack = SheetStack()
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ColdLaunch(threshold: 1)
-		}
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
 			OnboardingConditions.ColdLaunch(threshold: 5)
@@ -41,23 +38,25 @@ struct ShuttleTrackerApp: App {
 			OnboardingConditions.ColdLaunch(threshold: 5)
 		}
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .boardBus) {
-			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles)
 			OnboardingConditions.Disjunction {
-				OnboardingConditions.ColdLaunch(threshold: 3, comparator: >)
+				OnboardingConditions.ColdLaunch(threshold: 5, comparator: >)
 				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
 		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.5", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles, comparator: ==)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
 		}
 		OnboardingEvent(flags: flags) { (_) in
-			LocationUtilities.registerLocationManagerHandler { (locationManager) in
-				switch locationManager.authorizationStatus {
-				case .notDetermined, .restricted, .denied:
-					Self.pushSheet(.permissions)
-				case .authorizedWhenInUse, .authorizedAlways:
+			CLLocationManager.registerHandler { (locationManager) in
+				switch (locationManager.authorizationStatus, locationManager.accuracyAuthorization) {
+				case (.authorizedAlways, .fullAccuracy):
 					break
+				case (.authorizedWhenInUse, .fullAccuracy):
+					ViewState.shared.toastType = .network
+				case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
+					Self.pushSheet(.permissions)
 				@unknown default:
 					fatalError()
 				}
@@ -101,28 +100,26 @@ struct ShuttleTrackerApp: App {
 			}
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
-		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.activityType = .automotiveNavigation
-		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
-		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
-		LocationUtilities.locationManager.pausesLocationUpdatesAutomatically = false
+		CLLocationManager.default = CLLocationManager()
+		CLLocationManager.default.activityType = .automotiveNavigation
+		CLLocationManager.default.showsBackgroundLocationIndicator = true
+		CLLocationManager.default.allowsBackgroundLocationUpdates = true
+		CLLocationManager.default.pausesLocationUpdatesAutomatically = false
+		CLLocationManager.default.requestWhenInUseAuthorization() // We request “when-in-use” authorization even when we actually want “always” authorization because doing so lets us avoid iOS’s usual deferment of the “always” prompt until long after the user closes the app. Instead, iOS shows two prompts in direct succession: firstly for “when-in-use” and secondly for “always”.
 		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
-			LocationUtilities.locationManager.requestAlwaysAuthorization()
-			let beaconRegion = CLBeaconRegion(
-				uuid: BoardBusManager.networkUUID,
-				identifier: BoardBusManager.beaconID
-			)
+			CLLocationManager.default.requestAlwaysAuthorization()
+			let beaconRegion = CLBeaconRegion(uuid: BoardBusManager.networkUUID, identifier: BoardBusManager.beaconID)
 			beaconRegion.notifyEntryStateOnDisplay = true
-			LocationUtilities.locationManager.startMonitoring(for: beaconRegion)
+			CLLocationManager.default.startMonitoring(for: beaconRegion)
 			if CLLocationManager.significantLocationChangeMonitoringAvailable() {
-				LocationUtilities.locationManager.startMonitoringSignificantLocationChanges()
+				// It’s unclear why, but activating the significant-change location service on app launch and never deactivating is necessary to be able to activate the standard location service upon beacon detection in the background. Otherwise, the user would need to open the app in the foreground to start sending location data to the server, which defeats the purpose of Automatic Board Bus.
+				// https://stackoverflow.com/questions/20187700/startupdatelocations-in-background-didupdatingtolocation-only-called-10-20-time
+				CLLocationManager.default.startMonitoringSignificantLocationChanges()
 			}
-		} else {
-			LocationUtilities.locationManager.requestWhenInUseAuthorization()
 		}
 		Task {
 			do {
-				try await UserNotificationUtilities.requestAuthorization()
+				try await UNUserNotificationCenter.requestDefaultAuthorization()
 			} catch let error {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")

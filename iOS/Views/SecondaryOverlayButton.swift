@@ -47,6 +47,7 @@ struct SecondaryOverlayButton: View {
 							Text("\(self.badgeNumber)")
 								.foregroundColor(.white)
 								.font(.caption)
+								.dynamicTypeSize(...DynamicTypeSize.accessibility1)
 						}
 							.frame(width: 20, height: 20)
 							.offset(x: 20, y: -20)

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct VisualEffectView: UIViewRepresentable {
 	
-	var effect: UIVisualEffect?
+	let effect: UIVisualEffect?
 	
 	init(_ effect: UIVisualEffect) {
 		self.effect = effect

@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-class MapViewDelegate: NSObject, MKMapViewDelegate {
+final class MapViewDelegate: NSObject, MKMapViewDelegate {
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		if annotation is MKUserLocation {

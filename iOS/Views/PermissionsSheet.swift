@@ -5,7 +5,11 @@
 //  Created by Gabriel Jacoby-Cooper on 11/14/21.
 //
 
+import CoreLocation
 import SwiftUI
+
+@preconcurrency
+import UserNotifications
 
 struct PermissionsSheet: View {
 	
@@ -28,49 +32,41 @@ struct PermissionsSheet: View {
 		SheetPresentationWrapper {
 			NavigationView {
 				VStack(alignment: .leading) {
-					Text("Shuttle Tracker requires access to your location to provide shuttle-tracking features and to improve data accuracy for everyone.")
+					Text("Shuttle Tracker requires access to your location to connect to the Shuttle Tracker Network, thereby improving data accuracy and tracking coverage for everyone.")
 						.padding(.bottom)
-					Button("View Privacy Information") {
+						.accessibilityShowsLargeContentViewer()
+					Button("Show Privacy Information") {
 						self.sheetStack.push(.privacy)
 					}
 						.padding(.bottom)
 					VStack(alignment: .leading) {
 						Group {
-							switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
-							case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
-								HStack {
+							if case (.authorizedAlways, .fullAccuracy) = (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
+								HStack(alignment: .top) {
 									Image(systemName: "gear.badge.checkmark")
 										.resizable()
 										.scaledToFit()
-										.frame(width: 50, height: 50)
-									Text("You’ve already granted location permission. Thanks!")
+										.frame(width: 40, height: 40)
+									VStack(alignment: .leading) {
+										Text("Location")
+											.font(.headline)
+										Text("You’ve already granted location access. Thanks!")
+											.accessibilityShowsLargeContentViewer()
+									}
 								}
-							case (.restricted, _), (.denied, _):
-								HStack {
+							} else {
+								HStack(alignment: .top) {
 									Image(systemName: "gear.badge.xmark")
 										.resizable()
 										.scaledToFit()
-										.frame(width: 50, height: 50)
-									Text("Shuttle Tracker doesn’t have location permission; you can change this in Settings.")
+										.frame(width: 40, height: 40)
+									VStack(alignment: .leading) {
+										Text("Location")
+											.font(.headline)
+										Text(try! AttributedString(markdown: "Select **Always** location access and enable **Precise Location** in Settings."))
+											.accessibilityShowsLargeContentViewer()
+									}
 								}
-							case (.notDetermined, _):
-								HStack {
-									Image(systemName: "gear.badge.questionmark")
-										.resizable()
-										.scaledToFit()
-										.frame(width: 50, height: 50)
-									Text("Tap “Continue” and then grant location permission.")
-								}
-							case (_, .reducedAccuracy):
-								HStack {
-									Image(systemName: "gear.badge.questionmark")
-										.resizable()
-										.scaledToFit()
-										.frame(width: 50, height: 50)
-									Text("Tap “Continue” and then grant full-accuracy location permission.")
-								}
-							@unknown default:
-								fatalError()
 							}
 						}
 							.scaleEffect(self.locationScale)
@@ -86,34 +82,52 @@ struct PermissionsSheet: View {
 							Group {
 								switch notificationAuthorizationStatus {
 								case .authorized, .ephemeral, .provisional:
-									HStack {
+									HStack(alignment: .top) {
 										Image(systemName: "gear.badge.checkmark")
 											.resizable()
 											.scaledToFit()
-											.frame(width: 50, height: 50)
-										Text("You’ve already granted notification permission. Thanks!")
+											.frame(width: 40, height: 40)
+										VStack(alignment: .leading) {
+											Text("Notifications")
+												.font(.headline)
+											Text("You’ve already enabled notification delivery. Thanks!")
+												.accessibilityShowsLargeContentViewer()
+										}
 									}
 								case .denied:
-									HStack {
+									HStack(alignment: .top) {
 										Image(systemName: "gear.badge.xmark")
 											.resizable()
 											.scaledToFit()
-											.frame(width: 50, height: 50)
-										Text("Shuttle Tracker doesn’t have notification permission; you can change this in Settings.")
+											.frame(width: 40, height: 40)
+										VStack(alignment: .leading) {
+											Text("Notifications")
+												.font(.headline)
+											if case (.authorizedAlways, .fullAccuracy) = (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
+												Text(try! AttributedString(markdown: "Enable **Allow Notifications** in Settings."))
+													.accessibilityShowsLargeContentViewer()
+											} else {
+												Text("You haven’t yet enabled notification delivery.")
+													.accessibilityShowsLargeContentViewer()
+											}
+										}
 									}
 								case .notDetermined:
-									HStack {
+									HStack(alignment: .top) {
 										Image(systemName: "gear.badge.questionmark")
 											.resizable()
 											.scaledToFit()
-											.frame(width: 50, height: 50)
-										switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
-										case (.authorizedWhenInUse, .fullAccuracy), (.authorizedAlways, .fullAccuracy):
-											Text("Tap “Continue” and then grant notification permission.")
-										case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
-											Text("You haven’t yet granted notification permission.")
-										@unknown default:
-											fatalError()
+											.frame(width: 40, height: 40)
+										VStack(alignment: .leading) {
+											Text("Notifications")
+												.font(.headline)
+											if case (.authorizedAlways, .fullAccuracy) = (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
+												Text(try! AttributedString(markdown: "Tap **Continue** and then enable notification delivery."))
+													.accessibilityShowsLargeContentViewer()
+											} else {
+												Text("You haven’t yet enabled notification delivery.")
+													.accessibilityShowsLargeContentViewer()
+											}
 										}
 									}
 								@unknown default:
@@ -140,46 +154,37 @@ struct PermissionsSheet: View {
 						}
 					Spacer()
 					Button {
-						switch (LocationUtilities.locationManager.authorizationStatus, LocationUtilities.locationManager.accuracyAuthorization) {
-						case (.authorizedAlways, .fullAccuracy), (.authorizedWhenInUse, .fullAccuracy):
+						if case (.authorizedAlways, .fullAccuracy) = (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 							if let notificationAuthorizationStatus = self.notificationAuthorizationStatus {
 								switch notificationAuthorizationStatus {
 								case .authorized, .ephemeral, .provisional:
 									break
 								case .denied:
-									self.openURL(URL(string: UIApplication.openSettingsURLString)!)
+									if #available(iOS 16, *) {
+										self.openURL(URL(string: UIApplication.openNotificationSettingsURLString)!)
+									} else {
+										self.openURL(URL(string: UIApplication.openSettingsURLString)!)
+									}
 								case .notDetermined:
 									Task {
 										do {
-											try await UserNotificationUtilities.requestAuthorization()
+											try await UNUserNotificationCenter.requestDefaultAuthorization()
 										} catch let error {
 											Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 												logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization request failed: \(error, privacy: .public)")
 											}
-											throw error
 										}
 									}
 								@unknown default:
 									fatalError()
 								}
-							}
-						case (.restricted, _), (.denied, _):
-							self.openURL(URL(string: UIApplication.openSettingsURLString)!)
-						case (.notDetermined, _):
-							LocationUtilities.locationManager.requestWhenInUseAuthorization()
-						case (_, .reducedAccuracy):
-							Task {
-								do {
-									try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-								} catch let error {
-									Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-										logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Full-accuracy location authorization request failed: \(error, privacy: .public)")
-									}
-									throw error
+							} else {
+								Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization status is not available")
 								}
 							}
-						@unknown default:
-							fatalError()
+						} else {
+							self.openURL(URL(string: UIApplication.openSettingsURLString)!)
 						}
 						self.sheetStack.pop()
 					} label: {

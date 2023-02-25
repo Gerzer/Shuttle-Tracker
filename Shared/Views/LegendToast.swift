@@ -69,11 +69,7 @@ struct LegendToast: View {
 	}
 	
 	var body: some View {
-		Toast(self.viewState.legendToastHeadlineText?.rawValue ?? "Legend") {
-			withAnimation {
-				self.viewState.toastType = nil
-			}
-		} content: {
+		Toast(self.viewState.legendToastHeadlineText?.rawValue ?? "Legend", item: self.$viewState.toastType) { (_, _) in
 			HStack {
 				ZStack {
 					Circle()
@@ -85,6 +81,7 @@ struct LegendToast: View {
 				}
 					.frame(width: 50)
 				Text(self.highQualityAttributedString)
+					.accessibilityShowsLargeContentViewer()
 			}
 				.frame(height: 50)
 			Spacer()
@@ -100,6 +97,7 @@ struct LegendToast: View {
 				}
 					.frame(width: 50)
 				Text(self.lowQualityAttributedString)
+					.accessibilityShowsLargeContentViewer()
 			}
 				.frame(height: 50)
 		}

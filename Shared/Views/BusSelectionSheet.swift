@@ -5,7 +5,11 @@
 //  Created by Gabriel Jacoby-Cooper on 10/21/21.
 //
 
+import CoreLocation
 import SwiftUI
+
+@preconcurrency
+import UserNotifications
 
 struct BusSelectionSheet: View {
 	
@@ -49,12 +53,16 @@ struct BusSelectionSheet: View {
 							}
 							if let suggestedBusID = self.suggestedBusID {
 								HStack {
-									Label("Suggested", systemImage: "sparkles")
-										.font(
-											.caption
-												.italic()
-										)
-										.foregroundColor(.secondary)
+									if #available(iOS 16, *) {
+										Label("Suggested", systemImage: "sparkles")
+											.font(.caption)
+											.italic()
+											.foregroundColor(.secondary)
+									} else {
+										Label("Suggested", systemImage: "sparkles")
+											.font(.caption.italic())
+											.foregroundColor(.secondary)
+									}
 									VStack {
 										Divider()
 											.background(.secondary)
@@ -93,19 +101,20 @@ struct BusSelectionSheet: View {
 					ToolbarItem(placement: .bottomBar) {
 						Button {
 							Task {
-								switch LocationUtilities.locationManager.accuracyAuthorization {
+								switch CLLocationManager.default.accuracyAuthorization {
 								case .fullAccuracy:
 									await self.boardBus()
 								case .reducedAccuracy:
 									do {
-										try await LocationUtilities.locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
+										try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 									} catch let error {
 										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 										}
+										self.sheetStack.pop()
 										throw error
 									}
-									guard case .fullAccuracy = LocationUtilities.locationManager.accuracyAuthorization else {
+									guard case .fullAccuracy = CLLocationManager.default.accuracyAuthorization else {
 										Logging.withLogger(for: .permissions) { (logger) in
 											logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
 										}
@@ -126,40 +135,34 @@ struct BusSelectionSheet: View {
 					}
 				}
 		}
-			.onAppear {
-				API.provider.request(.readAllBuses) { (result) in
-					do {
-						self.busIDs = try result
-							.get()
-							.map([Int].self)
-							.map { (id) in
-								return BusID(id)
-							}
-					} catch let error {
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
+			.task {
+				do {
+					self.busIDs = try await API.readAllBuses.perform(as: [Int].self)
+						.map { (id) in
+							return BusID(id)
 						}
+				} catch let error {
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
 					}
-					guard let location = LocationUtilities.locationManager.location else {
-						Logging.withLogger(for: .location, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t suggest nearest bus because the user’s location is unavailable")
-						}
-						return
+				}
+				guard let location = CLLocationManager.default.location else {
+					Logging.withLogger(for: .location, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t suggest nearest bus because the user’s location is unavailable")
 					}
-					Task {
-						let closestBus = await self.mapState.buses.min { (firstBus, secondBus) -> Bool in
-							let firstBusDistance = firstBus.location
-								.convertedForCoreLocation()
-								.distance(from: location)
-							let secondBusDistance = secondBus.location
-								.convertedForCoreLocation()
-								.distance(from: location)
-							return firstBusDistance < secondBusDistance
-						}
-						self.suggestedBusID = closestBus.map { (bus) in
-							return BusID(bus.id)
-						}
-					}
+					return
+				}
+				let closestBus = await self.mapState.buses.min { (first, second) in
+					let firstBusDistance = first.location
+						.convertedForCoreLocation()
+						.distance(from: location)
+					let secondBusDistance = second.location
+						.convertedForCoreLocation()
+						.distance(from: location)
+					return firstBusDistance < secondBusDistance
+				}
+				self.suggestedBusID = closestBus.map { (bus) in
+					return BusID(bus.id)
 				}
 			}
 	}
@@ -167,7 +170,7 @@ struct BusSelectionSheet: View {
 	/// Works with ``BoardBusManager`` to activate Board Bus.
 	/// - Precondition: The user has granted full location accuracy authorization.
 	private func boardBus() async {
-		precondition(LocationUtilities.locationManager.accuracyAuthorization == .fullAccuracy)
+		precondition(CLLocationManager.default.accuracyAuthorization == .fullAccuracy)
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Activating Board Bus manually…")
 		}
@@ -179,7 +182,7 @@ struct BusSelectionSheet: View {
 		}
 		await self.boardBusManager.boardBus(id: id, manually: true)
 		self.sheetStack.pop()
-		LocationUtilities.locationManager.startUpdatingLocation()
+		CLLocationManager.default.startUpdatingLocation()
 		
 		// Schedule leave-bus notification
 		let content = UNMutableNotificationContent()
@@ -193,7 +196,7 @@ struct BusSelectionSheet: View {
 		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
 		Task {
 			do {
-				try await UserNotificationUtilities.requestAuthorization()
+				try await UNUserNotificationCenter.requestDefaultAuthorization()
 			} catch let error {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")

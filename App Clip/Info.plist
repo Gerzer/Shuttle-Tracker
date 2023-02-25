@@ -31,13 +31,15 @@
 	</dict>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Shuttle Tracker requires location access to improve data accuracy for everyone.</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
 	<dict>
 		<key>BoardBus</key>
 		<string>Shuttle Tracker requires precise location access to improve data accuracy for everyone.</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Shuttle Tracker uses your location to provide shuttle-tracking features.</string>
+	<string>Shuttle Tracker requires location access to improve data accuracy for everyone.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
