@@ -27,6 +27,10 @@ public enum Logging {
 		
 		case permissions = "Permissions"
 		
+		case apns = "APNS"
+		
+		case appDelegate = "AppDelegate"
+		
 	}
 	
 	public struct Log: Codable, Hashable, Identifiable {

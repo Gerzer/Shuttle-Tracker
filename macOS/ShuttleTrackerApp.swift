@@ -8,6 +8,7 @@
 import CoreLocation
 import OnboardingKit
 import SwiftUI
+import UserNotifications
 
 @main
 struct ShuttleTrackerApp: App {
@@ -115,6 +116,17 @@ struct ShuttleTrackerApp: App {
 		CLLocationManager.default = CLLocationManager()
 		CLLocationManager.default.requestWhenInUseAuthorization()
 		CLLocationManager.default.activityType = .automotiveNavigation
+		NSApplication.shared.registerForRemoteNotifications()
+		Task {
+			do {
+				try await UNUserNotificationCenter.requestDefaultAuthorization()
+			} catch let error {
+				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+				}
+				throw error
+			}
+		}
 	}
 	
 	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {

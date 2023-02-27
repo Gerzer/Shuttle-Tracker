@@ -26,6 +26,9 @@ struct ShuttleTrackerApp: App {
 	
 	private static let sheetStack = SheetStack()
 	
+	@UIApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
+	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
@@ -106,6 +109,7 @@ struct ShuttleTrackerApp: App {
 		CLLocationManager.default.activityType = .automotiveNavigation
 		CLLocationManager.default.showsBackgroundLocationIndicator = true
 		CLLocationManager.default.allowsBackgroundLocationUpdates = true
+		UIApplication.shared.registerForRemoteNotifications()
 		Task {
 			do {
 				try await UNUserNotificationCenter.requestDefaultAuthorization()

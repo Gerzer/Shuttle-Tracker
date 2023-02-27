@@ -51,6 +51,7 @@
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
+		C04BC29229AA814700225C5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC29129AA814700225C5B /* AppDelegate.swift */; };
 		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832127D1551400299D27 /* WelcomeSheet.swift */; };
@@ -214,6 +215,7 @@
 		C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
 		C03EE72026DEAD1F00878D77 /* LegendToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendToast.swift; sourceTree = "<group>"; };
+		C04BC29129AA814700225C5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C059831D27D14C8C00299D27 /* PrivacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		C059832127D1551400299D27 /* WelcomeSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeSheet.swift; sourceTree = "<group>"; };
 		C059832327D1840700299D27 /* SheetPresentationWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationWrapper.swift; sourceTree = "<group>"; };
@@ -344,6 +346,14 @@
 				C059832127D1551400299D27 /* WelcomeSheet.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C04BC29029AA813B00225C5B /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				C04BC29129AA814700225C5B /* AppDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		C085A2DC27C5B35100AA01F3 /* Delegates */ = {
@@ -492,6 +502,7 @@
 		C0FFD6DE250C33C900945F01 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				C04BC29029AA813B00225C5B /* Delegates */,
 				C03FD52626DD6E6A00A2532E /* Views */,
 				C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */,
 				C0FFD6DF250C33C900945F01 /* Info.plist */,
@@ -751,6 +762,7 @@
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
 				C0BC276A2974648E008A4BD0 /* NetworkToast.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
+				C04BC29229AA814700225C5B /* AppDelegate.swift in Sources */,
 				C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */,
 				C059833B27D2C77900299D27 /* AboutView.swift in Sources */,
 				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
