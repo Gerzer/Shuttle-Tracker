@@ -49,9 +49,9 @@
 		C03C1F1529848C8600D617F7 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C03C1F1429848C8600D617F7 /* SwiftUI.framework */; };
 		C03C1F1829848C8600D617F7 /* LiveActivityBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03C1F1729848C8600D617F7 /* LiveActivityBundle.swift */; };
 		C03C1F1E29848C8700D617F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C03C1F1D29848C8700D617F7 /* Assets.xcassets */; };
-		C03C1F2229848C8700D617F7 /* Live Activity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C03C1F1129848C8600D617F7 /* Live Activity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
+		C04BC29529AC3B9100225C5B /* Live Activity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C03C1F1129848C8600D617F7 /* Live Activity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832127D1551400299D27 /* WelcomeSheet.swift */; };
 		C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
@@ -122,26 +122,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C03C1F2029848C8700D617F7 /* PBXContainerItemProxy */ = {
+		C04BC29329AC3B6F00225C5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C03C1F1029848C8600D617F7;
-			remoteInfo = "Live ActivityExtension";
+			remoteInfo = "Live Activity";
+		};
+		C04BC29629AC3B9100225C5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C03C1F1029848C8600D617F7;
+			remoteInfo = "Live Activity";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C03C1F2329848C8700D617F7 /* Embed Foundation Extensions */ = {
+		C04BC29829AC3B9100225C5B /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C03C1F2229848C8700D617F7 /* Live Activity.appex in Embed Foundation Extensions */,
+				C04BC29529AC3B9100225C5B /* Live Activity.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C0A232A72525080600FAAD50 /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -523,12 +530,13 @@
 				C0FFD6D9250C33C900945F01 /* Frameworks */,
 				C0FFD6DA250C33C900945F01 /* Resources */,
 				C0A232A72525080600FAAD50 /* Embed App Clips */,
-				C03C1F2329848C8700D617F7 /* Embed Foundation Extensions */,
+				C04BC29829AC3B9100225C5B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C03C1F2129848C8700D617F7 /* PBXTargetDependency */,
+				C04BC29429AC3B6F00225C5B /* PBXTargetDependency */,
+				C04BC29729AC3B9100225C5B /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -761,10 +769,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C03C1F2129848C8700D617F7 /* PBXTargetDependency */ = {
+		C04BC29429AC3B6F00225C5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C03C1F1029848C8600D617F7 /* Live Activity */;
-			targetProxy = C03C1F2029848C8700D617F7 /* PBXContainerItemProxy */;
+			targetProxy = C04BC29329AC3B6F00225C5B /* PBXContainerItemProxy */;
+		};
+		C04BC29729AC3B9100225C5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C03C1F1029848C8600D617F7 /* Live Activity */;
+			targetProxy = C04BC29629AC3B9100225C5B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -948,7 +961,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
@@ -977,7 +989,6 @@
 		C0FFD6F2250C33C900945F01 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/iOS.entitlements;
