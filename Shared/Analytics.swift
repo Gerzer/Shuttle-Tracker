@@ -64,15 +64,30 @@ struct UserSettings: Codable, Hashable, Equatable {
 
 public enum Analytics {
     struct AnalyticsEntry : DataCollectionProtocol, Hashable, Identifiable, Equatable {
+        
+        enum ClientPlatform: String, Codable, Hashable, Equatable {
+            case ios, macos
+        }
+        
+        public fileprivate(set) var id: UUID?
+        var userID: UUID
+        let date: Date
+        let clientPlatform: ClientPlatform
+        let clientPlatformVersion: String
+        let appVersion: String
+        let boardBusCount: Int?
+        let userSettings: UserSettings
+        let eventType: [String : [ String : Payload ]]
+        
         init(_ eventType: [String : [ String : Payload ]]) async {
             self.userID = await AppStorageManager.shared.userID
             
             self.eventType = eventType
             #if os(macOS)
                 self.clientPlatform = .macos
-            #elseif os(iOS) // os(macOS)
+            #elseif os(iOS)
                 self.clientPlatform = .ios
-            #endif // os(iOS)
+            #endif
             self.date = .now
             self.clientPlatformVersion = Bundle.main.version ?? ""
             self.appVersion = Bundle.main.build ?? ""
@@ -95,19 +110,27 @@ public enum Analytics {
                                              serverBaseURL: serverBaseURL)
         }
         
-        enum ClientPlatform: String, Codable, Hashable, Equatable {
-            case ios, macos
+        @available(iOS 16, macOS 13, *)
+        func writeToDisk() throws -> URL {
+            do {
+                let url = FileManager.default.temporaryDirectory.appending(component: "\(self.id!.uuidString).analytics")
+                do {
+                    try toJSONString(self).write(to: url, atomically: false, encoding: .utf8)
+                } catch let error {
+                    Logging.withLogger(doUpload: true) { (logger) in
+                        logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save analytics file to temporary directory: \(error, privacy: .public)")
+                    }
+                    throw error
+                }
+                
+                return url
+            } catch let error {
+                Logging.withLogger(doUpload: true) { (logger) in
+                    logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to obtain analytics id: \(error, privacy: .public)")
+                }
+                throw error
+            }
         }
-        
-        public fileprivate(set) var id: UUID?
-        var userID: UUID
-        let date: Date
-        let clientPlatform: ClientPlatform
-        let clientPlatformVersion: String
-        let appVersion: String
-        let boardBusCount: Int?
-        let userSettings: UserSettings
-        let eventType: [String : [ String : Payload ]]
     }
     
     static func uploadAnalytics(_ eventType: [String : [ String : Payload ]]) async throws {
@@ -138,8 +161,10 @@ public enum Analytics {
         let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
         do {
             let json = try encoder.encode(analytics)
+            let jsonObject = try JSONSerialization.jsonObject(with: json, options: [])
+            let data = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
             
-            return String(data: json, encoding: .utf8) ?? ""
+            return String(data: data, encoding: .utf8) ?? ""
         } catch {
             return ""
         }

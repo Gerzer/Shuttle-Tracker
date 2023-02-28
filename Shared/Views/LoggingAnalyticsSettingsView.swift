@@ -120,7 +120,8 @@ struct LoggingAnalyticsSettingsView: View {
                 .padding(.horizontal, 5)
                 .listRowInsets(.init())
             
-            if(selectedCategory == .logs) {
+            switch(selectedCategory) {
+            case .logs:
                 Section {
                     #if os(macOS)
                     HStack {
@@ -210,7 +211,7 @@ struct LoggingAnalyticsSettingsView: View {
                     Text("Uploaded Logs")
                     #endif
                 }
-            } else {
+            default:
                 Section {
                     #if os(macOS)
                     HStack {

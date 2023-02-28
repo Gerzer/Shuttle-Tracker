@@ -25,6 +25,9 @@ struct ContentView: View {
 	
 	@EnvironmentObject
 	private var sheetStack: SheetStack
+    
+    @Environment(\.colorScheme)
+    private var colorScheme
 	
 	private var unviewedAnnouncementsCount: Int {
 		get {
@@ -122,6 +125,8 @@ struct ContentView: View {
 					}
 				}
                 .task {
+                    AppStorageManager.shared.colorScheme = colorScheme
+                    
                     do {
                         let version = try await API.readVersion.perform(as: Int.self)
                         if version > API.lastVersion {

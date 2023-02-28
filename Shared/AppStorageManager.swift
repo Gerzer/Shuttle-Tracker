@@ -9,7 +9,7 @@ import SwiftUI
 
 @MainActor
 final class AppStorageManager: ObservableObject {
-    @Environment(\.colorScheme) var colorScheme
+    @Published var colorScheme = ColorScheme.light
 	
 	enum Defaults {
         static let userID = UUID()

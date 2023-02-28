@@ -59,6 +59,11 @@ struct AnalyticsDetailView: View {
             #if os(iOS)
             .navigationTitle(self.dateFormatter.string(from: self.entry.date))
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                if #available(iOS 16, *), let url = try? self.entry.writeToDisk() {
+                    ShareLink(item: url)
+                }
+            }
             #endif // os(iOS)
     }
 }
