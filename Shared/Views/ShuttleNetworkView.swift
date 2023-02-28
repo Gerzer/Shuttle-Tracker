@@ -25,10 +25,16 @@ struct ShuttleNetworkView: View {
     private var busScale: CGFloat = 0
     
     @State
-    private var phoneScale: CGFloat = 0
+    private var phoneScale: CGFloat = 1
     
     @State
     private var cloudScale: CGFloat = 0
+    
+    @State
+    private var waveLScale: CGFloat = 0
+    
+    @State
+    private var waveRScale: CGFloat = 0
     
     var body: some View {
         VStack {
@@ -43,76 +49,77 @@ struct ShuttleNetworkView: View {
                         Image(systemName: "bus")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 50, height: 50)
+                            .frame(width: 50 * self.busScale, height: 50)
                             .scaleEffect(self.busScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.4)) {
-                                    self.busScale = 1.2
-                                }
-                                withAnimation(.easeOut(duration: 0.3)
-                                    .delay(1.5)
-                                    .repeatForever()
-                                    .delay(0.3))
-                                {
+                                withAnimation(.easeIn(duration: 0.4)
+                                    .delay(1)
+                                ) {
                                     self.busScale = 1
                                 }
                             }
                         Image(systemName: "wave.3.forward")
                             .resizable()
                             .scaledToFit()
-                            .font(Font.title.weight(.semibold))
-                            .frame(width: 50, height: 50)
-                        
-                        Image(systemName: "iphone")
-                            .resizable()
-                            .overlay(
-                                Image(systemName: "bus.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                    .font(Font.title.weight(.light))
-                                    
-                            )
-                            .symbolRenderingMode(.monochrome)
-                            //.resizable()
-                            .scaledToFit()
-                            .frame(width: 70, height: 70)
-                            .scaleEffect(self.phoneScale)
+                            .frame(width: 50 * self.busScale, height: 50)
+                            .scaleEffect(self.waveLScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.4).delay(0.3)) {
-                                    self.phoneScale = 1.2
-                                }
-                                withAnimation(.easeOut(duration: 0.3)
-                                    .delay(1.5)
-                                    .repeatForever()
-                                    .delay(0.6))
-                                {
-                                    self.phoneScale = 1
+                                withAnimation(.easeIn(duration: 0.4)
+                                    .delay(2)
+                                ) {
+                                    self.waveLScale = 0.8
                                 }
                             }
+                        ZStack {
+                            Image(systemName: "iphone")
+                                .symbolRenderingMode(.monochrome)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
+                                .scaleEffect(self.phoneScale)
+                                .onAppear() {
+                                    withAnimation(.easeIn(duration: 0.4)
+                                        .delay(0)
+                                    ) {
+                                        self.phoneScale = 1
+                                    }
+                                }
+                            Image(systemName: "checkmark.circle.fill")
+                                .symbolRenderingMode(.multicolor)
+                        }
                         Image(systemName: "wave.3.forward")
                             .resizable()
                             .scaledToFit()
-                            .font(Font.title.weight(.semibold))
-                            .frame(width: 50, height: 50)
+                            .frame(width: 50 * self.cloudScale, height: 50)
+                            .scaleEffect(self.waveRScale)
+                            .onAppear() {
+                                withAnimation(.easeIn(duration: 0.4)
+                                    .delay(3)
+                                ) {
+                                    self.waveRScale = 0.8
+                                }
+                            }
                         Image(systemName: "cloud")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 80, height: 80)
+                            .frame(width: 70 * self.cloudScale, height: 40)
                             .scaleEffect(self.cloudScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.4).delay(0.6)) {
-                                    self.cloudScale = 1.2
-                                }
-                                withAnimation(.easeOut(duration: 0.3)
-                                    .delay(1.5)
-                                    .repeatForever()
-                                    .delay(0.9))
-                                {
+                                withAnimation(.easeIn(duration: 0.4)
+                                    .delay(3)
+                                ) {
                                     self.cloudScale = 1
                                 }
-                        }
+                            }
                     }
+                    .padding()
+                    .background(
+                        .tertiary,
+                        in: RoundedRectangle(
+                            cornerRadius: 10,
+                            style: .continuous
+                        )
+                    )
                 }
                 .padding(.top)
                 .padding(.bottom)
