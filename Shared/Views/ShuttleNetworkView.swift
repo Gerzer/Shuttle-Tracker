@@ -36,6 +36,9 @@ struct ShuttleNetworkView: View {
     @State
     private var waveRScale: CGFloat = 0
     
+    @State
+    private var phoneCheckScale: CGFloat = 1
+    
     var body: some View {
         VStack {
             
@@ -70,7 +73,7 @@ struct ShuttleNetworkView: View {
                                     self.waveLScale = 0.8
                                 }
                             }
-                        ZStack {
+                        ZStack (alignment: .topTrailing){
                             Image(systemName: "iphone")
                                 .symbolRenderingMode(.monochrome)
                                 .resizable()
@@ -86,6 +89,10 @@ struct ShuttleNetworkView: View {
                                 }
                             Image(systemName: "checkmark.circle.fill")
                                 .symbolRenderingMode(.multicolor)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 15, height:15)
+                                .scaleEffect(self.phoneCheckScale)
                         }
                         Image(systemName: "wave.3.forward")
                             .resizable()
@@ -94,7 +101,7 @@ struct ShuttleNetworkView: View {
                             .scaleEffect(self.waveRScale)
                             .onAppear() {
                                 withAnimation(.easeIn(duration: 0.4)
-                                    .delay(3)
+                                    .delay(6)
                                 ) {
                                     self.waveRScale = 0.8
                                 }
@@ -105,21 +112,24 @@ struct ShuttleNetworkView: View {
                             .frame(width: 70 * self.cloudScale, height: 40)
                             .scaleEffect(self.cloudScale)
                             .onAppear() {
-                                withAnimation(.easeIn(duration: 0.4)
-                                    .delay(3)
-                                ) {
-                                    self.cloudScale = 1
+                                //Aidan wrote this
+                                //we both think this is bad code but it seems to
+                                //be the only way to get the intended effect
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    withAnimation(.easeIn(duration: 0.4)) {
+                                        self.cloudScale = 1
+                                    }
                                 }
                             }
                     }
                     .padding()
-                    .background(
-                        .tertiary,
-                        in: RoundedRectangle(
-                            cornerRadius: 10,
-                            style: .continuous
-                        )
-                    )
+//                    .background(
+//                        .tertiary,
+//                        in: RoundedRectangle(
+//                            cornerRadius: 10,
+//                            style: .continuous
+//                        )
+//                    )
                 }
                 .padding(.top)
                 .padding(.bottom)
