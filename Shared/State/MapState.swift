@@ -22,15 +22,7 @@ class MapState: ObservableObject {
     var userLocation = LM.location
 
 
-    var nearestStopDistance: CLLocationDistance? {
-          guard let userLocation = self.userLocation else {
-              return nil
-          }
-          
-          let stopLocations = stops.map { CLLocation(latitude: $0.latitude, longitude: $0.longitude) }
-          let nearestStopLocation = stopLocations.min(by: { userLocation.distance(from: $0) < userLocation.distance(from: $1) })
-          return nearestStopLocation?.distance(from: userLocation)
-      }
+   
     
 	@Published var travelState = TravelState.notOnBus {
 		didSet {

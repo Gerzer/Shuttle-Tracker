@@ -39,8 +39,9 @@ struct PrimaryOverlay: View {
 	}
 	
 	@State private var isRefreshing = false
-	
-	@EnvironmentObject private var mapState: MapState
+
+    @EnvironmentObject  var lm: LocationManager
+	@EnvironmentObject  var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
 	
@@ -57,8 +58,7 @@ struct PrimaryOverlay: View {
 
 	
 	var body: some View {
-    
-            
+
 		HStack {
 			Spacer()
 			if #available(iOS 15, *) {
@@ -124,8 +124,9 @@ struct PrimaryOverlay: View {
                         
                         HStack{
                              
-                            
-                            Text("\(self.mapState.userLocation ?? defaultLocation ) mi")
+                                                          
+                                
+                            Text("\(self.lm.closestStop) mi")
                             Image(systemName: "arrow.up.left")
                             Button(action: {
                                          
