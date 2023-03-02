@@ -7,10 +7,22 @@
 
 import CoreLocation
 
-class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
-	
+class LocationManagerDelegate: NSObject,ObservableObject, CLLocationManagerDelegate {
+    let manager = CLLocationManager()
+    @Published var location: CLLocationCoordinate2D?
+
+    
+    func requestLocation() {
+          manager.requestLocation()
+      }
+    
+    
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-		guard MapState.shared.travelState == .onBus else {
+
+        location = locations.first?.coordinate
+
+        
+        guard MapState.shared.travelState == .onBus else {
 			return
 		}
 		LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)

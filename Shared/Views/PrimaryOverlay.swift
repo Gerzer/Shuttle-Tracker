@@ -37,6 +37,8 @@ struct PrimaryOverlay: View {
 	
 	@State private var isRefreshing = false
 	
+    @StateObject var locationManager = LocationManagerDelegate()
+
 	@EnvironmentObject private var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
@@ -54,6 +56,14 @@ struct PrimaryOverlay: View {
 
                     HStack(spacing: 75){
                     Button {
+                        
+                        print("bruuuh")
+                        
+                        if let location = locationManager.location {
+                                       print("Your location: \(location.latitude), \(location.longitude)")
+                                   }
+                        
+                        
                         switch self.mapState.travelState {
                         case .onBus:
 
