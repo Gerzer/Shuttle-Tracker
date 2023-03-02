@@ -7,6 +7,9 @@
 
 import SwiftUI
 import StoreKit
+import CoreLocation
+import CoreLocationUI
+
 
 extension Double {
 var removeZero:String {
@@ -37,17 +40,25 @@ struct PrimaryOverlay: View {
 	
 	@State private var isRefreshing = false
 	
-    @StateObject var locationManager = LocationManagerDelegate()
-
 	@EnvironmentObject private var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
 	
 	@EnvironmentObject private var sheetStack: SheetStack
 
+    let defaultLocation = CLLocation(latitude: 37.7749, longitude: -122.4194)
+
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
+    
+    
+    
+    
+    
+
 	
 	var body: some View {
+    
+            
 		HStack {
 			Spacer()
 			if #available(iOS 15, *) {
@@ -56,14 +67,6 @@ struct PrimaryOverlay: View {
 
                     HStack(spacing: 75){
                     Button {
-                        
-                        print("bruuuh")
-                        
-                        if let location = locationManager.location {
-                                       print("Your location: \(location.latitude), \(location.longitude)")
-                                   }
-                        
-                        
                         switch self.mapState.travelState {
                         case .onBus:
 
@@ -120,9 +123,9 @@ struct PrimaryOverlay: View {
                     .buttonStyle(.borderedProminent)
                         
                         HStack{
+                             
                             
-                            
-                            Text("\(mapState.nearestStopDistance) mi")
+                            Text("\(self.mapState.userLocation ?? defaultLocation ) mi")
                             Image(systemName: "arrow.up.left")
                             Button(action: {
                                          

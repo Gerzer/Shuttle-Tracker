@@ -11,13 +11,18 @@ import MapKit
 class MapState: ObservableObject {
 	
 	static let shared = MapState()
+    static let LM = LocationManager()
 	
 	@Published var buses = [Bus]()
 	
 	@Published var stops = [Stop]()
 	
 	@Published var routes = [Route]()
-	
+    
+    var userLocation = LM.location
+
+
+    
 	@Published var travelState = TravelState.notOnBus {
 		didSet {
 			switch self.travelState {
@@ -37,28 +42,7 @@ class MapState: ObservableObject {
 		}
 	}
     
-    
-    
-    @Published var nearestStopDistance = Double.greatestFiniteMagnitude {
-        didSet {
-            if !self.stops.isEmpty {
-                print(LocationUtilities.locationManager.location! ,"hello!")
-                
-                if let userLocation = LocationUtilities.locationManager.location {
-                    let newDistance = stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
-                        let newStopDistance = stop.location.distance(from: userLocation)
-                        if newStopDistance < distance {
-                            distance = newStopDistance
-                        }
-                    }
-                    nearestStopDistance = newDistance
-                } else {
-                    nearestStopDistance = 33.2
-                    print("Error: Cannot find your location.")
-                }
-            }
-        }
-    }
+
 
 	
 	@Published var busID: Int?
