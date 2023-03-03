@@ -64,7 +64,7 @@ struct AnnouncementDetailView: View {
 			}
             .task {
                 do {
-                    try await Analytics.uploadAnalytics(["announcementViewed": [ "id" : Payload(announcement.id.uuidString) ]])
+                    try await Analytics.upload(eventType: .announcementViewed(id: announcement.id))
                 } catch {
                     Logging.withLogger(for: .api, doUpload: true) { (logger) in
                         logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")

@@ -79,7 +79,7 @@ struct AnalyticsDetailViewPreviews: PreviewProvider {
             }
         }.onAppear {
             Task {
-                entry = await Analytics.AnalyticsEntry(["event":[:]])
+                entry = await Analytics.AnalyticsEntry(.permissionsSheetOpened)
             }
         }
     }

@@ -28,9 +28,7 @@ struct NetworkToast: View {
                     
                     Task {
                         do {
-                            try await Analytics.uploadAnalytics(["networkToastPermissionsTapped": [:]])
-                            try await Analytics.uploadAnalytics(["locationAuthorizationStatusDidChange": [ "authorizationStatus" : Payload(Int(CLLocationManager.default.authorizationStatus.rawValue)) ]])
-                            try await Analytics.uploadAnalytics(["locationAuthorizationAccuracyDidChange": [ "accuracyAuthorization" : Payload(Int(CLLocationManager.default.accuracyAuthorization.rawValue)) ]])
+                            try await Analytics.upload(eventType: .networkToastPermissionsTapped)
                         } catch {
                             Logging.withLogger(for: .api, doUpload: true) { (logger) in
                                 logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
@@ -42,7 +40,27 @@ struct NetworkToast: View {
 						.bold()
 				}
 					.buttonStyle(BlockButtonStyle())
-			}
+            }.onChange(of: CLLocationManager.default.authorizationStatus) { (status) in
+                Task {
+                    do {
+                        try await Analytics.upload(eventType: .locationAuthorizationStatusDidChange(authorizationStatus: Int(status.rawValue)))
+                    } catch {
+                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                        }
+                    }
+                }
+            }.onChange(of: CLLocationManager.default.accuracyAuthorization) { (accuracy) in
+                Task {
+                    do {
+                        try await Analytics.upload(eventType: .locationAccuracyAuthorizationDidChange(accuracyAuthorization: Int(accuracy.rawValue)))
+                    } catch {
+                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                        }
+                    }
+                }
+            }
 		}
 	}
 	

@@ -20,7 +20,7 @@ struct CloseButton: View {
             if self.sheetStack.top == SheetStack.SheetType.busSelection {
                 Task {
                     do {
-                        try await Analytics.uploadAnalytics(["busSelectionCanceled": [:]])
+                        try await Analytics.upload(eventType: .busSelectionCanceled)
                     } catch {
                         Logging.withLogger(for: .api, doUpload: true) { (logger) in
                             logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")

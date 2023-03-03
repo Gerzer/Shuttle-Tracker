@@ -140,7 +140,7 @@ struct ContentView: View {
                     }
                     
                     do {
-                        try await Analytics.uploadAnalytics(["coldLaunch": [:]])
+                        try await Analytics.upload(eventType: .coldLaunch)
                     } catch {
                         Logging.withLogger(for: .api, doUpload: true) { (logger) in
                             logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")

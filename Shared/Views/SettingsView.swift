@@ -76,7 +76,7 @@ struct SettingsView: View {
                 
                 Task {
                     do {
-                        try await Analytics.uploadAnalytics(["colorBlindModeToggled": [ "enabled" : Payload(enabled) ]])
+                        try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
                     } catch {
                         Logging.withLogger(for: .api, doUpload: true) { (logger) in
                             logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
@@ -116,7 +116,7 @@ struct SettingsView: View {
                                 
                                 Task {
                                     do {
-                                        try await Analytics.uploadAnalytics(["serverBaseURLChanged": [ "url" : Payload(url) ]])
+                                        try await Analytics.upload(eventType: .serverBaseURLChanged(url: url))
                                     } catch {
                                         Logging.withLogger(for: .api, doUpload: true) { (logger) in
                                             logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
@@ -150,7 +150,7 @@ struct SettingsView: View {
                 
                 Task {
                     do {
-                        try await Analytics.uploadAnalytics(["colorBlindModeToggled": [ "enabled" : Payload(enabled) ]])
+                        try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
                     } catch {
                         Logging.withLogger(for: .api, doUpload: true) { (logger) in
                             logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")

@@ -8,61 +8,48 @@
 import Foundation
 import SwiftUI
 
-struct Payload: Codable, Hashable {
-    var value: AnyHashable
-
-    struct CodingKeys: CodingKey {
-        var stringValue: String
-        var intValue: Int?
-        init?(intValue: Int) {
-            self.stringValue = "\(intValue)"
-            self.intValue = intValue
-        }
-        init?(stringValue: String) { self.stringValue = stringValue }
-    }
-
-    init(_ value: AnyHashable) {
-        self.value = value
-    }
-    
-    init(from decoder: Decoder) {
-        if let container = try? decoder.singleValueContainer() {
-            if let boolVal = try? container.decode(Bool.self) {
-                value = boolVal
-            } else if let intVal = try? container.decode(Int.self) {
-                value = intVal
-            } else if let stringVal = try? container.decode(String.self) {
-                value = stringVal
-            } else {
-                value = "invalid"
-            }
-        } else {
-            value = "invalid"
-        }
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        if let boolVal = value as? Bool {
-            try container.encode(boolVal)
-        } else if let intVal = value as? Int {
-            try container.encode(intVal)
-        } else if let stringVal = value as? String {
-            try container.encode(stringVal)
-        }
-    }
-}
-
-struct UserSettings: Codable, Hashable, Equatable {
-    let colorTheme: String
-    let colorBlindMode: Bool
-    let debugMode: Bool?
-    let logging: Bool?
-    let maximumStopDistance: Int?
-    let serverBaseURL: URL?
-}
-
 public enum Analytics {
+    enum EventType: Codable, Hashable {
+        case coldLaunch
+        
+        case boardBusTapped
+        
+        case leaveBusTapped
+        
+        case boardBusActivated(manual: Bool)
+        
+        case boardBusDeactivated(manual: Bool)
+        
+        case busSelectionCanceled
+        
+        case announcementsListOpened
+        
+        case announcementViewed(id: UUID)
+        
+        case permissionsSheetOpened
+        
+        case networkToastPermissionsTapped
+        
+        case colorBlindModeToggled(enabled: Bool)
+        
+        case debugModeToggled(enabled: Bool)
+        
+        case serverBaseURLChanged(url: URL)
+        
+        case locationAuthorizationStatusDidChange(authorizationStatus: Int)
+        
+        case locationAccuracyAuthorizationDidChange(accuracyAuthorization: Int)
+    }
+
+    struct UserSettings: Codable, Hashable, Equatable {
+        let colorTheme: String
+        let colorBlindMode: Bool
+        let debugMode: Bool?
+        let logging: Bool?
+        let maximumStopDistance: Int?
+        let serverBaseURL: URL?
+    }
+    
     struct AnalyticsEntry : DataCollectionProtocol, Hashable, Identifiable, Equatable {
         
         enum ClientPlatform: String, Codable, Hashable, Equatable {
@@ -77,9 +64,9 @@ public enum Analytics {
         let appVersion: String
         let boardBusCount: Int?
         let userSettings: UserSettings
-        let eventType: [String : [ String : Payload ]]
+        let eventType: EventType
         
-        init(_ eventType: [String : [ String : Payload ]]) async {
+        init(_ eventType: EventType) async {
             self.userID = await AppStorageManager.shared.userID
             
             self.eventType = eventType
@@ -133,7 +120,7 @@ public enum Analytics {
         }
     }
     
-    static func uploadAnalytics(_ eventType: [String : [ String : Payload ]]) async throws {
+    static func upload(eventType: EventType) async throws {
         if(!(await AppStorageManager.shared.doUploadAnalytics)) {
             return;
         }

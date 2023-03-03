@@ -93,7 +93,7 @@ struct AnnouncementsSheet: View {
 				self.announcements = await [Announcement].download()
                 
                 do {
-                    try await Analytics.uploadAnalytics(["announcementsListOpened": [:]])
+                    try await Analytics.upload(eventType: .announcementsListOpened)
                 } catch {
                     Logging.withLogger(for: .api, doUpload: true) { (logger) in
                         logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
