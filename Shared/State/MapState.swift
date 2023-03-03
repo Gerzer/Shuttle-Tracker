@@ -18,8 +18,7 @@ class MapState: ObservableObject {
 	
 	@Published var routes = [Route]()
     
-    var ClosestStopDistance: Double
-//    
+    var ClosestStopDistance = LocationUtilities.locationManager.ClosestStop//    
 //    func ComputeDirection(Location1, Location2) -> String {
 //        return Int.random(in: 1...6)
 //    }

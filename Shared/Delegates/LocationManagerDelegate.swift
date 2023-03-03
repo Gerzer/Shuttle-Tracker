@@ -14,7 +14,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     let manager = CLLocationManager()
 
     @Published var location: CLLocation?
-    @Published var closestStop = 0.98
+    @Published var ClosestStop: CLLocationDistance?
 
 
     override init() {
@@ -39,18 +39,23 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
       }
 
       func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-          location = locations.last
-          
-          var closestStop: CLLocationDistance? {
-                guard let userLocation = location else {
-                    return nil
-                }
-              
-              let stopLocations = stops.map { CLLocation(latitude: $0.location.coordinate.latitude, longitude: $0.location.coordinate.longitude) }
-                let nearestStopLocation = stopLocations.min(by: { userLocation.distance(from: $0) < userLocation.distance(from: $1) })
-                return nearestStopLocation?.distance(from: userLocation)
-            }
 
+          
+          
+          guard let userLocation = locations.last else {
+                 return
+             }
+             location = userLocation
+             
+             let stopLocations = stops.map { CLLocation(latitude: $0.location.coordinate.latitude, longitude: $0.location.coordinate.longitude) }
+             let nearestStopLocation = stopLocations.min(by: { userLocation.distance(from: $0) < userLocation.distance(from: $1) })
+          
+             ClosestStop = nearestStopLocation?.distance(from: userLocation) ?? 0
+          
+          
+          
+          
+        
 
       }
     
@@ -61,6 +66,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
 class LocationManagerDelegate: NSObject,ObservableObject, CLLocationManagerDelegate {
     let manager = CLLocationManager()
+    
     @Published var location: CLLocationCoordinate2D?
 
     

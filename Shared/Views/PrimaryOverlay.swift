@@ -126,7 +126,7 @@ struct PrimaryOverlay: View {
                              
                                                           
                                 
-                            Text("\(self.mapState.closeststopDist) mi")
+                            Text("\(self.mapState.ClosestStopDistance) mi")
                             Image(systemName: "arrow.up.left")
                             Button(action: {
                                          
