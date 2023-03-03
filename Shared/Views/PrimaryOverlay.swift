@@ -40,7 +40,7 @@ struct PrimaryOverlay: View {
 	
 	@State private var isRefreshing = false
 
-    @EnvironmentObject  var lm: LocationManager
+    
 	@EnvironmentObject  var mapState: MapState
 	
 	@EnvironmentObject private var viewState: ViewState
@@ -126,7 +126,7 @@ struct PrimaryOverlay: View {
                              
                                                           
                                 
-                            Text("\(self.lm.closestStop) mi")
+                            Text("\(self.mapState.closeststopDist) mi")
                             Image(systemName: "arrow.up.left")
                             Button(action: {
                                          
@@ -307,16 +307,6 @@ struct PrimaryOverlay: View {
 //			}
 //			self.statusText = "The next bus is \("?") meters away from the nearest stop."
 //		}
-	}
-	
-}
-
-struct PrimaryOverlayPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PrimaryOverlay()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
 	}
 	
 }

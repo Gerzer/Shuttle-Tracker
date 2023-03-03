@@ -11,7 +11,6 @@ import MapKit
 class MapState: ObservableObject {
 	
 	static let shared = MapState()
-    static let LM = LocationManager()
 	
 	@Published var buses = [Bus]()
 	
@@ -19,8 +18,13 @@ class MapState: ObservableObject {
 	
 	@Published var routes = [Route]()
     
-    var userLocation = LM.location
-
+    var ClosestStopDistance: Double
+//    
+//    func ComputeDirection(Location1, Location2) -> String {
+//        return Int.random(in: 1...6)
+//    }
+//
+//    let result = rollDice()
 
    
     
