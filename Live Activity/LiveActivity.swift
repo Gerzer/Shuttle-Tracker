@@ -14,7 +14,9 @@ struct DebugModeActivityAttributes: ActivityAttributes {
 	
 	public struct ContentState: Codable, Hashable {
 		// Dynamic stateful properties about your activity go here!
-		var status: String
+        var submissionStatus : Bool
+        var code : String
+		var status : String
 	}
 	// Fixed non-changing properties about your activity go here!
 	var busID: Int
@@ -48,10 +50,16 @@ struct LiveActivity: Widget {
                         .bold()
                 }
                 
-                Text("the location submission failed.")
-                    .foregroundColor(.red)
+                if context.state.submissionStatus == true {
+                    Text("The location submission succeeded.")
+                        .foregroundColor(.green)
+                }
+                else {
+                    Text("The location submission failed.")
+                        .foregroundColor(.red)
+                }
                 
-                Text("HTTP 409 Conflict")
+                Text("HTTP \(context.state.code) \(context.state.status)")
                     .monospaced()
                 
                 ProgressView(timerInterval: .now ... .now + 3) {

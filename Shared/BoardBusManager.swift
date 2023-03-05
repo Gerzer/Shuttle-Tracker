@@ -75,7 +75,11 @@ actor BoardBusManager: ObservableObject {
 			MapState.mapView?.showsUserLocation.toggle()
 		}
         
-        await DebugMode.shared.endSession()
+        if #available(iOS 16.2, *) {
+            await DebugMode.shared.endSession()
+        } else {
+            // No Debug Mode
+        }
         
 	}
 	
@@ -94,11 +98,13 @@ actor BoardBusManager: ObservableObject {
 		)
 		do {
 			let (_, statusCode) = try await API.updateBus(id: busID, location: location).perform()
-#if !APPCLIP
-                //await DebugMode.shared.showToast(statusCode: statusCode)
+            //await DebugMode.shared.showToast(statusCode: statusCode)
+            if #available(iOS 16.2, *) {
                 await DebugMode.shared.updateSession(statusCode: statusCode, busID: busID)
+            } else {
+                // No Debug Mode
+            }
                 
-#endif // !APPCLIP
 		} catch let error {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public) Failed to send location to server: \(error, privacy: .public)")

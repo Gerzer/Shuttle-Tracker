@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 16, *)
+@available(iOS 16.2, *)
 struct DebugModeToast: View {
 	
 	@State
@@ -60,7 +60,7 @@ struct DebugModeToast: View {
 	
 }
 
-@available(iOS 16, *)
+@available(iOS 16.2, *)
 struct DebugModeToastPreviews: PreviewProvider {
 	
 	static var previews: some View {

@@ -70,7 +70,7 @@ struct ContentView: View {
 						BoardBusToast()
 							.padding()
 					case .debugMode:
-						if #available(iOS 16, *) {
+                        if #available(iOS 16.2, *) {
 							DebugModeToast()
 								.padding()
 						}
