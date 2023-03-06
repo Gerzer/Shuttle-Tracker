@@ -37,7 +37,16 @@ struct ShuttleNetworkView: View {
     private var waveRScale: CGFloat = 0
     
     @State
-    private var phoneCheckScale: CGFloat = 1
+    private var text1Scale: CGFloat = 0
+    
+    @State
+    private var text2Scale: CGFloat = 0
+    
+    @State
+    private var text3Scale: CGFloat = 0
+    
+    @State
+    private var text4Scale: CGFloat = 0
     
     var body: some View {
         VStack {
@@ -73,27 +82,19 @@ struct ShuttleNetworkView: View {
                                     self.waveLScale = 0.8
                                 }
                             }
-                        ZStack (alignment: .topTrailing){
-                            Image(systemName: "iphone")
-                                .symbolRenderingMode(.monochrome)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                                .scaleEffect(self.phoneScale)
-                                .onAppear() {
-                                    withAnimation(.easeIn(duration: 0.4)
-                                        .delay(0)
-                                    ) {
-                                        self.phoneScale = 1
-                                    }
+                        Image(systemName: "iphone")
+                            .symbolRenderingMode(.monochrome)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                            .scaleEffect(self.phoneScale)
+                            .onAppear() {
+                                withAnimation(.easeIn(duration: 0.4)
+                                    .delay(0)
+                                ) {
+                                    self.phoneScale = 1
                                 }
-                            Image(systemName: "checkmark.circle.fill")
-                                .symbolRenderingMode(.multicolor)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 15, height:15)
-                                .scaleEffect(self.phoneCheckScale)
-                        }
+                            }
                         Image(systemName: "wave.3.forward")
                             .resizable()
                             .scaledToFit()
@@ -123,25 +124,35 @@ struct ShuttleNetworkView: View {
                             }
                     }
                     .padding()
-//                    .background(
-//                        .tertiary,
-//                        in: RoundedRectangle(
-//                            cornerRadius: 10,
-//                            style: .continuous
-//                        )
-//                    )
+                    .background(
+                        .tertiary,
+                        in: RoundedRectangle(
+                            cornerRadius: 10,
+                            style: .continuous
+                        )
+                    )
+                    Text("Text 1 Sample")
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                        .scaleEffect(self.text1Scale)
+                    Text("Text 2 Sample")
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                        .scaleEffect(self.text2Scale)
+                    Text("Text 3 Sample")
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                        .scaleEffect(self.text3Scale)
+                        .onAppear() {
+                            withAnimation(.easeIn(duration: 1)
+                                .delay(2)
+                            ) {
+                                self.text3Scale = 1
+                            }
+                        }
                 }
                 .padding(.top)
                 .padding(.bottom)
-//                HStack {
-//
-//                    Spacer()
-//                    Image(systemName: "cloud")
-//                    Spacer()
-//                }
-//                .frame(height: 100)
-//
-                
             }
             Button {
                 switch (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
