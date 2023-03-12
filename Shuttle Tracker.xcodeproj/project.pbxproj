@@ -139,6 +139,14 @@
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
+		C0BF4F8629B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */; };
+		C0BF4F8729B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */; };
+		C0BF4F8829B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */; };
+		C0BF4F8929B3D3D70094FD3E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8529B3D3D70094FD3E /* Analytics.swift */; };
+		C0BF4F8A29B3D3D70094FD3E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8529B3D3D70094FD3E /* Analytics.swift */; };
+		C0BF4F8B29B3D3D70094FD3E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8529B3D3D70094FD3E /* Analytics.swift */; };
+		C0BF4F8D29B3D6130094FD3E /* AnalyticsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8C29B3D6130094FD3E /* AnalyticsDetailView.swift */; };
+		C0BF4F8E29B3D6130094FD3E /* AnalyticsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8C29B3D6130094FD3E /* AnalyticsDetailView.swift */; };
 		C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */; };
 		C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */; };
 		C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
@@ -251,6 +259,9 @@
 		C0B5E72628BAA81A00603D22 /* ColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorName.swift; sourceTree = "<group>"; };
 		C0BC27692974648E008A4BD0 /* NetworkToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkToast.swift; sourceTree = "<group>"; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionProtocol.swift; sourceTree = "<group>"; };
+		C0BF4F8529B3D3D70094FD3E /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
+		C0BF4F8C29B3D6130094FD3E /* AnalyticsDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsDetailView.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
 		C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSheet.swift; sourceTree = "<group>"; };
 		C0C9D3CF270FA70C00AE58BE /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
@@ -357,6 +368,7 @@
 		C086017025D83D8700C4F583 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C0BF4F8C29B3D6130094FD3E /* AnalyticsDetailView.swift */,
 				C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */,
 				C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */,
 				C039B0622796201200416725 /* CloseButton.swift */,
@@ -464,11 +476,13 @@
 				C086017125D83D9900C4F583 /* Models */,
 				C0C9D3D3270FA74400AE58BE /* State */,
 				C086017025D83D8700C4F583 /* Views */,
+				C0BF4F8529B3D3D70094FD3E /* Analytics.swift */,
 				C025ED422527C1D500524144 /* API.swift */,
 				C0730C1627F103D200EF7550 /* AppStorageManager.swift */,
 				C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */,
 				C082CCF6277FB38A005D0209 /* BusID.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
+				C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */,
 				C0F420C52926EDA100CC0F91 /* Logging.swift */,
 				C0E9525A295B616900945ABC /* RefreshSequence.swift */,
 				C03B1D352741E18B007B318E /* SheetStack.swift */,
@@ -695,7 +709,9 @@
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C09EB466293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
+				C0BF4F8B29B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
+				C0BF4F8829B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */,
 				C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C03B1D382741E18B007B318E /* SheetStack.swift in Sources */,
 				C0BC276C2974BA63008A4BD0 /* InfoSheet.swift in Sources */,
@@ -748,6 +764,7 @@
 				C0B5E72828BAA81A00603D22 /* ColorName.swift in Sources */,
 				C0019DE025192AA50020574D /* VisualEffectView.swift in Sources */,
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
+				C0BF4F8E29B3D6130094FD3E /* AnalyticsDetailView.swift in Sources */,
 				C0BC276A2974648E008A4BD0 /* NetworkToast.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */,
@@ -762,9 +779,11 @@
 				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C0E9525C295B616900945ABC /* RefreshSequence.swift in Sources */,
+				C0BF4F8A29B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
+				C0BF4F8729B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C09EB465293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
@@ -781,6 +800,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C09EB46D293A9BF600CCE01B /* PrivacySheet.swift in Sources */,
+				C0BF4F8929B3D3D70094FD3E /* Analytics.swift in Sources */,
+				C0BF4F8D29B3D6130094FD3E /* AnalyticsDetailView.swift in Sources */,
 				C0A1E72B2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C0FB5D542929CC3F0019E266 /* LogDetailView.swift in Sources */,
@@ -811,6 +832,7 @@
 				C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
 				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
+				C0BF4F8629B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
