@@ -73,16 +73,16 @@ struct SettingsView: View {
 					self.viewState.toastType = .legend
 					self.viewState.legendToastHeadlineText = nil
 				}
-                
-                Task {
-                    do {
-                        try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
-                    } catch {
-                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-                        }
-                    }
-                }
+				
+				Task {
+					do {
+						try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
+					} catch {
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+						}
+					}
+				}
 			}
 		#elseif os(macOS) // os(iOS)
 		TabView {
@@ -113,16 +113,16 @@ struct SettingsView: View {
 								if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
 									self.didResetServerBaseURL = false
 								}
-                                
-                                Task {
-                                    do {
-                                        try await Analytics.upload(eventType: .serverBaseURLChanged(url: url))
-                                    } catch {
-                                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-                                        }
-                                    }
-                                }
+								
+								Task {
+									do {
+										try await Analytics.upload(eventType: .serverBaseURLChanged(url: url))
+									} catch {
+										Logging.withLogger(for: .api, doUpload: true) { (logger) in
+											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+										}
+									}
+								}
 							}
 					}
 				} header: {
@@ -143,21 +143,21 @@ struct SettingsView: View {
 		}
 			.padding()
 			.onChange(of: self.appStorageManager.colorBlindMode) { (enabled) in
-                withAnimation {
-                    self.viewState.toastType = .legend
-                    self.viewState.legendToastHeadlineText = nil
-                }
-                
-                Task {
-                    do {
-                        try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
-                    } catch {
-                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-                        }
-                    }
-                }
-            }
+				withAnimation {
+					self.viewState.toastType = .legend
+					self.viewState.legendToastHeadlineText = nil
+				}
+				
+				Task {
+					do {
+						try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
+					} catch {
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+						}
+					}
+				}
+			}
 		#endif // os(macOS)
 	}
 	

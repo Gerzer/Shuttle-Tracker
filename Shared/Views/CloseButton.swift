@@ -16,20 +16,19 @@ struct CloseButton: View {
 	
 	var body: some View {
 		Button {
-            #if os(iOS)
-            if self.sheetStack.top == SheetStack.SheetType.busSelection {
-                Task {
-                    do {
-                        try await Analytics.upload(eventType: .busSelectionCanceled)
-                    } catch {
-                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-                        }
-                    }
-                }
-            }
-            #endif
-            
+			#if os(iOS)
+			if self.sheetStack.top == SheetStack.SheetType.busSelection {
+				Task {
+					do {
+						try await Analytics.upload(eventType: .busSelectionCanceled)
+					} catch {
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+						}
+					}
+				}
+			}
+			#endif
 			self.sheetStack.pop()
 		} label: {
 			Image(systemName: "xmark.circle.fill")

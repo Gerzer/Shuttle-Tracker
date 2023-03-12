@@ -167,23 +167,6 @@ struct PrimaryOverlay: View {
 			}
 	}
 	
-	private func boardBus(userLocation: CLLocation) async {
-		let closestStopDistance = await self.mapState.stops.reduce(into: .greatestFiniteMagnitude) { (distance, stop) in
-			let newDistance = stop.location.distance(from: userLocation)
-			if newDistance < distance {
-				distance = newDistance
-			}
-		}
-		if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
-			self.sheetStack.push(.busSelection)
-			if self.viewState.toastType == .boardBus {
-				self.viewState.toastType = nil
-			}
-		} else {
-			self.viewState.alertType = .noNearbyStop
-		}
-	}
-	
 	/// Gets the user’s current location.
 	///
 	/// If the user’s location is unavailable, then this method pushes the permission sheet onto the sheet stack and throws an error.
@@ -202,18 +185,35 @@ struct PrimaryOverlay: View {
 		}
 	}
 	
+	private func boardBus(userLocation: CLLocation) async {
+		let closestStopDistance = await self.mapState.stops.reduce(into: .greatestFiniteMagnitude) { (distance, stop) in
+			let newDistance = stop.location.distance(from: userLocation)
+			if newDistance < distance {
+				distance = newDistance
+			}
+		}
+		if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
+			self.sheetStack.push(.busSelection)
+			if self.viewState.toastType == .boardBus {
+				self.viewState.toastType = nil
+			}
+		} else {
+			self.viewState.alertType = .noNearbyStop
+		}
+	}
+	
 	private func boardBus() async {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
 		}
-        
-        do {
-            try await Analytics.upload(eventType: .boardBusTapped)
-        } catch {
-            Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-            }
-        }
+		
+		do {
+			try await Analytics.upload(eventType: .boardBusTapped)
+		} catch {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+			}
+		}
 		
 		switch CLLocationManager.default.authorizationStatus {
 		case .authorizedAlways, .authorizedWhenInUse:
@@ -225,6 +225,7 @@ struct PrimaryOverlay: View {
 			self.sheetStack.push(.permissions)
 			#endif
 		}
+		
 		let userLocation: CLLocation
 		switch CLLocationManager.default.accuracyAuthorization {
 		case .fullAccuracy:
@@ -245,12 +246,14 @@ struct PrimaryOverlay: View {
 				}
 				return
 			}
+			
 			guard case .fullAccuracy = CLLocationManager.default.accuracyAuthorization else {
 				Logging.withLogger(for: .permissions) { (logger) in
 					logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
 				}
 				return
 			}
+			
 			do {
 				userLocation = try self.userLocation()
 			} catch let error {
@@ -262,6 +265,7 @@ struct PrimaryOverlay: View {
 		@unknown default:
 			fatalError()
 		}
+		
 		await self.boardBus(userLocation: userLocation)
 	}
 	
@@ -269,15 +273,15 @@ struct PrimaryOverlay: View {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Leave Bus” button tapped")
 		}
-        
-        do {
-            try await Analytics.upload(eventType: .leaveBusTapped)
-        } catch {
-            Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-            }
-        }
-        
+		
+		do {
+			try await Analytics.upload(eventType: .leaveBusTapped)
+		} catch {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+			}
+		}
+		
 		await self.boardBusManager.leaveBus()
 		self.viewState.statusText = .thanks
 		CLLocationManager.default.stopUpdatingLocation()

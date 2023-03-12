@@ -25,9 +25,9 @@ struct ContentView: View {
 	
 	@EnvironmentObject
 	private var sheetStack: SheetStack
-    
-    @Environment(\.colorScheme)
-    private var colorScheme
+	
+	@Environment(\.colorScheme)
+	private var colorScheme
 	
 	private var unviewedAnnouncementsCount: Int {
 		get {
@@ -124,28 +124,26 @@ struct ContentView: View {
 						)
 					}
 				}
-                .task {
-                    AppStorageManager.shared.colorScheme = colorScheme
-                    
-                    do {
-                        let version = try await API.readVersion.perform(as: Int.self)
-                        if version > API.lastVersion {
-                            self.viewState.alertType = .updateAvailable
-                        }
-                    } catch let error {
-                        self.viewState.alertType = .serverUnavailable
-                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
-                        }
-                    }
-                    
-                    do {
-                        try await Analytics.upload(eventType: .coldLaunch)
-                    } catch {
-                        Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-                        }
-                    }
+				.task {
+					AppStorageManager.shared.colorScheme = colorScheme
+					do {
+						let version = try await API.readVersion.perform(as: Int.self)
+						if version > API.lastVersion {
+							self.viewState.alertType = .updateAvailable
+						}
+					} catch let error {
+						self.viewState.alertType = .serverUnavailable
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
+						}
+					}
+					do {
+						try await Analytics.upload(eventType: .coldLaunch)
+					} catch {
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+						}
+					}
 				}
 		}
 	}

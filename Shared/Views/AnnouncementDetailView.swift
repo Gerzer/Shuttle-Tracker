@@ -62,15 +62,15 @@ struct AnnouncementDetailView: View {
 				self.didResetViewedAnnouncements = false
 				self.appStorageManager.viewedAnnouncementIDs.insert(self.announcement.id)
 			}
-            .task {
-                do {
-                    try await Analytics.upload(eventType: .announcementViewed(id: announcement.id))
-                } catch {
-                    Logging.withLogger(for: .api, doUpload: true) { (logger) in
-                        logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-                    }
-                }
-            }
+			.task {
+				do {
+					try await Analytics.upload(eventType: .announcementViewed(id: announcement.id))
+				} catch {
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+					}
+				}
+			}
 	}
 	
 }
