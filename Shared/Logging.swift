@@ -29,7 +29,7 @@ public enum Logging {
 		
 	}
 	
-	public struct Log: DataCollectionProtocol, Hashable, Identifiable {
+	public struct Log: Hashable, Identifiable, RawRepresentableInJSONArray {
 		
 		enum ClientPlatform: String, Codable {
 			

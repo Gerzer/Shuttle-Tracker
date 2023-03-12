@@ -60,7 +60,7 @@ public enum Analytics {
 		
 	}
 	
-	struct AnalyticsEntry : DataCollectionProtocol, Hashable, Identifiable, Equatable {
+	struct AnalyticsEntry: Hashable, Identifiable, RawRepresentableInJSONArray {
 		
 		enum ClientPlatform: String, Codable, Hashable, Equatable {
 			case ios, macos
