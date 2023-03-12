@@ -36,8 +36,8 @@ actor BoardBusManager: ObservableObject {
 		precondition(.notOnBus ~= self.travelState)
 		
 		do {
-			try await Analytics.upload(eventType: .boardBusActivated(manual: true))
-		} catch {
+			try await Analytics.upload(eventType: .boardBusActivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+		} catch let error {
 			Logging.withLogger(for: .api, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 			}
@@ -66,8 +66,8 @@ actor BoardBusManager: ObservableObject {
 		precondition(.onBus ~= self.travelState)
 		
 		do {
-			try await Analytics.upload(eventType: .boardBusDeactivated(manual: true))
-		} catch {
+			try await Analytics.upload(eventType: .boardBusDeactivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+		} catch let error {
 			Logging.withLogger(for: .api, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 			}

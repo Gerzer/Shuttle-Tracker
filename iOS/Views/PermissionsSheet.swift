@@ -202,7 +202,7 @@ struct PermissionsSheet: View {
 			.task {
 				do {
 					try await Analytics.upload(eventType: .permissionsSheetOpened)
-				} catch {
+				} catch let error {
 					Logging.withLogger(for: .api, doUpload: true) { (logger) in
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 					}
