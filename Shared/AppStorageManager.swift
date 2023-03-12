@@ -29,11 +29,11 @@ final class AppStorageManager: ObservableObject {
 		
 		static let doUploadLogs = true
 		
-		static let doUploadAnalytics = false
+		static let doCollectAnalytics = false
 		
 		static let uploadedLogs: [Logging.Log] = []
 		
-		static let uploadedAnalytics: [Analytics.AnalyticsEntry] = []
+		static let uploadedAnalyticsEntries: [Analytics.Entry] = []
 		
 	}
 	
@@ -57,17 +57,17 @@ final class AppStorageManager: ObservableObject {
 	@AppStorage("ViewedAnnouncementIDs")
 	var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
 	
-	@AppStorage("DoUploadAnalytics")
-	var doUploadAnalytics = Defaults.doUploadAnalytics
-	
 	@AppStorage("DoUploadLogs")
 	var doUploadLogs = Defaults.doUploadLogs
+	
+	@AppStorage("DoCollectAnalytics")
+	var doCollectAnalytics = Defaults.doCollectAnalytics
 	
 	@AppStorage("UploadedLogs")
 	var uploadedLogs = Defaults.uploadedLogs
 	
-	@AppStorage("UploadedAnalytics")
-	var uploadedAnalytics = Defaults.uploadedAnalytics
+	@AppStorage("UploadedAnalyticsEntries")
+	var uploadedAnalyticsEntries = Defaults.uploadedAnalyticsEntries
 	
 	private init() { }
 	

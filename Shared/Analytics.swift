@@ -60,7 +60,7 @@ public enum Analytics {
 		
 	}
 	
-	struct AnalyticsEntry: Hashable, Identifiable, RawRepresentableInJSONArray {
+	struct Entry: Hashable, Identifiable, RawRepresentableInJSONArray {
 		
 		enum ClientPlatform: String, Codable, Hashable, Equatable {
 			case ios, macos
@@ -148,14 +148,15 @@ public enum Analytics {
 			return;
 		}
 		do {
-			let entry = try await API.uploadAnalytics(analytics: await AnalyticsEntry(eventType)).perform(as: AnalyticsEntry.self)
+			let analyticsEntry = await Entry(eventType)
+			try await API.uploadAnalyticsEntry(analyticsEntry: analyticsEntry).perform()
 			await MainActor.run {
 				#if os(iOS)
 				withAnimation {
-					AppStorageManager.shared.uploadedAnalytics.append(entry)
+					AppStorageManager.shared.uploadedAnalyticsEntries.append(analyticsEntry)
 				}
 				#elseif os(macOS) // os(iOS)
-				AppStorageManager.shared.uploadedAnalytics.append(entry)
+				AppStorageManager.shared.uploadedAnalyticsEntries.append(analyticsEntry)
 				#endif // os(macOS)
 			}
 		} catch {
