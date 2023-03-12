@@ -20,6 +20,9 @@
 		C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
 		C0019DED251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
 		C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */; };
+		C00DF74C29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
+		C00DF74D29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
+		C00DF74E29BD4EFD00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
 		C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D762827E6CC60009EC92B /* PlusSheet.swift */; };
 		C01527E22517CFA60069092C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527E12517CFA60069092C /* MapView.swift */; };
 		C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
@@ -139,9 +142,6 @@
 		C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
 		C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE7D1426E944D8004F0F97 /* Toast.swift */; };
-		C0BF4F8629B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */; };
-		C0BF4F8729B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */; };
-		C0BF4F8829B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */; };
 		C0BF4F8929B3D3D70094FD3E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8529B3D3D70094FD3E /* Analytics.swift */; };
 		C0BF4F8A29B3D3D70094FD3E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8529B3D3D70094FD3E /* Analytics.swift */; };
 		C0BF4F8B29B3D3D70094FD3E /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8529B3D3D70094FD3E /* Analytics.swift */; };
@@ -206,6 +206,7 @@
 		C0019DE525192AEA0020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		C0019DEB251A3EFC0020574D /* BlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
 		C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsSheet.swift; sourceTree = "<group>"; };
+		C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawRepresentableInJSONArray.swift; sourceTree = "<group>"; };
 		C01527E12517CFA60069092C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C01527EB2517D5D40069092C /* MapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewDelegate.swift; sourceTree = "<group>"; };
 		C01527F62517DCAF0069092C /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -259,7 +260,6 @@
 		C0B5E72628BAA81A00603D22 /* ColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorName.swift; sourceTree = "<group>"; };
 		C0BC27692974648E008A4BD0 /* NetworkToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkToast.swift; sourceTree = "<group>"; };
 		C0BE7D1426E944D8004F0F97 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
-		C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataCollectionProtocol.swift; sourceTree = "<group>"; };
 		C0BF4F8529B3D3D70094FD3E /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		C0BF4F8C29B3D6130094FD3E /* AnalyticsDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsDetailView.swift; sourceTree = "<group>"; };
 		C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryOverlay.swift; sourceTree = "<group>"; };
@@ -482,8 +482,8 @@
 				C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */,
 				C082CCF6277FB38A005D0209 /* BusID.swift */,
 				C0019DD425191EBB0020574D /* CustomAnnotation.swift */,
-				C0BF4F8429B3D3D70094FD3E /* DataCollectionProtocol.swift */,
 				C0F420C52926EDA100CC0F91 /* Logging.swift */,
+				C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */,
 				C0E9525A295B616900945ABC /* RefreshSequence.swift */,
 				C03B1D352741E18B007B318E /* SheetStack.swift */,
 				C01527F62517DCAF0069092C /* Utilities.swift */,
@@ -711,7 +711,6 @@
 				C09EB466293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
 				C0BF4F8B29B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
-				C0BF4F8829B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */,
 				C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C03B1D382741E18B007B318E /* SheetStack.swift in Sources */,
 				C0BC276C2974BA63008A4BD0 /* InfoSheet.swift in Sources */,
@@ -720,6 +719,7 @@
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
 				C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
+				C00DF74E29BD4EFD00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
 				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
@@ -752,6 +752,7 @@
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
+				C00DF74D29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
 				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
@@ -783,7 +784,6 @@
 				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
-				C0BF4F8729B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C09EB465293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
@@ -809,6 +809,7 @@
 				C0730C1727F103D200EF7550 /* AppStorageManager.swift in Sources */,
 				C01528152517E1E00069092C /* Bus.swift in Sources */,
 				C0F420D22927570900CC0F91 /* WrappedError.swift in Sources */,
+				C00DF74C29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
 				C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */,
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
@@ -832,7 +833,6 @@
 				C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
 				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
-				C0BF4F8629B3D3D70094FD3E /* DataCollectionProtocol.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
