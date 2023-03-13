@@ -89,17 +89,6 @@ struct AnnouncementsSheet: View {
 					#endif // os(iOS)
 				}
 		}
-			.task {
-				self.announcements = await [Announcement].download()
-				
-				do {
-					try await Analytics.upload(eventType: .announcementsListOpened)
-				} catch {
-					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-					}
-				}
-			}
 			.toolbar {
 				#if os(macOS)
 				ToolbarItem {
@@ -125,6 +114,18 @@ struct AnnouncementsSheet: View {
 						.keyboardShortcut(.cancelAction)
 				}
 				#endif // os(macOS)
+			}
+			.task {
+				self.announcements = await [Announcement].download()
+			}
+			.task {
+				do {
+					try await Analytics.upload(eventType: .announcementsListOpened)
+				} catch let error {
+					Logging.withLogger(for: .api) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
+					}
+				}
 			}
 	}
 	
