@@ -46,7 +46,7 @@ public enum Analytics {
 	
 	struct UserSettings: Codable, Hashable, Equatable {
 		
-		let colorTheme: String
+		let colorScheme: String?
 		
 		let colorBlindMode: Bool
 		
@@ -95,8 +95,6 @@ public enum Analytics {
 			self.date = .now
 			self.clientPlatformVersion = Bundle.main.version ?? ""
 			self.appVersion = Bundle.main.build ?? ""
-			
-			let colorTheme = await AppStorageManager.shared.colorScheme == .dark ? "dark" : "light"
 			let colorBlindMode = await AppStorageManager.shared.colorBlindMode
 			let logging = await AppStorageManager.shared.doUploadLogs
 			let serverBaseURL = await AppStorageManager.shared.baseURL
@@ -109,6 +107,17 @@ public enum Analytics {
 			#else
 			self.boardBusCount = 0
 			#endif
+			let colorScheme: String?
+			switch await ViewState.shared.colorScheme {
+			case .light:
+				colorScheme = "light"
+			case .dark:
+				colorScheme = "dark"
+			case .none:
+				colorScheme = nil
+			@unknown default:
+				fatalError()
+			}
 			self.userSettings = UserSettings(
 				colorTheme: colorTheme,
 				colorBlindMode: colorBlindMode,

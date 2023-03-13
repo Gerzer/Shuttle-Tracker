@@ -125,7 +125,6 @@ struct ContentView: View {
 					}
 				}
 				.task {
-					AppStorageManager.shared.colorScheme = colorScheme
 					do {
 						let version = try await API.readVersion.perform(as: Int.self)
 						if version > API.lastVersion {
@@ -137,6 +136,9 @@ struct ContentView: View {
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 						}
 					}
+				}
+				.task {
+					ViewState.shared.colorScheme = self.colorScheme
 					do {
 						try await Analytics.upload(eventType: .coldLaunch)
 					} catch let error {
@@ -144,6 +146,9 @@ struct ContentView: View {
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 						}
 					}
+				}
+				.onChange(of: self.colorScheme) { (newValue) in
+					ViewState.shared.colorScheme = newValue
 				}
 		}
 	}
