@@ -36,16 +36,14 @@ struct AnalyticsDetailView: View {
 		ScrollView {
 			VStack {
 				HStack {
-					if let id = self.entry.id {
-						if #available(iOS 16, macOS 13, *) {
-							Text(id.uuidString)
-								.font(.subheadline.monospaced().bold())
-								.textSelection(.enabled)
-						} else {
-							Text(id.uuidString)
-								.font(.subheadline.monospaced().bold())
-								.lineLimit(2)
-						}
+					if #available(iOS 16, macOS 13, *) {
+						Text(self.entry.id.uuidString)
+							.font(.subheadline.monospaced().bold())
+							.textSelection(.enabled)
+					} else {
+						Text(self.entry.id.uuidString)
+							.font(.subheadline.monospaced().bold())
+							.lineLimit(2)
 					}
 					Spacer()
 				}

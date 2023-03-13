@@ -236,10 +236,8 @@ struct LoggingAnalyticsSettingsView: View {
 							VStack(alignment: .leading) {
 								Text(self.dateFormatter.string(from: entry.date))
 									.font(.headline)
-								if let id = entry.id {
-									Text(id.uuidString)
-										.font(.caption)
-								}
+								Text(entry.id.uuidString)
+									.font(.caption)
 							}
 						}
 					}
@@ -264,16 +262,14 @@ struct LoggingAnalyticsSettingsView: View {
 								}
 								.reversed(),
 							selection: self.$selectedAnalyticsEntry
-						) { (analyticsEntry) in
+						) { (entry) in
 							VStack(alignment: .leading) {
-								Text(self.dateFormatter.string(from: analyticsEntry.date))
+								Text(self.dateFormatter.string(from: entry.date))
 									.font(.headline)
-								if let id = analyticsEntry.id {
-									Text(id.uuidString)
-										.font(.caption)
-								}
+								Text(entry.id.uuidString)
+									.font(.caption)
 							}
-								.tag(analyticsEntry)
+								.tag(entry)
 						}
 							.listStyle(.plain)
 							.frame(width: 300)

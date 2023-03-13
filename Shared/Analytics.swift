@@ -63,12 +63,14 @@ public enum Analytics {
 	struct Entry: Hashable, Identifiable, RawRepresentableInJSONArray {
 		
 		enum ClientPlatform: String, Codable, Hashable, Equatable {
+			
 			case ios, macos
+			
 		}
 		
-		public fileprivate(set) var id: UUID?
+		let id: UUID
 		
-		var userID: UUID
+		let userID: UUID
 		
 		let date: Date
 		
@@ -84,27 +86,31 @@ public enum Analytics {
 		
 		let eventType: EventType
 		
+		var jsonString: String {
+			get throws {
+				let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
+				let json = try encoder.encode(self)
+				let jsonObject = try JSONSerialization.jsonObject(with: json)
+				let data = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+				return String(data: data, encoding: .utf8) ?? ""
+			}
+		}
+		
 		init(_ eventType: EventType) async {
+			self.id = UUID()
 			self.userID = await AppStorageManager.shared.userID
 			self.eventType = eventType
-			#if os(macOS)
-			self.clientPlatform = .macos
-			#elseif os(iOS)
+			#if os(iOS)
 			self.clientPlatform = .ios
-			#endif
+			#elseif os(macOS) // os(iOS)
+			self.clientPlatform = .macos
+			#endif // os(macOS)
 			self.date = .now
 			self.clientPlatformVersion = Bundle.main.version ?? ""
 			self.appVersion = Bundle.main.build ?? ""
-			let colorBlindMode = await AppStorageManager.shared.colorBlindMode
-			let logging = await AppStorageManager.shared.doUploadLogs
-			let serverBaseURL = await AppStorageManager.shared.baseURL
-			var maximumStopDistance: Int?
-			var debugMode: Bool?
 			#if os(iOS)
-			maximumStopDistance = await AppStorageManager.shared.maximumStopDistance
-			debugMode = false
 			self.boardBusCount = await AppStorageManager.shared.boardBusCount
-			#else
+			#else // os(iOS)
 			self.boardBusCount = 0
 			#endif
 			let colorScheme: String?
@@ -118,43 +124,40 @@ public enum Analytics {
 			@unknown default:
 				fatalError()
 			}
+			var debugMode: Bool?
+			var maximumStopDistance: Int?
+			#if os(iOS)
+			debugMode = false // TODO: Set properly once the Debug Mode implementation is merged
+			maximumStopDistance = await AppStorageManager.shared.maximumStopDistance
+			#endif // os(iOS)
 			self.userSettings = UserSettings(
-				colorTheme: colorTheme,
-				colorBlindMode: colorBlindMode,
+				colorScheme: colorScheme,
+				colorBlindMode: await AppStorageManager.shared.colorBlindMode,
 				debugMode: debugMode,
-				logging: logging,
+				logging: await AppStorageManager.shared.doUploadLogs,
 				maximumStopDistance: maximumStopDistance,
-				serverBaseURL: serverBaseURL
+				serverBaseURL: await AppStorageManager.shared.baseURL
 			)
 		}
 		
 		@available(iOS 16, macOS 13, *)
 		func writeToDisk() throws -> URL {
+			let url = FileManager.default.temporaryDirectory.appending(component: "\(self.id.uuidString).json")
 			do {
-				let url = FileManager.default.temporaryDirectory.appending(component: "\(self.id!.uuidString).analytics")
-				do {
-					try toJSONString(self).write(to: url, atomically: false, encoding: .utf8)
-				} catch let error {
-					Logging.withLogger(doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save analytics file to temporary directory: \(error, privacy: .public)")
-					}
-					throw error
-				}
-				
-				return url
+				try self.jsonString.write(to: url, atomically: false, encoding: .utf8)
 			} catch let error {
 				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to obtain analytics id: \(error, privacy: .public)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save analytics entry file to temporary directory: \(error, privacy: .public)")
 				}
-				throw error
 			}
+			return url
 		}
 		
 	}
 	
 	static func upload(eventType: EventType) async throws {
-		if(!(await AppStorageManager.shared.doUploadAnalytics)) {
-			return;
+		guard await AppStorageManager.shared.doCollectAnalytics else {
+			return
 		}
 		do {
 			let analyticsEntry = await Entry(eventType)
@@ -172,19 +175,6 @@ public enum Analytics {
 			Logging.withLogger(for: .api, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 			}
-		}
-	}
-	
-	static func toJSONString(_ analytics: AnalyticsEntry) -> String {
-		let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
-		do {
-			let json = try encoder.encode(analytics)
-			let jsonObject = try JSONSerialization.jsonObject(with: json, options: [])
-			let data = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
-			
-			return String(data: data, encoding: .utf8) ?? ""
-		} catch {
-			return ""
 		}
 	}
 	
