@@ -35,6 +35,14 @@ actor BoardBusManager: ObservableObject {
 		// Require that Board Bus be currently inactive
 		precondition(.notOnBus ~= self.travelState)
 		
+		do {
+			try await Analytics.upload(eventType: .boardBusActivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+		} catch let error {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+			}
+		}
+		
 		// Toggle showsUserLocation twice to ensure that MapKit picks up the UI changes
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
@@ -56,6 +64,14 @@ actor BoardBusManager: ObservableObject {
 	func leaveBus() async {
 		// Require that Board Bus be currently active
 		precondition(.onBus ~= self.travelState)
+		
+		do {
+			try await Analytics.upload(eventType: .boardBusDeactivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+		} catch let error {
+			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+			}
+		}
 		
 		// Remove all pending leave-bus notifications
 		UNUserNotificationCenter

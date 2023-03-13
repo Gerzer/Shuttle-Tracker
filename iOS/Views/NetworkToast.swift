@@ -10,9 +10,11 @@ import SwiftUI
 
 struct NetworkToast: View {
 	
-	@EnvironmentObject private var viewState: ViewState
+	@EnvironmentObject
+	private var viewState: ViewState
 	
-	@EnvironmentObject private var sheetStack: SheetStack
+	@EnvironmentObject
+	private var sheetStack: SheetStack
 	
 	var body: some View {
 		Toast("Join the Network!", item: self.$viewState.toastType) { (_, dismiss) in
@@ -25,12 +27,44 @@ struct NetworkToast: View {
 					default:
 						self.sheetStack.push(.permissions)
 					}
+					
+					Task {
+						do {
+							try await Analytics.upload(eventType: .networkToastPermissionsTapped)
+						} catch let error {
+							Logging.withLogger(for: .api, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+							}
+						}
+					}
 				} label: {
 					Text("Join the Network")
 						.bold()
 				}
 					.buttonStyle(BlockButtonStyle())
 			}
+				.onChange(of: CLLocationManager.default.authorizationStatus) { (authorizationStatus) in
+					Task {
+						do {
+							try await Analytics.upload(eventType: .locationAuthorizationStatusDidChange(authorizationStatus: Int(authorizationStatus.rawValue)))
+						} catch let error {
+							Logging.withLogger(for: .api, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+							}
+						}
+					}
+				}
+				.onChange(of: CLLocationManager.default.accuracyAuthorization) { (accuracyAuthorization) in
+					Task {
+						do {
+							try await Analytics.upload(eventType: .locationAccuracyAuthorizationDidChange(accuracyAuthorization: Int(accuracyAuthorization.rawValue)))
+						} catch let error {
+							Logging.withLogger(for: .api, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+							}
+						}
+					}
+				}
 		}
 	}
 	

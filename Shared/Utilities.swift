@@ -331,6 +331,20 @@ extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
 	
 }
 
+extension UUID: RawRepresentable {
+	
+	public var rawValue: String {
+		get {
+			return self.uuidString
+		}
+	}
+	
+	public init?(rawValue: String) {
+		self.init(uuidString: rawValue)
+	}
+	
+}
+
 // TODO: Find a different way to persist sets of UUIDs in User Defaults because this code is fragile and might break if the standard library ever evolves to include its own conformance of Set to RawRepresentable or if UUID’s uuidString implementation in Foundation ever changes
 // To maintain syntactic consistency with the array literal (from which a set can be initialized), the raw value is represented as a comma-separated list of UUID strings with “[” and “]” as the first and last characters, respectively, of the overall string. This list is sorted by the natural ordering of the UUID strings to achieve determinism and the ability to compare equivalent raw values directly. The format of the individual UUIDs is deferred to the UUID structure and is assumed to be consistent and deterministic. Note that unlike array-of-string literals, quotation marks are not included in the raw value.
 extension Set: RawRepresentable where Element == UUID {
