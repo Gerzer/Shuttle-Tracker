@@ -14,8 +14,8 @@ extension Array: RawRepresentable where Element: RawRepresentableInJSONArray {
 	public var rawValue: String {
 		get {
 			// Serialize this array into a single JSON string
-			let data = try! JSONEncoder().encode(self)
-			return String(data: data, encoding: .utf8)!
+			let data = try! JSONEncoder().encode(self) // FIXME: Handle error condition gracefully
+			return String(data: data, encoding: .utf8)! // FIXME: Remove force-unwrap
 		}
 	}
 	
