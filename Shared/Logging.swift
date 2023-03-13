@@ -11,7 +11,7 @@ import SwiftUI
 // Logging, Logging.Log, and Logging.Log’s id instance property are all declared to be public to work around an issue with Swift’s access-control model, even though “public” access control doesn’t make much sense in the context of a self-contained app, which is a sink in the dependency graph.
 
 /// A namespace for the Shuttle Tracker unified logging system.
-public enum Logging {
+enum Logging {
 	
 	enum Category: String {
 		
@@ -29,7 +29,7 @@ public enum Logging {
 		
 	}
 	
-	public struct Log: Hashable, Identifiable, RawRepresentableInJSONArray {
+	struct Log: Hashable, Identifiable, RawRepresentableInJSONArray {
 		
 		enum ClientPlatform: String, Codable {
 			
@@ -37,7 +37,7 @@ public enum Logging {
 			
 		}
 		
-		public fileprivate(set) var id: UUID
+		fileprivate(set) var id: UUID
 		
 		let content: String
 		
@@ -80,7 +80,7 @@ public enum Logging {
 	///
 	/// The user-facing log-upload opt-out is honored even when `doUpload` is set to `true`.
 	/// - Warning: Don’t save or pass the provided logger outside the scope of the closure.
-	/// - Important: The closure is not escaping, so don’t dispatch any asynchronous tasks in it because log items that are written in such a task might not be saved in time for the automatic upload operation.
+	/// - Important: The closure is synchronous, so don’t dispatch any asynchronous tasks in it because log items that are written in such a task might not be saved in time for the automatic upload operation.
 	/// - Parameters:
 	///   - category: The subsystem category to use to customize the logger.
 	///   - doUpload: Whether to upload the current log store after invoking the closure.
@@ -101,7 +101,7 @@ public enum Logging {
 					try await self.uploadLog()
 				} catch let error {
 					self.withLogger { (logger) in // Leave doUpload set to false (the default) to avoid the potential for infinite recursion
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload logs: \(error, privacy: .public)")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 					}
 					throw error
 				}
