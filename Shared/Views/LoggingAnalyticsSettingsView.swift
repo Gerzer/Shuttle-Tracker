@@ -45,9 +45,7 @@ struct LoggingAnalyticsSettingsView: View {
 	#if os(macOS)
 	@State
 	private var selectedLog: Logging.Log?
-	#endif // os(macOS)
 	
-	#if os(macOS)
 	@State
 	private var selectedAnalyticsEntry: Analytics.Entry?
 	#endif // os(macOS)
@@ -115,23 +113,26 @@ struct LoggingAnalyticsSettingsView: View {
 			}
 			#if os(macOS)
 			Divider()
+			Spacer()
 			#endif // os(macOS)
-			Picker("", selection: self.$selectedCategory) {
-				ForEach(Category.allCases, id:\.self) { (category) in
-					switch category {
-					case .logs:
-						Text("Logs")
-					case .analytics:
-						Text("Analytics")
+			Section {
+				Picker("Category", selection: self.$selectedCategory) {
+					ForEach(Category.allCases, id: \.self) { (category) in
+						switch category {
+						case .logs:
+							Text("Logs")
+						case .analytics:
+							Text("Analytics")
+						}
 					}
 				}
-			}
-				.pickerStyle(.segmented)
-				.padding(.horizontal, 5)
-//				.listRowInsets(EdgeInsets())
-			switch self.selectedCategory {
-			case .logs:
-				Section {
+					.pickerStyle(.segmented)
+					.labelsHidden()
+				#if os(macOS)
+				Spacer()
+				#endif // os(macOS)
+				switch self.selectedCategory {
+				case .logs:
 					#if os(iOS)
 					List(
 						self.appStorageManager.uploadedLogs
@@ -198,30 +199,7 @@ struct LoggingAnalyticsSettingsView: View {
 						}
 					}
 					#endif // os(macOS)
-				} header: {
-					#if os(iOS)
-					Text("Uploaded Logs")
-					#elseif os(macOS) // os(iOS)
-					HStack {
-						Text("Uploaded Logs")
-							.bold()
-						Spacer()
-						Button(role: .destructive) {
-							self.doShowConfirmationDialog = true
-						} label: {
-							HStack {
-								Text("Clear")
-								if self.didClearUploadedLogs {
-									Text("✓")
-								}
-							}
-						}
-							.disabled(self.appStorageManager.uploadedLogs.isEmpty)
-					}
-					#endif // os(macOS)
-				}
-			case .analytics:
-				Section {
+				case .analytics:
 					#if os(iOS)
 					List(
 						self.appStorageManager.uploadedAnalyticsEntries
@@ -245,7 +223,7 @@ struct LoggingAnalyticsSettingsView: View {
 						self.doShowClearAnalyticsEntriesConfirmationDialog = true
 					} label: {
 						HStack {
-							Text("Clear Uploaded Analytics")
+							Text("Clear Uploaded Analytics Entries")
 							Spacer()
 							if self.didClearUploadedAnalyticsEntries {
 								Text("✓")
@@ -275,8 +253,8 @@ struct LoggingAnalyticsSettingsView: View {
 							.frame(width: 300)
 							.animation(.default, value: self.appStorageManager.uploadedAnalyticsEntries)
 						Divider()
-						if let analyticsEntry = self.selectedAnalyticsEntry {
-							AnalyticsDetailView(entry: analyticsEntry)
+						if let entry = self.selectedAnalyticsEntry {
+							AnalyticsDetailView(entry: entry)
 						} else {
 							Spacer()
 							Text("No Analytics Entry Selected")
@@ -288,7 +266,31 @@ struct LoggingAnalyticsSettingsView: View {
 						}
 					}
 					#endif // os(macOS)
-				} header: {
+				}
+			} header: {
+				switch self.selectedCategory {
+				case .logs:
+					#if os(iOS)
+					Text("Uploaded Logs")
+					#elseif os(macOS) // os(iOS)
+					HStack {
+						Text("Uploaded Logs")
+							.bold()
+						Spacer()
+						Button(role: .destructive) {
+							self.doShowClearLogsConfirmationDialog = true
+						} label: {
+							HStack {
+								Text("Clear")
+								if self.didClearUploadedLogs {
+									Text("✓")
+								}
+							}
+						}
+							.disabled(self.appStorageManager.uploadedLogs.isEmpty)
+					}
+					#endif // os(macOS)
+				case .analytics:
 					#if os(iOS)
 					Text("Uploaded Analytics Entries")
 					#elseif os(macOS) // os(iOS)
@@ -340,14 +342,15 @@ struct LoggingAnalyticsSettingsView: View {
 					#elseif os(macOS) // os(iOS)
 					self.appStorageManager.uploadedLogs.removeAll()
 					self.didClearUploadedLogs = true
+					self.selectedLog = nil
 					#endif // os(macOS)
 				}
 				Button("Cancel", role: .cancel) { }
 			} message: {
 				Text("Are you sure that you want to clear the record of logs that have been uploaded from this device? This will only clear the logs locally; since uploaded logs are not tied to your device or your identity to protect your privacy, they can’t be deleted from the server.")
 			}
-			.confirmationDialog("Clear Uploaded Analytics", isPresented: self.$doShowClearAnalyticsEntriesConfirmationDialog) {
-				Button("Clear Uploaded Analytics", role: .destructive) {
+			.confirmationDialog("Clear Uploaded Analytics Entries", isPresented: self.$doShowClearAnalyticsEntriesConfirmationDialog) {
+				Button("Clear Uploaded Analytics Entries", role: .destructive) {
 					#if os(iOS)
 					withAnimation {
 						self.appStorageManager.uploadedAnalyticsEntries.removeAll()
@@ -356,11 +359,12 @@ struct LoggingAnalyticsSettingsView: View {
 					#elseif os(macOS) // os(iOS)
 					self.appStorageManager.uploadedAnalyticsEntries.removeAll()
 					self.didClearUploadedAnalyticsEntries = true
+					self.selectedAnalyticsEntry = nil
 					#endif // os(macOS)
 				}
 				Button("Cancel", role: .cancel) { }
 			} message: {
-				Text("Are you sure that you want to clear the record of analytics that have been uploaded from this device? This will only clear the analytics locally; since no one has programmed a function to delete analytics, they can’t be deleted from the server.")
+				Text("Are you sure that you want to clear the record of analytics entries that have been uploaded from this device? This will only clear the analytics entries locally; since no one has yet programmed a function to delete analytics entries, they can’t be deleted from the server.")
 			}
 			.onAppear {
 				self.logUploadState = .waiting
@@ -410,7 +414,7 @@ struct LoggingAnalyticsSettingsView: View {
 			} catch let error {
 				self.logUploadError = WrappedError(error)
 				Logging.withLogger { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload logs: \(error, privacy: .public)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 				}
 				throw error
 			}
