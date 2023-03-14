@@ -8,6 +8,9 @@
 import CoreLocation
 import SwiftUI
 
+@preconcurrency
+import UserNotifications
+
 struct PermissionsSheet: View {
 	
 	@State

@@ -139,6 +139,7 @@ struct ContentView: View {
 				}
 				.task {
 					ViewState.shared.colorScheme = self.colorScheme
+					
 					do {
 						try await Analytics.upload(eventType: .coldLaunch)
 					} catch let error {

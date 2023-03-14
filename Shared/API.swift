@@ -146,7 +146,7 @@ enum API: TargetType {
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
 		as _: ResponseType.Type,
 		onMainActor: Bool = false
-	) async throws -> ResponseType where ResponseType: Decodable {
+	) async throws -> ResponseType where ResponseType: Sendable & Decodable {
 		let data = try await self.perform()
 		if onMainActor {
 			return try await MainActor.run {

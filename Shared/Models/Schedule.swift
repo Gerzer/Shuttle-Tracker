@@ -57,7 +57,7 @@ final class Schedule: Decodable, Identifiable {
 					return schedule.start <= Date.now && schedule.end >= Date.now
 				}
 		} catch let error {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download schedule: \(error, privacy: .public)")
 			}
 			return nil

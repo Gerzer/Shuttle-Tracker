@@ -109,20 +109,24 @@ struct PrimaryOverlay: View {
 			}
 			.task {
 				if #available(iOS 16, *) {
-					for await refreshType in self.viewState.refreshSequence {
+					for await refreshType in self.viewState.refreshSequence { // Wait for the next refresh event to be emitted
 						switch refreshType {
 						case .manual:
 							withAnimation {
 								self.isRefreshing = true
 							}
 							do {
+								// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 								try await Task.sleep(for: .milliseconds(500))
 							} catch let error {
 								Logging.withLogger(doUpload: true) { (logger) in
 									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
 								}
 							}
+							
+							// For automatic refresh operations, we refresh everything.
 							await self.mapState.refreshAll()
+							
 							withAnimation {
 								self.isRefreshing = false
 							}
@@ -151,14 +155,17 @@ struct PrimaryOverlay: View {
 					}
 					Task {
 						do {
+							// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 							try await Task.sleep(nanoseconds: 500_000_000)
 						} catch let error {
 							Logging.withLogger(doUpload: true) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 							}
-							throw error
 						}
+						
+						// For automatic refresh operations, we refresh everything.
 						await self.mapState.refreshAll()
+						
 						withAnimation {
 							self.isRefreshing = false
 						}
@@ -207,11 +214,13 @@ struct PrimaryOverlay: View {
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
 		}
 		
-		do {
-			try await Analytics.upload(eventType: .boardBusTapped)
-		} catch {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+		Task { // Dispatch a child task because we don’t need to await the result
+			do {
+				try await Analytics.upload(eventType: .boardBusTapped)
+			} catch {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
 			}
 		}
 		
@@ -274,11 +283,13 @@ struct PrimaryOverlay: View {
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Leave Bus” button tapped")
 		}
 		
-		do {
-			try await Analytics.upload(eventType: .leaveBusTapped)
-		} catch {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+		Task { // Dispatch a child task because we don’t need to await the result
+			do {
+				try await Analytics.upload(eventType: .leaveBusTapped)
+			} catch {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
 			}
 		}
 		

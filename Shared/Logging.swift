@@ -8,8 +8,6 @@
 import OSLog
 import SwiftUI
 
-// Logging, Logging.Log, and Logging.Log’s id instance property are all declared to be public to work around an issue with Swift’s access-control model, even though “public” access control doesn’t make much sense in the context of a self-contained app, which is a sink in the dependency graph.
-
 /// A namespace for the Shuttle Tracker unified logging system.
 enum Logging {
 	
@@ -29,7 +27,7 @@ enum Logging {
 		
 	}
 	
-	struct Log: Hashable, Identifiable, RawRepresentableInJSONArray {
+	struct Log: Hashable, Identifiable, Sendable, RawRepresentableInJSONArray {
 		
 		enum ClientPlatform: String, Codable {
 			

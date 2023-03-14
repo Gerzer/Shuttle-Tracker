@@ -101,11 +101,22 @@ struct ShuttleTrackerApp: App {
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
 		CLLocationManager.default = CLLocationManager()
-		CLLocationManager.default.requestWhenInUseAuthorization()
-		CLLocationManager.default.requestAlwaysAuthorization()
 		CLLocationManager.default.activityType = .automotiveNavigation
 		CLLocationManager.default.showsBackgroundLocationIndicator = true
 		CLLocationManager.default.allowsBackgroundLocationUpdates = true
+		CLLocationManager.default.pausesLocationUpdatesAutomatically = false
+		CLLocationManager.default.requestWhenInUseAuthorization() // We request “when-in-use” authorization even when we actually want “always” authorization because doing so lets us avoid iOS’s usual deferment of the “always” prompt until long after the user closes the app. Instead, iOS shows two prompts in direct succession: firstly for “when-in-use” and secondly for “always”.
+		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+			CLLocationManager.default.requestAlwaysAuthorization()
+			let beaconRegion = CLBeaconRegion(uuid: BoardBusManager.networkUUID, identifier: BoardBusManager.beaconID)
+			beaconRegion.notifyEntryStateOnDisplay = true
+			CLLocationManager.default.startMonitoring(for: beaconRegion)
+			if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+				// It’s unclear why, but activating the significant-change location service on app launch and never deactivating is necessary to be able to activate the standard location service upon beacon detection in the background. Otherwise, the user would need to open the app in the foreground to start sending location data to the server, which defeats the purpose of Automatic Board Bus.
+				// https://stackoverflow.com/questions/20187700/startupdatelocations-in-background-didupdatingtolocation-only-called-10-20-time
+				CLLocationManager.default.startMonitoringSignificantLocationChanges()
+			}
+		}
 		Task {
 			do {
 				try await UNUserNotificationCenter.requestDefaultAuthorization()
