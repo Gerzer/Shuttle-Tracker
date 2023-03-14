@@ -169,9 +169,9 @@ fileprivate enum APIError: Error {
 		get {
 			switch self {
 			case .invalidResponse:
-				return "The server returned an invalid response"
+				return "The server returned an invalid response."
 			case .invalidStatusCode:
-				return "The server returned an invalid HTTP status code"
+				return "The server returned an invalid HTTP status code."
 			}
 		}
 	}
