@@ -42,6 +42,12 @@ struct ShuttleNetworkView: View {
     @State
     private var textValue: String = ""
     
+    @State
+    private var i: Int = 0
+    
+    @State
+    private var laterButtonOpacity: CGFloat = 0
+    
     var body: some View {
         VStack {
             
@@ -75,7 +81,7 @@ struct ShuttleNetworkView: View {
                                         .scaleEffect(self.deviceScale)
                                         .symbolRenderingMode(.monochrome)
                                         .font(.largeTitle)
-                                        .foregroundColor(.black)
+                                        
                                         .background(.gray, in: Circle())
                                 }
                                 ,alignment: .topTrailing)
@@ -146,7 +152,7 @@ struct ShuttleNetworkView: View {
                         .transition(.opacity)
                         .onAppear() {
                             withAnimation(.easeIn(duration: 0.4)
-                                .delay(0)
+                                .delay(1)
                             ) {
                                 self.textValue = "Welcome to the Shuttle Tracker Network!"
                             }
@@ -197,7 +203,7 @@ struct ShuttleNetworkView: View {
                     Image(systemName: "location.fill")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 15 * textScale, height: 15 * textScale)
+                        .frame(width: 15 * self.textScale, height: 15 * self.textScale)
                     Text("Turn Location Servies Always On")
                         .bold()
                 }
@@ -207,9 +213,20 @@ struct ShuttleNetworkView: View {
                 .padding(.bottom)
             Button {
                 self.sheetStack.pop()
-            } label: {
-                Text("Later")
             }
+            label: {
+                Text("Later")
+                    .opacity(self.laterButtonOpacity)
+                    .scaledToFit()
+                    .onAppear() {
+                        withAnimation(.easeIn(duration: 1)
+                            .delay(26)
+                        ) {
+                            self.laterButtonOpacity = 1
+                        }
+                    }
+            }
+            
                 .padding(.bottom)
         }
     }
