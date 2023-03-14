@@ -189,21 +189,22 @@ struct ShuttleNetworkView: View {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 25) {
                                     withAnimation(.easeIn(duration: 0.4)
                                     ) {
+                                        self.buttonOpacity = 1
                                         self.textValue = "With this update, busses can be tracked easily and automatically whenever a student gets on a bus and has the Shuttle Tracker app on their phone! To make sure your phone can provide bus location data to the network, make sure to turn on \"Always allow location\" and \"Allow percison location\" on your phone "
                                     }
                                 }
                             }
-                        Button {
-                            if(self.buttonOpacity != 0) {
+                        if (self.buttonOpacity > 0) {
+                            Button {
                                 #if !APPCLIP
                                 self.sheetStack.push(.privacy)
                                 #endif
+                            } label: {
+                                Text("View Shuttle Tracker's Privacy Policy")
+                                    .font(.subheadline)
+                                    .padding(.top)
+                                    .opacity(self.buttonOpacity)
                             }
-                        } label: {
-                            Text("View Shuttle Tracker's Privacy Policy")
-                                .font(.subheadline)
-                                .padding(.top)
-                                .opacity(self.buttonOpacity)
                         }
                     }
                     .padding(.top)
@@ -233,26 +234,25 @@ struct ShuttleNetworkView: View {
                     .buttonStyle(.block)
                     .padding(.horizontal)
                     .padding(.bottom)
-                Button {
-                    if(self.buttonOpacity != 0) {
-                        self.sheetStack.pop()
+                if (self.buttonOpacity > 0) {
+                    Button {
+                            self.sheetStack.pop()
                     }
-                }
-                label: {
-                    Text("Later")
-                        .opacity(self.buttonOpacity)
-                        .scaledToFit()
-                        .onAppear() {
-                            withAnimation(.easeIn(duration: 1)
-                                .delay(25.5)
-                            ) {
-                                self.buttonOpacity = 1
+                    label: {
+                        Text("Later")
+                            .opacity(self.buttonOpacity)
+                            .scaledToFit()
+                            .onAppear() {
+                                withAnimation(.easeIn(duration: 1)
+                                    .delay(25.5)
+                                ) {
+                                }
                             }
-                        }
+                    }
+                        .padding(.bottom)
                 }
-                
-                    .padding(.bottom)
             }
+                
         }
     }
 }
