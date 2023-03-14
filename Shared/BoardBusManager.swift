@@ -61,12 +61,12 @@ actor BoardBusManager: ObservableObject {
 		}
 	}
 	
-	func leaveBus() async {
+    func leaveBus(manual: Bool = true) async {
 		// Require that Board Bus be currently active
 		precondition(.onBus ~= self.travelState)
 		
 		do {
-			try await Analytics.upload(eventType: .boardBusDeactivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+			try await Analytics.upload(eventType: .boardBusDeactivated(manual: manual)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
 		} catch let error {
 			Logging.withLogger(for: .api, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")

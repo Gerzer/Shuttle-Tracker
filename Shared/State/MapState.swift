@@ -49,4 +49,17 @@ actor MapState: ObservableObject {
 		)
 	}
 	
+    func distance(coordinate: CLLocationCoordinate2D) -> Double {
+        var minDist: Double = -1
+        
+        for route in routes {
+            var dist = route.distance(coordinate: coordinate)
+            
+            if minDist < 0 || dist < minDist {
+                minDist = dist
+            }
+        }
+        
+        return minDist;
+    }
 }

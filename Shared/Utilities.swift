@@ -60,6 +60,14 @@ enum LocationUtilities {
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
+        
+        if await MapState.shared.distance(coordinate: coordinate) > Double(AppStorageManager.shared.routeTolerance) {
+            if .onBus ~= BoardBusManager.globalTravelState {
+                await BoardBusManager.shared.leaveBus(manual: false)
+            }
+            return
+        }
+        
 		do {
 			try await API.updateBus(id: busID, location: location).perform()
 		} catch let error {
