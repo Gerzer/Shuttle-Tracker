@@ -16,7 +16,7 @@ struct PrimaryOverlay: View {
 	private var isRefreshing = false
 	
 	@State
-	private var doShowLocationsPermissionsAlert = false
+	private var doShowLocationPermissionsAlert = false
 	
 	@EnvironmentObject
 	private var mapState: MapState
@@ -102,7 +102,7 @@ struct PrimaryOverlay: View {
 			Spacer()
 		}
 			.padding()
-			.alert("Location Access", isPresented: self.$doShowLocationsPermissionsAlert) {
+			.alert("Location Access", isPresented: self.$doShowLocationPermissionsAlert) {
 				Link("Continue", destination: URL(string: UIApplication.openSettingsURLString)!)
 			} message: {
 				Text("Shuttle Tracker requires access to your location. Enable precise location access in Settings.")
@@ -177,7 +177,7 @@ struct PrimaryOverlay: View {
 			return userLocation
 		} else {
 			#if APPCLIP
-			self.doShowLocationsPermissionsAlert = true
+			self.doShowLocationPermissionsAlert = true
 			#else // APPCLIP
 			self.sheetStack.push(.permissions)
 			#endif
@@ -220,7 +220,7 @@ struct PrimaryOverlay: View {
 			break
 		default:
 			#if APPCLIP
-			self.doShowLocationsPermissionsAlert = true
+			self.doShowLocationPermissionsAlert = true
 			#else // APPCLIP
 			self.sheetStack.push(.permissions)
 			#endif
