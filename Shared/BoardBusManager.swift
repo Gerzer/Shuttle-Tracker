@@ -59,6 +59,16 @@ actor BoardBusManager: ObservableObject {
 		// Require that Board Bus be currently inactive
 		precondition(.notOnBus ~= self.travelState)
 		
+		Task { // Dispatch a child task because we don’t need to await the result
+			do {
+				try await Analytics.upload(eventType: .boardBusActivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+			} catch let error {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
+			}
+		}
+		
 		// Toggle showsUserLocation twice to ensure that MapKit picks up the UI changes
 		await MainActor.run {
 			MapState.mapView?.showsUserLocation.toggle()
@@ -94,6 +104,19 @@ actor BoardBusManager: ObservableObject {
 		if case .background = await UIApplication.shared.applicationState {
 			Task { // Dispatch a child task because we don’t need to await the result
 				await self.sendBoardBusNotification(type: .leaveBus)
+			}
+		}
+		
+		Task {
+			do {
+				guard case .onBus(let isManual) = self.travelState else {
+					preconditionFailure()
+				}
+				try await Analytics.upload(eventType: .boardBusDeactivated(manual: isManual))
+			} catch let error {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
 			}
 		}
 		

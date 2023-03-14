@@ -16,7 +16,7 @@ struct PrimaryOverlay: View {
 	private var isRefreshing = false
 	
 	@State
-	private var doShowLocationsPermissionsAlert = false
+	private var doShowLocationPermissionsAlert = false
 	
 	@EnvironmentObject
 	private var mapState: MapState
@@ -102,7 +102,7 @@ struct PrimaryOverlay: View {
 			Spacer()
 		}
 			.padding()
-			.alert("Location Access", isPresented: self.$doShowLocationsPermissionsAlert) {
+			.alert("Location Access", isPresented: self.$doShowLocationPermissionsAlert) {
 				Link("Continue", destination: URL(string: UIApplication.openSettingsURLString)!)
 			} message: {
 				Text("Shuttle Tracker requires access to your location. Enable precise location access in Settings.")
@@ -174,6 +174,24 @@ struct PrimaryOverlay: View {
 			}
 	}
 	
+	/// Gets the user’s current location.
+	///
+	/// If the user’s location is unavailable, then this method pushes the permission sheet onto the sheet stack and throws an error.
+	/// - Returns: The user’s location.
+	/// - Throws: ``UserLocationError/unavailable`` if the user’s location is unavailable.
+	func userLocation() throws -> CLLocation {
+		if let userLocation = CLLocationManager.default.location {
+			return userLocation
+		} else {
+			#if APPCLIP
+			self.doShowLocationPermissionsAlert = true
+			#else // APPCLIP
+			self.sheetStack.push(.permissions)
+			#endif
+			throw UserLocationError.unavailable
+		}
+	}
+	
 	private func boardBus(userLocation: CLLocation) async {
 		let closestStopDistance = await self.mapState.stops.reduce(into: .greatestFiniteMagnitude) { (distance, stop) in
 			let newDistance = stop.location.distance(from: userLocation)
@@ -191,27 +209,19 @@ struct PrimaryOverlay: View {
 		}
 	}
 	
-	/// Gets the user’s current location.
-	///
-	/// If the user’s location is unavailable, then this method pushes the permission sheet onto the sheet stack and throws an error.
-	/// - Returns: The user’s location.
-	/// - Throws: ``UserLocationError/unavailable`` if the user’s location is unavailable.
-	func userLocation() throws -> CLLocation {
-		if let userLocation = CLLocationManager.default.location {
-			return userLocation
-		} else {
-			#if APPCLIP
-			self.doShowLocationsPermissionsAlert = true
-			#else // APPCLIP
-			self.sheetStack.push(.permissions)
-			#endif
-			throw UserLocationError.unavailable
-		}
-	}
-	
 	private func boardBus() async {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
+		}
+		
+		Task { // Dispatch a child task because we don’t need to await the result
+			do {
+				try await Analytics.upload(eventType: .boardBusTapped)
+			} catch {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
+			}
 		}
 		
 		switch CLLocationManager.default.authorizationStatus {
@@ -219,11 +229,12 @@ struct PrimaryOverlay: View {
 			break
 		default:
 			#if APPCLIP
-			self.doShowLocationsPermissionsAlert = true
+			self.doShowLocationPermissionsAlert = true
 			#else // APPCLIP
 			self.sheetStack.push(.permissions)
 			#endif
 		}
+		
 		let userLocation: CLLocation
 		switch CLLocationManager.default.accuracyAuthorization {
 		case .fullAccuracy:
@@ -244,12 +255,14 @@ struct PrimaryOverlay: View {
 				}
 				return
 			}
+			
 			guard case .fullAccuracy = CLLocationManager.default.accuracyAuthorization else {
 				Logging.withLogger(for: .permissions) { (logger) in
 					logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
 				}
 				return
 			}
+			
 			do {
 				userLocation = try self.userLocation()
 			} catch let error {
@@ -261,6 +274,7 @@ struct PrimaryOverlay: View {
 		@unknown default:
 			fatalError()
 		}
+		
 		await self.boardBus(userLocation: userLocation)
 	}
 	
@@ -268,6 +282,17 @@ struct PrimaryOverlay: View {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Leave Bus” button tapped")
 		}
+		
+		Task { // Dispatch a child task because we don’t need to await the result
+			do {
+				try await Analytics.upload(eventType: .leaveBusTapped)
+			} catch {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
+			}
+		}
+		
 		await self.boardBusManager.leaveBus()
 		self.viewState.statusText = .thanks
 		CLLocationManager.default.stopUpdatingLocation()

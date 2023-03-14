@@ -22,6 +22,9 @@ struct BusSelectionSheet: View {
 	@State
 	private var selectedBusID: BusID?
 	
+	@State
+	private var didContinueWithSelectedBusID = false
+	
 	@EnvironmentObject
 	private var mapState: MapState
 	
@@ -100,6 +103,7 @@ struct BusSelectionSheet: View {
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
+							self.didContinueWithSelectedBusID = true
 							Task {
 								switch CLLocationManager.default.accuracyAuthorization {
 								case .fullAccuracy:
@@ -163,6 +167,19 @@ struct BusSelectionSheet: View {
 				}
 				self.suggestedBusID = closestBus.map { (bus) in
 					return BusID(bus.id)
+				}
+			}
+			.onDisappear {
+				if !self.didContinueWithSelectedBusID {
+					Task {
+						do {
+							try await Analytics.upload(eventType: .busSelectionCanceled)
+						} catch let error {
+							Logging.withLogger(for: .api) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
+							}
+						}
+					}
 				}
 			}
 	}

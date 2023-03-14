@@ -26,6 +26,9 @@ struct ContentView: View {
 	@EnvironmentObject
 	private var sheetStack: SheetStack
 	
+	@Environment(\.colorScheme)
+	private var colorScheme
+	
 	private var unviewedAnnouncementsCount: Int {
 		get {
 			return self.announcements
@@ -133,6 +136,20 @@ struct ContentView: View {
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 						}
 					}
+				}
+				.task {
+					ViewState.shared.colorScheme = self.colorScheme
+					
+					do {
+						try await Analytics.upload(eventType: .coldLaunch)
+					} catch let error {
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+						}
+					}
+				}
+				.onChange(of: self.colorScheme) { (newValue) in
+					ViewState.shared.colorScheme = newValue
 				}
 		}
 	}

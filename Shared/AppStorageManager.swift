@@ -12,9 +12,13 @@ final class AppStorageManager: ObservableObject {
 	
 	enum Defaults {
 		
+		static let userID = UUID()
+		
 		static let colorBlindMode = false
 		
 		static let maximumStopDistance = 50
+		
+		static let boardBusCount = 0
 		
 		static let baseURL = URL(string: "https://shuttletracker.app")!
 		
@@ -22,17 +26,27 @@ final class AppStorageManager: ObservableObject {
 		
 		static let doUploadLogs = true
 		
+		static let doCollectAnalytics = false
+		
 		static let uploadedLogs: [Logging.Log] = []
+		
+		static let uploadedAnalyticsEntries: [Analytics.Entry] = []
 		
 	}
 	
 	static let shared = AppStorageManager()
+	
+	@AppStorage("UserID")
+	var userID = Defaults.userID
 	
 	@AppStorage("ColorBlindMode")
 	var colorBlindMode = Defaults.colorBlindMode
 	
 	@AppStorage("MaximumStopDistance")
 	var maximumStopDistance = Defaults.maximumStopDistance
+	
+	@AppStorage("BoardBusCount")
+	var boardBusCount = Defaults.boardBusCount
 	
 	@AppStorage("BaseURL")
 	var baseURL = Defaults.baseURL
@@ -43,8 +57,14 @@ final class AppStorageManager: ObservableObject {
 	@AppStorage("DoUploadLogs")
 	var doUploadLogs = Defaults.doUploadLogs
 	
+	@AppStorage("DoCollectAnalytics")
+	var doCollectAnalytics = Defaults.doCollectAnalytics
+	
 	@AppStorage("UploadedLogs")
 	var uploadedLogs = Defaults.uploadedLogs
+	
+	@AppStorage("UploadedAnalyticsEntries")
+	var uploadedAnalyticsEntries = Defaults.uploadedAnalyticsEntries
 	
 	private init() { }
 	
