@@ -192,7 +192,7 @@ struct PrimaryOverlay: View {
 				distance = newDistance
 			}
 		}
-		if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) || true {
+		if closestStopDistance < Double(self.appStorageManager.maximumStopDistance) {
 			self.sheetStack.push(.busSelection)
 			if self.viewState.toastType == .boardBus {
 				self.viewState.toastType = nil
