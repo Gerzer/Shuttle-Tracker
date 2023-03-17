@@ -61,10 +61,43 @@ enum LocationUtilities {
 			type: .user
 		)
         
-        if await MapState.shared.distance(coordinate: coordinate) > Double(AppStorageManager.shared.routeTolerance) {
+        let tolerance = await AppStorageManager.shared.routeTolerance
+        if await MapState.shared.distance(coordinate: coordinate) > Double(tolerance) {
             if .onBus ~= BoardBusManager.globalTravelState {
                 await BoardBusManager.shared.leaveBus(manual: false)
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Left Bus"
+                content.body = "You have automatically left the bus by deviating more than \(tolerance) meters from the route."
+                content.sound = .default
+                #if !APPCLIP
+                content.interruptionLevel = .timeSensitive
+                #endif // !APPCLIP
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                let request = UNNotificationRequest(identifier: "LeftBus", content: content, trigger: trigger)
+                
+                Task {
+                    do {
+                        try await UNUserNotificationCenter.requestDefaultAuthorization()
+                    } catch let error {
+                        Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+                        }
+                        throw error
+                    }
+                    do {
+                        try await UNUserNotificationCenter
+                            .current()
+                            .add(request)
+                    } catch let error {
+                        Logging.withLogger(doUpload: true) { (logger) in
+                            logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule local notification: \(error, privacy: .public)")
+                        }
+                        throw error
+                    }
+                }
             }
+            
             return
         }
         
