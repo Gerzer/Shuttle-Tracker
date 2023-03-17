@@ -65,7 +65,7 @@ struct PrimaryOverlay: View {
                 VStack(alignment: .leading) {
                     VStack{
 
-                    HStack(spacing: 75){
+                    HStack(spacing: 25){
                     Button {
                         switch self.mapState.travelState {
                         case .onBus:
@@ -123,23 +123,33 @@ struct PrimaryOverlay: View {
                     .buttonStyle(.borderedProminent)
                         
                         HStack{
-                             
-                                                          
-                                
-                            Text("\(self.mapState.ClosestStopDistance) mi")
+
+
+
+                            Text("\(2.0) mi")
                             Image(systemName: "arrow.up.left")
                             Button(action: {
-                                         
+
                             }, label: {
                                          HStack{
                                              //call mapstate computation
-                                             
+
                                              Image(systemName: "figure.walk")
 
                                          }
-        
+
                                      })
                         }
+                        
+//                        HStack{
+//                            
+//                            Image(systemName: "exclamationmark.triangle.fill")
+//                                .foregroundColor(.yellow)
+//                            
+//                            Text("Location Error!").lineLimit(1)
+//                            
+//                            
+//                        }
                         
                                
                         }
