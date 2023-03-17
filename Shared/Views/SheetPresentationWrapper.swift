@@ -113,6 +113,12 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					WhatsNewSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
 				#endif // !APPCLIP
+                #if os(iOS) && !APPCLIP
+                case .milestones :
+                    if #available(iOS 15, *) {
+                    MilestoneToastView()
+                }
+                #endif // os(iOS)
 				}
 			}
 	}

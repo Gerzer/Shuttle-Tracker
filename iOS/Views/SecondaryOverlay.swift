@@ -41,6 +41,12 @@ struct SecondaryOverlay: View {
 					iconSystemName: "info.circle.fill",
 					sheetType: .info
 				)
+                Divider()
+                    .frame(width: 45, height: 0)
+                SecondaryOverlayButton(
+                    iconSystemName: "scroll.fill",
+                    sheetType: .milestones
+                )
 				Divider()
 					.frame(width: 45, height: 0)
 				SecondaryOverlayButton(

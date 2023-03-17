@@ -171,6 +171,21 @@
 		C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFD6D5250C33C800945F01 /* ShuttleTrackerApp.swift */; };
 		C0FFD6EC250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
 		C0FFD6ED250C33C900945F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FFD6D7250C33C900945F01 /* Assets.xcassets */; };
+		DEC157C229C50E7000AEF8B8 /* Milestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C129C50E7000AEF8B8 /* Milestone.swift */; };
+		DEC157C329C50E7000AEF8B8 /* Milestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C129C50E7000AEF8B8 /* Milestone.swift */; };
+		DEC157C429C50E7000AEF8B8 /* Milestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C129C50E7000AEF8B8 /* Milestone.swift */; };
+		DEC157C629C50EE000AEF8B8 /* BoardBusMilestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C529C50EE000AEF8B8 /* BoardBusMilestone.swift */; };
+		DEC157C729C50EE000AEF8B8 /* BoardBusMilestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C529C50EE000AEF8B8 /* BoardBusMilestone.swift */; };
+		DEC157C829C50EE000AEF8B8 /* BoardBusMilestone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C529C50EE000AEF8B8 /* BoardBusMilestone.swift */; };
+		DEC157CA29C50F0500AEF8B8 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C929C50F0500AEF8B8 /* MilestoneToast.swift */; };
+		DEC157CB29C50F0500AEF8B8 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C929C50F0500AEF8B8 /* MilestoneToast.swift */; };
+		DEC157CC29C50F0500AEF8B8 /* MilestoneToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157C929C50F0500AEF8B8 /* MilestoneToast.swift */; };
+		DEC157CE29C50F2000AEF8B8 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157CD29C50F2000AEF8B8 /* MilestoneToastView.swift */; };
+		DEC157CF29C50F2000AEF8B8 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157CD29C50F2000AEF8B8 /* MilestoneToastView.swift */; };
+		DEC157D029C50F2000AEF8B8 /* MilestoneToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157CD29C50F2000AEF8B8 /* MilestoneToastView.swift */; };
+		DEC157D229C50F4400AEF8B8 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157D129C50F4400AEF8B8 /* ProgressBar.swift */; };
+		DEC157D329C50F4400AEF8B8 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157D129C50F4400AEF8B8 /* ProgressBar.swift */; };
+		DEC157D429C50F4400AEF8B8 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC157D129C50F4400AEF8B8 /* ProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -278,6 +293,11 @@
 		C0FFD6E6250C33C900945F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0FFD6E7250C33C900945F01 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		C0FFD6F6250C33E700945F01 /* iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iOS.entitlements; sourceTree = "<group>"; };
+		DEC157C129C50E7000AEF8B8 /* Milestone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Milestone.swift; sourceTree = "<group>"; };
+		DEC157C529C50EE000AEF8B8 /* BoardBusMilestone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBusMilestone.swift; sourceTree = "<group>"; };
+		DEC157C929C50F0500AEF8B8 /* MilestoneToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToast.swift; sourceTree = "<group>"; };
+		DEC157CD29C50F2000AEF8B8 /* MilestoneToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneToastView.swift; sourceTree = "<group>"; };
+		DEC157D129C50F4400AEF8B8 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,6 +411,10 @@
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
+				DEC157C529C50EE000AEF8B8 /* BoardBusMilestone.swift */,
+				DEC157C929C50F0500AEF8B8 /* MilestoneToast.swift */,
+				DEC157CD29C50F2000AEF8B8 /* MilestoneToastView.swift */,
+				DEC157D129C50F4400AEF8B8 /* ProgressBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -405,6 +429,7 @@
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				A1ED8B8727BC558A000A26E5 /* Schedule.swift */,
 				C0019DCD251910E80020574D /* Stop.swift */,
+				DEC157C129C50E7000AEF8B8 /* Milestone.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -693,6 +718,7 @@
 				C0A232CA252508E000FAAD50 /* MapState.swift in Sources */,
 				C0F420C82926EDA100CC0F91 /* Logging.swift in Sources */,
 				C0BC276B2974BA55008A4BD0 /* InfoView.swift in Sources */,
+				DEC157D029C50F2000AEF8B8 /* MilestoneToastView.swift in Sources */,
 				C082CCF3277FB360005D0209 /* BusSelectionSheet.swift in Sources */,
 				C039B0652796201200416725 /* CloseButton.swift in Sources */,
 				C0A7A89228D7E65D00A2ACAA /* BoardBusManager.swift in Sources */,
@@ -702,11 +728,14 @@
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C0E9525D295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
+				DEC157C429C50E7000AEF8B8 /* Milestone.swift in Sources */,
+				DEC157CC29C50F0500AEF8B8 /* MilestoneToast.swift in Sources */,
 				C0BE7D1726E944D8004F0F97 /* Toast.swift in Sources */,
 				A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */,
 				C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */,
 				C08FC20D25250AFD008589C1 /* VisualEffectView.swift in Sources */,
 				C0A1E72F274A03B600DBF248 /* AnnouncementsSheet.swift in Sources */,
+				DEC157C829C50EE000AEF8B8 /* BoardBusMilestone.swift in Sources */,
 				C025ED452527C1D500524144 /* API.swift in Sources */,
 				C0A232B6252508C800FAAD50 /* Bus.swift in Sources */,
 				C09EB466293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
@@ -721,6 +750,7 @@
 				C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */,
 				C082CCF8277FB38A005D0209 /* BusID.swift in Sources */,
 				C00DF74E29BD4EFD00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
+				DEC157D429C50F4400AEF8B8 /* ProgressBar.swift in Sources */,
 				C08FC20225250ADF008589C1 /* CustomAnnotation.swift in Sources */,
 				C0A232BE252508CD00FAAD50 /* Route.swift in Sources */,
 				C08FC22A252511E6008589C1 /* ContentView.swift in Sources */,
@@ -748,6 +778,7 @@
 				C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C039B0642796201200416725 /* CloseButton.swift in Sources */,
 				C0F420CF29274C1400CC0F91 /* LoggingAnalyticsSettingsView.swift in Sources */,
+				DEC157D329C50F4400AEF8B8 /* ProgressBar.swift in Sources */,
 				C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */,
 				C0C9D3C9270F797400AE58BE /* SecondaryOverlay.swift in Sources */,
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
@@ -758,6 +789,8 @@
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
+				DEC157C329C50E7000AEF8B8 /* Milestone.swift in Sources */,
+				DEC157C729C50EE000AEF8B8 /* BoardBusMilestone.swift in Sources */,
 				C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */,
 				C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */,
 				C0FFD6E8250C33C900945F01 /* ShuttleTrackerApp.swift in Sources */,
@@ -786,6 +819,8 @@
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
+				DEC157CF29C50F2000AEF8B8 /* MilestoneToastView.swift in Sources */,
+				DEC157CB29C50F0500AEF8B8 /* MilestoneToast.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
 				C09EB465293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
 				C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */,
@@ -800,6 +835,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEC157C629C50EE000AEF8B8 /* BoardBusMilestone.swift in Sources */,
 				C09EB46D293A9BF600CCE01B /* PrivacySheet.swift in Sources */,
 				C0BF4F8929B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C0BF4F8D29B3D6130094FD3E /* AnalyticsDetailView.swift in Sources */,
@@ -812,6 +848,8 @@
 				C0F420D22927570900CC0F91 /* WrappedError.swift in Sources */,
 				C00DF74C29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
 				C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */,
+				DEC157CE29C50F2000AEF8B8 /* MilestoneToastView.swift in Sources */,
+				DEC157D229C50F4400AEF8B8 /* ProgressBar.swift in Sources */,
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
@@ -826,7 +864,9 @@
 				C025ED442527C1D500524144 /* API.swift in Sources */,
 				C0A1E733274A16F100DBF248 /* WhatsNewSheet.swift in Sources */,
 				C039B06127961FE300416725 /* BusID.swift in Sources */,
+				DEC157C229C50E7000AEF8B8 /* Milestone.swift in Sources */,
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
+				DEC157CA29C50F0500AEF8B8 /* MilestoneToast.swift in Sources */,
 				C0E9525B295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C03B1D362741E18B007B318E /* SheetStack.swift in Sources */,
