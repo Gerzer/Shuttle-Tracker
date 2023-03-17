@@ -124,32 +124,31 @@ struct PrimaryOverlay: View {
                         
                         HStack{
 
+                            if(LocationUtilities.locationManager.location == nil){
+                                
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundColor(.yellow)
+                                Text("Location Error!").lineLimit(1)
+                                
+                            }else{
+                                Text("\(1.2) mi")
+                                Image(systemName: "arrow.up.left")
+                                Button(action: {
 
+                                }, label: {
+                                             HStack{
 
-                            Text("\(2.0) mi")
-                            Image(systemName: "arrow.up.left")
-                            Button(action: {
+                                                 Image(systemName: "figure.walk")
 
-                            }, label: {
-                                         HStack{
-                                             //call mapstate computation
+                                             }
 
-                                             Image(systemName: "figure.walk")
+                                         })
+                                
+                            }
 
-                                         }
-
-                                     })
+                        
                         }
                         
-//                        HStack{
-//                            
-//                            Image(systemName: "exclamationmark.triangle.fill")
-//                                .foregroundColor(.yellow)
-//                            
-//                            Text("Location Error!").lineLimit(1)
-//                            
-//                            
-//                        }
                         
                                
                         }
