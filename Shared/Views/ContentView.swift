@@ -43,6 +43,7 @@ struct ContentView: View {
 		SheetPresentationWrapper {
 			ZStack {
 				self.mapView
+					.tint(.blue)
 					.ignoresSafeArea()
 				#if os(macOS)
 				VStack {
