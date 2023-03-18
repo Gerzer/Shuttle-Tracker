@@ -41,7 +41,6 @@ struct LiveActivity: Widget {
                             .foregroundColor(.red)
                     }
                 }
-
                 HStack {
                     Text("A location was submitted... ")
                         .bold()
@@ -59,17 +58,11 @@ struct LiveActivity: Widget {
                         .foregroundColor(.red)
                 }
                 
-                Text("HTTP \(context.state.code) \(context.state.status)")
+                Text("HTTP \(context.state.code): \(context.state.status)")
                     .monospaced()
                 
-                ProgressView(timerInterval: .now ... .now + 3) {
-                    EmptyView()
-                } currentValueLabel: {
-                    EmptyView()
-                    }
-
                 }
-            .activityBackgroundTint(.white.opacity(0.8))
+//            .activityBackgroundTint(.white.opacity(0.8))
 				.activitySystemActionForegroundColor(Color.black)
                 .padding()
 			
@@ -78,23 +71,54 @@ struct LiveActivity: Widget {
 				// Expanded UI goes here.  Compose the expanded UI through
 				// various regions, like leading/trailing/center/bottom
 				DynamicIslandExpandedRegion(.leading) {
-					Text("Leading")
+                    if context.state.submissionStatus == true {
+                        Text("Submission succeeded.")
+                            .foregroundColor(.green)
+                    }
+                    else {
+                        Text("Submission failed.")
+                            .foregroundColor(.red)
+                    }
 				}
 				DynamicIslandExpandedRegion(.trailing) {
-					Text("Trailing")
+                    Text("Bus \(context.attributes.busID)")
+                        .bold()
 				}
 				DynamicIslandExpandedRegion(.bottom) {
-					Text("Bottom")
-					// more content
+                    Text("HTTP \(context.state.code): \(context.state.status)")
+                        .monospaced()
 				}
 			} compactLeading: {
-				Text("L")
+                Image(systemName: "bus.fill")
+                    .symbolRenderingMode(.palette)
+                    .foregroundColor(.red)
+                
 			} compactTrailing: {
-				Text("T")
+                if context.state.submissionStatus {
+                    Image(systemName: "checkmark.circle")
+                        .symbolRenderingMode(.palette)
+                        .foregroundColor(.green)
+                }
+                else {
+                    Image(systemName: "xmark.circle")
+                        .symbolRenderingMode(.palette)
+                        .foregroundColor(.red)
+                }
 			} minimal: {
-				Text("Min")
+                HStack {
+                    if context.state.submissionStatus {
+                        Image(systemName: "checkmark.circle")
+                            .symbolRenderingMode(.palette)
+                            .foregroundColor(.green)
+                    }
+                    else {
+                        Image(systemName: "xmark.circle")
+                            .symbolRenderingMode(.palette)
+                            .foregroundColor(.red)
+                    }
+                    Text("Status: \(context.state.status)")
+                }
 			}
-				.widgetURL(URL(string: "http://www.apple.com"))
 				.keylineTint(Color.red)
 		}
 	}
