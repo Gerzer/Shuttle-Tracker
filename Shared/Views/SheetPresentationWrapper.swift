@@ -92,6 +92,10 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					}
 				#endif // os(iOS)
 				#if os(iOS) && !APPCLIP
+				case .networkOnboarding:
+					NetworkOnboardingView()
+				#endif // os(iOS) && !APPCLIP
+				#if os(iOS) && !APPCLIP
 				case .permissions:
 					PermissionsSheet()
 						.interactiveDismissDisabled()
@@ -119,10 +123,6 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 						.frame(idealWidth: 500, idealHeight: 500)
 					#endif // os(macOS)
 				#endif // !APPCLIP
-                #if os(iOS) && !APPCLIP
-                case .network:
-                    ShuttleNetworkView()
-                #endif // os(iOS) && !APPCLIP
 				}
 			}
 	}

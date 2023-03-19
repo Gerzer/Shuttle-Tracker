@@ -11,8 +11,7 @@
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8A27BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
-		BC91B4C42989B35400711AE8 /* ShuttleNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */; };
-		BC91B4C52989B35400711AE8 /* ShuttleNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */; };
+		BC91B4C52989B35400711AE8 /* NetworkOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */; };
 		C0019DCE251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DCF251910E80020574D /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
 		C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
@@ -204,7 +203,7 @@
 /* Begin PBXFileReference section */
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
-		BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleNetworkView.swift; sourceTree = "<group>"; };
+		BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOnboardingView.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		C0019DD425191EBB0020574D /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		C0019DDF25192AA50020574D /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -352,6 +351,7 @@
 				C059833A27D2C77900299D27 /* AboutView.swift */,
 				C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */,
 				C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */,
+				BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */,
 				C0BC27692974648E008A4BD0 /* NetworkToast.swift */,
 				C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */,
 				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
@@ -397,7 +397,6 @@
 				C059832327D1840700299D27 /* SheetPresentationWrapper.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
-				BC91B4C32989B35400711AE8 /* ShuttleNetworkView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewView.swift */,
 			);
 			path = Views;
@@ -780,7 +779,7 @@
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */,
 				C059833B27D2C77900299D27 /* AboutView.swift in Sources */,
-				BC91B4C52989B35400711AE8 /* ShuttleNetworkView.swift in Sources */,
+				BC91B4C52989B35400711AE8 /* NetworkOnboardingView.swift in Sources */,
 				C095480A250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C0F420D32927570900CC0F91 /* WrappedError.swift in Sources */,
 				C0F420C72926EDA100CC0F91 /* Logging.swift in Sources */,
@@ -814,7 +813,6 @@
 				C0BF4F8929B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C0BF4F8D29B3D6130094FD3E /* AnalyticsDetailView.swift in Sources */,
 				C0A1E72B2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
-				BC91B4C42989B35400711AE8 /* ShuttleNetworkView.swift in Sources */,
 				C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */,
 				C0FB5D542929CC3F0019E266 /* LogDetailView.swift in Sources */,
 				C015281E2517F68F0069092C /* MapState.swift in Sources */,

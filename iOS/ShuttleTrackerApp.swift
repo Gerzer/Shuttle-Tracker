@@ -52,12 +52,8 @@ struct ShuttleTrackerApp: App {
 				switch (locationManager.authorizationStatus, locationManager.accuracyAuthorization) {
 				case (.authorizedAlways, .fullAccuracy):
 					break
-				case (.authorizedWhenInUse, .fullAccuracy):
+				default:
 					ViewState.shared.toastType = .network
-				case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
-					Self.pushSheet(.permissions)
-				@unknown default:
-					fatalError()
 				}
 			}
 		} conditions: {
@@ -104,9 +100,7 @@ struct ShuttleTrackerApp: App {
 		CLLocationManager.default.showsBackgroundLocationIndicator = true
 		CLLocationManager.default.allowsBackgroundLocationUpdates = true
 		CLLocationManager.default.pausesLocationUpdatesAutomatically = false
-		CLLocationManager.default.requestWhenInUseAuthorization() // We request “when-in-use” authorization even when we actually want “always” authorization because doing so lets us avoid iOS’s usual deferment of the “always” prompt until long after the user closes the app. Instead, iOS shows two prompts in direct succession: firstly for “when-in-use” and secondly for “always”.
 		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
-			CLLocationManager.default.requestAlwaysAuthorization()
 			let beaconRegion = CLBeaconRegion(uuid: BoardBusManager.networkUUID, identifier: BoardBusManager.beaconID)
 			beaconRegion.notifyEntryStateOnDisplay = true
 			CLLocationManager.default.startMonitoring(for: beaconRegion)

@@ -118,27 +118,30 @@ struct WhatsNewView: View {
 					#endif // os(iOS)
 			}
 			#if os(iOS)
-			if self.onboarding {
-				NavigationLink {
-					AnalyticsOnboardingView()
-				} label: {
-					Text("Continue")
-						.bold()
+			Group {
+				if self.onboarding {
+					NavigationLink {
+						NetworkOnboardingView()
+					} label: {
+						Text("Continue")
+							.bold()
+							.padding(5)
+							.frame(maxWidth: .infinity)
+					}
+				} else {
+					Button {
+						self.sheetStack.pop()
+					} label: {
+						Text("Continue")
+							.bold()
+							.padding(5)
+							.frame(maxWidth: .infinity)
+					}
 				}
-					.buttonStyle(.block)
-					.padding(.horizontal)
-					.padding(.bottom)
-			} else {
-				Button {
-					self.sheetStack.pop()
-				} label: {
-					Text("Continue")
-						.bold()
-				}
-					.buttonStyle(.block)
-					.padding(.horizontal)
-					.padding(.bottom)
 			}
+				.buttonStyle(.borderedProminent)
+				.padding(.horizontal)
+				.padding(.bottom)
 			#endif // os(iOS)
 		}
 			.toolbar {
