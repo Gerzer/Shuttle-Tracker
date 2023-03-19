@@ -133,6 +133,7 @@ struct NetworkOnboardingView: View {
 					)
 				Text(self.textValue)
 					.multilineTextAlignment(.center)
+					.accessibilityShowsLargeContentViewer()
 					.transition(.opacity)
 					.padding(.vertical)
 					.onAppear {

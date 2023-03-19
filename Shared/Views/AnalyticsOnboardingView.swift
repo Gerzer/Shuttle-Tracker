@@ -28,6 +28,7 @@ struct AnalyticsOnboardingView: View {
 				}
 					.padding(.vertical)
 				Text("Share analytics with the Shuttle Tracker team to help us improve the app. You can see a record of uploaded analytics entries or enable or disable the feature in Settings > Logging & Analytics.")
+					.accessibilityShowsLargeContentViewer()
 					.padding(.bottom)
 				Button("Show Privacy Information") {
 					self.sheetStack.push(.privacy)
