@@ -106,8 +106,16 @@ public enum Analytics {
 			self.clientPlatform = .macos
 			#endif // os(macOS)
 			self.date = .now
-			self.clientPlatformVersion = Bundle.main.version ?? ""
-			self.appVersion = Bundle.main.build ?? ""
+			self.clientPlatformVersion = ProcessInfo.processInfo.operatingSystemVersionString
+			if let version = Bundle.main.version {
+				if let build = Bundle.main.build {
+					self.appVersion = "\(version) (\(build))"
+				} else {
+					self.appVersion = version
+				}
+			} else {
+				self.appVersion = ""
+			}
 			#if os(iOS)
 			self.boardBusCount = await AppStorageManager.shared.boardBusCount
 			#else // os(iOS)
