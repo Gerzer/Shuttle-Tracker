@@ -131,7 +131,7 @@ struct PermissionsSheet: View {
 										}
 									}
 								@unknown default:
-									fatalError()
+									EmptyView()
 								}
 							}
 								.scaleEffect(self.notificationScale)
