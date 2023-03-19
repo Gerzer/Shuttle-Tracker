@@ -56,7 +56,6 @@
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
-		C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832127D1551400299D27 /* WelcomeSheet.swift */; };
 		C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
 		C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
 		C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
@@ -224,7 +223,6 @@
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
 		C03EE72026DEAD1F00878D77 /* LegendToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendToast.swift; sourceTree = "<group>"; };
 		C059831D27D14C8C00299D27 /* PrivacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
-		C059832127D1551400299D27 /* WelcomeSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeSheet.swift; sourceTree = "<group>"; };
 		C059832327D1840700299D27 /* SheetPresentationWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationWrapper.swift; sourceTree = "<group>"; };
 		C059833A27D2C77900299D27 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		C059833C27D2C82E00299D27 /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
 				C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */,
 				C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */,
-				C059832127D1551400299D27 /* WelcomeSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -754,7 +751,6 @@
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
 				C00DF74D29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
-				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,

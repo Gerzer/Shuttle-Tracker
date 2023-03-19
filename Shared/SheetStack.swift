@@ -45,10 +45,6 @@ final class SheetStack: ObservableObject {
 		case settings
 		#endif // os(iOS) && !APPCLIP
 		
-		#if os(iOS) && !APPCLIP
-		case welcome
-		#endif // os(iOS) && !APPCLIP
-		
 		#if !APPCLIP
 		case whatsNew
 		#endif // !APPCLIP

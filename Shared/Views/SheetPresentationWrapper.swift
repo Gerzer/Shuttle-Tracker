@@ -103,11 +103,6 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 				case .settings:
 					SettingsSheet()
 				#endif // os(iOS) && !APPCLIP
-				#if os(iOS) && !APPCLIP
-				case .welcome:
-					WelcomeSheet()
-						.interactiveDismissDisabled()
-				#endif // os(iOS) && !APPCLIP
 				#if !APPCLIP
 				case .whatsNew:
 					WhatsNewSheet()
