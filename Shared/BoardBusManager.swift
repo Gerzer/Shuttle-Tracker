@@ -15,7 +15,7 @@ actor BoardBusManager: ObservableObject {
 	
 	enum TravelState: Equatable {
 		
-		case onBus(isManual: Bool)
+		case onBus(manual: Bool)
 		
 		case notOnBus
 		
@@ -55,7 +55,7 @@ actor BoardBusManager: ObservableObject {
 	
 	private init() { }
 	
-	func boardBus(id busID: Int, manually isManual: Bool) async {
+	func boardBus(id busID: Int, manually manual: Bool) async {
 		// Require that Board Bus be currently inactive
 		precondition(.notOnBus ~= self.travelState)
 		
@@ -75,12 +75,12 @@ actor BoardBusManager: ObservableObject {
 		}
 		self.busID = busID
 		self.locationID = UUID()
-		self.travelState = .onBus(isManual: isManual)
+		self.travelState = .onBus(manual: manual)
 		CLLocationManager.default.startUpdatingLocation()
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
 		}
-		if !isManual {
+		if !manual {
 			Task { // Dispatch a child task because we don’t need to await the result
 				await self.sendBoardBusNotification(type: .boardBus)
 			}
@@ -109,10 +109,10 @@ actor BoardBusManager: ObservableObject {
 		
 		Task {
 			do {
-				guard case .onBus(let isManual) = self.travelState else {
+				guard case .onBus(let manual) = self.travelState else {
 					preconditionFailure()
 				}
-				try await Analytics.upload(eventType: .boardBusDeactivated(manual: isManual))
+				try await Analytics.upload(eventType: .boardBusDeactivated(manual: manual))
 			} catch let error {
 				Logging.withLogger(for: .api, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
