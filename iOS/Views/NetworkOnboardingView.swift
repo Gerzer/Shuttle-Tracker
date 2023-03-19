@@ -76,7 +76,6 @@ struct NetworkOnboardingView: View {
 									.resizable()
 									.frame(width: 20 * self.deviceScale, height: 20)
 									.scaleEffect(self.deviceScale)
-//									.symbolRenderingMode(.monochrome)
 									.background(.gray, in: Circle())
 							},
 							alignment: .topTrailing
@@ -92,7 +91,6 @@ struct NetworkOnboardingView: View {
 							}
 						}
 					Image(systemName: "iphone")
-//						.symbolRenderingMode(.monochrome)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 50, height: 50)
