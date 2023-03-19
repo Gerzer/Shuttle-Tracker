@@ -44,9 +44,8 @@ struct ShuttleTrackerApp: App {
 				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
-			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
+		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew(onboarding: true), handler: Self.pushSheet(_:)) {
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
 		OnboardingEvent(flags: flags) { (_) in
 			CLLocationManager.registerHandler { (locationManager) in

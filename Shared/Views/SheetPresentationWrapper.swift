@@ -52,6 +52,11 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 				}
 			} content: { (sheetType) in
 				switch sheetType {
+				#if os(macOS)
+				case .analyticsOnboarding:
+					AnalyticsOnboardingView()
+						.frame(minWidth: 300, idealWidth: 500, minHeight: 200, idealHeight: 500)
+				#endif // os(macOS)
 				case .announcements:
 					AnnouncementsSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
@@ -92,21 +97,27 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 						.interactiveDismissDisabled()
 				#endif // os(iOS) && !APPCLIP
 				case .privacy:
-					#if os(macOS)
+					#if os(iOS)
+					PrivacySheet()
+					#elseif os(macOS) // os(iOS)
 					// Don’t use a navigation view on macOS
 					PrivacyView()
 						.frame(idealWidth: 500, idealHeight: 500)
-					#else // os(macOS)
-					PrivacySheet()
-					#endif
+					#endif // os(macOS)
 				#if os(iOS) && !APPCLIP
 				case .settings:
 					SettingsSheet()
 				#endif // os(iOS) && !APPCLIP
 				#if !APPCLIP
-				case .whatsNew:
-					WhatsNewSheet()
+				case .whatsNew(let onboarding):
+					#if os(iOS)
+					WhatsNewSheet(onboarding: onboarding)
+						.interactiveDismissDisabled()
+					#elseif os(macOS) // os(iOS)
+					// Don’t use a navigation view on macOS
+					WhatsNewView(onboarding: onboarding)
 						.frame(idealWidth: 500, idealHeight: 500)
+					#endif // os(macOS)
 				#endif // !APPCLIP
 				}
 			}

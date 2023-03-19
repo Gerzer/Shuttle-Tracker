@@ -22,7 +22,7 @@ struct AboutView: View {
 					PrivacyView()
 				}
 				Button("Show What’s New") {
-					self.sheetStack.push(.whatsNew)
+					self.sheetStack.push(.whatsNew(onboarding: false))
 				}
 			}
 		}
