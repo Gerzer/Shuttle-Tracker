@@ -61,7 +61,7 @@ actor BoardBusManager: ObservableObject {
 		
 		Task { // Dispatch a child task because we don’t need to await the result
 			do {
-				try await Analytics.upload(eventType: .boardBusActivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+				try await Analytics.upload(eventType: .boardBusActivated(manual: isManual))
 			} catch let error {
 				Logging.withLogger(for: .api, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
@@ -107,7 +107,7 @@ actor BoardBusManager: ObservableObject {
 			}
 		}
 		
-		Task {
+		Task { // Dispatch a child task because we don’t need to await the result
 			do {
 				guard case .onBus(let isManual) = self.travelState else {
 					preconditionFailure()
