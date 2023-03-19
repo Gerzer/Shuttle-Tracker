@@ -57,7 +57,6 @@ struct PrimaryOverlay: View {
 							await self.boardBus()
 						}
 					}
-                    
 				} label: {
 					Text(self.buttonText)
 						.bold()
