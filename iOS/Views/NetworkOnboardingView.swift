@@ -12,15 +12,6 @@ import CoreLocation
 
 struct NetworkOnboardingView: View {
 	
-	@EnvironmentObject
-	private var sheetStack: SheetStack
-	
-	@ScaledMetric
-	var textScale: CGFloat = 1 //used for dynamic type sizing for logos
-	
-	@Environment(\.openURL)
-	private var openURL
-	
 	@State
 	private var busScale: CGFloat = 0
 	
@@ -44,6 +35,9 @@ struct NetworkOnboardingView: View {
 	
 	@State
 	private var didBeginAnimation = false
+	
+	@Environment(\.openURL)
+	private var openURL
 	
 	var body: some View {
 		SheetPresentationWrapper {
