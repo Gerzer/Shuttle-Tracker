@@ -106,9 +106,9 @@ struct LoggingAnalyticsSettingsView: View {
 			}
 			Section {
 				#if os(iOS)
-				Toggle("Collect Analytics", isOn: self.appStorageManager.$doCollectAnalytics)
+				Toggle("Share Analytics", isOn: self.appStorageManager.$doShareAnalytics)
 				#elseif os(macOS) // os(iOS)
-				Toggle("Collect analytics", isOn: self.appStorageManager.$doCollectAnalytics)
+				Toggle("Share analytics", isOn: self.appStorageManager.$doShareAnalytics)
 				#endif // os(macOS)
 			}
 			#if os(macOS)

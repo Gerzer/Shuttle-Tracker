@@ -35,7 +35,7 @@ struct AnalyticsOnboardingView: View {
 				Spacer()
 				HStack {
 					Button {
-						self.appStorageManager.doCollectAnalytics = false
+						self.appStorageManager.doShareAnalytics = false
 						self.sheetStack.pop()
 					} label: {
 						Text("Don’t Share")
@@ -47,7 +47,7 @@ struct AnalyticsOnboardingView: View {
 					}
 						.buttonStyle(.bordered)
 					Button {
-						self.appStorageManager.doCollectAnalytics = true
+						self.appStorageManager.doShareAnalytics = true
 						self.sheetStack.pop()
 					} label: {
 						Text("Share Analytics")

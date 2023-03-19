@@ -156,7 +156,7 @@ public enum Analytics {
 	}
 	
 	static func upload(eventType: EventType) async throws {
-		guard await AppStorageManager.shared.doCollectAnalytics else {
+		guard await AppStorageManager.shared.doShareAnalytics else {
 			return
 		}
 		do {
