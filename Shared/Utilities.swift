@@ -62,6 +62,13 @@ enum LocationUtilities {
 		)
 		do {
 			try await API.updateBus(id: busID, location: location).perform()
+		} catch let error as any HTTPStatusCode {
+			if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
+				return
+			}
+			Logging.withLogger(for: .boardBus) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
+			}
 		} catch let error {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
@@ -95,14 +102,6 @@ enum MapConstants {
 	#elseif canImport(UIKit) // canImport(AppKit)
 	static let mapRectInsets = UIEdgeInsets(top: 50, left: 10, bottom: 200, right: 10)
 	#endif // canImport(UIKit)
-	
-}
-
-enum TravelState {
-	
-	case onBus
-	
-	case notOnBus
 	
 }
 
@@ -327,6 +326,20 @@ extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
 		get {
 			return Self()
 		}
+	}
+	
+}
+
+extension UUID: RawRepresentable {
+	
+	public var rawValue: String {
+		get {
+			return self.uuidString
+		}
+	}
+	
+	public init?(rawValue: String) {
+		self.init(uuidString: rawValue)
 	}
 	
 }

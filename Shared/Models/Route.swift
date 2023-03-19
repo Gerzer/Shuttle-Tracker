@@ -117,7 +117,7 @@ extension Array where Element == Route {
 		do {
 			return try await API.readRoutes.perform(as: [Route].self)
 		} catch let error {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
 			}
 			return []

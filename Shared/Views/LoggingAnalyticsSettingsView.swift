@@ -15,8 +15,20 @@ struct LoggingAnalyticsSettingsView: View {
 		
 	}
 	
+	enum Category: CaseIterable {
+		
+		case logs, analytics
+		
+	}
+	
 	@State
-	private var doShowConfirmationDialog = false
+	private var selectedCategory: Category = .logs
+	
+	@State
+	private var doShowClearLogsConfirmationDialog = false
+	
+	@State
+	private var doShowClearAnalyticsEntriesConfirmationDialog = false
 	
 	@State
 	private var logUploadState: LogUploadState = .waiting
@@ -25,11 +37,17 @@ struct LoggingAnalyticsSettingsView: View {
 	private var didClearUploadedLogs = false
 	
 	@State
+	private var didClearUploadedAnalyticsEntries = false
+	
+	@State
 	private var logUploadError: WrappedError?
 	
 	#if os(macOS)
 	@State
 	private var selectedLog: Logging.Log?
+	
+	@State
+	private var selectedAnalyticsEntry: Analytics.Entry?
 	#endif // os(macOS)
 	
 	@EnvironmentObject
@@ -46,7 +64,24 @@ struct LoggingAnalyticsSettingsView: View {
 	var body: some View {
 		Form {
 			Section {
-				#if os(macOS)
+				#if os(iOS)
+				Toggle("Automatically Upload Logs", isOn: self.appStorageManager.$doUploadLogs)
+				Button(action: self.uploadLog) {
+					HStack {
+						Text("Upload Log Now")
+						Spacer()
+						switch self.logUploadState {
+						case .waiting:
+							EmptyView()
+						case .uploading:
+							ProgressView()
+						case .uploaded:
+							Text("✓")
+						}
+					}
+				}
+					.disabled(.uploading ~= self.logUploadState || .uploaded ~= self.logUploadState)
+				#elseif os(macOS) // os(iOS)
 				HStack {
 					Toggle("Automatically upload logs", isOn: self.appStorageManager.$doUploadLogs)
 					Spacer()
@@ -67,116 +102,216 @@ struct LoggingAnalyticsSettingsView: View {
 					}
 						.disabled(.uploading ~= self.logUploadState || .uploaded ~= self.logUploadState)
 				}
-				#else // os(macOS)
-				Toggle("Automatically Upload Logs", isOn: self.appStorageManager.$doUploadLogs)
-				Button(action: self.uploadLog) {
-					HStack {
-						Text("Upload Log Now")
-						Spacer()
-						switch self.logUploadState {
-						case .waiting:
-							EmptyView()
-						case .uploading:
-							ProgressView()
-						case .uploaded:
-							Text("✓")
-						}
-					}
-				}
-					.disabled(.uploading ~= self.logUploadState || .uploaded ~= self.logUploadState)
-				#endif
+				#endif // os(macOS)
+			}
+			Section {
+				#if os(iOS)
+				Toggle("Share Analytics", isOn: self.appStorageManager.$doShareAnalytics)
+				#elseif os(macOS) // os(iOS)
+				Toggle("Share analytics", isOn: self.appStorageManager.$doShareAnalytics)
+				#endif // os(macOS)
 			}
 			#if os(macOS)
 			Divider()
+			Spacer()
 			#endif // os(macOS)
 			Section {
+				Picker("Category", selection: self.$selectedCategory) {
+					ForEach(Category.allCases, id: \.self) { (category) in
+						switch category {
+						case .logs:
+							Text("Logs")
+						case .analytics:
+							Text("Analytics")
+						}
+					}
+				}
+					.pickerStyle(.segmented)
+					.labelsHidden()
 				#if os(macOS)
-				HStack {
+				Spacer()
+				#endif // os(macOS)
+				switch self.selectedCategory {
+				case .logs:
+					#if os(iOS)
 					List(
 						self.appStorageManager.uploadedLogs
 							.sorted { (first, second) in
 								return first.date < second.date
 							}
-							.reversed(),
-						selection: self.$selectedLog
+							.reversed()
 					) { (log) in
-						VStack(alignment: .leading) {
-							Text(self.dateFormatter.string(from: log.date))
-								.font(.headline)
-							Text(log.id.uuidString)
-								.font(.caption)
-						}
-							.tag(log)
-					}
-						.listStyle(.plain)
-						.frame(width: 300)
-						.animation(.default, value: self.appStorageManager.uploadedLogs)
-					Divider()
-					if let log = self.selectedLog {
-						LogDetailView(log: log)
-					} else {
-						Spacer()
-						Text("No Log Selected")
-							.font(.title2)
-							.multilineTextAlignment(.center)
-							.foregroundColor(.secondary)
-							.padding()
-						Spacer()
-					}
-				}
-				#else // os(macOS)
-				List(
-					self.appStorageManager.uploadedLogs
-						.sorted { (first, second) in
-							return first.date < second.date
-						}
-						.reversed()
-				) { (log) in
-					NavigationLink {
-						LogDetailView(log: log)
-					} label: {
-						VStack(alignment: .leading) {
-							Text(self.dateFormatter.string(from: log.date))
-								.font(.headline)
-							Text(log.id.uuidString)
-								.font(.caption)
+						NavigationLink {
+							LogDetailView(log: log)
+						} label: {
+							VStack(alignment: .leading) {
+								Text(self.dateFormatter.string(from: log.date))
+									.font(.headline)
+								Text(log.id.uuidString)
+									.font(.caption)
+							}
 						}
 					}
-				}
-				Button(role: .destructive) {
-					self.doShowConfirmationDialog = true
-				} label: {
-					HStack {
-						Text("Clear Uploaded Logs")
-						Spacer()
-						if self.didClearUploadedLogs {
-							Text("✓")
-						}
-					}
-				}
-				.disabled(self.appStorageManager.uploadedLogs.isEmpty)
-				#endif
-			} header: {
-				#if os(macOS)
-				HStack {
-					Text("Uploaded Logs")
-						.bold()
-					Spacer()
 					Button(role: .destructive) {
-						self.doShowConfirmationDialog = true
+						self.doShowClearLogsConfirmationDialog = true
 					} label: {
 						HStack {
-							Text("Clear")
+							Text("Clear Uploaded Logs")
+							Spacer()
 							if self.didClearUploadedLogs {
 								Text("✓")
 							}
 						}
 					}
 						.disabled(self.appStorageManager.uploadedLogs.isEmpty)
+					#elseif os(macOS) // os(iOS)
+					HStack {
+						List(
+							self.appStorageManager.uploadedLogs
+								.sorted { (first, second) in
+									return first.date < second.date
+								}
+								.reversed(),
+							selection: self.$selectedLog
+						) { (log) in
+							VStack(alignment: .leading) {
+								Text(self.dateFormatter.string(from: log.date))
+									.font(.headline)
+								Text(log.id.uuidString)
+									.font(.caption)
+							}
+								.tag(log)
+						}
+							.listStyle(.plain)
+							.frame(width: 300)
+							.animation(.default, value: self.appStorageManager.uploadedLogs)
+						Divider()
+						if let log = self.selectedLog {
+							LogDetailView(log: log)
+						} else {
+							Spacer()
+							Text("No Log Selected")
+								.font(.title2)
+								.multilineTextAlignment(.center)
+								.foregroundColor(.secondary)
+								.padding()
+							Spacer()
+						}
+					}
+					#endif // os(macOS)
+				case .analytics:
+					#if os(iOS)
+					List(
+						self.appStorageManager.uploadedAnalyticsEntries
+							.sorted { (first, second) in
+								return first.date < second.date
+							}
+							.reversed()
+					) { (entry) in
+						NavigationLink {
+							AnalyticsDetailView(entry: entry)
+						} label: {
+							VStack(alignment: .leading) {
+								Text(self.dateFormatter.string(from: entry.date))
+									.font(.headline)
+								Text(entry.id.uuidString)
+									.font(.caption)
+							}
+						}
+					}
+					Button(role: .destructive) {
+						self.doShowClearAnalyticsEntriesConfirmationDialog = true
+					} label: {
+						HStack {
+							Text("Clear Uploaded Analytics Entries")
+							Spacer()
+							if self.didClearUploadedAnalyticsEntries {
+								Text("✓")
+							}
+						}
+					}
+						.disabled(self.appStorageManager.uploadedAnalyticsEntries.isEmpty)
+					#elseif os(macOS) // os(iOS)
+					HStack {
+						List(
+							self.appStorageManager.uploadedAnalyticsEntries
+								.sorted { (first, second) in
+									return first.date < second.date
+								}
+								.reversed(),
+							selection: self.$selectedAnalyticsEntry
+						) { (entry) in
+							VStack(alignment: .leading) {
+								Text(self.dateFormatter.string(from: entry.date))
+									.font(.headline)
+								Text(entry.id.uuidString)
+									.font(.caption)
+							}
+								.tag(entry)
+						}
+							.listStyle(.plain)
+							.frame(width: 300)
+							.animation(.default, value: self.appStorageManager.uploadedAnalyticsEntries)
+						Divider()
+						if let entry = self.selectedAnalyticsEntry {
+							AnalyticsDetailView(entry: entry)
+						} else {
+							Spacer()
+							Text("No Analytics Entry Selected")
+								.font(.title2)
+								.multilineTextAlignment(.center)
+								.foregroundColor(.secondary)
+								.padding()
+							Spacer()
+						}
+					}
+					#endif // os(macOS)
 				}
-				#else // os(macOS)
-				Text("Uploaded Logs")
-				#endif
+			} header: {
+				switch self.selectedCategory {
+				case .logs:
+					#if os(iOS)
+					Text("Uploaded Logs")
+					#elseif os(macOS) // os(iOS)
+					HStack {
+						Text("Uploaded Logs")
+							.bold()
+						Spacer()
+						Button(role: .destructive) {
+							self.doShowClearLogsConfirmationDialog = true
+						} label: {
+							HStack {
+								Text("Clear")
+								if self.didClearUploadedLogs {
+									Text("✓")
+								}
+							}
+						}
+							.disabled(self.appStorageManager.uploadedLogs.isEmpty)
+					}
+					#endif // os(macOS)
+				case .analytics:
+					#if os(iOS)
+					Text("Uploaded Analytics Entries")
+					#elseif os(macOS) // os(iOS)
+					HStack {
+						Text("Uploaded Analytics Entries")
+							.bold()
+						Spacer()
+						Button(role: .destructive) {
+							self.doShowClearAnalyticsEntriesConfirmationDialog = true
+						} label: {
+							HStack {
+								Text("Clear")
+								if self.didClearUploadedAnalyticsEntries {
+									Text("✓")
+								}
+							}
+						}
+							.disabled(self.appStorageManager.uploadedAnalyticsEntries.isEmpty)
+					}
+					#endif // os(macOS)
+				}
 			}
 		}
 			#if os(iOS)
@@ -197,7 +332,7 @@ struct LoggingAnalyticsSettingsView: View {
 					#endif // os(macOS)
 				}
 			}
-			.confirmationDialog("Clear Uploaded Logs", isPresented: self.$doShowConfirmationDialog) {
+			.confirmationDialog("Clear Uploaded Logs", isPresented: self.$doShowClearLogsConfirmationDialog) {
 				Button("Clear Uploaded Logs", role: .destructive) {
 					#if os(iOS)
 					withAnimation {
@@ -207,11 +342,29 @@ struct LoggingAnalyticsSettingsView: View {
 					#elseif os(macOS) // os(iOS)
 					self.appStorageManager.uploadedLogs.removeAll()
 					self.didClearUploadedLogs = true
+					self.selectedLog = nil
 					#endif // os(macOS)
 				}
 				Button("Cancel", role: .cancel) { }
 			} message: {
 				Text("Are you sure that you want to clear the record of logs that have been uploaded from this device? This will only clear the logs locally; since uploaded logs are not tied to your device or your identity to protect your privacy, they can’t be deleted from the server.")
+			}
+			.confirmationDialog("Clear Uploaded Analytics Entries", isPresented: self.$doShowClearAnalyticsEntriesConfirmationDialog) {
+				Button("Clear Uploaded Analytics Entries", role: .destructive) {
+					#if os(iOS)
+					withAnimation {
+						self.appStorageManager.uploadedAnalyticsEntries.removeAll()
+						self.didClearUploadedAnalyticsEntries = true
+					}
+					#elseif os(macOS) // os(iOS)
+					self.appStorageManager.uploadedAnalyticsEntries.removeAll()
+					self.didClearUploadedAnalyticsEntries = true
+					self.selectedAnalyticsEntry = nil
+					#endif // os(macOS)
+				}
+				Button("Cancel", role: .cancel) { }
+			} message: {
+				Text("Are you sure that you want to clear the record of analytics entries that have been uploaded from this device? This will only clear the analytics entries locally; since no one has yet programmed a function to delete analytics entries, they can’t be deleted from the server.")
 			}
 			.onAppear {
 				self.logUploadState = .waiting
@@ -224,6 +377,17 @@ struct LoggingAnalyticsSettingsView: View {
 					}
 					#elseif os(macOS) // os(iOS)
 					self.didClearUploadedLogs = false
+					#endif // os(macOS)
+				}
+			}
+			.onChange(of: self.appStorageManager.uploadedAnalyticsEntries) { (newValue) in
+				if !newValue.isEmpty {
+					#if os(iOS)
+					withAnimation {
+						self.didClearUploadedAnalyticsEntries = false
+					}
+					#elseif os(macOS) // os(iOS)
+					self.didClearUploadedAnalyticsEntries = false
 					#endif // os(macOS)
 				}
 			}
@@ -250,7 +414,7 @@ struct LoggingAnalyticsSettingsView: View {
 			} catch let error {
 				self.logUploadError = WrappedError(error)
 				Logging.withLogger { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload logs: \(error, privacy: .public)")
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 				}
 				throw error
 			}
@@ -264,7 +428,7 @@ struct LoggingAnalyticsSettingsViewPreviews: PreviewProvider {
 	static var previews: some View {
 		LoggingAnalyticsSettingsView()
 			.environmentObject(AppStorageManager.shared)
-			.onAppear {
+			.task {
 				AppStorageManager.shared.uploadedLogs = [
 					Logging.Log(content: "Hello, world!")
 				]

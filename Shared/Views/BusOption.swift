@@ -37,7 +37,7 @@ struct BusOption: View {
 				.overlay(
 					RoundedRectangle(cornerRadius: 10)
 						.stroke(
-							self.busID == self.selectedBusID ? .blue : .primary,
+							self.busID == self.selectedBusID ? Color.accentColor : .primary,
 							lineWidth: self.busID == self.selectedBusID ? 5 : 2
 						)
 				)

@@ -8,6 +8,9 @@
 import CoreLocation
 import SwiftUI
 
+@preconcurrency
+import UserNotifications
+
 struct BusSelectionSheet: View {
 	
 	@State
@@ -18,6 +21,9 @@ struct BusSelectionSheet: View {
 	
 	@State
 	private var selectedBusID: BusID?
+	
+	@State
+	private var didContinueWithSelectedBusID = false
 	
 	@EnvironmentObject
 	private var mapState: MapState
@@ -97,6 +103,7 @@ struct BusSelectionSheet: View {
 					}
 					ToolbarItem(placement: .bottomBar) {
 						Button {
+							self.didContinueWithSelectedBusID = true
 							Task {
 								switch CLLocationManager.default.accuracyAuthorization {
 								case .fullAccuracy:
@@ -162,6 +169,19 @@ struct BusSelectionSheet: View {
 					return BusID(bus.id)
 				}
 			}
+			.onDisappear {
+				if !self.didContinueWithSelectedBusID {
+					Task {
+						do {
+							try await Analytics.upload(eventType: .busSelectionCanceled)
+						} catch let error {
+							Logging.withLogger(for: .api) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
+							}
+						}
+					}
+				}
+			}
 	}
 	
 	/// Works with ``BoardBusManager`` to activate Board Bus.
@@ -171,15 +191,13 @@ struct BusSelectionSheet: View {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Activating Board Bus manually…")
 		}
-		guard let busID = self.selectedBusID?.rawValue else {
+		guard let id = self.selectedBusID?.rawValue else {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] No selected bus ID while trying to activate manual Board Bus")
 			}
 			return
 		}
-		await self.boardBusManager.boardBus(id: busID)
-		self.viewState.statusText = .locationData
-		self.viewState.handles.tripCount?.increment()
+		await self.boardBusManager.boardBus(id: id, manually: true)
 		self.sheetStack.pop()
 		CLLocationManager.default.startUpdatingLocation()
 		

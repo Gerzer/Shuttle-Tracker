@@ -41,10 +41,10 @@ struct ShuttleTrackerApp: App {
 		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .reminder) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
 		}
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew) { (value) in
+		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew(onboarding: true)) { (value) in
 			Self.pushSheet(value, to: Self.contentViewSheetStack)
 		} conditions: {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
 	}
 	
@@ -143,7 +143,7 @@ fileprivate struct AnnouncementsCommandView: View {
 	private var sheetStack: SheetStack
 	
 	var body: some View {
-		Button("\(self.sheetStack.top ~= .announcements ? "Hide" : "Show") Announcements") {
+		Button("\(.announcements ~= self.sheetStack.top ? "Hide" : "Show") Announcements") {
 			if case .announcements = self.sheetStack.top {
 				self.sheetStack.pop()
 			} else {
@@ -151,7 +151,7 @@ fileprivate struct AnnouncementsCommandView: View {
 			}
 		}
 			.keyboardShortcut(KeyEquivalent("a"), modifiers: [.command, .shift])
-			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .announcements))
+			.disabled(self.sheetStack.count > 0 && !(.announcements ~= self.sheetStack.top))
 	}
 	
 }
@@ -161,15 +161,26 @@ fileprivate struct WhatsNewCommandView: View {
 	@EnvironmentObject
 	private var sheetStack: SheetStack
 	
+	private var isWhatsNewSheetOnTop: Bool {
+		get {
+			switch self.sheetStack.top {
+			case .whatsNew:
+				return true
+			default:
+				return false
+			}
+		}
+	}
+	
 	var body: some View {
-		Button("\(self.sheetStack.top ~= .whatsNew ? "Hide" : "Show") What’s New") {
+		Button("\(self.isWhatsNewSheetOnTop ? "Hide" : "Show") What’s New") {
 			if case .whatsNew = self.sheetStack.top {
 				self.sheetStack.pop()
 			} else {
-				self.sheetStack.push(.whatsNew)
+				self.sheetStack.push(.whatsNew(onboarding: false))
 			}
 		}
-			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .whatsNew))
+			.disabled(self.sheetStack.count > 0 && !self.isWhatsNewSheetOnTop)
 	}
 	
 }
@@ -180,14 +191,14 @@ fileprivate struct PrivacyCommandView: View {
 	private var sheetStack: SheetStack
 	
 	var body: some View {
-		Button("\(self.sheetStack.top ~= .privacy ? "Hide" : "Show") Privacy Information") {
+		Button("\(.privacy ~= self.sheetStack.top ? "Hide" : "Show") Privacy Information") {
 			if case .privacy = self.sheetStack.top {
 				self.sheetStack.pop()
 			} else {
 				self.sheetStack.push(.privacy)
 			}
 		}
-			.disabled(self.sheetStack.count > 0 && !(self.sheetStack.top ~= .privacy))
+			.disabled(self.sheetStack.count > 0 && !(.privacy ~= self.sheetStack.top))
 	}
 	
 }

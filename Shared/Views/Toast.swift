@@ -43,7 +43,7 @@ struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, 
 					#else // os(iOS)
 					Button {
 						withAnimation {
-							self.item = item
+							self.item = nil
 						}
 					} label: {
 						Image(systemName: "xmark.circle.fill")
