@@ -21,6 +21,7 @@ nf.maximumFractionDigits = 2
 }
 
 
+
 struct PrimaryOverlay: View {
 	
 	private let timer = Timer
@@ -123,13 +124,13 @@ struct PrimaryOverlay: View {
                     .buttonStyle(.borderedProminent)
                         
                         HStack{
-
+                            
                             if(LocationUtilities.locationManager.location == nil){
                                 
                                 Button{
                                     
                                     self.sheetStack.push(.permissions)
-
+                                    
                                     
                                 }label: {
                                     Image(systemName: "exclamationmark.triangle.fill")
@@ -139,29 +140,46 @@ struct PrimaryOverlay: View {
                                 
                                 
                             }else{
-                                Text("\(0.2.removeZero) mi")
+                                
+                                
+                                let location = LocationUtilities.locationManager.location
+                                var stopLocation = LocationUtilities.locationManager.location
+                            
+                                //we can force unwrap here as we are only here if location != nil
+                                let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
+                                    let newDistance = stop.location.distance(from: location!)
+                                    stopLocation = stop.location
+                                    if newDistance < distance {
+                                        distance = newDistance
+                                    }
+                                }
+                                    
+                                Text("\(closestStopDistance) mi")
                                 Image(systemName: "arrow.up.left")
+                                
+                                
                                 Button(action: {
-
+                                    
+                                    print("TO: \(stopLocation!.coordinate) FROM: \(LocationUtilities.locationManager.location!.coordinate)")
                                 }, label: {
-                                             HStack{
-
-                                                 Image(systemName: "figure.walk")
-
-                                             }
-
-                                         })
+                                    HStack{
+                                        
+                                        Image(systemName: "figure.walk")
+                                        
+                                    }
+                                    
+                                })
                                 
                             }
-
-                        
+                            
+                            
                         }
                         
                         
-                               
-                        }
-                }
-					HStack {
+                        
+                    }
+                    }
+                    HStack {
                         Text("Enroll in the shuttle tracker network today!" )
 							.layoutPriority(1)
 						Spacer()
