@@ -65,7 +65,7 @@ struct PrimaryOverlay: View {
                 VStack(alignment: .leading) {
                     VStack{
 
-                    HStack(spacing: 25){
+                    HStack(spacing: 35){
                     Button {
                         switch self.mapState.travelState {
                         case .onBus:
@@ -126,12 +126,20 @@ struct PrimaryOverlay: View {
 
                             if(LocationUtilities.locationManager.location == nil){
                                 
-                                Image(systemName: "exclamationmark.triangle.fill")
-                                    .foregroundColor(.yellow)
-                                Text("Location Error!").lineLimit(1)
+                                Button{
+                                    
+                                    self.sheetStack.push(.permissions)
+
+                                    
+                                }label: {
+                                    Image(systemName: "exclamationmark.triangle.fill")
+                                        .foregroundColor(.yellow)
+                                    Text("Location Error!").lineLimit(1)
+                                }
+                                
                                 
                             }else{
-                                Text("\(1.2) mi")
+                                Text("\(0.2.removeZero) mi")
                                 Image(systemName: "arrow.up.left")
                                 Button(action: {
 

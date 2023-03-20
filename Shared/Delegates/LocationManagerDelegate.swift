@@ -68,8 +68,9 @@ class LocationManagerDelegate: NSObject,ObservableObject, CLLocationManagerDeleg
     let manager = CLLocationManager()
     
     @Published var location: CLLocationCoordinate2D?
+    @Published var locationTEST: CLLocationCoordinate2D?
 
-    
+
     func requestLocation() {
           manager.requestLocation()
       }
