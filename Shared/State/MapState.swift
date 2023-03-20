@@ -17,14 +17,6 @@ class MapState: ObservableObject {
 	@Published var stops = [Stop]()
 	
 	@Published var routes = [Route]()
-    
-//    var ClosestStopDistance = LocationUtilities.locationManager.manager
-//    func ComputeDirection(Location1, Location2) -> String {
-//        return Int.random(in: 1...6)
-//    }
-//
-//    let result = rollDice()
-
    
     
 	@Published var travelState = TravelState.notOnBus {

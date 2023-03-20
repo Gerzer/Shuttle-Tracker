@@ -20,6 +20,34 @@ nf.maximumFractionDigits = 2
 }
 }
 
+func degreesToRadians(degrees: Double) -> Double { return degrees * .pi / 180.0 }
+func radiansToDegrees(radians: Double) -> Double { return radians * 180.0 / .pi }
+//takes in 2 CLLocations, and computes the bearing between those 2 points
+
+
+func compute_direction (point1 : CLLocation, point2 : CLLocation) -> String {
+    
+    let compassPoints = ["arrow.up", "arrow.up.right", "arrow.right", "arrow.down.right", "arrow.down", "arrow.down.backward", "arrow.left", "arrow.up.left", "arrow.up"]
+    
+    let lat1 = degreesToRadians(degrees: point1.coordinate.latitude)
+    let lon1 = degreesToRadians(degrees: point1.coordinate.longitude)
+    
+    let lat2 = degreesToRadians(degrees: point2.coordinate.latitude)
+    let lon2 = degreesToRadians(degrees: point2.coordinate.longitude)
+    
+    let dLon = lon2 - lon1
+    
+    let y = sin(dLon) * cos(lat2)
+    let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
+    var radiansBearing = atan2(y, x)
+    
+    radiansBearing = (radiansBearing + 2 * .pi).truncatingRemainder(dividingBy: 2 * .pi)
+    
+    let degreesBearing = radiansToDegrees(radians: radiansBearing)
+    let index = Int((degreesBearing / 45.0) + 0.5) % compassPoints.count
+    
+    return compassPoints[index]
+}
 
 
 struct PrimaryOverlay: View {
@@ -52,6 +80,7 @@ struct PrimaryOverlay: View {
 
 	@AppStorage("MaximumStopDistance") private var maximumStopDistance = 50
     
+    let conversionConstant = 0.000621371
     
     
     
@@ -154,13 +183,14 @@ struct PrimaryOverlay: View {
                                     }
                                 }
                                     
-                                Text("\(closestStopDistance) mi")
-                                Image(systemName: "arrow.up.left")
+                                Text("\((closestStopDistance * conversionConstant).removeZero) mi")
+                                Image(systemName: compute_direction(point1: location!, point2: stopLocation!) )
                                 
                                 
                                 Button(action: {
                                     
                                     print("TO: \(stopLocation!.coordinate) FROM: \(LocationUtilities.locationManager.location!.coordinate)")
+                                    print(compute_direction(point1: location!, point2: stopLocation!))
                                 }, label: {
                                     HStack{
                                         
