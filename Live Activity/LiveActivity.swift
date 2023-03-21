@@ -48,7 +48,6 @@ struct LiveActivity: Widget {
                     Text("Bus \(context.attributes.busID)")
                         .bold()
                 }
-                
                 if context.state.submissionStatus == true {
                     Text("The location submission succeeded.")
                         .foregroundColor(.green)
@@ -57,12 +56,9 @@ struct LiveActivity: Widget {
                     Text("The location submission failed.")
                         .foregroundColor(.red)
                 }
-                
                 Text("HTTP \(context.state.code): \(context.state.status)")
                     .monospaced()
-                
                 }
-//            .activityBackgroundTint(.white.opacity(0.8))
 				.activitySystemActionForegroundColor(Color.black)
                 .padding()
 			
@@ -116,10 +112,9 @@ struct LiveActivity: Widget {
                             .symbolRenderingMode(.palette)
                             .foregroundColor(.red)
                     }
-                    Text("Status: \(context.state.status)")
                 }
 			}
-				.keylineTint(Color.red)
+            .keylineTint(Color.red)
 		}
 	}
 }
