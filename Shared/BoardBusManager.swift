@@ -68,6 +68,19 @@ actor BoardBusManager: ObservableObject {
 				}
 			}
 		}
+        
+        Task { // Dispatch a child task because we don’t need to await the result
+            do {
+                if let boardBusMilestone = await MilestoneState.shared.milestones.first(where: { m in m.name.lowercased() == "buses boarded"}) {
+                    try await API.updateMilestone(milestone: boardBusMilestone).perform()
+                    await MilestoneState.shared.refresh()
+                }
+            } catch let error {
+                Logging.withLogger(for: .api, doUpload: true) { (logger) in
+                    logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+                }
+            }
+        }
 		
 		// Toggle showsUserLocation twice to ensure that MapKit picks up the UI changes
 		await MainActor.run {

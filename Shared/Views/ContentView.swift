@@ -19,6 +19,9 @@ struct ContentView: View {
 	
 	@EnvironmentObject
 	private var viewState: ViewState
+    
+    @EnvironmentObject
+    private var milestoneState: MilestoneState
 	
 	@EnvironmentObject
 	private var appStorageManager: AppStorageManager
@@ -280,6 +283,7 @@ struct ContentViewPreviews: PreviewProvider {
 		ContentView()
 			.environmentObject(MapState.shared)
 			.environmentObject(ViewState.shared)
+            .environmentObject(MilestoneState.shared)
 			.environmentObject(AppStorageManager.shared)
 			.environmentObject(SheetStack())
 	}

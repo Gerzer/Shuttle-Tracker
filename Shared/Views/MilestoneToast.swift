@@ -17,7 +17,7 @@ struct MilestoneToast<Content>: View where  Content: View {
         }
             .layoutPriority(0)
             .padding()
-            .background(ViewUtilities.standardVisualEffectView)
+            .background(Material.ultraThinMaterial)
             .cornerRadius(10)
     }
 

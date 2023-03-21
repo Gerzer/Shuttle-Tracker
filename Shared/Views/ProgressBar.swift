@@ -8,21 +8,20 @@ import SwiftUI
 
 struct ProgressBar: View {
 
-    @State var newRecordfordailyUser = false
+    @State var newRecordfordailyUser = true
     @State private var newRecordforBus = false
     let ProgressValue:Double
 
     var body: some View {
         VStack{
-        horizontalProgressBar(value: ProgressValue,filled: $newRecordfordailyUser)
-            .frame(height:20)
+            horizontalProgressBar(value: ProgressValue, record: $newRecordfordailyUser)
+                .frame(height:30)
         }
     }
 
     init(progressValue: Double) {
-            self.ProgressValue = progressValue
-        }
-
+        self.ProgressValue = progressValue
+    }
 }
 
 struct ProgressBar_Previews: PreviewProvider {
@@ -36,29 +35,28 @@ struct ProgressBar_Previews: PreviewProvider {
 
 struct horizontalProgressBar : View {
     let value : Double
-    @Binding var filled : Bool
+    @Binding var record : Bool
+    
     var body: some View{
         GeometryReader{geometry in
             ZStack(alignment: .leading) {
                 Rectangle()
-                    .frame(width: geometry.size.width, height: 25)
+                    .frame(width: geometry.size.width)
                     .opacity(0.2)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.red)
 
-
-                if (filled == false){
                 Rectangle()
-                    .frame(width: min(CGFloat(self.value)*geometry.size.width, geometry.size.width),
-                           height: 25)
-                    .foregroundColor(.blue)
+                    .frame(width: min(CGFloat(self.value) * geometry.size.width, geometry.size.width))
+                    .foregroundColor(.red)
                     .cornerRadius(7)
-            }
-                else {
-                    Rectangle()
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .opacity(1)
-                        .foregroundColor(.green)
-                        .cornerRadius(7)
+                
+                if(record) {
+                    HStack {
+                        Spacer().frame(width: self.value > 0.35 ? 10 : CGFloat(self.value) * geometry.size.width + 10)
+                        Text("New record!")
+                            .bold()
+                        Spacer()
+                    }
                 }
             }
             .cornerRadius(6)
