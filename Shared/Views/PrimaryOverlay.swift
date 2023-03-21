@@ -177,9 +177,11 @@ struct PrimaryOverlay: View {
                                 //we can force unwrap here as we are only here if location != nil
                                 let closestStopDistance = self.mapState.stops.reduce(into: Double.greatestFiniteMagnitude) { (distance, stop) in
                                     let newDistance = stop.location.distance(from: location!)
-                                    stopLocation = stop.location
                                     if newDistance < distance {
                                         distance = newDistance
+                                        stopLocation = stop.location
+
+                                        
                                     }
                                 }
                                     
@@ -191,6 +193,25 @@ struct PrimaryOverlay: View {
                                     
                                     print("TO: \(stopLocation!.coordinate) FROM: \(LocationUtilities.locationManager.location!.coordinate)")
                                     print(compute_direction(point1: location!, point2: stopLocation!))
+                                    
+                                    let curr_Lattitude = LocationUtilities.locationManager.location!.coordinate.latitude
+                                    let currLongittude = LocationUtilities.locationManager.location!.coordinate.longitude
+                                    
+                                    let destLattitude = stopLocation!.coordinate.latitude
+                                    let destLongitude = stopLocation!.coordinate.longitude
+                                    
+                                    print(curr_Lattitude, currLongittude)
+                                    
+                                    print(destLattitude, destLongitude)
+                                    
+                                    let url = URL(string: "maps://?saddr=\(curr_Lattitude),\(currLongittude)&daddr=\(destLattitude),\(destLongitude)")
+                                    
+                                    
+                                    if UIApplication.shared.canOpenURL(url!) {
+                                          UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+                                    }
+
+
                                 }, label: {
                                     HStack{
                                         
