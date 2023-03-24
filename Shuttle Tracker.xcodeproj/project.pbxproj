@@ -44,6 +44,8 @@
 		C032A8FB29C77DB30047579C /* WhatsNewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FA29C77DB30047579C /* WhatsNewSheet.swift */; };
 		C032A8FD29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FC29C7808A0047579C /* AnalyticsOnboardingView.swift */; };
 		C032A8FE29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FC29C7808A0047579C /* AnalyticsOnboardingView.swift */; };
+		C032A90029CA86B20047579C /* NetworkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FF29CA86B20047579C /* NetworkTextView.swift */; };
+		C032A90229CB8DC50047579C /* WhatsNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A90129CB8DC50047579C /* WhatsNewItem.swift */; };
 		C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */; };
 		C038BEC5270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
 		C038BEC6270FC91100A23A2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038BEC4270FC91100A23A2B /* SettingsView.swift */; };
@@ -221,6 +223,8 @@
 		C025ED422527C1D500524144 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		C032A8FA29C77DB30047579C /* WhatsNewSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewSheet.swift; sourceTree = "<group>"; };
 		C032A8FC29C7808A0047579C /* AnalyticsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsOnboardingView.swift; sourceTree = "<group>"; };
+		C032A8FF29CA86B20047579C /* NetworkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTextView.swift; sourceTree = "<group>"; };
+		C032A90129CB8DC50047579C /* WhatsNewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewItem.swift; sourceTree = "<group>"; };
 		C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C038BEC4270FC91100A23A2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C039B0622796201200416725 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -352,6 +356,7 @@
 				C0A74600279E3411004F0E19 /* AdvancedSettingsView.swift */,
 				C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */,
 				BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */,
+				C032A8FF29CA86B20047579C /* NetworkTextView.swift */,
 				C0BC27692974648E008A4BD0 /* NetworkToast.swift */,
 				C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */,
 				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
@@ -397,6 +402,7 @@
 				C059832327D1840700299D27 /* SheetPresentationWrapper.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
+				C032A90129CB8DC50047579C /* WhatsNewItem.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewView.swift */,
 			);
 			path = Views;
@@ -755,6 +761,7 @@
 				C0730C1827F103D200EF7550 /* AppStorageManager.swift in Sources */,
 				C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */,
 				C0A1E72C2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
+				C032A90029CA86B20047579C /* NetworkTextView.swift in Sources */,
 				C039B0642796201200416725 /* CloseButton.swift in Sources */,
 				C0F420CF29274C1400CC0F91 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */,
@@ -776,6 +783,7 @@
 				C01527E22517CFA60069092C /* MapView.swift in Sources */,
 				C0BF4F8E29B3D6130094FD3E /* AnalyticsDetailView.swift in Sources */,
 				C0BC276A2974648E008A4BD0 /* NetworkToast.swift in Sources */,
+				C032A90229CB8DC50047579C /* WhatsNewItem.swift in Sources */,
 				C0019DD525191EBB0020574D /* CustomAnnotation.swift in Sources */,
 				C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */,
 				C059833B27D2C77900299D27 /* AboutView.swift in Sources */,
