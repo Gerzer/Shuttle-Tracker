@@ -116,7 +116,7 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
                 #if os(iOS) && !APPCLIP
                 case .milestones :
                     if #available(iOS 15, *) {
-                    MilestoneToastView()
+                    MilestoneSheet()
                 }
                 #endif // os(iOS)
 				}

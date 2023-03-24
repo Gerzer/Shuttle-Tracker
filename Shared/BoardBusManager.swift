@@ -72,7 +72,7 @@ actor BoardBusManager: ObservableObject {
         Task { // Dispatch a child task because we don’t need to await the result
             do {
                 if let boardBusMilestone = await MilestoneState.shared.milestones.first(where: { m in m.name.lowercased() == "buses boarded"}) {
-                    try await API.updateMilestone(milestone: boardBusMilestone).perform()
+                    try await API.updateMilestone(id: boardBusMilestone.id).perform()
                     await MilestoneState.shared.refresh()
                 }
             } catch let error {

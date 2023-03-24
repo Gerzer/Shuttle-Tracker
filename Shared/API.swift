@@ -39,7 +39,7 @@ enum API: TargetType {
     
     case readMilestones
     
-    case updateMilestone(milestone: Milestone)
+    case updateMilestone(id: UUID)
     
     case uploadMilestone(milestone: Milestone)
 	
@@ -47,7 +47,7 @@ enum API: TargetType {
 	
 	case uploadLog(log: Logging.Log)
     
-    case deleteMilestone(milestone: Milestone)
+    case deleteMilestone(id: UUID)
 	
 	static let provider = MoyaProvider<API>()
 	
@@ -83,7 +83,9 @@ enum API: TargetType {
 				return "/stops"
 			case .readSchedule:
 				return "/schedule"
-            case .readMilestones, .updateMilestone, .uploadMilestone, .deleteMilestone:
+            case .updateMilestone(let id), .deleteMilestone(let id):
+                return "/milestones/\(id)"
+            case .readMilestones, .uploadMilestone:
                 return "/milestones"
 			case .uploadAnalyticsEntry:
 				return "/analytics/entries"
@@ -114,7 +116,7 @@ enum API: TargetType {
 		get {
 			let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
 			switch self {
-            case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .readSchedule, .readMilestones:
+            case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .readSchedule, .readMilestones, .updateMilestone, .deleteMilestone:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [
@@ -127,7 +129,7 @@ enum API: TargetType {
 				return .requestCustomJSONEncodable(log, encoder: encoder)
 			case .uploadAnalyticsEntry(let analyticsEntry):
 				return .requestCustomJSONEncodable(analyticsEntry, encoder: encoder)
-            case .uploadMilestone(let milestone), .updateMilestone(let milestone), .deleteMilestone(let milestone):
+            case .uploadMilestone(let milestone):
                 return .requestCustomJSONEncodable(milestone, encoder: encoder)
 			}
 		}

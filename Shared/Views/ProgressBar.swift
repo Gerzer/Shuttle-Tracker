@@ -7,14 +7,11 @@
 import SwiftUI
 
 struct ProgressBar: View {
-
-    @State var newRecordfordailyUser = true
-    @State private var newRecordforBus = false
     let ProgressValue:Double
 
     var body: some View {
-        VStack{
-            horizontalProgressBar(value: ProgressValue, record: $newRecordfordailyUser)
+        VStack {
+            horizontalProgressBar(value: ProgressValue)
                 .frame(height:30)
         }
     }
@@ -27,7 +24,7 @@ struct ProgressBar: View {
 struct ProgressBar_Previews: PreviewProvider {
     static var previews: some View {
         VStack{
-        ProgressBar(progressValue: 0.1)
+            ProgressBar(progressValue: 0.1)
         }
         .padding()
     }
@@ -35,34 +32,22 @@ struct ProgressBar_Previews: PreviewProvider {
 
 struct horizontalProgressBar : View {
     let value : Double
-    @Binding var record : Bool
     
     var body: some View{
-        GeometryReader{geometry in
+        GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 Rectangle()
                     .frame(width: geometry.size.width)
                     .opacity(0.2)
-                    .foregroundColor(.red)
+                    .foregroundColor(.black)
 
-                Rectangle()
+                LinearGradient(colors: [Color(red: 0.5, green: 0, blue: 0), Color(red: 1, green: 0.1, blue: 0.1)], startPoint: .topLeading, endPoint: .bottomTrailing)
                     .frame(width: min(CGFloat(self.value) * geometry.size.width, geometry.size.width))
                     .foregroundColor(.red)
                     .cornerRadius(7)
-                
-                if(record) {
-                    HStack {
-                        Spacer().frame(width: self.value > 0.35 ? 10 : CGFloat(self.value) * geometry.size.width + 10)
-                        Text("New record!")
-                            .bold()
-                        Spacer()
-                    }
-                }
             }
-            .cornerRadius(6)
-
         }
-
+        .cornerRadius(8)
     }
 
 }
