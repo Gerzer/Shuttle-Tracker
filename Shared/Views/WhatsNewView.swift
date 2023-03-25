@@ -37,7 +37,7 @@ struct WhatsNewView: View {
 									)
 								)
 								.bold()
-								.padding(5)
+								.padding(8)
 								.background(
 									.tertiary,
 									in: RoundedRectangle(
@@ -49,38 +49,38 @@ struct WhatsNewView: View {
 						Spacer()
 					}
 						.padding(.vertical)
-//					Text("After years of development, Shuttle Tracker 2.0 is a massive update that delivers dramatically improved accuracy and tracking coverage!")
+                        .padding(.bottom, 30)
+
 					VStack(alignment: .leading, spacing: 20) {
 						#if os(iOS)
 						WhatsNewItem(
 							title: "Automatic Board Bus",
 							description: "Use Board Bus without taking your phone out.",
 							iconSystemName: "bus",
-							symbolRenderingMode: .hierarchical
+                            symbolRenderingMode: .hierarchical,
+                            iconColor: .red
 						)
 						WhatsNewItem(
 							title: "Shuttle Tracker Network",
 							description: "Connect to our custom tracking devices on the buses.",
 							iconSystemName: "point.3.filled.connected.trianglepath.dotted",
-							symbolRenderingMode: .multicolor
+                            symbolRenderingMode: .multicolor,
+                            iconColor: .green
 						)
 						#endif // os(iOS)
 						WhatsNewItem(
 							title: "Notifications",
 							description: "Receive push notification for new announcements.",
-							iconSystemName: "bell.badge",
-							symbolRenderingMode: .multicolor
+							iconSystemName: "bell.badge.circle",
+                            symbolRenderingMode: .palette,
+                            iconColor: .teal
 						)
-//						WhatsNewItem(
-//							title: "Design",
-//							description: "To mark the biggest update to Shuttle Tracker since the release of Board Bus, we’re introducing a new logo, a new app icon, and a new color scheme.",
-//							iconSystemName: "squareshape.squareshape.dashed"
-//						)
 						WhatsNewItem(
 							title: "Analytics",
 							description: "Opt in to analytics sharing to help improve the app.",
-							iconSystemName: "text.redaction",
-							symbolRenderingMode: .hierarchical
+							iconSystemName: "chart.bar.xaxis",
+                            symbolRenderingMode: .palette,
+                            iconColor: .blue
 						)
 					}
 				}

@@ -16,6 +16,8 @@ struct WhatsNewItem: View {
 	let iconSystemName: String
 	
 	let symbolRenderingMode: SymbolRenderingMode
+    
+    let iconColor : Color
 	
 	var body: some View {
 		HStack(alignment: .top) {
@@ -25,25 +27,17 @@ struct WhatsNewItem: View {
 				.scaledToFit()
 				.frame(width: 40, height: 40)
 				.padding(.trailing, 20)
+                .foregroundStyle(iconColor)
+                .padding(.top,8)
 			VStack(alignment: .leading) {
 				Text(self.title)
 					.font(.headline)
 				Text(self.description)
+                    .foregroundColor(.gray)
 			}
-//			DisclosureGroup {
-//				HStack {
-//					Text(self.description)
-//					Spacer()
-//				}
-//			} label: {
-//				Text(self.title)
-//					.font(.headline)
-//			}
-//				.buttonStyle(.plain)
-//				.padding(.top, -5)
+
 		}
 	}
-	
 }
 
 struct WhatsNewPreviews: PreviewProvider {
@@ -53,7 +47,8 @@ struct WhatsNewPreviews: PreviewProvider {
 			title: "Shuttle Tracker Network",
 			description: "The Shuttle Tracker app uses the Shuttle Tracker Network to connect to Shuttle Tracker Node, our custom bus-tracking device, to unlock Automatic Board Bus. Shuttle Tracker never collects your location when you’re not physically riding a bus.",
 			iconSystemName: "point.3.connected.trianglepath.dotted",
-			symbolRenderingMode: .hierarchical
+            symbolRenderingMode: .hierarchical,
+            iconColor: .blue
 		)
 	}
 	
