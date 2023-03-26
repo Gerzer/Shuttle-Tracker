@@ -147,6 +147,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Unknown location authorization status")
 			}
 		}
+		#if !APPCLIP
 		Task { @MainActor in
 			switch (manager.authorizationStatus, manager.accuracyAuthorization) {
 			case (.authorizedAlways, .fullAccuracy):
@@ -169,6 +170,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 				}
 			}
 		}
+		#endif // !APPCLIP
 	}
 	#endif // os(iOS)
 	
