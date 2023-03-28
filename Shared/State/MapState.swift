@@ -53,7 +53,7 @@ actor MapState: ObservableObject {
         var minDist: Double = -1
         
         for route in routes {
-            var dist = route.distance(coordinate: coordinate)
+            let dist = route.distance(coordinate: coordinate)
             
             if minDist < 0 || dist < minDist {
                 minDist = dist

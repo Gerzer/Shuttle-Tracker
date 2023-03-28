@@ -101,26 +101,48 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 		return oldIndex + 1
 	}
 	
+    func toCartesian(coordinate: CLLocationCoordinate2D) -> (Double, Double, Double) {
+        let earthRadius = 6378.137;
+        let pi = 3.1415926535897;
+        
+        return (earthRadius * cos(coordinate.latitude * pi / 180) * cos(coordinate.longitude * pi / 180), earthRadius * cos(coordinate.latitude * pi / 180) * sin(coordinate.longitude * pi / 180), earthRadius * sin(coordinate.latitude * pi / 180));
+    }
+    
+    func crossProduct(_ vecA: (Double, Double, Double), _ vecB: (Double, Double, Double)) -> (Double, Double, Double) {
+        return (vecA.1 * vecB.2 - vecA.2 * vecB.1, vecA.2 * vecB.0 - vecA.0 * vecB.2, vecA.0 * vecB.1 - vecA.1 * vecB.0);
+    }
+    
     func distance(coordinate: CLLocationCoordinate2D) -> Double {
         var minDist: Double = -1
         
         for i in mapPoints.indices.dropLast() {
-            let magSq = mapPoints[i].distance(to: mapPoints[i + 1]).magnitudeSquared
-            let y1 = coordinate.latitude, x1 = coordinate.longitude
-            let y2 = mapPoints[i].coordinate.latitude, x2 = mapPoints[i].coordinate.longitude
-            let y3 = mapPoints[i + 1].coordinate.latitude, x3 = mapPoints[i + 1].coordinate.longitude
-            
-            let t = Swift.max(0, Swift.min(1, ((x1 - x2) * (x3 - x2) + (y1 - y2) * (y3 - y2))/magSq))
-            let projX = x2 + t * (x3 - x2)
-            let projY = y2 + t * (y3 - y2)
-            
             let earthRadius = 6378.137;
             let pi = 3.1415926535897;
-            let dLat = projY * pi / 180 - y1 * pi / 180;
-            let dLon = projX * pi / 180 - x1 * pi / 180;
-            let a = sin(dLat/2) * sin(dLat/2) + cos(y1 * pi / 180) * cos(projY * pi / 180) * sin(dLon/2) * sin(dLon/2);
-            let c = 2 * atan2(sqrt(a), sqrt(1-a));
-            let dist = abs(earthRadius * c * 1000);
+            
+            let vecA = toCartesian(coordinate: mapPoints[i].coordinate)
+            let vecB = toCartesian(coordinate: mapPoints[i + 1].coordinate)
+            let vecC = toCartesian(coordinate: coordinate)
+            
+            let epsilon = 0.01
+            let vecG = crossProduct(vecA, vecB)
+            let vecF = crossProduct(vecC, vecG)
+            var vecT = crossProduct(vecG, vecF)
+            let mag = sqrt(vecT.0 * vecT.0 + vecT.1 * vecT.1 + vecT.2 * vecT.2) + epsilon
+            vecT.0 *= earthRadius / mag
+            vecT.1 *= earthRadius / mag
+            vecT.2 *= earthRadius / mag
+            
+            let coord = CLLocationCoordinate2D(latitude: 180 / pi *  asin(vecT.2 / earthRadius), longitude: 180 / pi * atan2(vecT.1, vecT.0))
+            
+            let closest: MKMapPoint
+            
+            if abs(mapPoints[i].distance(to: mapPoints[i + 1]) - mapPoints[i].distance(to: MKMapPoint(coord)) - mapPoints[i + 1].distance(to: MKMapPoint(coord))) < epsilon {
+                closest = MKMapPoint(coord)
+            } else {
+                closest = (mapPoints[i].distance(to: MKMapPoint(coordinate)) < mapPoints[i + 1].distance(to: MKMapPoint(coordinate))) ? mapPoints[i] : mapPoints[i + 1]
+            }
+            
+            let dist = closest.distance(to: MKMapPoint(coordinate))
             
             if minDist < 0 || dist < minDist {
                 minDist = dist
