@@ -39,7 +39,7 @@ struct MilestoneView: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(.background)
+                            .background(Color(.systemGray5))
                             .cornerRadius(10)
                             
                             HStack(alignment: .lastTextBaseline){
@@ -66,8 +66,9 @@ struct MilestoneView: View {
                                 .padding(.bottom)
                         }
                         .padding()
-                        .background(Color.gray.opacity(0.1))
+                        .background(Color(.systemGray6))
                         .cornerRadius(10)
+                        .shadow(radius: 5)
                         .padding()
                     }
                 }
