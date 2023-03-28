@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SecondaryOverlayButton: View {
 	
-	let iconSystemName: String
+	let iconSystemName: String  
 	
 	let sheetType: SheetStack.SheetType?
 	
