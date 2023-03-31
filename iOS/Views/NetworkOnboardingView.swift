@@ -31,7 +31,19 @@ struct NetworkOnboardingView: View {
 	private var cloudScale: CGFloat = 0
 	
 	@State
+	private var chevron1Opacity: Double = 0
+	
+	@State
+	private var chevron2Opacity: Double = 0
+	
+	@State
+	private var chevron3Opacity: Double = 0
+	
+	@State
 	private var tabViewSelection = 0
+	
+	@State
+	private var firstTabDidDisappear = false
 	
 	@Environment(\.openURL)
 	private var openURL
@@ -40,7 +52,7 @@ struct NetworkOnboardingView: View {
 		VStack {
 			HStack {
 				Spacer()
-				Text("Shuttle Tracker Network")
+				Text("Improve Accuracy")
 					.font(.largeTitle)
 					.bold()
 					.multilineTextAlignment(.center)
@@ -95,7 +107,8 @@ struct NetworkOnboardingView: View {
 				}
 			}
 				.symbolRenderingMode(.monochrome)
-				.padding()
+				.frame(maxWidth: .infinity)
+				.padding(.vertical)
 				.background(
 					.gray,
 					in: RoundedRectangle(
@@ -103,54 +116,133 @@ struct NetworkOnboardingView: View {
 						style: .continuous
 					)
 				)
+				.padding(.horizontal) // We need to add the horizontal padding after adding the background
 				.animation(.default, value: self.tabViewSelection)
 			TabView(selection: self.$tabViewSelection) {
 				VStack(alignment: .leading) {
-					Text(try! AttributedString(markdown: "Join the Shuttle Tracker Network to help improve tracking accuracy and **never tap the Board Bus button again**!"))
-						.padding(.bottom)
-					NetworkTextView()
-					Spacer()
+					ScrollView {
+						HStack {
+							Text(try! AttributedString(markdown: "Join the Shuttle Tracker Network to help improve tracking accuracy and **never tap the Board Bus button again**!"))
+							Spacer()
+						}
+							.padding(.bottom)
+						NetworkTextView()
+					}
+					if #available(iOS 16.1, *), !firstTabDidDisappear {
+						HStack(spacing: -5) {
+							Spacer()
+							Image(systemName: "chevron.compact.left")
+								.opacity(self.chevron1Opacity)
+								.offset(x: -10)
+							Image(systemName: "chevron.compact.left")
+								.opacity(self.chevron2Opacity)
+								.offset(x: -10)
+							Image(systemName: "chevron.compact.left")
+								.opacity(self.chevron3Opacity)
+								.offset(x: -10)
+							Text("Swipe")
+							Spacer()
+						}
+							.font(.system(size: 24))
+							.fontDesign(.rounded)
+							.fontWeight(.semibold)
+							.foregroundColor(.accentColor)
+							.padding(.bottom, 50)
+							.onAppear {
+								Task {
+									while true {
+										withAnimation(.linear(duration: 0.5)) {
+											self.chevron3Opacity = 1
+										}
+										try? await Task.sleep(for: .seconds(2))
+										withAnimation(.linear(duration: 0.5)) {
+											self.chevron3Opacity = 0
+										}
+										try? await Task.sleep(for: .seconds(1.5))
+									}
+								}
+								Task {
+									try? await Task.sleep(for: .seconds(0.5))
+									while true {
+										withAnimation(.linear(duration: 0.5)) {
+											self.chevron2Opacity = 1
+										}
+										try? await Task.sleep(for: .seconds(2))
+										withAnimation(.linear(duration: 0.5)) {
+											self.chevron2Opacity = 0
+										}
+										try? await Task.sleep(for: .seconds(1.5))
+									}
+								}
+								Task {
+									try? await Task.sleep(for: .seconds(1))
+									while true {
+										withAnimation(.linear(duration: 0.5)) {
+											self.chevron1Opacity = 1
+										}
+										try? await Task.sleep(for: .seconds(2))
+										withAnimation(.linear(duration: 0.5)) {
+											self.chevron1Opacity = 0
+										}
+										try? await Task.sleep(for: .seconds(1.5))
+									}
+								}
+							}
+					}
 				}
 					.tag(0)
 					.padding(.horizontal)
-				VStack(alignment: .leading) {
-					Text("Previously, you had to tap the Board Bus button whenever you boarded a bus.")
-					Spacer()
+					.onDisappear {
+						self.firstTabDidDisappear = true
+					}
+				ScrollView {
+					HStack {
+						Text("Previously, you had to tap the Board Bus button whenever you boarded a bus.")
+						Spacer()
+					}
 				}
 					.tag(1)
 					.padding(.horizontal)
-				VStack(alignment: .leading) {
-					Text("Now, we’ve equipped the buses with Shuttle Tracker Node, a custom bus-tracking device that unlocks Automatic Board Bus.")
-					Spacer()
+				ScrollView {
+					HStack {
+						Text("Now, we’ve equipped the buses with Shuttle Tracker Node, a custom bus-tracking device that unlocks Automatic Board Bus.")
+						Spacer()
+					}
 				}
 					.tag(2)
 					.padding(.horizontal)
-				VStack(alignment: .leading) {
-					Text("When you board a bus, Shuttle Tracker Node sends a message to your phone in the background.")
-					Spacer()
+				ScrollView {
+					HStack {
+						Text("When you board a bus, Shuttle Tracker Node sends a message to your phone in the background.")
+						Spacer()
+					}
 				}
 					.tag(3)
 					.padding(.horizontal)
-				VStack(alignment: .leading) {
-					Text("When your phone receives this message, it automatically sends the bus’s location to the Shuttle Tracker server. You don’t even have to take your phone out of your pocket!")
-					Spacer()
+				ScrollView {
+					HStack {
+						Text("When your phone receives this message, it automatically sends the bus’s location to the Shuttle Tracker server. You don’t even have to take your phone out of your pocket!")
+						Spacer()
+					}
 				}
 					.tag(4)
 					.padding(.horizontal)
-				VStack(alignment: .leading) {
-					Text("Join the Shuttle Tracker Network today!")
-						.padding(.bottom)
+				ScrollView {
+					HStack {
+						Text("Join the Shuttle Tracker Network today!")
+							.padding(.bottom)
+						Spacer()
+					}
 					NetworkTextView()
-					Spacer()
 				}
 					.tag(5)
 					.padding(.horizontal)
 			}
 				.tabViewStyle(.page)
 				.indexViewStyle(.page(backgroundDisplayMode: .always))
-//				.multilineTextAlignment(.center)
 				.accessibilityShowsLargeContentViewer()
 				.padding(.vertical)
+				.environment(\.layoutDirection, .leftToRight)
 				.onChange(of: self.tabViewSelection) { (newValue) in
 					withAnimation {
 						switch newValue {
@@ -197,7 +289,9 @@ struct NetworkOnboardingView: View {
 							self.waveRightScale = 1
 							self.cloudScale = 1
 						default:
-							fatalError()
+							Logging.withLogger(doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Invalid tab item")
+							}
 						}
 					}
 				}
