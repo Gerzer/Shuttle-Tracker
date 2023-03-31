@@ -122,7 +122,7 @@ struct NetworkOnboardingView: View {
 				VStack(alignment: .leading) {
 					ScrollView {
 						HStack {
-							Text(try! AttributedString(markdown: "Join the Shuttle Tracker Network to help improve tracking accuracy and **never tap the Board Bus button again**!"))
+							Text("Join the Shuttle Tracker Network to help improve tracking accuracy!")
 							Spacer()
 						}
 							.padding(.bottom)
