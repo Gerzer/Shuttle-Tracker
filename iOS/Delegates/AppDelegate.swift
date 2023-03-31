@@ -8,7 +8,12 @@
 import UIKit
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
-	
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions:
+                     [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+       UIApplication.shared.registerForRemoteNotifications()
+       return true
+    }
+    
 	func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did register for remote notifications with device token \(deviceToken, privacy: .public)")

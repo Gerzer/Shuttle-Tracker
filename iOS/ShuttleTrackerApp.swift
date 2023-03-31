@@ -109,7 +109,7 @@ struct ShuttleTrackerApp: App {
 		CLLocationManager.default.activityType = .automotiveNavigation
 		CLLocationManager.default.showsBackgroundLocationIndicator = true
 		CLLocationManager.default.allowsBackgroundLocationUpdates = true
-		UIApplication.shared.registerForRemoteNotifications()
+
 		Task {
 			do {
 				try await UNUserNotificationCenter.requestDefaultAuthorization()
