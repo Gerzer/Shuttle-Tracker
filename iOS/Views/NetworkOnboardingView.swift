@@ -212,7 +212,8 @@ struct NetworkOnboardingView: View {
 							.padding(5)
 							.frame(maxWidth: .infinity)
 					}
-				} else {
+				}
+                else {
 					Button {
 						if case .notDetermined = CLLocationManager.default.authorizationStatus {
 							// We request “when-in-use” authorization even when we actually want “always” authorization because doing so lets us avoid iOS’s usual deferment of the “always” prompt until long after the user closes the app. Instead, iOS shows two prompts in direct succession: firstly for “when-in-use” and secondly for “always”.
@@ -246,7 +247,6 @@ struct NetworkOnboardingView: View {
 }
 
 struct NetworkOnboardingViewPreviews: PreviewProvider {
-	
 	static var previews: some View {
 		NavigationView {
 			NetworkOnboardingView()

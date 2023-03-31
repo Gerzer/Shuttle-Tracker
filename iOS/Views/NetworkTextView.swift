@@ -32,9 +32,7 @@ struct NetworkTextView: View {
 }
 
 struct NetworkTextViewPreviews: PreviewProvider {
-	
 	static var previews: some View {
 		NetworkTextView()
 	}
-	
 }

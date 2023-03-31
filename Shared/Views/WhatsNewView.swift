@@ -94,7 +94,9 @@ struct WhatsNewView: View {
 			Group {
 				if self.onboarding {
 					NavigationLink {
-						NetworkOnboardingView()
+                        // MARK: Onboarding
+						//NetworkOnboardingView()
+                        OnboardingFirstView()
 					} label: {
 						Text("Continue")
 							.bold()
