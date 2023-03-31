@@ -49,38 +49,33 @@ struct WhatsNewView: View {
 						Spacer()
 					}
 						.padding(.vertical)
-//					Text("After years of development, Shuttle Tracker 2.0 is a massive update that delivers dramatically improved accuracy and tracking coverage!")
 					VStack(alignment: .leading, spacing: 20) {
 						#if os(iOS)
 						WhatsNewItem(
 							title: "Automatic Board Bus",
 							description: "Use Board Bus without taking your phone out.",
-							iconSystemName: "bus",
-							symbolRenderingMode: .hierarchical
+							iconSystemName: "location.square"
 						)
 						WhatsNewItem(
 							title: "Shuttle Tracker Network",
 							description: "Connect to our custom tracking devices on the buses.",
-							iconSystemName: "point.3.filled.connected.trianglepath.dotted",
-							symbolRenderingMode: .multicolor
+							iconSystemName: "point.3.filled.connected.trianglepath.dotted"
 						)
 						#endif // os(iOS)
 						WhatsNewItem(
 							title: "Notifications",
 							description: "Receive push notification for new announcements.",
-							iconSystemName: "bell.badge",
-							symbolRenderingMode: .multicolor
+							iconSystemName: "bell.badge"
 						)
-//						WhatsNewItem(
-//							title: "Design",
-//							description: "To mark the biggest update to Shuttle Tracker since the release of Board Bus, we’re introducing a new logo, a new app icon, and a new color scheme.",
-//							iconSystemName: "squareshape.squareshape.dashed"
-//						)
+						WhatsNewItem(
+							title: "Design",
+							description: "See a new logo, app icon, and color scheme.",
+							iconSystemName: "star.square"
+						)
 						WhatsNewItem(
 							title: "Analytics",
 							description: "Opt in to analytics sharing to help improve the app.",
-							iconSystemName: "text.redaction",
-							symbolRenderingMode: .hierarchical
+							iconSystemName: "stethoscope"
 						)
 					}
 				}

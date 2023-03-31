@@ -30,18 +30,19 @@ struct WhatsNewItem: View {
 					.font(.headline)
 				Text(self.description)
 			}
-//			DisclosureGroup {
-//				HStack {
-//					Text(self.description)
-//					Spacer()
-//				}
-//			} label: {
-//				Text(self.title)
-//					.font(.headline)
-//			}
-//				.buttonStyle(.plain)
-//				.padding(.top, -5)
 		}
+	}
+	
+	init(
+		title: String,
+		description: String,
+		iconSystemName: String,
+		symbolRenderingMode: SymbolRenderingMode = .multicolor
+	) {
+		self.title = title
+		self.description = description
+		self.iconSystemName = iconSystemName
+		self.symbolRenderingMode = symbolRenderingMode
 	}
 	
 }
