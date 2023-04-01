@@ -20,20 +20,43 @@ struct AnalyticsOnboardingView: View {
 			VStack(alignment: .leading) {
 				HStack {
 					Spacer()
-					Text("Analytics")
-						.font(.largeTitle)
-						.bold()
-						.multilineTextAlignment(.center)
+                    VStack {
+                        Image(systemName: "chart.bar.xaxis")
+                            .symbolRenderingMode(.multicolor)
+                            .resizable()
+                            .frame(width: 60,height: 60)
+                            .foregroundColor(.blue)
+                        Text("Analytics")
+                            .font(.largeTitle)
+                            .bold()
+                            .multilineTextAlignment(.center)
+                    }
 					Spacer()
 				}
-					.padding(.vertical)
-				Text("Share analytics with the Shuttle Tracker team to help us improve the app. You can see a record of uploaded analytics entries or enable or disable the feature in Settings > Logging & Analytics.")
+                .padding(.bottom)
+//				Text("Share analytics with the Shuttle Tracker team to help us improve the app. You can see a record of uploaded analytics entries or enable or disable the feature in Settings > Logging & Analytics.")
+                Text("Share your logs.")
+                    .bold()
+                    .font(.headline)
+                Text("Help us improve Shuttle Tracker. You can also see your record of uploaded analytics entries.")
 					.accessibilityShowsLargeContentViewer()
 					.padding(.bottom)
+                
+                HStack {
+                    Spacer()
+                    AnalyticsSampleView()
+                        .frame(width: 350,height: 250)
+                        .cornerRadius(18)
+                        .shadow(radius: 10)
+                    Spacer()
+                }
+                
+                Spacer()
+
 				Button("Show Privacy Information") {
 					self.sheetStack.push(.privacy)
 				}
-				Spacer()
+                .padding(.bottom)
 				HStack {
 					Button {
 						self.appStorageManager.doShareAnalytics = false
@@ -76,4 +99,12 @@ struct AnalyticsOnboardingViewPreviews: PreviewProvider {
 			.environmentObject(SheetStack())
 	}
 	
+}
+
+struct AnalyticsSampleView : View {
+    var body: some View {
+        Image("AnalyticsScreenshot")
+            .resizable()
+            .scaledToFit()
+    }
 }
