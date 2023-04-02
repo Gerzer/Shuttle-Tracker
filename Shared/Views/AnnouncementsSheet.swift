@@ -32,8 +32,8 @@ struct AnnouncementsSheet: View {
 						List(announcements) { (announcement) in
 							NavigationLink {
 								AnnouncementDetailView(
-									didResetViewedAnnouncements: self.$didResetViewedAnnouncements,
-									announcement: announcement
+									announcement: announcement,
+									didResetViewedAnnouncements: self.$didResetViewedAnnouncements
 								)
 							} label: {
 								HStack {

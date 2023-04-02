@@ -48,6 +48,10 @@
 		C03B1D362741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
 		C03B1D372741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
 		C03B1D382741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
+		C03B3CC829D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
+		C03B3CC929D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
+		C03B3CCA29D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
+		C03B3CCB29D93EF60038EB8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC29129AA814700225C5B /* AppDelegate.swift */; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
@@ -211,6 +215,7 @@
 		C038BEC4270FC91100A23A2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C039B0622796201200416725 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		C03B1D352741E18B007B318E /* SheetStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStack.swift; sourceTree = "<group>"; };
+		C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shared (App Clip).xcconfig"; sourceTree = "<group>"; };
 		C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
@@ -317,6 +322,7 @@
 				C0954809250C3A380025EA96 /* LocationManagerDelegate.swift */,
 				C09EB464293A718000CCE01B /* MailComposeViewDelegate.swift */,
 				C01527EB2517D5D40069092C /* MapViewDelegate.swift */,
+				C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -681,6 +687,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C03B3CCB29D93EF60038EB8F /* AppDelegate.swift in Sources */,
 				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,
@@ -696,6 +703,7 @@
 				C0F420D42927570900CC0F91 /* WrappedError.swift in Sources */,
 				C082CCF4277FB36B005D0209 /* PrimaryOverlay.swift in Sources */,
 				C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */,
+				C03B3CCA29D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */,
 				C0A232C2252508D100FAAD50 /* MapViewDelegate.swift in Sources */,
 				C0E9525D295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C0C9D3D2270FA70C00AE58BE /* ViewState.swift in Sources */,
@@ -748,6 +756,7 @@
 				C01527F72517DCAF0069092C /* Utilities.swift in Sources */,
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
+				C03B3CC929D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */,
 				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
@@ -826,6 +835,7 @@
 				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
+				C03B3CC829D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */,
 				C08FC22325251196008589C1 /* ContentView.swift in Sources */,
 				C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */,
 				C0F420C62926EDA100CC0F91 /* Logging.swift in Sources */,

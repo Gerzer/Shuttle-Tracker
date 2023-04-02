@@ -15,6 +15,8 @@ final class SheetStack: ObservableObject {
 		
 		case announcements
 		
+		case announcement(_ announcement: Announcement)
+		
 		#if os(iOS)
 		case busSelection
 		#endif // os(iOS)

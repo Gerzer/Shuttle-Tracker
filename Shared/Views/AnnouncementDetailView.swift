@@ -9,13 +9,13 @@ import SwiftUI
 
 struct AnnouncementDetailView: View {
 	
+	let announcement: Announcement
+	
 	@Binding
 	private(set) var didResetViewedAnnouncements: Bool
 	
 	@EnvironmentObject
 	private var appStorageManager: AppStorageManager
-	
-	let announcement: Announcement
 	
 	var body: some View {
 		ScrollView {
@@ -62,6 +62,11 @@ struct AnnouncementDetailView: View {
 				self.didResetViewedAnnouncements = false
 				self.appStorageManager.viewedAnnouncementIDs.insert(self.announcement.id)
 			}
+	}
+	
+	init(announcement: Announcement, didResetViewedAnnouncements: Binding<Bool> = .constant(false)) {
+		self.announcement = announcement
+		self._didResetViewedAnnouncements = didResetViewedAnnouncements
 	}
 	
 }

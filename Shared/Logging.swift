@@ -19,6 +19,10 @@ public enum Logging {
 		
 		case api = "API"
 		
+		case apns = "APNS"
+		
+		case appDelegate = "AppDelegate"
+		
 		case boardBus = "BoardBus"
 		
 		case location = "Location"
@@ -27,9 +31,7 @@ public enum Logging {
 		
 		case permissions = "Permissions"
 		
-		case apns = "APNS"
-		
-		case appDelegate = "AppDelegate"
+		case userNotificationCenterDelegate = "UserNotificationCenterDelegate"
 		
 	}
 	

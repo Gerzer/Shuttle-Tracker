@@ -8,12 +8,13 @@
 import UIKit
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions:
-                     [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-       UIApplication.shared.registerForRemoteNotifications()
-       return true
-    }
-    
+	
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+		UNUserNotificationCenter.current().delegate = UserNotificationCenterDelegate.default
+		application.registerForRemoteNotifications()
+		return true
+	}
+	
 	func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did register for remote notifications with device token \(deviceToken, privacy: .public)")
@@ -34,13 +35,22 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 	}
 	
-	func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did fail to register for remote notifications with error \(error, privacy: .public)")
 		}
 		Logging.withLogger(for: .apns, doUpload: true) { (logger) in
 			logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to register for remote notifications: \(error, privacy: .public)")
 		}
+	}
+	
+	@MainActor
+	func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
+		Logging.withLogger(for: .appDelegate) { (logger) in
+			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive remote notification \(userInfo, privacy: .public)")
+		}
+		ShuttleTrackerApp.sheetStack.push(.announcements)
+		return .newData
 	}
 	
 }
