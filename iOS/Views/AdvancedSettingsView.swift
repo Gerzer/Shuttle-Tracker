@@ -37,10 +37,12 @@ struct AdvancedSettingsView: View {
 				TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
 					.labelsHidden()
 					.keyboardType(.url)
+					.disabled(true)
 			} header: {
 				Text("Server Base URL")
 			} footer: {
-				Text("The base URL for the API server. Changing this setting could make the rest of the app stop working properly.")
+//				Text("The base URL for the API server. Changing this setting could make the rest of the app stop working properly.")
+				Text("Changing the base URL is disabled in beta builds.")
 			}
 			Section {
 				Button(role: .destructive) {
@@ -73,7 +75,8 @@ struct AdvancedSettingsView: View {
 						}
 					}
 				}
-					.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance)
+//					.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance)
+					.disabled(true)
 					.onChange(of: self.appStorageManager.baseURL) { (_) in
 						if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
 							self.didResetAdvancedSettings = false

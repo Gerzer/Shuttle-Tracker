@@ -70,6 +70,11 @@ struct ShuttleTrackerApp: App {
 		} conditions: {
 			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
+		OnboardingEvent(flags: flags) { (_) in
+			AppStorageManager.shared.baseURL = URL(string: "https://staging.shuttletracker.app")!
+		} conditions: {
+			OnboardingConditions.Once(defaultsKey: "Beta2.0")
+		}
 	}
 	
 	var body: some Scene {
