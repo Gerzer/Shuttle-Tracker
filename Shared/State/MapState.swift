@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import UserNotifications
 
 actor MapState: ObservableObject {
 	
@@ -29,6 +30,15 @@ actor MapState: ObservableObject {
 	}
 	
 	func refreshAll() async {
+		Task { // Dispatch a new task because we don’t need to await the result
+			do {
+				try await UNUserNotificationCenter.updateBadge()
+			} catch let error {
+				Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+				}
+			}
+		}
 		async let buses = [Bus].download()
 		async let stops = [Stop].download()
 		async let routes = [Route].download()

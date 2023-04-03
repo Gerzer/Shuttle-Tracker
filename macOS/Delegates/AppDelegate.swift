@@ -8,6 +8,7 @@
 import AppKit
 import UserNotifications
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
 	
 	func applicationDidFinishLaunching(_ notification: Notification) {
@@ -54,14 +55,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 		return true
 	}
 	
-	func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {
+	func application(_: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive remote notification \(userInfo, privacy: .public)")
 		}
-		Task { @MainActor in
-			if ShuttleTrackerApp.contentViewSheetStack.top == nil {
-				ShuttleTrackerApp.contentViewSheetStack.push(.announcements)
-			}
+		Task {
+			await UNUserNotificationCenter.handleRemoteNotification(userInfo: userInfo)
 		}
 	}
 	

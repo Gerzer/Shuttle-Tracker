@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 final class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -35,7 +36,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 	}
 	
-	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
+	func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did fail to register for remote notifications with error \(error, privacy: .public)")
 		}
@@ -44,12 +45,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 	}
 	
-	@MainActor
 	func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive remote notification \(userInfo, privacy: .public)")
 		}
-		ShuttleTrackerApp.sheetStack.push(.announcements)
+		await UNUserNotificationCenter.handleRemoteNotification(userInfo: userInfo)
 		return .newData
 	}
 	

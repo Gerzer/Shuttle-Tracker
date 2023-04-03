@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct AnnouncementsSheet: View {
 	
@@ -90,12 +91,31 @@ struct AnnouncementsSheet: View {
 				}
 		}
 			.task {
+				
 				self.announcements = await [Announcement].download()
+			}
+			.task {
+				do {
+					try await UNUserNotificationCenter.updateBadge()
+				} catch let error {
+					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+					}
+				}
 			}
 			.toolbar {
 				#if os(macOS)
 				ToolbarItem {
 					Button(role: .destructive) {
+						Task {
+							do {
+								try await UNUserNotificationCenter.updateBadge()
+							} catch let error {
+								Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+								}
+							}
+						}
 						self.appStorageManager.viewedAnnouncementIDs.removeAll()
 						self.didResetViewedAnnouncements = true
 					} label: {

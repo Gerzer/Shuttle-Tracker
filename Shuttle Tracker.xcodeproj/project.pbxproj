@@ -51,7 +51,7 @@
 		C03B3CC829D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
 		C03B3CC929D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
 		C03B3CCA29D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
-		C03B3CCB29D93EF60038EB8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC29129AA814700225C5B /* AppDelegate.swift */; };
+		C03B3CCE29D9EDF40038EB8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CCD29D9EDF40038EB8F /* AppDelegate.swift */; };
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
@@ -216,6 +216,7 @@
 		C039B0622796201200416725 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		C03B1D352741E18B007B318E /* SheetStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStack.swift; sourceTree = "<group>"; };
 		C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationCenterDelegate.swift; sourceTree = "<group>"; };
+		C03B3CCD29D9EDF40038EB8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shared (App Clip).xcconfig"; sourceTree = "<group>"; };
 		C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
@@ -327,6 +328,14 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		C03B3CCC29D9EDE50038EB8F /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				C03B3CCD29D9EDF40038EB8F /* AppDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
 		C03EC6BC270CF7F10004F9F8 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,6 +425,7 @@
 		C08FC1D3252509E6008589C1 /* App Clip */ = {
 			isa = PBXGroup;
 			children = (
+				C03B3CCC29D9EDE50038EB8F /* Delegates */,
 				C08FC23125251252008589C1 /* ShuttleTrackerApp.swift */,
 				C08FC1DA252509E6008589C1 /* Info.plist */,
 				C08FC1D8252509E6008589C1 /* App Clip.entitlements */,
@@ -687,7 +697,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C03B3CCB29D93EF60038EB8F /* AppDelegate.swift in Sources */,
+				C03B3CCE29D9EDF40038EB8F /* AppDelegate.swift in Sources */,
 				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,

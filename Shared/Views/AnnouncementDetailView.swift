@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct AnnouncementDetailView: View {
 	
@@ -57,6 +58,15 @@ struct AnnouncementDetailView: View {
 					CloseButton()
 				}
 				#endif // os(iOS)
+			}
+			.task {
+				do {
+					try await UNUserNotificationCenter.updateBadge()
+				} catch let error {
+					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+					}
+				}
 			}
 			.onAppear {
 				self.didResetViewedAnnouncements = false

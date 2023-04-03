@@ -9,24 +9,11 @@ import SwiftUI
 
 struct SecondaryOverlay: View {
 	
-	@State
-	private var announcements: [Announcement] = []
-	
 	@EnvironmentObject
 	private var mapState: MapState
 	
 	@EnvironmentObject
-	private var appStorageManager: AppStorageManager
-	
-	private var unviewedAnnouncementsCount: Int {
-		get {
-			return self.announcements
-				.filter { (announcement) in
-					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
-				}
-				.count
-		}
-	}
+	private var viewState: ViewState
 	
 	var body: some View {
 		VStack {
@@ -46,10 +33,16 @@ struct SecondaryOverlay: View {
 				SecondaryOverlayButton(
 					iconSystemName: "exclamationmark.bubble.fill",
 					sheetType: .announcements,
-					badgeNumber: self.unviewedAnnouncementsCount
+					badgeNumber: self.viewState.badgeNumber
 				)
 					.task {
-						self.announcements = await [Announcement].download()
+						do {
+							try await UNUserNotificationCenter.updateBadge()
+						} catch let error {
+							Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+							}
+						}
 					}
 			}
 				.background(
@@ -79,6 +72,7 @@ struct SecondaryOverlayPreviews: PreviewProvider {
 	static var previews: some View {
 		SecondaryOverlay()
 			.environmentObject(MapState.shared)
+			.environmentObject(ViewState.shared)
 	}
 	
 }

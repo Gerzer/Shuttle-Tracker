@@ -7,23 +7,20 @@
 
 import UserNotifications
 
+/// The standard `UNUserNotificationCenterDelegate` implementation.
+@MainActor
 final class UserNotificationCenterDelegate: NSObject, UNUserNotificationCenterDelegate {
 	
+	/// The default delegate object.
+	///
+	/// Generally, there’s no need to create new delegate objects; just use the default one.
 	static let `default` = UserNotificationCenterDelegate()
 	
-	@MainActor
 	func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
 		Logging.withLogger(for: .userNotificationCenterDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive \(response, privacy: .public)")
 		}
-		#if os(iOS)
-		let sheetStack = ShuttleTrackerApp.sheetStack
-		#elseif os(macOS) // os(iOS)
-		let sheetStack = ShuttleTrackerApp.contentViewSheetStack
-		#endif // os(macOS)
-		if sheetStack.top == nil {
-			sheetStack.push(.announcements)
-		}
+		await UNUserNotificationCenter.handleRemoteNotification(userInfo: response.notification.request.content.userInfo)
 	}
 	
 }
