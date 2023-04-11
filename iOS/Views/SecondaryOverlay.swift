@@ -67,6 +67,21 @@ struct SecondaryOverlay: View {
 							self.announcements = await [Announcement].download()
 						}
 				}
+                
+                
+                if #available(iOS 15, *) {
+                    Divider()
+                        .frame(width: 45, height: 0)
+                    SecondaryOverlayButton(
+                        iconSystemName: "exclamationmark.bubble.fill",
+                        sheetType: .announcements,
+                        badgeNumber: self.unviewedAnnouncementsCount
+                    )
+                        .badge(self.unviewedAnnouncementsCount)
+                        .task {
+                            self.announcements = await [Announcement].download()
+                        }
+                }
 			}
 				.background(
 					VisualEffectView(.systemThickMaterial)
