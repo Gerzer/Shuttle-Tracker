@@ -40,6 +40,10 @@ final class SheetStack: ObservableObject {
 		#endif // os(iOS)
 		
 		#if os(iOS) && !APPCLIP
+		case networkOnboarding
+		#endif // os(iOS) && !APPCLIP
+		
+		#if os(iOS) && !APPCLIP
 		case permissions
 		#endif // os(iOS) && !APPCLIP
 		

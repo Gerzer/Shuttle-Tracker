@@ -49,67 +49,35 @@ struct WhatsNewView: View {
 						Spacer()
 					}
 						.padding(.vertical)
-					Text("Shuttle Tracker 2.0 is a massive update that delivers dramatically improved accuracy and tracking coverage!")
 					VStack(alignment: .leading, spacing: 20) {
 						#if os(iOS)
-						HStack(alignment: .top) {
-							Image(systemName: "bus")
-								.resizable()
-								.scaledToFit()
-								.frame(width: 40, height: 40)
-							VStack(alignment: .leading) {
-								Text("Automatic Board Bus")
-									.font(.headline)
-								Text("With Automatic Board Bus, you can use Board Bus without even taking your phone out of your pocket! Shuttle Tracker automatically detects when you board a bus and starts crowd-sourcing until you leave the bus.")
-							}
-						}
-						HStack(alignment: .top) {
-							Image(systemName: "point.3.connected.trianglepath.dotted")
-								.resizable()
-								.scaledToFit()
-								.frame(width: 40, height: 40)
-							VStack(alignment: .leading) {
-								Text("Shuttle Tracker Network")
-									.font(.headline)
-								Text("The Shuttle Tracker app uses the Shuttle Tracker Network to connect to Shuttle Tracker Node, our custom bus-tracking device, to unlock Automatic Board Bus. Shuttle Tracker never collects your location when you’re not physically riding a bus.")
-							}
-						}
+						WhatsNewItem(
+							title: "Automatic Board Bus",
+							description: "Use Board Bus without taking your phone out.",
+							iconSystemName: "location.square"
+						)
+						WhatsNewItem(
+							title: "Shuttle Tracker Network",
+							description: "Connect to our custom tracking devices on the buses.",
+							iconSystemName: "point.3.filled.connected.trianglepath.dotted"
+						)
 						#endif // os(iOS)
-						HStack(alignment: .top) {
-							Image(systemName: "exclamationmark.bubble")
-								.resizable()
-								.scaledToFit()
-								.frame(width: 40, height: 40)
-							VStack(alignment: .leading) {
-								Text("Announcements")
-									.font(.headline)
-								Text("You’ll now receive a push notification whenever a new announcement is posted. You can configure this in Settings > Notifications.")
-							}
-						}
-						HStack(alignment: .top) {
-							Image(systemName: "squareshape.squareshape.dashed")
-								.resizable()
-								.scaledToFit()
-								.frame(width: 40, height: 40)
-							VStack(alignment: .leading) {
-								Text("Design")
-									.font(.headline)
-								Text("To mark the biggest update to Shuttle Tracker since the introduction of Board Bus, we’re introducing a new logo, a new app icon, and a new color scheme.")
-							}
-						}
-						HStack(alignment: .top) {
-							Image(systemName: "text.redaction")
-								.resizable()
-								.scaledToFit()
-								.frame(width: 40, height: 40)
-							VStack(alignment: .leading) {
-								Text("Analytics")
-									.font(.headline)
-								Text("Opt in to analytics sharing to help the Shuttle Tracker team improve the app. You can see a record of recently uploaded analytics entries or enable or disable the feature in Settings > Logging & Analytics.")
-							}
-						}
+						WhatsNewItem(
+							title: "Notifications",
+							description: "Receive push notification for new announcements.",
+							iconSystemName: "bell.badge"
+						)
+						WhatsNewItem(
+							title: "Design",
+							description: "See a new logo, app icon, and color scheme.",
+							iconSystemName: "star.square"
+						)
+						WhatsNewItem(
+							title: "Analytics",
+							description: "Opt in to analytics sharing to help improve the app.",
+							iconSystemName: "stethoscope"
+						)
 					}
-						.symbolRenderingMode(.hierarchical)
 				}
 					.padding(.horizontal)
 					.padding(.bottom)
@@ -118,27 +86,30 @@ struct WhatsNewView: View {
 					#endif // os(iOS)
 			}
 			#if os(iOS)
-			if self.onboarding {
-				NavigationLink {
-					AnalyticsOnboardingView()
-				} label: {
-					Text("Continue")
-						.bold()
+			Group {
+				if self.onboarding {
+					NavigationLink {
+						NetworkOnboardingView()
+					} label: {
+						Text("Continue")
+							.bold()
+							.padding(5)
+							.frame(maxWidth: .infinity)
+					}
+				} else {
+					Button {
+						self.sheetStack.pop()
+					} label: {
+						Text("Continue")
+							.bold()
+							.padding(5)
+							.frame(maxWidth: .infinity)
+					}
 				}
-					.buttonStyle(.block)
-					.padding(.horizontal)
-					.padding(.bottom)
-			} else {
-				Button {
-					self.sheetStack.pop()
-				} label: {
-					Text("Continue")
-						.bold()
-				}
-					.buttonStyle(.block)
-					.padding(.horizontal)
-					.padding(.bottom)
 			}
+				.buttonStyle(.borderedProminent)
+				.padding(.horizontal)
+				.padding(.bottom)
 			#endif // os(iOS)
 		}
 			.toolbar {

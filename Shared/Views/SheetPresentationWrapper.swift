@@ -92,6 +92,10 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 					}
 				#endif // os(iOS)
 				#if os(iOS) && !APPCLIP
+				case .networkOnboarding:
+					NetworkOnboardingView()
+				#endif // os(iOS) && !APPCLIP
+				#if os(iOS) && !APPCLIP
 				case .permissions:
 					PermissionsSheet()
 						.interactiveDismissDisabled()
