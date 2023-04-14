@@ -12,7 +12,7 @@ final class SheetStack: ObservableObject {
 	
 	enum SheetType: Hashable, Identifiable {
 		
-		case welcome, settings, info, busSelection, permissions, privacy, announcements, whatsNew, plus(featureText: String)
+		case welcome, settings, info, busSelection, permissions, privacy, announcements, whatsNew, plus(featureText: String), Bus_route_info
 		
 		var id: Self {
 			get {

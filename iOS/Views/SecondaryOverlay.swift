@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+
 struct SecondaryOverlay: View {
 	
 	private var unviewedAnnouncementsCount: Int {
@@ -73,14 +75,9 @@ struct SecondaryOverlay: View {
                     Divider()
                         .frame(width: 45, height: 0)
                     SecondaryOverlayButton(
-                        iconSystemName: "exclamationmark.bubble.fill",
-                        sheetType: .announcements,
-                        badgeNumber: self.unviewedAnnouncementsCount
+                        iconSystemName: "bus.fill",
+                        sheetType: .Bus_route_info
                     )
-                        .badge(self.unviewedAnnouncementsCount)
-                        .task {
-                            self.announcements = await [Announcement].download()
-                        }
                 }
 			}
 				.background(
