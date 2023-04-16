@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65C594D929EBA3610077A506 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C594D829EBA3610077A506 /* File.swift */; };
+		65C594DA29EBA3610077A506 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C594D829EBA3610077A506 /* File.swift */; };
+		65C594DC29EBA3880077A506 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C594DB29EBA3880077A506 /* WeatherView.swift */; };
+		65C594DD29EBA3880077A506 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C594DB29EBA3880077A506 /* WeatherView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -181,6 +185,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		65C594D829EBA3610077A506 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		65C594DB29EBA3880077A506 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		C0019DCD251910E80020574D /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
@@ -364,6 +370,7 @@
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C0A1E732274A16F100DBF248 /* WhatsNewSheet.swift */,
+				65C594DB29EBA3880077A506 /* WeatherView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -378,6 +385,7 @@
 				C08E838C250D2BF000F0E2E9 /* Route.swift */,
 				A1ED8B8727BC558A000A26E5 /* Schedule.swift */,
 				C0019DCD251910E80020574D /* Stop.swift */,
+				65C594D829EBA3610077A506 /* File.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -695,6 +703,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C594DD29EBA3880077A506 /* WeatherView.swift in Sources */,
 				C0A7A89128D7E65D00A2ACAA /* BoardBusManager.swift in Sources */,
 				C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */,
 				C015281D2517F68F0069092C /* MapState.swift in Sources */,
@@ -738,6 +747,7 @@
 				C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */,
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
+				65C594DA29EBA3610077A506 /* File.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
@@ -765,10 +775,12 @@
 				C0F420D22927570900CC0F91 /* WrappedError.swift in Sources */,
 				C0BE7D1526E944D8004F0F97 /* Toast.swift in Sources */,
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
+				65C594D929EBA3610077A506 /* File.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
+				65C594DC29EBA3880077A506 /* WeatherView.swift in Sources */,
 				C015280B2517DEBE0069092C /* MapView.swift in Sources */,
 				C0C9D3D0270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */,
