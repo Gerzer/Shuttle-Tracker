@@ -36,55 +36,139 @@ struct InfoView: View {
 	var body: some View {
 		SheetPresentationWrapper {
 			ScrollView {
-				VStack(alignment: .leading, spacing: 0) {
-					Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
-						.padding(.bottom)
-					if let schedule = self.schedule {
-						Section {
-							HStack {
-								VStack(alignment: .leading, spacing: 0) {
-									Text("Monday")
-									Text("Tuesday")
-									Text("Wednesday")
-									Text("Thursday")
-									Text("Friday")
-									Text("Saturday")
-									Text("Sunday")
-								}
-								VStack(alignment: .leading, spacing: 0) {
-									Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
-									Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
-									Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
-									Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
-									Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
-									Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
-									Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
-								}
-								Spacer()
-							}
-								.padding(.bottom)
-						} header: {
-							Text("Schedule")
-								.font(.headline)
-						}
-					}
-					Section {
-						Text("The map is automatically refreshed every 5 seconds. \(self.highQualityMessage), and \(self.lowQualityMessage). When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
-							.padding(.bottom)
-					} header: {
-						Text("Instructions")
-							.font(.headline)
-					}
-					Section {
-						Button("Show Privacy Information") {
-							self.sheetStack.push(.privacy)
-						}
-							.padding(.bottom)
-					}
-				}
-					.padding(.horizontal)
+                VStack(spacing: 0){
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
+                            .padding(.vertical)
+                        
+                        if let schedule = self.schedule {
+                            Section {
+                                VStack {
+                                    let days = [
+                                        ("Monday", "\(schedule.content.monday.start)", "\(schedule.content.monday.end)"),
+                                        ("Tuesday", "\(schedule.content.tuesday.start)", "\(schedule.content.tuesday.end)"),
+                                        ("Wednesday", "\(schedule.content.wednesday.start)", "\(schedule.content.wednesday.end)"),
+                                        ("Thursday", "\(schedule.content.thursday.start)", "\(schedule.content.thursday.end)"),
+                                        ("Friday", "\(schedule.content.friday.start)", "\(schedule.content.friday.end)"),
+                                        ("Saturday", "\(schedule.content.saturday.start)", "\(schedule.content.monday.end)"),
+                                        ("Sunday", "\(schedule.content.sunday.start)", "\(schedule.content.sunday.end)"),
+                                    ]
+                                    
+                                    ForEach(days, id: \.0) { item in
+                                        HStack {
+                                            Text(item.0)
+                                                .bold()
+                                                .padding(.leading, 5)
+                                            
+                                            Spacer()
+                                            
+                                            HStack(spacing: 0){
+                                                ZStack(alignment: .trailing){
+                                                    Text(days.max(by: { $1.1.count > $0.1.count })!.1)
+                                                        .foregroundColor(.clear)
+                                                        .bold()
+                                                    
+                                                    Text(item.1).bold()
+                                                }
+                                                    .padding(3)
+                                                    .padding(.horizontal, 3)
+                                                    .background(Color(.systemGray5))
+                                                    .cornerRadius(10)
+                                                
+                                                Text(" to ")
+                                                
+                                                ZStack(alignment: .trailing){
+                                                    Text(days.max(by: { $1.2.count > $0.2.count })!.2)
+                                                        .foregroundColor(.clear)
+                                                        .bold()
+                                                    
+                                                    Text(item.2).bold()
+                                                }
+                                                    .padding(3)
+                                                    .padding(.horizontal, 3)
+                                                    .background(Color(.systemGray5))
+                                                    .cornerRadius(10)
+                                            }
+                                        }
+                                        .padding(3)
+                                        .background(Color(.systemGray6))
+                                        .cornerRadius(10)
+                                    }
+                                }
+                                .padding(.bottom)
+                            } header: {
+                                Text("Schedule")
+                                    .padding(.vertical, 5)
+                                    .font(.title)
+                            }
+                        }
+                        Section {
+                            VStack {
+                                Text("The map is automatically refreshed every 5 seconds.")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                HStack {
+                                    ZStack {
+                                        Circle()
+                                            .fill(.green)
+                                            .shadow(color: .green, radius: 3)
+                                        Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(.white)
+                                    }
+                                        .frame(width: 50)
+                                    
+                                    let message = self.lowQualityMessage.prefix(1).uppercased() + self.lowQualityMessage.dropFirst(1)
+                                    Text(message)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                .padding(10)
+                                .background(.thinMaterial)
+                                .cornerRadius(10)
+                                
+                                HStack {
+                                    ZStack {
+                                        Circle()
+                                            .fill(self.appStorageManager.colorBlindMode ? .purple : .red)
+                                            .shadow(color: self.appStorageManager.colorBlindMode ? .purple : .red, radius: 3)
+                                        Image(systemName: self.appStorageManager.colorBlindMode ? "circle.dotted" : "bus")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(.white)
+                                    }
+                                        .frame(width: 50)
+                                    
+                                    let message = self.highQualityMessage.prefix(1).uppercased() + self.highQualityMessage.dropFirst(1)
+                                    Text(message)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                                .padding(10)
+                                .background(.thinMaterial)
+                                .cornerRadius(10)
+                                
+                                Text("When boarding a bus, tap **\"Board Bus\"**, and when getting off, tap **\"Leave Bus\"**. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.bottom)
+                            }
+                        } header: {
+                            Text("Instructions")
+                                .padding(.vertical, 5)
+                                .font(.title)
+                        }
+                        Section {
+                            Button("Show Privacy Information") {
+                                self.sheetStack.push(.privacy)
+                            }
+                            .padding(.bottom)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .background(.thinMaterial)
+                    .cornerRadius(20)
+                    .padding(.horizontal)
+                }
 			}
-				.navigationTitle("Shuttle Tracker 🚐")
+                .navigationTitle("Shuttle Tracker")
 				.toolbar {
 					ToolbarItem {
 						CloseButton()

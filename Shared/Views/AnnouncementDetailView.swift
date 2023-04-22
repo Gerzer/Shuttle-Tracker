@@ -19,34 +19,38 @@ struct AnnouncementDetailView: View {
 	
 	var body: some View {
 		ScrollView {
-			#if os(macOS)
-			HStack {
-				Text(self.announcement.subject)
-					.font(.headline)
-				Spacer()
-			}
-				.padding(.top)
-			#endif // os(macOS)
-			HStack {
-				Text(self.announcement.body)
-				Spacer()
-			}
-			HStack {
-				switch self.announcement.scheduleType {
-				case .none:
-					EmptyView()
-				case .startOnly:
-					Text("Posted \(self.announcement.startString)")
-				case .endOnly:
-					Text("Expires \(self.announcement.endString)")
-				case .startAndEnd:
-					Text("Posted \(self.announcement.startString); expires \(self.announcement.endString)")
-				}
-				Spacer()
-			}
-				.font(.footnote)
-				.foregroundColor(.secondary)
-				.padding(.bottom)
+            VStack {
+                #if os(macOS)
+                HStack {
+                    Text(self.announcement.subject)
+                        .font(.headline)
+                    Spacer()
+                }
+                .padding(.top)
+                #endif // os(macOS)
+                HStack {
+                    Text(self.announcement.body)
+                    Spacer()
+                }
+                HStack {
+                    switch self.announcement.scheduleType {
+                    case .none:
+                        EmptyView()
+                    case .startOnly:
+                        Text("Posted \(self.announcement.startString)")
+                    case .endOnly:
+                        Text("Expires \(self.announcement.endString)")
+                    case .startAndEnd:
+                        Text("Posted \(self.announcement.startString); expires \(self.announcement.endString)")
+                    }
+                    Spacer()
+                }
+                .font(.footnote)
+                .foregroundColor(.secondary)
+            }
+                .padding()
+                .background(.thinMaterial)
+                .cornerRadius(20)
 		}
 			.padding(.horizontal)
 			.frame(minWidth: 300)

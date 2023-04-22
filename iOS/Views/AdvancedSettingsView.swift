@@ -22,7 +22,7 @@ struct AdvancedSettingsView: View {
 		Form {
 			Section {
 				HStack {
-					Text("\(self.appStorageManager.maximumStopDistance) meters")
+					Text("\(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s")")
 					Spacer()
 					Stepper("Maximum Stop Distance", value: self.appStorageManager.$maximumStopDistance, in: 1 ... 100)
 						.labelsHidden()
