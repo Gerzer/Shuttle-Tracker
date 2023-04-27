@@ -55,7 +55,7 @@ struct Bus_view_sheet: View {
             }
             
             List(busRoutes, id: \.self) { route in
-                Text("Bus Route \(route)")
+                Text("\(route)")
             }
         }
         .accentColor(.red)
