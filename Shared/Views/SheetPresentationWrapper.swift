@@ -89,7 +89,7 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
                     
                     #if os(iOS) && !APPCLIP
                     if #available(iOS 15, *) {
-                        Bus_view_info_sheet()
+                        Bus_view_sheet()
                             .interactiveDismissDisabled()
                     } else {
                         PermissionsSheet()
