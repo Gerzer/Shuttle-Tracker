@@ -14,6 +14,9 @@ struct ContentView: View {
 	@State
 	private var announcements: [Announcement] = []
 	
+	@Binding
+	private var mapCameraPosition: MapCameraPositionWrapper
+	
 	@EnvironmentObject
 	private var mapState: MapState
 	
@@ -79,7 +82,7 @@ struct ContentView: View {
 							.padding()
 					default:
 						HStack {
-							SecondaryOverlay()
+							SecondaryOverlay(mapCameraPosition: self.$mapCameraPosition)
 								.padding(.top, 5)
 								.padding(.leading, 10)
 							Spacer()
@@ -87,7 +90,7 @@ struct ContentView: View {
 					}
 					Spacer()
 					#endif // !APPCLIP
-					PrimaryOverlay()
+					PrimaryOverlay(mapCameraPosition: self.$mapCameraPosition)
 						.padding(.bottom)
 					#if APPCLIP
 					Spacer()
@@ -164,7 +167,13 @@ struct ContentView: View {
 		.autoconnect()
 	
 	private var mapView: some View {
-		MapView()
+		Group {
+			if #available(macOS 14, *) {
+				MapContainer(position: self.$mapCameraPosition)
+			} else {
+				LegacyMapView(position: self.$mapCameraPosition)
+			}
+		}
 			.toolbar {
 				Button {
 					self.sheetStack.push(.announcements)
@@ -188,7 +197,7 @@ struct ContentView: View {
 				}
 				Button {
 					Task {
-						await self.mapState.resetVisibleMapRect()
+						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}
 				} label: {
 					Label("Re-Center Map", systemImage: "location.fill.viewfinder")
@@ -211,6 +220,8 @@ struct ContentView: View {
 			}
 			.task {
 				if #available(macOS 13, *) {
+					await self.mapState.refreshAll()
+					await self.mapState.recenter(position: self.$mapCameraPosition)
 					for await refreshType in self.viewState.refreshSequence {
 						switch refreshType {
 						case .manual:
@@ -269,20 +280,27 @@ struct ContentView: View {
 	}
 	#else // os(macOS)
 	private var mapView: some View {
-		MapView()
+		Group {
+			if #available(iOS 17, *) {
+				MapContainer(position: self.$mapCameraPosition)
+			} else {
+				LegacyMapView(position: self.$mapCameraPosition)
+			}
+		}
 	}
 	#endif
 	
-}
-
-struct ContentViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		ContentView()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(SheetStack())
+	init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
+		self._mapCameraPosition = mapCameraPosition
 	}
 	
+}
+
+@available(iOS 17, macOS 14, *)
+#Preview {
+	ContentView(mapCameraPosition: .constant(MapCameraPositionWrapper(MapConstants.defaultCameraPosition)))
+		.environmentObject(MapState.shared)
+		.environmentObject(ViewState.shared)
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(SheetStack())
 }

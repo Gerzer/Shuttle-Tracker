@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-class Bus: NSObject, Codable, CustomAnnotation {
+class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 	
 	struct Location: Codable {
 		
@@ -66,26 +66,43 @@ class Bus: NSObject, Codable, CustomAnnotation {
 	}
 	
 	@MainActor
+	var tintColor: Color {
+		get {
+			switch self.location.type {
+			case .system:
+				return AppStorageManager.shared.colorBlindMode ? .purple : .red
+			case .user:
+				return .green
+			}
+		}
+	}
+	
+	@MainActor
+	var systemImage: String {
+		get {
+			let colorBlindSytemImage: String
+			switch self.location.type {
+			case .system:
+				colorBlindSytemImage = "circle.dotted"
+			case .user:
+				colorBlindSytemImage = "scope"
+			}
+			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : "bus"
+		}
+	}
+	
+	@MainActor
 	var annotationView: MKAnnotationView {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
 			markerAnnotationView.canShowCallout = true
-			let colorBlindMode = UserDefaults.standard.bool(forKey: "ColorBlindMode")
-			let colorBlindSymbolName: String
-			switch self.location.type {
-			case .system:
-				markerAnnotationView.markerTintColor = colorBlindMode ? .systemPurple : .systemRed
-				colorBlindSymbolName = "circle.dotted"
-			case .user:
-				markerAnnotationView.markerTintColor = .systemGreen
-				colorBlindSymbolName = "scope"
-			}
-			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
 			#if canImport(AppKit)
-			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
+			markerAnnotationView.markerTintColor = NSColor(self.tintColor)
+			markerAnnotationView.glyphImage = NSImage(systemSymbolName: self.systemImage, accessibilityDescription: nil)
 			#elseif canImport(UIKit) // canImport(AppKit)
-			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
+			markerAnnotationView.markerTintColor = UIColor(self.tintColor)
+			markerAnnotationView.glyphImage = UIImage(systemName: self.systemImage)
 			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
