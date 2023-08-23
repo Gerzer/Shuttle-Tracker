@@ -46,11 +46,11 @@ enum Logging {
 		init(content: some StringProtocol) {
 			self.id = UUID()
 			self.content = String(content)
-			#if os(macOS)
-			self.clientPlatform = .macos
-			#elseif os(iOS) // os(macOS)
+			#if os(iOS)
 			self.clientPlatform = .ios
-			#endif // os(iOS)
+			#elseif os(macOS) // os(iOS)
+			self.clientPlatform = .macos
+			#endif // os(macOS)
 			self.date = .now
 		}
 		
