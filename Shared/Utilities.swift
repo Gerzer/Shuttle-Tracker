@@ -105,11 +105,11 @@ enum MapConstants {
 	
 }
 
-enum UserLocationError: Error {
+enum UserLocationError: LocalizedError {
 	
 	case unavailable
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .unavailable:
@@ -293,9 +293,18 @@ extension URL {
 		
 		struct ParseStrategy: Foundation.ParseStrategy {
 			
-			enum ParseError: Error {
+			enum ParseError: LocalizedError {
 				
 				case parseFailed
+				
+				var errorDescription: String? {
+					get {
+						switch self {
+						case .parseFailed:
+							return "URL parsing failed."
+						}
+					}
+				}
 				
 			}
 			

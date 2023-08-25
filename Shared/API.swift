@@ -159,13 +159,13 @@ enum API: TargetType {
 	
 }
 
-fileprivate enum APIError: Error {
+fileprivate enum APIError: LocalizedError {
 	
 	case invalidResponse
 	
 	case invalidStatusCode
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .invalidResponse:
