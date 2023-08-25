@@ -111,7 +111,7 @@ struct BusSelectionSheet: View {
 								case .reducedAccuracy:
 									do {
 										try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-									} catch let error {
+									} catch {
 										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 										}
@@ -145,7 +145,7 @@ struct BusSelectionSheet: View {
 						.map { (id) in
 							return BusID(id)
 						}
-				} catch let error {
+				} catch {
 					Logging.withLogger(for: .api, doUpload: true) { (logger) in
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
 					}
@@ -174,7 +174,7 @@ struct BusSelectionSheet: View {
 					Task {
 						do {
 							try await Analytics.upload(eventType: .busSelectionCanceled)
-						} catch let error {
+						} catch {
 							Logging.withLogger(for: .api) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
 							}
@@ -214,7 +214,7 @@ struct BusSelectionSheet: View {
 		Task {
 			do {
 				try await UNUserNotificationCenter.requestDefaultAuthorization()
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
 				}
@@ -224,7 +224,7 @@ struct BusSelectionSheet: View {
 				try await UNUserNotificationCenter
 					.current()
 					.add(request)
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule local notification: \(error, privacy: .public)")
 				}

@@ -135,7 +135,7 @@ enum API: TargetType {
 		guard let statusCode = HTTPStatusCodes.statusCode(httpResponse.statusCode) else {
 			throw APIError.invalidStatusCode
 		}
-		if let error = statusCode as? Error {
+		if let error = statusCode as? any Error {
 			throw error
 		} else {
 			return data

@@ -23,7 +23,7 @@ struct AnalyticsDetailView: View {
 		get {
 			do {
 				return try self.entry.jsonString
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to encode analytics entry: \(error, privacy: .public)")
 				}

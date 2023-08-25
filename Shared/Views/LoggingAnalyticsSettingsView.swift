@@ -411,12 +411,11 @@ struct LoggingAnalyticsSettingsView: View {
 				#elseif os(macOS) // os(iOS)
 				self.logUploadState = .uploaded
 				#endif // os(macOS)
-			} catch let error {
+			} catch {
 				self.logUploadError = WrappedError(error)
 				Logging.withLogger { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 				}
-				throw error
 			}
 		}
 	}

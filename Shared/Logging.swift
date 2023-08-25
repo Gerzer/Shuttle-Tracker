@@ -59,7 +59,7 @@ enum Logging {
 			let url = FileManager.default.temporaryDirectory.appending(component: "\(self.id.uuidString).log")
 			do {
 				try self.content.write(to: url, atomically: false, encoding: .utf8)
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save log file to temporary directory: \(error, privacy: .public)")
 				}
@@ -97,7 +97,7 @@ enum Logging {
 			if doUpload && optIn {
 				do {
 					try await self.uploadLog()
-				} catch let error {
+				} catch {
 					self.withLogger { (logger) in // Leave doUpload set to false (the default) to avoid the potential for infinite recursion
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 					}
