@@ -37,6 +37,8 @@ enum API: TargetType {
 	
 	case readSchedule
 	
+	case uploadAnalyticsEntry(analyticsEntry: Analytics.Entry)
+	
 	case uploadLog(log: Logging.Log)
 	
 	case uploadAPNSToken(token: String)
@@ -75,6 +77,8 @@ enum API: TargetType {
 				return "/stops"
 			case .readSchedule:
 				return "/schedule"
+			case .uploadAnalyticsEntry:
+				return "/analytics/entries"
 			case .uploadLog:
 				return "/logs"
 			case .uploadAPNSToken(let token):
@@ -88,7 +92,7 @@ enum API: TargetType {
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .readSchedule:
 				return .get
-			case .uploadLog, .uploadAPNSToken:
+			case .uploadAnalyticsEntry, .uploadLog, .uploadAPNSToken:
 				return .post
 			case .updateBus:
 				return .patch
@@ -113,6 +117,8 @@ enum API: TargetType {
 				return .requestCustomJSONEncodable(location, encoder: encoder)
 			case .uploadLog(let log):
 				return .requestCustomJSONEncodable(log, encoder: encoder)
+			case .uploadAnalyticsEntry(let analyticsEntry):
+				return .requestCustomJSONEncodable(analyticsEntry, encoder: encoder)
 			}
 		}
 	}
@@ -133,7 +139,7 @@ enum API: TargetType {
 		guard let statusCode = HTTPStatusCodes.statusCode(httpResponse.statusCode) else {
 			throw APIError.invalidStatusCode
 		}
-		if let error = statusCode as? Error {
+		if let error = statusCode as? any Error {
 			throw error
 		} else {
 			return data
@@ -144,7 +150,7 @@ enum API: TargetType {
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
 		as responseType: ResponseType.Type,
 		onMainActor: Bool = false
-	) async throws -> ResponseType where ResponseType: Decodable {
+	) async throws -> ResponseType where ResponseType: Sendable & Decodable {
 		let data = try await self.perform()
 		if onMainActor {
 			return try await MainActor.run {
@@ -157,19 +163,19 @@ enum API: TargetType {
 	
 }
 
-fileprivate enum APIError: Error {
+fileprivate enum APIError: LocalizedError {
 	
 	case invalidResponse
 	
 	case invalidStatusCode
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .invalidResponse:
-				return "The server returned an invalid response"
+				return "The server returned an invalid response."
 			case .invalidStatusCode:
-				return "The server returned an invalid HTTP status code"
+				return "The server returned an invalid HTTP status code."
 			}
 		}
 	}

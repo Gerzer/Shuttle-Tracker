@@ -13,6 +13,10 @@ final class SheetStack: ObservableObject {
 	
 	enum SheetType: Hashable, Identifiable {
 		
+		#if os(macOS)
+		case analyticsOnboarding
+		#endif // os(macOS)
+		
 		case announcements
 		
 		case announcement(_ announcement: Announcement)
@@ -38,6 +42,10 @@ final class SheetStack: ObservableObject {
 		#endif // os(iOS)
 		
 		#if os(iOS) && !APPCLIP
+		case networkOnboarding
+		#endif // os(iOS) && !APPCLIP
+		
+		#if os(iOS) && !APPCLIP
 		case permissions
 		#endif // os(iOS) && !APPCLIP
 		
@@ -47,12 +55,8 @@ final class SheetStack: ObservableObject {
 		case settings
 		#endif // os(iOS) && !APPCLIP
 		
-		#if os(iOS) && !APPCLIP
-		case welcome
-		#endif // os(iOS) && !APPCLIP
-		
 		#if !APPCLIP
-		case whatsNew
+		case whatsNew(onboarding: Bool)
 		#endif // !APPCLIP
 		
 		var id: Self {

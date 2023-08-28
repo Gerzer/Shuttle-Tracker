@@ -60,6 +60,9 @@ struct AnnouncementDetailView: View {
 				#endif // os(iOS)
 			}
 			.task {
+				self.didResetViewedAnnouncements = false
+				self.appStorageManager.viewedAnnouncementIDs.insert(self.announcement.id)
+				
 				do {
 					try await UNUserNotificationCenter.updateBadge()
 				} catch let error {
@@ -67,10 +70,14 @@ struct AnnouncementDetailView: View {
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
 					}
 				}
-			}
-			.onAppear {
-				self.didResetViewedAnnouncements = false
-				self.appStorageManager.viewedAnnouncementIDs.insert(self.announcement.id)
+				
+				do {
+					try await Analytics.upload(eventType: .announcementViewed(id: self.announcement.id))
+				} catch {
+					Logging.withLogger(for: .api) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
+					}
+				}
 			}
 	}
 	

@@ -8,6 +8,9 @@
 import CoreLocation
 import SwiftUI
 
+@preconcurrency
+import UserNotifications
+
 struct PermissionsSheet: View {
 	
 	@State
@@ -128,7 +131,7 @@ struct PermissionsSheet: View {
 										}
 									}
 								@unknown default:
-									fatalError()
+									EmptyView()
 								}
 							}
 								.scaleEffect(self.notificationScale)
@@ -166,7 +169,7 @@ struct PermissionsSheet: View {
 									Task {
 										do {
 											try await UNUserNotificationCenter.requestDefaultAuthorization()
-										} catch let error {
+										} catch {
 											Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 												logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization request failed: \(error, privacy: .public)")
 											}
@@ -199,6 +202,15 @@ struct PermissionsSheet: View {
 					}
 			}
 		}
+			.task {
+				do {
+					try await Analytics.upload(eventType: .permissionsSheetOpened)
+				} catch {
+					Logging.withLogger(for: .api, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+					}
+				}
+			}
 	}
 	
 }

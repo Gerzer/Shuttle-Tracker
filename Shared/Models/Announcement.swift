@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Announcement: Decodable, Hashable, Identifiable {
+final class Announcement: Decodable, Hashable, Identifiable, Sendable {
 	
 	enum ScheduleType: String, Decodable {
 		
@@ -76,8 +76,8 @@ extension Array where Element == Announcement {
 						return announcement.start <= .now && announcement.end > .now
 					}
 				}
-		} catch let error {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+		} catch {
+			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download announcements: \(error, privacy: .public)")
 			}
 			return []

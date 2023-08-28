@@ -62,7 +62,14 @@ enum LocationUtilities {
 		)
 		do {
 			try await API.updateBus(id: busID, location: location).perform()
-		} catch let error {
+		} catch let error as any HTTPStatusCode {
+			if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
+				return
+			}
+			Logging.withLogger(for: .boardBus) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
+			}
+		} catch {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
 			}
@@ -98,19 +105,11 @@ enum MapConstants {
 	
 }
 
-enum TravelState {
-	
-	case onBus
-	
-	case notOnBus
-	
-}
-
-enum UserLocationError: Error {
+enum UserLocationError: LocalizedError {
 	
 	case unavailable
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .unavailable:
@@ -370,9 +369,18 @@ extension URL {
 		
 		struct ParseStrategy: Foundation.ParseStrategy {
 			
-			enum ParseError: Error {
+			enum ParseError: LocalizedError {
 				
 				case parseFailed
+				
+				var errorDescription: String? {
+					get {
+						switch self {
+						case .parseFailed:
+							return "URL parsing failed."
+						}
+					}
+				}
 				
 			}
 			
@@ -403,6 +411,20 @@ extension ParseableFormatStyle where Self == URL.CompatibilityFormatStyle {
 		get {
 			return Self()
 		}
+	}
+	
+}
+
+extension UUID: RawRepresentable {
+	
+	public var rawValue: String {
+		get {
+			return self.uuidString
+		}
+	}
+	
+	public init?(rawValue: String) {
+		self.init(uuidString: rawValue)
 	}
 	
 }

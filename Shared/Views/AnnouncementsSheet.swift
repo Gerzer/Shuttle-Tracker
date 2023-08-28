@@ -91,10 +91,8 @@ struct AnnouncementsSheet: View {
 				}
 		}
 			.task {
-				
 				self.announcements = await [Announcement].download()
-			}
-			.task {
+				
 				do {
 					try await UNUserNotificationCenter.updateBadge()
 				} catch let error {
@@ -137,6 +135,18 @@ struct AnnouncementsSheet: View {
 						.keyboardShortcut(.cancelAction)
 				}
 				#endif // os(macOS)
+			}
+			.task {
+				self.announcements = await [Announcement].download()
+			}
+			.task {
+				do {
+					try await Analytics.upload(eventType: .announcementsListOpened)
+				} catch {
+					Logging.withLogger(for: .api) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
+					}
+				}
 			}
 	}
 	

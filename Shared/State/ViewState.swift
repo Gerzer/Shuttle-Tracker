@@ -7,6 +7,7 @@
 
 import Combine
 import OnboardingKit
+import SwiftUI
 
 @MainActor
 final class ViewState: OnboardingFlags {
@@ -96,6 +97,8 @@ final class ViewState: OnboardingFlags {
 	}
 	
 	private let refreshSequenceStorage: Any!
+	
+	var colorScheme: ColorScheme?
 	
 	private init() {
 		if #available(iOS 16, macOS 13, *) {

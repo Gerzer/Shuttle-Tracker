@@ -42,10 +42,10 @@ struct ShuttleTrackerApp: App {
 		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .reminder) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
 		}
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew) { (value) in
+		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew(onboarding: true)) { (value) in
 			Self.pushSheet(value, to: Self.contentViewSheetStack)
 		} conditions: {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
 	}
 	
@@ -137,7 +137,7 @@ struct ShuttleTrackerApp: App {
 				} else {
 					try await Task.sleep(nanoseconds: 1_000_000_000)
 				}
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 				}
@@ -173,15 +173,26 @@ fileprivate struct WhatsNewCommandView: View {
 	@EnvironmentObject
 	private var sheetStack: SheetStack
 	
+	private var isWhatsNewSheetOnTop: Bool {
+		get {
+			switch self.sheetStack.top {
+			case .whatsNew:
+				return true
+			default:
+				return false
+			}
+		}
+	}
+	
 	var body: some View {
-		Button("\(.whatsNew ~= self.sheetStack.top ? "Hide" : "Show") What’s New") {
+		Button("\(self.isWhatsNewSheetOnTop ? "Hide" : "Show") What’s New") {
 			if case .whatsNew = self.sheetStack.top {
 				self.sheetStack.pop()
 			} else {
-				self.sheetStack.push(.whatsNew)
+				self.sheetStack.push(.whatsNew(onboarding: false))
 			}
 		}
-			.disabled(self.sheetStack.count > 0 && !(.whatsNew ~= self.sheetStack.top))
+			.disabled(self.sheetStack.count > 0 && !self.isWhatsNewSheetOnTop)
 	}
 	
 }

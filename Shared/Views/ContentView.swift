@@ -24,10 +24,14 @@ struct ContentView: View {
 	@EnvironmentObject
 	private var sheetStack: SheetStack
 	
+	@Environment(\.colorScheme)
+	private var colorScheme
+	
 	var body: some View {
 		SheetPresentationWrapper {
 			ZStack {
 				self.mapView
+					.tint(.blue)
 					.ignoresSafeArea()
 				#if os(macOS)
 				VStack {
@@ -110,17 +114,30 @@ struct ContentView: View {
 					}
 				}
 				.task {
+					ViewState.shared.colorScheme = self.colorScheme
+					
 					do {
 						let version = try await API.readVersion.perform(as: Int.self)
 						if version > API.lastVersion {
 							self.viewState.alertType = .updateAvailable
 						}
-					} catch let error {
+					} catch {
 						self.viewState.alertType = .serverUnavailable
 						Logging.withLogger(for: .api, doUpload: true) { (logger) in
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 						}
 					}
+					
+					do {
+						try await Analytics.upload(eventType: .coldLaunch)
+					} catch {
+						Logging.withLogger(for: .api, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+						}
+					}
+				}
+				.onChange(of: self.colorScheme) { (newValue) in
+					ViewState.shared.colorScheme = newValue
 				}
 		}
 	}
@@ -193,7 +210,7 @@ struct ContentView: View {
 							self.isRefreshing = true
 							do {
 								try await Task.sleep(for: .milliseconds(500))
-							} catch let error {
+							} catch {
 								Logging.withLogger(doUpload: true) { (logger) in
 									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
 								}
@@ -229,7 +246,7 @@ struct ContentView: View {
 					Task {
 						do {
 							try await Task.sleep(nanoseconds: 500_000_000)
-						} catch let error {
+						} catch {
 							Logging.withLogger(doUpload: true) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 							}
