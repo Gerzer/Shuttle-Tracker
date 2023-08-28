@@ -83,7 +83,7 @@ struct MapContainer: View {
 				await self.updateBoardBusData()
 				#endif // os(iOS)
 			}
-			.onReceive(self.mapState.objectWillChange) { (_) in
+			.onReceive(self.mapState.objectWillChange) {
 				Task {
 					await self.updateAppStorageData()
 				}

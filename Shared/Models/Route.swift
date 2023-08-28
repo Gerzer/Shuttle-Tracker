@@ -63,18 +63,10 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	var boundingMapRect: MKMapRect {
 		get {
-			let minX = self.min { (left, right) in
-				return left.x < right.x
-			}?.x
-			let maxX = self.max { (left, right) in
-				return left.x < right.x
-			}?.x
-			let minY = self.min { (left, right) in
-				return left.y < right.y
-			}?.y
-			let maxY = self.max { (left, right) in
-				return left.y < right.y
-			}?.y
+			let minX = self.min { return $0.x < $1.x }?.x
+			let maxX = self.max { return $0.x < $1.x }?.x
+			let minY = self.min { return $0.y < $1.y }?.y
+			let maxY = self.max { return $0.y < $1.y }?.y
 			guard let minX, let maxX, let minY, let maxY else {
 				return MKMapRect.null
 			}
