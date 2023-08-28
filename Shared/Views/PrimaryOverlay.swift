@@ -123,7 +123,7 @@ struct PrimaryOverlay: View {
 							do {
 								// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 								try await Task.sleep(for: .milliseconds(500))
-							} catch let error {
+							} catch {
 								Logging.withLogger(doUpload: true) { (logger) in
 									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
 								}
@@ -162,7 +162,7 @@ struct PrimaryOverlay: View {
 						do {
 							// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 							try await Task.sleep(nanoseconds: 500_000_000)
-						} catch let error {
+						} catch {
 							Logging.withLogger(doUpload: true) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 							}
@@ -249,7 +249,7 @@ struct PrimaryOverlay: View {
 		case .fullAccuracy:
 			do {
 				userLocation = try self.userLocation()
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .location) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get user location: \(error, privacy: .public)")
 				}
@@ -258,7 +258,7 @@ struct PrimaryOverlay: View {
 		case .reducedAccuracy:
 			do {
 				try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 				}
@@ -274,7 +274,7 @@ struct PrimaryOverlay: View {
 			
 			do {
 				userLocation = try self.userLocation()
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .location) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get user location: \(error, privacy: .public)")
 				}
@@ -326,7 +326,7 @@ struct PrimaryOverlay: View {
 			} else {
 				try await Task.sleep(nanoseconds: 5_000_000_000)
 			}
-		} catch let error {
+		} catch {
 			Logging.withLogger(doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 			}

@@ -134,7 +134,7 @@ struct ContentView: View {
 						if version > API.lastVersion {
 							self.viewState.alertType = .updateAvailable
 						}
-					} catch let error {
+					} catch {
 						self.viewState.alertType = .serverUnavailable
 						Logging.withLogger(for: .api, doUpload: true) { (logger) in
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
@@ -146,7 +146,7 @@ struct ContentView: View {
 					
 					do {
 						try await Analytics.upload(eventType: .coldLaunch)
-					} catch let error {
+					} catch {
 						Logging.withLogger(for: .api, doUpload: true) { (logger) in
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 						}
@@ -228,7 +228,7 @@ struct ContentView: View {
 							self.isRefreshing = true
 							do {
 								try await Task.sleep(for: .milliseconds(500))
-							} catch let error {
+							} catch {
 								Logging.withLogger(doUpload: true) { (logger) in
 									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
 								}
@@ -264,7 +264,7 @@ struct ContentView: View {
 					Task {
 						do {
 							try await Task.sleep(nanoseconds: 500_000_000)
-						} catch let error {
+						} catch {
 							Logging.withLogger(doUpload: true) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 							}

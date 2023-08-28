@@ -62,7 +62,7 @@ actor BoardBusManager: ObservableObject {
 		Task { // Dispatch a child task because we don’t need to await the result
 			do {
 				try await Analytics.upload(eventType: .boardBusActivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .api, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 				}
@@ -113,7 +113,7 @@ actor BoardBusManager: ObservableObject {
 					preconditionFailure()
 				}
 				try await Analytics.upload(eventType: .boardBusDeactivated(manual: manual))
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .api, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 				}
@@ -156,7 +156,7 @@ actor BoardBusManager: ObservableObject {
 		let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
 		do {
 			try await UNUserNotificationCenter.requestDefaultAuthorization()
-		} catch let error {
+		} catch {
 			Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
 			}
@@ -165,7 +165,7 @@ actor BoardBusManager: ObservableObject {
 			try await UNUserNotificationCenter
 				.current()
 				.add(request)
-		} catch let error {
+		} catch {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
 			}

@@ -68,7 +68,7 @@ extension Array where Element == Announcement {
 						return announcement.start <= .now && announcement.end > .now
 					}
 				}
-		} catch let error {
+		} catch {
 			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download announcements: \(error, privacy: .public)")
 			}

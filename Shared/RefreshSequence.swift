@@ -28,7 +28,7 @@ actor RefreshSequence: AsyncSequence, AsyncIteratorProtocol {
 	func next() async -> RefreshType? {
 		do {
 			try Task.checkCancellation()
-		} catch let error {
+		} catch {
 			Logging.withLogger(doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refresh sequence canceled: \(error, privacy: .public)")
 			}
@@ -40,7 +40,7 @@ actor RefreshSequence: AsyncSequence, AsyncIteratorProtocol {
 		} catch is CancellationError {
 			// Manual refresh events are signaled by canceling the automatic refresh production task.
 			return .manual
-		} catch let error {
+		} catch {
 			Logging.withLogger(doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refresh sequence production task failed: \(error, privacy: .public)")
 			}

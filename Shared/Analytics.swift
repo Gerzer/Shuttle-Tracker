@@ -153,7 +153,7 @@ public enum Analytics {
 			let url = FileManager.default.temporaryDirectory.appending(component: "\(self.id.uuidString).json")
 			do {
 				try self.jsonString.write(to: url, atomically: false, encoding: .utf8)
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save analytics entry file to temporary directory: \(error, privacy: .public)")
 				}

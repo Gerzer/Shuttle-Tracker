@@ -135,7 +135,7 @@ enum API: TargetType {
 		guard let statusCode = HTTPStatusCodes.statusCode(httpResponse.statusCode) else {
 			throw APIError.invalidStatusCode
 		}
-		if let error = statusCode as? Error {
+		if let error = statusCode as? any Error {
 			throw error
 		} else {
 			return data
@@ -159,13 +159,13 @@ enum API: TargetType {
 	
 }
 
-fileprivate enum APIError: Error {
+fileprivate enum APIError: LocalizedError {
 	
 	case invalidResponse
 	
 	case invalidStatusCode
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .invalidResponse:

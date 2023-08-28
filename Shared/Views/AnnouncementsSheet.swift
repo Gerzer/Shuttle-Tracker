@@ -121,7 +121,7 @@ struct AnnouncementsSheet: View {
 			.task {
 				do {
 					try await Analytics.upload(eventType: .announcementsListOpened)
-				} catch let error {
+				} catch {
 					Logging.withLogger(for: .api) { (logger) in
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
 					}

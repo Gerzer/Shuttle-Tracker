@@ -70,9 +70,11 @@ struct ShuttleTrackerApp: App {
 			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
 		OnboardingEvent(flags: flags) { (_) in
-			AppStorageManager.shared.baseURL = URL(string: "https://staging.shuttletracker.app")!
+			if AppStorageManager.shared.baseURL == URL(string: "https://staging.shuttletracker.app")! {
+				AppStorageManager.shared.baseURL = URL(string: "https://shuttletracker.app")!
+			}
 		} conditions: {
-			OnboardingConditions.Once(defaultsKey: "Beta2.0")
+			OnboardingConditions.Once(defaultsKey: "2.0")
 		}
 	}
 	
@@ -121,7 +123,7 @@ struct ShuttleTrackerApp: App {
 		Task {
 			do {
 				try await UNUserNotificationCenter.requestDefaultAuthorization()
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
 				}
@@ -138,7 +140,7 @@ struct ShuttleTrackerApp: App {
 				} else {
 					try await Task.sleep(nanoseconds: 1_000_000_000)
 				}
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 				}

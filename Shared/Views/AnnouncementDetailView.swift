@@ -64,7 +64,7 @@ struct AnnouncementDetailView: View {
 				
 				do {
 					try await Analytics.upload(eventType: .announcementViewed(id: self.announcement.id))
-				} catch let error {
+				} catch {
 					Logging.withLogger(for: .api) { (logger) in
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
 					}

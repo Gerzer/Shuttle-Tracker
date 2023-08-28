@@ -110,7 +110,7 @@ extension Array where Element == Route {
 	static func download() async -> [Route] {
 		do {
 			return try await API.readRoutes.perform(as: [Route].self)
-		} catch let error {
+		} catch {
 			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
 			}

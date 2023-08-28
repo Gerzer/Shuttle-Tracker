@@ -141,7 +141,7 @@ extension Array where Element == Bus {
 					}
 				}
 				#endif // os(iOS)
-		} catch let error {
+		} catch {
 			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
 			}

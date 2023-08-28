@@ -69,7 +69,7 @@ enum LocationUtilities {
 			Logging.withLogger(for: .boardBus) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
 			}
-		} catch let error {
+		} catch {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
 			}
@@ -108,11 +108,11 @@ enum MapConstants {
 	
 }
 
-enum UserLocationError: Error {
+enum UserLocationError: LocalizedError {
 	
 	case unavailable
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .unavailable:
@@ -296,9 +296,18 @@ extension URL {
 		
 		struct ParseStrategy: Foundation.ParseStrategy {
 			
-			enum ParseError: Error {
+			enum ParseError: LocalizedError {
 				
 				case parseFailed
+				
+				var errorDescription: String? {
+					get {
+						switch self {
+						case .parseFailed:
+							return "URL parsing failed."
+						}
+					}
+				}
 				
 			}
 			
