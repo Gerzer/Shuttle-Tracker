@@ -8,6 +8,7 @@
 import AsyncAlgorithms
 import MapKit
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
 	
@@ -31,16 +32,6 @@ struct ContentView: View {
 	
 	@Environment(\.colorScheme)
 	private var colorScheme
-	
-	private var unviewedAnnouncementsCount: Int {
-		get {
-			return self.announcements
-				.filter { (announcement) in
-					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
-				}
-				.count
-		}
-	}
 	
 	var body: some View {
 		SheetPresentationWrapper {
@@ -129,6 +120,8 @@ struct ContentView: View {
 					}
 				}
 				.task {
+					ViewState.shared.colorScheme = self.colorScheme
+					
 					do {
 						let version = try await API.readVersion.perform(as: Int.self)
 						if version > API.lastVersion {
@@ -140,9 +133,6 @@ struct ContentView: View {
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 						}
 					}
-				}
-				.task {
-					ViewState.shared.colorScheme = self.colorScheme
 					
 					do {
 						try await Analytics.upload(eventType: .coldLaunch)
@@ -180,19 +170,25 @@ struct ContentView: View {
 				} label: {
 					ZStack {
 						Label("Show Announcements", systemImage: "exclamationmark.bubble")
-						if self.unviewedAnnouncementsCount > 0 {
+						if self.viewState.badgeNumber > 0 {
 							Circle()
 								.foregroundColor(.red)
 								.frame(width: 15, height: 15)
 								.offset(x: 10, y: -10)
-							Text("\(self.unviewedAnnouncementsCount)")
+							Text("\(self.viewState.badgeNumber)")
 								.foregroundColor(.white)
 								.font(.caption)
 								.offset(x: 10, y: -10)
 						}
 					}
 						.task {
-							self.announcements = await [Announcement].download()
+							do {
+								try await UNUserNotificationCenter.updateBadge()
+							} catch let error {
+								Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+								}
+							}
 						}
 				}
 				Button {

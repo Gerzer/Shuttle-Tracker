@@ -1,25 +1,22 @@
 //
 //  AppDelegate.swift
-//  Shuttle Tracker (macOS)
+//  Shuttle Tracker (iOS)
 //
-//  Created by Gabriel Jacoby-Cooper on 2/22/22.
+//  Created by Gabriel Jacoby-Cooper on 2/25/23.
 //
 
-import AppKit
-import UserNotifications
+import UIKit
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, UIApplicationDelegate {
 	
-	func applicationDidFinishLaunching(_ notification: Notification) {
-		Logging.withLogger(for: .appDelegate) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did finish launching")
-		}
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		UNUserNotificationCenter.current().delegate = UserNotificationCenterDelegate.default
-		NSApplication.shared.registerForRemoteNotifications()
+		application.registerForRemoteNotifications()
+		return true
 	}
 	
-	func application(_: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+	func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did register for remote notifications with device token \(deviceToken, privacy: .public)")
 		}
@@ -39,7 +36,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	func application(_: NSApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
+	func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did fail to register for remote notifications with error \(error, privacy: .public)")
 		}
@@ -48,20 +45,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 		}
 	}
 	
-	func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
-		Logging.withLogger(for: .appDelegate) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Should terminate after last window closed")
-		}
-		return true
-	}
-	
-	func application(_: NSApplication, didReceiveRemoteNotification userInfo: [String: Any]) {
+	func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
 		Logging.withLogger(for: .appDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive remote notification \(userInfo, privacy: .public)")
 		}
-		Task {
-			await UNUserNotificationCenter.handleRemoteNotification(userInfo: userInfo)
-		}
+		await UNUserNotificationCenter.handleRemoteNotification(userInfo: userInfo)
+		return .newData
 	}
 	
 }

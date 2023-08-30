@@ -13,9 +13,16 @@ enum Logging {
 	
 	enum Category: String {
 		
+		/// The default category.
 		case `default` = "Default"
 		
 		case api = "API"
+		
+		/// The category for logging interactions with the Apple Push Notification Service.
+		case apns = "APNS"
+		
+		/// The category for logging method invocations in ``AppDelegate``.
+		case appDelegate = "AppDelegate"
 		
 		case boardBus = "BoardBus"
 		
@@ -24,6 +31,9 @@ enum Logging {
 		case mailCompose = "MailCompose"
 		
 		case permissions = "Permissions"
+		
+		/// The category for logging method invocations in ``UserNotificationCenterDelegate``.
+		case userNotificationCenterDelegate = "UserNotificationCenterDelegate"
 		
 	}
 	
@@ -101,7 +111,6 @@ enum Logging {
 					self.withLogger { (logger) in // Leave doUpload set to false (the default) to avoid the potential for infinite recursion
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 					}
-					throw error
 				}
 			}
 		}
@@ -129,7 +138,7 @@ enum Logging {
 			.dropLast() // Drop the trailing newline character
 		var log = Log(content: content)
 		log.id = try await API.uploadLog(log: log).perform(as: UUID.self) // The API server is the authoritative source for log IDs, so we overwrite the local default ID with the one that the server returns.
-		let immutableLog = log
+		let immutableLog = log // A mutable log can’t be captured in a concurrent closure, so we need to make an immutable copy before hopping to the main actor.
 		await MainActor.run {
 			#if os(iOS)
 			withAnimation {

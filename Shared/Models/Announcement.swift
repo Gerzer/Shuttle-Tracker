@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Announcement: Decodable, Identifiable, Sendable {
+final class Announcement: Decodable, Hashable, Identifiable, Sendable {
 	
 	enum ScheduleType: String, Decodable {
 		
@@ -47,6 +47,14 @@ final class Announcement: Decodable, Identifiable, Sendable {
 			formatter.formattingContext = .dynamic
 			return formatter.localizedString(for: self.end, relativeTo: .now)
 		}
+	}
+	
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(self.id)
+	}
+	
+	static func == (lhs: Announcement, rhs: Announcement) -> Bool {
+		return lhs.id == rhs.id
 	}
 	
 }

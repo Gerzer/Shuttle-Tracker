@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct AnnouncementDetailView: View {
+	
+	let announcement: Announcement
 	
 	@Binding
 	private(set) var didResetViewedAnnouncements: Bool
 	
 	@EnvironmentObject
 	private var appStorageManager: AppStorageManager
-	
-	let announcement: Announcement
 	
 	var body: some View {
 		ScrollView {
@@ -63,6 +64,14 @@ struct AnnouncementDetailView: View {
 				self.appStorageManager.viewedAnnouncementIDs.insert(self.announcement.id)
 				
 				do {
+					try await UNUserNotificationCenter.updateBadge()
+				} catch let error {
+					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+					}
+				}
+				
+				do {
 					try await Analytics.upload(eventType: .announcementViewed(id: self.announcement.id))
 				} catch {
 					Logging.withLogger(for: .api) { (logger) in
@@ -70,6 +79,11 @@ struct AnnouncementDetailView: View {
 					}
 				}
 			}
+	}
+	
+	init(announcement: Announcement, didResetViewedAnnouncements: Binding<Bool> = .constant(false)) {
+		self.announcement = announcement
+		self._didResetViewedAnnouncements = didResetViewedAnnouncements
 	}
 	
 }

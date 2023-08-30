@@ -60,6 +60,14 @@ struct SheetPresentationWrapper<Content>: View where Content: View {
 				case .announcements:
 					AnnouncementsSheet()
 						.frame(idealWidth: 500, idealHeight: 500)
+				case .announcement(let announcement):
+					#if os(iOS)
+					NavigationView {
+						AnnouncementDetailView(announcement: announcement)
+					}
+					#elseif os(macOS) // os(iOS)
+					AnnouncementDetailView(announcement: announcement)
+					#endif // os(macOS)
 				#if os(iOS)
 				case .busSelection:
 					BusSelectionSheet()

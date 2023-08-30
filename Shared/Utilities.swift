@@ -194,6 +194,82 @@ extension UNUserNotificationCenter {
 			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
 	}
 	
+	/// Updates the app’s badge on the Home Screen or in the Dock.
+	///
+	/// This method downloads the latest announcements from the server. The count of active announcements that the user has not yet viewed is set as the badge number and published to the rest of the app via ``ViewState/badgeNumber``.
+	static func updateBadge() async throws {
+		let viewedAnnouncementIDs = await AppStorageManager.shared.viewedAnnouncementIDs
+		let announcementsCount = await [Announcement]
+			.download()
+			.filter { (announcement) in
+				return !viewedAnnouncementIDs.contains(announcement.id)
+			}
+			.count
+		await MainActor.run {
+			ViewState.shared.badgeNumber = announcementsCount
+		}
+		if #available(iOS 16, macOS 13, *) {
+			try await UNUserNotificationCenter.current().setBadgeCount(announcementsCount)
+		} else {
+			#if canImport(AppKit)
+			await MainActor.run {
+				NSApplication.shared.dockTile.badgeLabel = announcementsCount > 0 ? "\(announcementsCount)" : nil
+			}
+			#elseif canImport(UIKit) // canImport(AppKit)
+			await MainActor.run {
+				UIApplication.shared.applicationIconBadgeNumber = announcementsCount
+			}
+			#endif // canImport(UIKit)
+		}
+	}
+	
+	/// Processes a new remote notification.
+	/// - Parameter userInfo: The notification’s payload.
+	static func handleRemoteNotification(userInfo: [AnyHashable: Any]? = nil) async {
+		Task { // Dispatch a new task because we don’t need to await the result
+			do {
+				try await self.updateBadge()
+			} catch let error {
+				Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+				}
+			}
+		}
+		#if os(iOS)
+		let sheetStack = ShuttleTrackerApp.sheetStack
+		#elseif os(macOS) // os(iOS)
+		let sheetStack = ShuttleTrackerApp.contentViewSheetStack
+		#endif // os(macOS)
+		if await sheetStack.top == nil {
+			Logging.withLogger(for: .apns) { (logger) in
+				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Attempting to push a sheet in response to remote notification")
+			}
+			if let userInfo {
+				if JSONSerialization.isValidJSONObject(userInfo) {
+					do {
+						let data = try JSONSerialization.data(withJSONObject: userInfo)
+						let announcement = try JSONDecoder().decode(Announcement.self, from: data)
+						await sheetStack.push(.announcement(announcement))
+						return // Exit early so that we don’t try to push the general announcements sheet on top of the announcement detail sheet
+					} catch let error {
+						Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to decode the APNS payload as an announcement: \(error, privacy: .public)")
+						}
+					}
+				} else {
+					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] APNS payload can’t be converted to JSON")
+					}
+				}
+			}
+			await sheetStack.push(.announcements) // Push the general announcements sheet as a fallback
+		} else {
+			Logging.withLogger(for: .apns) { (logger) in
+				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to remote notification because the sheet stack is nonempty")
+			}
+		}
+	}
+	
 }
 
 extension Notification.Name {

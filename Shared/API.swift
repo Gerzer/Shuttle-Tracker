@@ -41,6 +41,8 @@ enum API: TargetType {
 	
 	case uploadLog(log: Logging.Log)
 	
+	case uploadAPNSToken(token: String)
+	
 	static let provider = MoyaProvider<API>()
 	
 	static let lastVersion = 3
@@ -79,6 +81,8 @@ enum API: TargetType {
 				return "/analytics/entries"
 			case .uploadLog:
 				return "/logs"
+			case .uploadAPNSToken(let token):
+				return "/notifications/devices/\(token)"
 			}
 		}
 	}
@@ -88,7 +92,7 @@ enum API: TargetType {
 			switch self {
 			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .readSchedule:
 				return .get
-			case .uploadAnalyticsEntry, .uploadLog:
+			case .uploadAnalyticsEntry, .uploadLog, .uploadAPNSToken:
 				return .post
 			case .updateBus:
 				return .patch
@@ -102,7 +106,7 @@ enum API: TargetType {
 		get {
 			let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
 			switch self {
-			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .readSchedule:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .readSchedule, .uploadAPNSToken:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [
@@ -144,16 +148,16 @@ enum API: TargetType {
 	
 	func perform<ResponseType>(
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
-		as _: ResponseType.Type,
+		as responseType: ResponseType.Type,
 		onMainActor: Bool = false
 	) async throws -> ResponseType where ResponseType: Sendable & Decodable {
 		let data = try await self.perform()
 		if onMainActor {
 			return try await MainActor.run {
-				return try decoder.decode(ResponseType.self, from: data)
+				return try decoder.decode(responseType, from: data)
 			}
 		} else {
-			return try decoder.decode(ResponseType.self, from: data)
+			return try decoder.decode(responseType, from: data)
 		}
 	}
 	
