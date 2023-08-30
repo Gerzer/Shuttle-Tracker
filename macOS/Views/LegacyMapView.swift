@@ -1,5 +1,5 @@
 //
-//  MapView.swift
+//  LegacyMapView.swift
 //  Shuttle Tracker (macOS)
 //
 //  Created by Gabriel Jacoby-Cooper on 9/20/20.
@@ -8,17 +8,24 @@
 import MapKit
 import SwiftUI
 
-struct MapView: NSViewRepresentable {
+struct LegacyMapView: NSViewRepresentable {
+	
+	@Binding
+	private var position: MapCameraPositionWrapper
 	
 	@EnvironmentObject
 	private var mapState: MapState
+	
+	init(position: Binding<MapCameraPositionWrapper>) {
+		self._position = position
+	}
 	
 	func makeNSView(context: Context) -> MKMapView {
 		let nsView = MKMapView(frame: .zero)
 		Task {
 			MapState.mapView = nsView
 			await self.mapState.refreshAll()
-			await self.mapState.resetVisibleMapRect()
+			await self.mapState.recenter(position: self.$position)
 		}
 		nsView.delegate = context.coordinator
 		nsView.showsUserLocation = true

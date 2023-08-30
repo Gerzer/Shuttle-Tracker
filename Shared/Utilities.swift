@@ -97,6 +97,9 @@ enum MapConstants {
 		)
 	)
 	
+	@available(iOS 17, macOS 14, *)
+	static let defaultCameraPosition: MapCameraPosition = .rect(MapConstants.mapRect)
+	
 	#if canImport(AppKit)
 	static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
 	#elseif canImport(UIKit) // canImport(AppKit)

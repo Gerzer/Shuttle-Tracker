@@ -18,6 +18,9 @@ struct PrimaryOverlay: View {
 	@State
 	private var doShowLocationPermissionsAlert = false
 	
+	@Binding
+	private var mapCameraPosition: MapCameraPositionWrapper
+	
 	@EnvironmentObject
 	private var mapState: MapState
 	
@@ -109,6 +112,8 @@ struct PrimaryOverlay: View {
 			}
 			.task {
 				if #available(iOS 16, *) {
+					await self.mapState.refreshAll()
+					await self.mapState.recenter(position: self.$mapCameraPosition)
 					for await refreshType in self.viewState.refreshSequence { // Wait for the next refresh event to be emitted
 						switch refreshType {
 						case .manual:
@@ -172,6 +177,10 @@ struct PrimaryOverlay: View {
 					}
 				}
 			}
+	}
+	
+	init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
+		self._mapCameraPosition = mapCameraPosition
 	}
 	
 	/// Gets the user’s current location.
@@ -327,13 +336,10 @@ struct PrimaryOverlay: View {
 	
 }
 
-struct PrimaryOverlayPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PrimaryOverlay()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
-			.environmentObject(BoardBusManager.shared)
-	}
-	
+@available(iOS 17, *)
+#Preview {
+	PrimaryOverlay(mapCameraPosition: .constant(MapCameraPositionWrapper(MapConstants.defaultCameraPosition)))
+		.environmentObject(MapState.shared)
+		.environmentObject(ViewState.shared)
+		.environmentObject(BoardBusManager.shared)
 }

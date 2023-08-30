@@ -12,6 +12,9 @@ struct SecondaryOverlay: View {
 	@State
 	private var announcements: [Announcement] = []
 	
+	@Binding
+	private var mapCameraPosition: MapCameraPositionWrapper
+	
 	@EnvironmentObject
 	private var mapState: MapState
 	
@@ -60,7 +63,7 @@ struct SecondaryOverlay: View {
 			VStack(spacing: 0) {
 				SecondaryOverlayButton(iconSystemName: "location.fill.viewfinder") {
 					Task {
-						await self.mapState.resetVisibleMapRect()
+						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}
 				}
 			}
@@ -72,13 +75,14 @@ struct SecondaryOverlay: View {
 		}
 	}
 	
-}
-
-struct SecondaryOverlayPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		SecondaryOverlay()
-			.environmentObject(MapState.shared)
+	init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
+		self._mapCameraPosition = mapCameraPosition
 	}
 	
+}
+
+@available(iOS 17, *)
+#Preview {
+	SecondaryOverlay(mapCameraPosition: .constant(MapCameraPositionWrapper(MapConstants.defaultCameraPosition)))
+		.environmentObject(MapState.shared)
 }
