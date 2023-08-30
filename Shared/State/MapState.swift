@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import SwiftUI
 import UserNotifications
 
 actor MapState: ObservableObject {
@@ -51,12 +52,21 @@ actor MapState: ObservableObject {
 	}
 	
 	@MainActor
-	func resetVisibleMapRect() async {
-		Self.mapView?.setVisibleMapRect(
-			await self.routes.boundingMapRect,
-			edgePadding: MapConstants.mapRectInsets,
-			animated: true
-		)
+	func recenter(position: Binding<MapCameraPositionWrapper>) async {
+		if #available(iOS 17, macOS 14, *) {
+			let dx = (MapConstants.mapRectInsets.left + MapConstants.mapRectInsets.right) * -15
+			let dy = (MapConstants.mapRectInsets.top + MapConstants.mapRectInsets.bottom) * -15
+			let mapRect = await self.routes.boundingMapRect.insetBy(dx: dx, dy: dy)
+			withAnimation {
+				position.mapCameraPosition.wrappedValue = .rect(mapRect)
+			}
+		} else {
+			Self.mapView?.setVisibleMapRect(
+				await self.routes.boundingMapRect,
+				edgePadding: MapConstants.mapRectInsets,
+				animated: true
+			)
+		}
 	}
 	
 }

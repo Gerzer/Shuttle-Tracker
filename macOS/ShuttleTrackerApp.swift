@@ -13,6 +13,9 @@ import UserNotifications
 @main
 struct ShuttleTrackerApp: App {
 	
+	@State
+	private var mapCameraPosition: MapCameraPositionWrapper = .default
+	
 	@ObservedObject
 	private var mapState = MapState.shared
 	
@@ -51,7 +54,7 @@ struct ShuttleTrackerApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+			ContentView(mapCameraPosition: self.$mapCameraPosition)
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
 				.environmentObject(self.appStorageManager)
@@ -69,7 +72,7 @@ struct ShuttleTrackerApp: App {
 					Divider()
 					Button("Re-Center Map") {
 						Task {
-							await self.mapState.resetVisibleMapRect()
+							await self.mapState.recenter(position: self.$mapCameraPosition)
 						}
 					}
 						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])

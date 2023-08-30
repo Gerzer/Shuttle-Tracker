@@ -96,8 +96,8 @@ actor BoardBusManager: ObservableObject {
 	}
 	
 	func leaveBus() async {
-		// The ~= operator doesn’t support pattern matching across multiple possible enumeration-case payload values, so we have to resort to a guard-case statement here.
-		guard case .onBus = self.travelState else {
+		// Require that Board Bus be currently active
+		guard case .onBus(let manual) = self.travelState else {
 			preconditionFailure()
 		}
 		
@@ -107,11 +107,8 @@ actor BoardBusManager: ObservableObject {
 			}
 		}
 		
-		Task {
+		Task { // Dispatch a child task because we don’t need to await the result
 			do {
-				guard case .onBus(let manual) = self.travelState else {
-					preconditionFailure()
-				}
 				try await Analytics.upload(eventType: .boardBusDeactivated(manual: manual))
 			} catch {
 				Logging.withLogger(for: .api, doUpload: true) { (logger) in
