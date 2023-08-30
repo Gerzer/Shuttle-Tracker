@@ -64,14 +64,14 @@
 		C03EE72126DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
 		C03EE72326DEAD1F00878D77 /* LegendToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03EE72026DEAD1F00878D77 /* LegendToast.swift */; };
-		C04BC29229AA814700225C5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC29129AA814700225C5B /* AppDelegate.swift */; };
-		C03F158D2A996FC5008DC1B2 /* WhatsNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A90129CB8DC50047579C /* WhatsNewItem.swift */; };
 		C03F15862A95A480008DC1B2 /* MapContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15852A95A480008DC1B2 /* MapContainer.swift */; };
 		C03F15872A95A480008DC1B2 /* MapContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15852A95A480008DC1B2 /* MapContainer.swift */; };
 		C03F15882A95A480008DC1B2 /* MapContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15852A95A480008DC1B2 /* MapContainer.swift */; };
 		C03F158A2A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15892A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift */; };
 		C03F158B2A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15892A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift */; };
 		C03F158C2A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15892A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift */; };
+		C03F158E2A9EF6CC008DC1B2 /* WhatsNewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A90129CB8DC50047579C /* WhatsNewItem.swift */; };
+		C04BC29229AA814700225C5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC29129AA814700225C5B /* AppDelegate.swift */; };
 		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
@@ -247,9 +247,9 @@
 		C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		C03EC6BF270CF7F10004F9F8 /* Personal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Personal.xcconfig; sourceTree = "<group>"; };
 		C03EE72026DEAD1F00878D77 /* LegendToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegendToast.swift; sourceTree = "<group>"; };
-		C04BC29129AA814700225C5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C03F15852A95A480008DC1B2 /* MapContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapContainer.swift; sourceTree = "<group>"; };
 		C03F15892A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCameraPositionWrapper.swift; sourceTree = "<group>"; };
+		C04BC29129AA814700225C5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C059831D27D14C8C00299D27 /* PrivacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		C059832327D1840700299D27 /* SheetPresentationWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationWrapper.swift; sourceTree = "<group>"; };
 		C059833A27D2C77900299D27 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -736,7 +736,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C03B3CCE29D9EDF40038EB8F /* AppDelegate.swift in Sources */,
-				C08FC20625250AE6008589C1 /* MapView.swift in Sources */,
+				C08FC20625250AE6008589C1 /* LegacyMapView.swift in Sources */,
 				C08FC1EC25250A69008589C1 /* BlockButton.swift in Sources */,
 				C0A1E731274A03BD00DBF248 /* Announcement.swift in Sources */,
 				C0730C1927F103D200EF7550 /* AppStorageManager.swift in Sources */,
@@ -813,7 +813,6 @@
 				C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C082CCF1277FB33C005D0209 /* BusSelectionSheet.swift in Sources */,
 				C03B3CC929D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */,
-				C059832227D1551400299D27 /* WelcomeSheet.swift in Sources */,
 				C03F158B2A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift in Sources */,
 				C00DF74D29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
@@ -880,6 +879,7 @@
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
+				C03F158E2A9EF6CC008DC1B2 /* WhatsNewItem.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
 				C015280B2517DEBE0069092C /* LegacyMapView.swift in Sources */,
@@ -894,7 +894,6 @@
 				C0019DE625192AEA0020574D /* VisualEffectView.swift in Sources */,
 				C0E9525B295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C032A8FD29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */,
-				C03F15842A95A3F3008DC1B2 /* WhatsNewItem.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
 				C03B1D362741E18B007B318E /* SheetStack.swift in Sources */,
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
