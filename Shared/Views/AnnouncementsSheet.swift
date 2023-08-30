@@ -92,7 +92,6 @@ struct AnnouncementsSheet: View {
 		}
 			.task {
 				self.announcements = await [Announcement].download()
-				
 				do {
 					try await UNUserNotificationCenter.updateBadge()
 				} catch let error {

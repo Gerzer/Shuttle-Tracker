@@ -196,21 +196,21 @@ extension UNUserNotificationCenter {
 	/// This method downloads the latest announcements from the server. The count of active announcements that the user has not yet viewed is set as the badge number and published to the rest of the app via ``ViewState/badgeNumber``.
 	static func updateBadge() async throws {
 		let viewedAnnouncementIDs = await AppStorageManager.shared.viewedAnnouncementIDs
-		let count = await [Announcement]
+		let announcementsCount = await [Announcement]
 			.download()
 			.filter { (announcement) in
 				return !viewedAnnouncementIDs.contains(announcement.id)
 			}
 			.count
 		await MainActor.run {
-			ViewState.shared.badgeNumber = count
+			ViewState.shared.badgeNumber = announcementsCount
 		}
 		if #available(iOS 16, macOS 13, *) {
-			try await UNUserNotificationCenter.current().setBadgeCount(count)
+			try await UNUserNotificationCenter.current().setBadgeCount(announcementsCount)
 		} else {
 			#if canImport(AppKit)
 			await MainActor.run {
-				NSApplication.shared.dockTile.badgeLabel = count > 0 ? "\(count)" : nil
+				NSApplication.shared.dockTile.badgeLabel = announcementsCount > 0 ? "\(announcementsCount)" : nil
 			}
 			#elseif canImport(UIKit) // canImport(AppKit)
 			await MainActor.run {
