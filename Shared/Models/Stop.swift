@@ -31,6 +31,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		}
 	}
 	
+	@MainActor
 	let annotationView: MKAnnotationView = {
 		let annotationView = MKAnnotationView()
 		annotationView.displayPriority = .defaultHigh
@@ -54,6 +55,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		return annotationView
 	}()
 	
+	@MainActor
 	required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.name = try container.decode(String.self, forKey: .name)
@@ -65,21 +67,13 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 extension Array where Element == Stop {
 	
 	static func download() async -> [Stop] {
-		return await withCheckedContinuation { (continuation) in
-			API.provider.request(.readStops) { (result) in
-				let stops: [Stop]
-				do {
-					stops = try result
-						.get()
-						.map([Stop].self)
-				} catch let error {
-					stops = []
-					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download stops: \(error, privacy: .public)")
-					}
-				}
-				continuation.resume(returning: stops)
+		do {
+			return try await API.readStops.perform(as: [Stop].self, onMainActor: true) // Stops must be decoded on the main thread because initializing the annotationView property indirectly invokes UIView’s main-thread-isolated init() initializer.
+		} catch {
+			Logging.withLogger(for: .api) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download stops: \(error, privacy: .public)")
 			}
+			return []
 		}
 	}
 	

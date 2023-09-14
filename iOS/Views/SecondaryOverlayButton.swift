@@ -11,7 +11,7 @@ struct SecondaryOverlayButton: View {
 	
 	let iconSystemName: String
 	
-	let sheetType: SheetStack.SheetType?
+	let sheetType: ShuttleTrackerSheetPresentationProvider.SheetType?
 	
 	let action: (() -> Void)?
 	
@@ -21,7 +21,7 @@ struct SecondaryOverlayButton: View {
 	private var viewState: ViewState
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		Button {
@@ -47,6 +47,7 @@ struct SecondaryOverlayButton: View {
 							Text("\(self.badgeNumber)")
 								.foregroundColor(.white)
 								.font(.caption)
+								.dynamicTypeSize(...DynamicTypeSize.accessibility1)
 						}
 							.frame(width: 20, height: 20)
 							.offset(x: 20, y: -20)
@@ -56,7 +57,7 @@ struct SecondaryOverlayButton: View {
 			.tint(.primary)
 	}
 	
-	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Int = 0) {
+	init(iconSystemName: String, sheetType: ShuttleTrackerSheetPresentationProvider.SheetType, badgeNumber: Int = 0) {
 		self.iconSystemName = iconSystemName
 		self.sheetType = sheetType
 		self.action = nil

@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Announcement: Decodable, Identifiable {
+final class Announcement: Decodable, Hashable, Identifiable, Sendable {
 	
 	enum ScheduleType: String, Decodable {
 		
@@ -49,40 +49,38 @@ final class Announcement: Decodable, Identifiable {
 		}
 	}
 	
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(self.id)
+	}
+	
+	static func == (lhs: Announcement, rhs: Announcement) -> Bool {
+		return lhs.id == rhs.id
+	}
+	
 }
 
 extension Array where Element == Announcement {
 	
 	static func download() async -> [Announcement] {
-		return await withCheckedContinuation { continuation in
-			API.provider.request(.readAnnouncements) { (result) in
-				let decoder = JSONDecoder()
-				decoder.dateDecodingStrategy = .iso8601
-				let announcements: [Announcement]
-				do {
-					announcements = try result
-						.get()
-						.map([Announcement].self, using: decoder)
-						.filter { (announcement) in
-							switch announcement.scheduleType {
-							case .none:
-								return true
-							case .startOnly:
-								return announcement.start <= .now
-							case .endOnly:
-								return announcement.end > .now
-							case .startAndEnd:
-								return announcement.start <= .now && announcement.end > .now
-							}
-						}
-				} catch let error {
-					announcements = []
-					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download announcements: \(error, privacy: .public)")
+		do {
+			return try await API.readAnnouncements.perform(as: [Announcement].self)
+				.filter { (announcement) in
+					switch announcement.scheduleType {
+					case .none:
+						return true
+					case .startOnly:
+						return announcement.start <= .now
+					case .endOnly:
+						return announcement.end > .now
+					case .startAndEnd:
+						return announcement.start <= .now && announcement.end > .now
 					}
 				}
-				continuation.resume(returning: announcements)
+		} catch {
+			Logging.withLogger(for: .api) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download announcements: \(error, privacy: .public)")
 			}
+			return []
 		}
 	}
 	

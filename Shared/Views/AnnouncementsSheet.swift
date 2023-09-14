@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct AnnouncementsSheet: View {
 	
@@ -22,7 +23,7 @@ struct AnnouncementsSheet: View {
 	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -32,8 +33,8 @@ struct AnnouncementsSheet: View {
 						List(announcements) { (announcement) in
 							NavigationLink {
 								AnnouncementDetailView(
-									didResetViewedAnnouncements: self.$didResetViewedAnnouncements,
-									announcement: announcement
+									announcement: announcement,
+									didResetViewedAnnouncements: self.$didResetViewedAnnouncements
 								)
 							} label: {
 								HStack {
@@ -91,11 +92,27 @@ struct AnnouncementsSheet: View {
 		}
 			.task {
 				self.announcements = await [Announcement].download()
+				do {
+					try await UNUserNotificationCenter.updateBadge()
+				} catch let error {
+					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+					}
+				}
 			}
 			.toolbar {
 				#if os(macOS)
 				ToolbarItem {
 					Button(role: .destructive) {
+						Task {
+							do {
+								try await UNUserNotificationCenter.updateBadge()
+							} catch let error {
+								Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+								}
+							}
+						}
 						self.appStorageManager.viewedAnnouncementIDs.removeAll()
 						self.didResetViewedAnnouncements = true
 					} label: {
@@ -118,6 +135,18 @@ struct AnnouncementsSheet: View {
 				}
 				#endif // os(macOS)
 			}
+			.task {
+				self.announcements = await [Announcement].download()
+			}
+			.task {
+				do {
+					try await Analytics.upload(eventType: .announcementsListOpened)
+				} catch {
+					Logging.withLogger(for: .api) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
+					}
+				}
+			}
 	}
 	
 }
@@ -127,7 +156,7 @@ struct AnnouncementsSheetPreviews: PreviewProvider {
 	static var previews: some View {
 		AnnouncementsSheet()
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

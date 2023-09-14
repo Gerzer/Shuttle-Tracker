@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-class Bus: NSObject, Codable, CustomAnnotation {
+class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 	
 	struct Location: Codable {
 		
@@ -65,26 +65,44 @@ class Bus: NSObject, Codable, CustomAnnotation {
 		}
 	}
 	
+	@MainActor
+	var tintColor: Color {
+		get {
+			switch self.location.type {
+			case .system:
+				return AppStorageManager.shared.colorBlindMode ? .purple : .red
+			case .user:
+				return .green
+			}
+		}
+	}
+	
+	@MainActor
+	var systemImage: String {
+		get {
+			let colorBlindSytemImage: String
+			switch self.location.type {
+			case .system:
+				colorBlindSytemImage = "circle.dotted"
+			case .user:
+				colorBlindSytemImage = "scope"
+			}
+			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : "bus"
+		}
+	}
+	
+	@MainActor
 	var annotationView: MKAnnotationView {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
 			markerAnnotationView.canShowCallout = true
-			let colorBlindMode = UserDefaults.standard.bool(forKey: "ColorBlindMode")
-			let colorBlindSymbolName: String
-			switch self.location.type {
-			case .system:
-				markerAnnotationView.markerTintColor = colorBlindMode ? .systemPurple : .systemRed
-				colorBlindSymbolName = "circle.dotted"
-			case .user:
-				markerAnnotationView.markerTintColor = .systemGreen
-				colorBlindSymbolName = "scope"
-			}
-			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
 			#if canImport(AppKit)
-			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
+			markerAnnotationView.markerTintColor = NSColor(self.tintColor)
+			markerAnnotationView.glyphImage = NSImage(systemSymbolName: self.systemImage, accessibilityDescription: nil)
 			#elseif canImport(UIKit) // canImport(AppKit)
-			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
+			markerAnnotationView.markerTintColor = UIColor(self.tintColor)
+			markerAnnotationView.glyphImage = UIImage(systemName: self.systemImage)
 			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
@@ -104,42 +122,30 @@ class Bus: NSObject, Codable, CustomAnnotation {
 extension Array where Element == Bus {
 	
 	static func download() async -> [Bus] {
-		return await withCheckedContinuation { (continuation) in
-			API.provider.request(.readBuses) { (result) in
-				Task {
-					let decoder = JSONDecoder()
-					decoder.dateDecodingStrategy = .iso8601
-					#if os(iOS)
-					let busID = await BoardBusManager.shared.busID
-					let travelState = await BoardBusManager.shared.travelState
-					#endif // os(iOS)
-					let buses: [Bus]
-					do {
-						buses = try result.get()
-							.map([Bus].self, using: decoder)
-							.filter { (bus) -> Bool in
-								return abs(bus.location.date.timeIntervalSinceNow) < 300
-							}
-							#if !os(macOS)
-							.filter { (bus) in
-								switch travelState {
-								case .onBus:
-									return bus.id != busID
-								case .notOnBus:
-									return true
-								}
-							}
-							#endif // !os(macOS)
-					} catch let error {
-						buses = []
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
-						}
-						throw error
-					}
-					continuation.resume(returning: buses)
+		#if os(iOS)
+		let busID = await BoardBusManager.shared.busID
+		let travelState = await BoardBusManager.shared.travelState
+		#endif // os(iOS)
+		do {
+			return try await API.readBuses.perform(as: [Bus].self)
+				.filter { (bus) in
+					return abs(bus.location.date.timeIntervalSinceNow) < 300 // 5 minutes
 				}
+				#if os(iOS)
+				.filter { (bus) in
+					switch travelState {
+					case .onBus:
+						return bus.id != busID
+					case .notOnBus:
+						return true
+					}
+				}
+				#endif // os(iOS)
+		} catch {
+			Logging.withLogger(for: .api) { (logger) in
+				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
 			}
+			return []
 		}
 	}
 	

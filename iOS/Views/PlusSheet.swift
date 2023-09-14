@@ -15,7 +15,7 @@ struct PlusSheet: View {
 	private var doShowAlert = false
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		VStack(alignment: .leading) {
@@ -63,7 +63,7 @@ struct PlusSheetPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		PlusSheet(featureText: "Refreshing the map")
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

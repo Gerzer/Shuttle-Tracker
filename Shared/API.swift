@@ -35,9 +35,13 @@ enum API: TargetType {
 	
 	case readStops
 	
-	case schedule
+	case readSchedule
+	
+	case uploadAnalyticsEntry(analyticsEntry: Analytics.Entry)
 	
 	case uploadLog(log: Logging.Log)
+	
+	case uploadAPNSToken(token: String)
 	
 	static let provider = MoyaProvider<API>()
 	
@@ -71,10 +75,14 @@ enum API: TargetType {
 				return "/routes"
 			case .readStops:
 				return "/stops"
-			case .schedule:
+			case .readSchedule:
 				return "/schedule"
+			case .uploadAnalyticsEntry:
+				return "/analytics/entries"
 			case .uploadLog:
 				return "/logs"
+			case .uploadAPNSToken(let token):
+				return "/notifications/devices/\(token)"
 			}
 		}
 	}
@@ -82,9 +90,9 @@ enum API: TargetType {
 	var method: HTTPMethod {
 		get {
 			switch self {
-			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .schedule:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .readBus, .readRoutes, .readStops, .readSchedule:
 				return .get
-			case .uploadLog:
+			case .uploadAnalyticsEntry, .uploadLog, .uploadAPNSToken:
 				return .post
 			case .updateBus:
 				return .patch
@@ -98,7 +106,7 @@ enum API: TargetType {
 		get {
 			let encoder = JSONEncoder(dateEncodingStrategy: .iso8601)
 			switch self {
-			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .schedule:
+			case .readVersion, .readAnnouncements, .readBuses, .readAllBuses, .boardBus, .leaveBus, .readRoutes, .readStops, .readSchedule, .uploadAPNSToken:
 				return .requestPlain
 			case .readBus(let id):
 				let parameters = [
@@ -109,6 +117,8 @@ enum API: TargetType {
 				return .requestCustomJSONEncodable(location, encoder: encoder)
 			case .uploadLog(let log):
 				return .requestCustomJSONEncodable(log, encoder: encoder)
+			case .uploadAnalyticsEntry(let analyticsEntry):
+				return .requestCustomJSONEncodable(analyticsEntry, encoder: encoder)
 			}
 		}
 	}
@@ -129,7 +139,7 @@ enum API: TargetType {
 		guard let statusCode = HTTPStatusCodes.statusCode(httpResponse.statusCode) else {
 			throw APIError.invalidStatusCode
 		}
-		if let error = statusCode as? Error {
+		if let error = statusCode as? any Error {
 			throw error
 		} else {
 			return data
@@ -138,27 +148,34 @@ enum API: TargetType {
 	
 	func perform<ResponseType>(
 		decodingJSONWith decoder: JSONDecoder = JSONDecoder(dateDecodingStrategy: .iso8601),
-		as _: ResponseType.Type
-	) async throws -> ResponseType where ResponseType: Decodable {
+		as responseType: ResponseType.Type,
+		onMainActor: Bool = false
+	) async throws -> ResponseType where ResponseType: Sendable & Decodable {
 		let data = try await self.perform()
-		return try decoder.decode(ResponseType.self, from: data)
+		if onMainActor {
+			return try await MainActor.run {
+				return try decoder.decode(responseType, from: data)
+			}
+		} else {
+			return try decoder.decode(responseType, from: data)
+		}
 	}
 	
 }
 
-fileprivate enum APIError: Error {
+fileprivate enum APIError: LocalizedError {
 	
 	case invalidResponse
 	
 	case invalidStatusCode
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .invalidResponse:
-				return "The server returned an invalid response"
+				return "The server returned an invalid response."
 			case .invalidStatusCode:
-				return "The server returned an invalid HTTP status code"
+				return "The server returned an invalid HTTP status code."
 			}
 		}
 	}

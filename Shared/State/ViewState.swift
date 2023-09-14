@@ -7,6 +7,7 @@
 
 import Combine
 import OnboardingKit
+import SwiftUI
 
 @MainActor
 final class ViewState: OnboardingFlags {
@@ -33,7 +34,7 @@ final class ViewState: OnboardingFlags {
 	
 	enum ToastType: Identifiable {
 		
-		case legend, boardBus
+		case legend, boardBus, network
 		
 		var id: Self {
 			get {
@@ -43,13 +44,22 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	enum StatusText: String {
+	enum StatusText {
 		
-		case mapRefresh = "The map automatically refreshes every 5 seconds."
+		case mapRefresh, locationData, thanks
 		
-		case locationData = "You’re helping out other users with real-time bus location data."
-		
-		case thanks = "Thanks for helping other users with real-time bus location data!"
+		var string: String {
+			get {
+				switch self {
+				case .mapRefresh:
+					return "The map automatically refreshes every 5 seconds."
+				case .locationData:
+					return "You’re helping other users with real-time bus location data."
+				case .thanks:
+					return "Thanks for helping other users with real-time bus location data!"
+				}
+			}
+		}
 		
 	}
 	
@@ -67,8 +77,35 @@ final class ViewState: OnboardingFlags {
 	@Published
 	var legendToastHeadlineText: LegendToast.HeadlineText?
 	
+	/// The number that should be displayed in notification badges.
+	///
+	/// Generally, the value of this property should be the count of announcements that the user has not yet viewed.
+	/// - Warning: Don’t set this property directly; instead, use `updateBadge()` on `UNUserNotificationCenter`.
+	@Published
+	var badgeNumber = 0
+	
 	let handles = Handles()
 	
-	private init() { }
+	// TODO: Simplify to a single stored property when we drop support for iOS 15 and macOS 12
+	// We have to do this annoying dance with a separate refreshSequenceStorage backing because Swift doesn’t yet support gating stored properties on API availability.
+	
+	@available(iOS 16, macOS 13, *)
+	var refreshSequence: RefreshSequence {
+		get {
+			return self.refreshSequenceStorage as! RefreshSequence
+		}
+	}
+	
+	private let refreshSequenceStorage: Any!
+	
+	var colorScheme: ColorScheme?
+	
+	private init() {
+		if #available(iOS 16, macOS 13, *) {
+			self.refreshSequenceStorage = RefreshSequence(interval: .seconds(5))
+		} else {
+			self.refreshSequenceStorage = nil
+		}
+	}
 	
 }
