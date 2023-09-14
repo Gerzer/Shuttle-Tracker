@@ -23,7 +23,7 @@ struct AnnouncementsSheet: View {
 	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -156,7 +156,7 @@ struct AnnouncementsSheetPreviews: PreviewProvider {
 	static var previews: some View {
 		AnnouncementsSheet()
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

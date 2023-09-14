@@ -10,7 +10,7 @@ import SwiftUI
 struct CloseButton: View {
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	private let dismissHandler: (() -> Void)?
 	
@@ -37,7 +37,7 @@ struct CloseButtonPreviews: PreviewProvider {
 	
 	static var previews: some View {
 		CloseButton()
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

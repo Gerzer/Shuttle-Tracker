@@ -34,7 +34,7 @@ struct PrimaryOverlay: View {
 	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	private var buttonText: String {
 		get {

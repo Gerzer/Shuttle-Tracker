@@ -18,53 +18,51 @@ struct SettingsView: View {
 	private var viewState: ViewState
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var appStorageManager: AppStorageManager
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		#if os(iOS)
-		SheetPresentationWrapper {
-			Form {
-				Section {
-					HStack {
-						ZStack {
-							Circle()
-								.fill(.green)
-							Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
-								.resizable()
-								.frame(width: 15, height: 15)
-								.foregroundColor(.white)
-						}
-							.frame(width: 30)
-							.animation(.default, value: self.appStorageManager.colorBlindMode)
-						Toggle("Color-Blind Mode", isOn: self.appStorageManager.$colorBlindMode)
-							.accessibilityShowsLargeContentViewer()
+		Form {
+			Section {
+				HStack {
+					ZStack {
+						Circle()
+							.fill(.green)
+						Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
+							.resizable()
+							.frame(width: 15, height: 15)
+							.foregroundColor(.white)
 					}
-						.frame(height: 30)
-				} footer: {
-					Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
+						.frame(width: 30)
+						.animation(.default, value: self.appStorageManager.colorBlindMode)
+					Toggle("Color-Blind Mode", isOn: self.appStorageManager.$colorBlindMode)
+						.accessibilityShowsLargeContentViewer()
 				}
-				#if !APPCLIP
-				Section {
-					Button("Show Permissions") {
-						self.sheetStack.push(.permissions)
-					}
+					.frame(height: 30)
+			} footer: {
+				Text("Modifies bus markers so that they’re distinguishable by icon in addition to color.")
+			}
+			#if !APPCLIP
+			Section {
+				Button("Show Permissions") {
+					self.sheetStack.push(.permissions)
 				}
-				#endif // !APPCLIP
-				Section {
-					NavigationLink("Logging & Analytics") {
-						LoggingAnalyticsSettingsView()
-					}
-					NavigationLink("Advanced") {
-						AdvancedSettingsView()
-					}
+			}
+			#endif // !APPCLIP
+			Section {
+				NavigationLink("Logging & Analytics") {
+					LoggingAnalyticsSettingsView()
 				}
-				Section {
-					NavigationLink("About") {
-						AboutView()
-					}
+				NavigationLink("Advanced") {
+					AdvancedSettingsView()
+				}
+			}
+			Section {
+				NavigationLink("About") {
+					AboutView()
 				}
 			}
 		}
@@ -84,6 +82,10 @@ struct SettingsView: View {
 					}
 				}
 			}
+			.sheetPresentation(
+				provider: ShuttleTrackerSheetPresentationProvider(sheetStack: self.sheetStack),
+				sheetStack: self.sheetStack
+			)
 		#elseif os(macOS) // os(iOS)
 		TabView {
 			Form {
@@ -168,8 +170,8 @@ struct SettingsViewPreviews: PreviewProvider {
 	static var previews: some View {
 		SettingsView()
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack())
 			.environmentObject(AppStorageManager.shared)
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

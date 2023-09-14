@@ -30,7 +30,7 @@ struct WhatsNewSheetPreviews: PreviewProvider {
 	static var previews: some View {
 		WhatsNewSheet(onboarding: false)
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

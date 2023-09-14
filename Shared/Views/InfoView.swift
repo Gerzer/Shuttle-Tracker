@@ -19,7 +19,7 @@ struct InfoView: View {
 	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	private var highQualityMessage: String {
 		get {
@@ -34,68 +34,70 @@ struct InfoView: View {
 	}
 	
 	var body: some View {
-		SheetPresentationWrapper {
-			ScrollView {
-				VStack(alignment: .leading, spacing: 0) {
-					Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
-						.padding(.bottom)
-					if let schedule = self.schedule {
-						Section {
-							HStack {
-								VStack(alignment: .leading, spacing: 0) {
-									Text("Monday")
-									Text("Tuesday")
-									Text("Wednesday")
-									Text("Thursday")
-									Text("Friday")
-									Text("Saturday")
-									Text("Sunday")
-								}
-								VStack(alignment: .leading, spacing: 0) {
-									Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
-									Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
-									Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
-									Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
-									Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
-									Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
-									Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
-								}
-								Spacer()
-							}
-								.padding(.bottom)
-						} header: {
-							Text("Schedule")
-								.font(.headline)
-						}
-					}
+		ScrollView {
+			VStack(alignment: .leading, spacing: 0) {
+				Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
+					.padding(.bottom)
+				if let schedule = self.schedule {
 					Section {
-						Text("The map is automatically refreshed every 5 seconds. \(self.highQualityMessage), and \(self.lowQualityMessage). When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+						HStack {
+							VStack(alignment: .leading, spacing: 0) {
+								Text("Monday")
+								Text("Tuesday")
+								Text("Wednesday")
+								Text("Thursday")
+								Text("Friday")
+								Text("Saturday")
+								Text("Sunday")
+							}
+							VStack(alignment: .leading, spacing: 0) {
+								Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
+								Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
+								Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
+								Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
+								Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
+								Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
+								Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
+							}
+							Spacer()
+						}
 							.padding(.bottom)
 					} header: {
-						Text("Instructions")
+						Text("Schedule")
 							.font(.headline)
 					}
-					Section {
-						Button("Show Privacy Information") {
-							self.sheetStack.push(.privacy)
-						}
-							.padding(.bottom)
-					}
 				}
-					.padding(.horizontal)
+				Section {
+					Text("The map is automatically refreshed every 5 seconds. \(self.highQualityMessage), and \(self.lowQualityMessage). When boarding a bus, tap “Board Bus”, and when getting off, tap “Leave Bus”. You must be within \(self.appStorageManager.maximumStopDistance) meter\(self.appStorageManager.maximumStopDistance == 1 ? "" : "s") of a stop to board a bus.")
+						.padding(.bottom)
+				} header: {
+					Text("Instructions")
+						.font(.headline)
+				}
+				Section {
+					Button("Show Privacy Information") {
+						self.sheetStack.push(.privacy)
+					}
+						.padding(.bottom)
+				}
 			}
-				.navigationTitle("Shuttle Tracker 🚐")
-				.toolbar {
-					ToolbarItem {
-						CloseButton()
-					}
-				}
+				.padding(.horizontal)
 		}
+			.navigationTitle("Shuttle Tracker 🚐")
+			.toolbar {
+				ToolbarItem {
+					CloseButton()
+				}
+			}
 			.onAppear {
 				Task {
 					self.schedule = await Schedule.download()
 				}
 			}
+			.sheetPresentation(
+				provider: ShuttleTrackerSheetPresentationProvider(sheetStack: self.sheetStack),
+				sheetStack: self.sheetStack
+			)
 	}
 	
 }
@@ -106,7 +108,7 @@ struct InfoViewPreviews: PreviewProvider {
 		InfoView()
 			.environmentObject(ViewState.shared)
 			.environmentObject(AppStorageManager.shared)
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

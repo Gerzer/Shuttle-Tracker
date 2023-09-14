@@ -35,7 +35,7 @@ struct BusSelectionSheet: View {
 	private var boardBusManager: BoardBusManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -242,7 +242,7 @@ struct BusSelectionSheetPreviews: PreviewProvider {
 			.environmentObject(MapState.shared)
 			.environmentObject(ViewState.shared)
 			.environmentObject(BoardBusManager.shared)
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

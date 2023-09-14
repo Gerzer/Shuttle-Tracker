@@ -14,7 +14,7 @@ struct NetworkToast: View {
 	private var viewState: ViewState
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		Toast("Join the Network!", item: self.$viewState.toastType) { (_, dismiss) in

@@ -344,7 +344,7 @@ struct NetworkOnboardingViewPreviews: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
 			NetworkOnboardingView()
-				.environmentObject(SheetStack())
+				.environmentObject(ShuttleTrackerSheetStack())
 		}
 	}
 	

@@ -27,7 +27,7 @@ struct ShuttleTrackerApp: App {
 	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
-	static let sheetStack = SheetStack()
+	static let sheetStack = ShuttleTrackerSheetStack()
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self)
 	private var appDelegate
@@ -50,7 +50,7 @@ struct ShuttleTrackerApp: App {
 				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew(onboarding: true), handler: Self.pushSheet(_:)) {
+		OnboardingEvent(flags: flags, value: ShuttleTrackerSheetPresentationProvider.SheetType.whatsNew(onboarding: true), handler: Self.pushSheet(_:)) {
 			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
 		OnboardingEvent(flags: flags) { (_) in
@@ -135,7 +135,7 @@ struct ShuttleTrackerApp: App {
 		}
 	}
 	
-	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
+	private static func pushSheet(_ sheetType: ShuttleTrackerSheetPresentationProvider.SheetType) {
 		Task {
 			do {
 				if #available(iOS 16, *) {

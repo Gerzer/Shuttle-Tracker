@@ -11,7 +11,7 @@ struct SecondaryOverlayButton: View {
 	
 	let iconSystemName: String
 	
-	let sheetType: SheetStack.SheetType?
+	let sheetType: ShuttleTrackerSheetPresentationProvider.SheetType?
 	
 	let action: (() -> Void)?
 	
@@ -21,7 +21,7 @@ struct SecondaryOverlayButton: View {
 	private var viewState: ViewState
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		Button {
@@ -57,7 +57,7 @@ struct SecondaryOverlayButton: View {
 			.tint(.primary)
 	}
 	
-	init(iconSystemName: String, sheetType: SheetStack.SheetType, badgeNumber: Int = 0) {
+	init(iconSystemName: String, sheetType: ShuttleTrackerSheetPresentationProvider.SheetType, badgeNumber: Int = 0) {
 		self.iconSystemName = iconSystemName
 		self.sheetType = sheetType
 		self.action = nil

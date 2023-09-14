@@ -25,9 +25,9 @@ struct ShuttleTrackerApp: App {
 	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
-	static let contentViewSheetStack = SheetStack()
+	static let contentViewSheetStack = ShuttleTrackerSheetStack()
 	
-	static let settingsViewSheetStack = SheetStack()
+	static let settingsViewSheetStack = ShuttleTrackerSheetStack()
 	
 	@NSApplicationDelegateAdaptor(AppDelegate.self)
 	private var appDelegate
@@ -45,7 +45,7 @@ struct ShuttleTrackerApp: App {
 		OnboardingEvent(flags: flags, settingFlagAt: \.legendToastHeadlineText, to: .reminder) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
 		}
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew(onboarding: true)) { (value) in
+		OnboardingEvent(flags: flags, value: ShuttleTrackerSheetPresentationProvider.SheetType.whatsNew(onboarding: true)) { (value) in
 			Self.pushSheet(value, to: Self.contentViewSheetStack)
 		} conditions: {
 			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
@@ -132,7 +132,7 @@ struct ShuttleTrackerApp: App {
 		}
 	}
 	
-	private static func pushSheet(_ sheetType: SheetStack.SheetType, to sheetStack: SheetStack) {
+	private static func pushSheet(_ sheetType: ShuttleTrackerSheetPresentationProvider.SheetType, to sheetStack: ShuttleTrackerSheetStack) {
 		Task {
 			do {
 				if #available(macOS 13, *) {
@@ -155,7 +155,7 @@ struct ShuttleTrackerApp: App {
 fileprivate struct AnnouncementsCommandView: View {
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		Button("\(.announcements ~= self.sheetStack.top ? "Hide" : "Show") Announcements") {
@@ -174,7 +174,7 @@ fileprivate struct AnnouncementsCommandView: View {
 fileprivate struct WhatsNewCommandView: View {
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	private var isWhatsNewSheetOnTop: Bool {
 		get {
@@ -203,7 +203,7 @@ fileprivate struct WhatsNewCommandView: View {
 fileprivate struct PrivacyCommandView: View {
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		Button("\(.privacy ~= self.sheetStack.top ? "Hide" : "Show") Privacy Information") {

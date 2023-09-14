@@ -27,7 +27,7 @@ struct ShuttleTrackerApp: App {
 	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
-	static let sheetStack = SheetStack()
+	static let sheetStack = ShuttleTrackerSheetStack()
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self)
 	private var appDelegate

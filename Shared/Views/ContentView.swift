@@ -28,13 +28,12 @@ struct ContentView: View {
 	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	@Environment(\.colorScheme)
 	private var colorScheme
 	
 	var body: some View {
-		SheetPresentationWrapper {
 			ZStack {
 				self.mapView
 					.tint(.blue)
@@ -145,7 +144,10 @@ struct ContentView: View {
 				.onChange(of: self.colorScheme) { (newValue) in
 					ViewState.shared.colorScheme = newValue
 				}
-		}
+				.sheetPresentation(
+					provider: ShuttleTrackerSheetPresentationProvider(sheetStack: self.sheetStack),
+					sheetStack: self.sheetStack
+				)
 	}
 	
 	#if os(macOS)
@@ -298,5 +300,5 @@ struct ContentView: View {
 		.environmentObject(MapState.shared)
 		.environmentObject(ViewState.shared)
 		.environmentObject(AppStorageManager.shared)
-		.environmentObject(SheetStack())
+		.environmentObject(ShuttleTrackerSheetStack())
 }

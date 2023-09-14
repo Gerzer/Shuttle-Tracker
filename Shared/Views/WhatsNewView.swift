@@ -16,7 +16,7 @@ struct WhatsNewView: View {
 	private var viewState: ViewState
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		VStack {
@@ -143,7 +143,7 @@ struct WhatsNewViewPreviews: PreviewProvider {
 	static var previews: some View {
 		WhatsNewView(onboarding: false)
 			.environmentObject(ViewState.shared)
-			.environmentObject(SheetStack())
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
 	
 }

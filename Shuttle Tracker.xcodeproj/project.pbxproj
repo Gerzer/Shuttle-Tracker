@@ -21,6 +21,9 @@
 		C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
 		C0019DED251A3EFC0020574D /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DEB251A3EFC0020574D /* BlockButton.swift */; };
 		C0078EEE2741B1240036FBC8 /* PermissionsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */; };
+		C00BE3E42AB22269003B84BB /* SheetStack in Frameworks */ = {isa = PBXBuildFile; productRef = C00BE3E32AB22269003B84BB /* SheetStack */; };
+		C00BE3EB2AB2BD50003B84BB /* SheetStack in Frameworks */ = {isa = PBXBuildFile; productRef = C00BE3EA2AB2BD50003B84BB /* SheetStack */; };
+		C00BE3ED2AB2BD5E003B84BB /* SheetStack in Frameworks */ = {isa = PBXBuildFile; productRef = C00BE3EC2AB2BD5E003B84BB /* SheetStack */; };
 		C00DF74C29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
 		C00DF74D29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
 		C00DF74E29BD4EFD00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
@@ -54,9 +57,9 @@
 		C039B0632796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
 		C039B0642796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
 		C039B0652796201200416725 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039B0622796201200416725 /* CloseButton.swift */; };
-		C03B1D362741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
-		C03B1D372741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
-		C03B1D382741E18B007B318E /* SheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* SheetStack.swift */; };
+		C03B1D362741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* ShuttleTrackerSheetStack.swift */; };
+		C03B1D372741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* ShuttleTrackerSheetStack.swift */; };
+		C03B1D382741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* ShuttleTrackerSheetStack.swift */; };
 		C03B3CC829D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
 		C03B3CC929D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
 		C03B3CCA29D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */; };
@@ -74,9 +77,6 @@
 		C04BC29229AA814700225C5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04BC29129AA814700225C5B /* AppDelegate.swift */; };
 		C059831F27D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
 		C059832027D14C8C00299D27 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059831D27D14C8C00299D27 /* PrivacyView.swift */; };
-		C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
-		C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
-		C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059832327D1840700299D27 /* SheetPresentationWrapper.swift */; };
 		C059833B27D2C77900299D27 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833A27D2C77900299D27 /* AboutView.swift */; };
 		C059833D27D2C82E00299D27 /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833C27D2C82E00299D27 /* InfoSheet.swift */; };
 		C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833E27D2CEFA00299D27 /* PrivacySheet.swift */; };
@@ -240,7 +240,7 @@
 		C038BEC2270FC7E700A23A2B /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
 		C038BEC4270FC91100A23A2B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C039B0622796201200416725 /* CloseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
-		C03B1D352741E18B007B318E /* SheetStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetStack.swift; sourceTree = "<group>"; };
+		C03B1D352741E18B007B318E /* ShuttleTrackerSheetStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerSheetStack.swift; sourceTree = "<group>"; };
 		C03B3CC729D79B4A0038EB8F /* UserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		C03B3CCD29D9EDF40038EB8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Shared (App Clip).xcconfig"; sourceTree = "<group>"; };
@@ -251,7 +251,6 @@
 		C03F15892A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCameraPositionWrapper.swift; sourceTree = "<group>"; };
 		C04BC29129AA814700225C5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C059831D27D14C8C00299D27 /* PrivacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
-		C059832327D1840700299D27 /* SheetPresentationWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentationWrapper.swift; sourceTree = "<group>"; };
 		C059833A27D2C77900299D27 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		C059833C27D2C82E00299D27 /* InfoSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSheet.swift; sourceTree = "<group>"; };
 		C059833E27D2CEFA00299D27 /* PrivacySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySheet.swift; sourceTree = "<group>"; };
@@ -314,6 +313,7 @@
 				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
 				C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */,
 				C09EB463293A70DE00CCE01B /* OrderedCollections in Frameworks */,
+				C00BE3ED2AB2BD5E003B84BB /* SheetStack in Frameworks */,
 				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
 				C0E95234295A033400945ABC /* AsyncAlgorithms in Frameworks */,
 			);
@@ -326,6 +326,7 @@
 				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
 				C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */,
 				C09EB461293A70CF00CCE01B /* OrderedCollections in Frameworks */,
+				C00BE3E42AB22269003B84BB /* SheetStack in Frameworks */,
 				C0ACA02427A4ABDD007FF08A /* Moya in Frameworks */,
 				C0E95232295A02E500945ABC /* AsyncAlgorithms in Frameworks */,
 			);
@@ -338,6 +339,7 @@
 				C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */,
 				C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */,
 				C09EB46B293A9A1F00CCE01B /* OrderedCollections in Frameworks */,
+				C00BE3EB2AB2BD50003B84BB /* SheetStack in Frameworks */,
 				C0ACA02827A4ABF3007FF08A /* Moya in Frameworks */,
 				C0E95236295A034500945ABC /* AsyncAlgorithms in Frameworks */,
 			);
@@ -434,7 +436,6 @@
 				C059833E27D2CEFA00299D27 /* PrivacySheet.swift */,
 				C059831D27D14C8C00299D27 /* PrivacyView.swift */,
 				C038BEC4270FC91100A23A2B /* SettingsView.swift */,
-				C059832327D1840700299D27 /* SheetPresentationWrapper.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
 				C032A90129CB8DC50047579C /* WhatsNewItem.swift */,
@@ -535,7 +536,7 @@
 				C03F15892A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift */,
 				C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */,
 				C0E9525A295B616900945ABC /* RefreshSequence.swift */,
-				C03B1D352741E18B007B318E /* SheetStack.swift */,
+				C03B1D352741E18B007B318E /* ShuttleTrackerSheetStack.swift */,
 				C01527F62517DCAF0069092C /* Utilities.swift */,
 				C0F420D12927570900CC0F91 /* WrappedError.swift */,
 				C0FFD6D7250C33C900945F01 /* Assets.xcassets */,
@@ -599,6 +600,7 @@
 				C09EB45A2934766F00CCE01B /* HTTPStatus */,
 				C09EB462293A70DE00CCE01B /* OrderedCollections */,
 				C0E95233295A033400945ABC /* AsyncAlgorithms */,
+				C00BE3EC2AB2BD5E003B84BB /* SheetStack */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -625,6 +627,7 @@
 				C09EB4582934766900CCE01B /* HTTPStatus */,
 				C09EB460293A70CF00CCE01B /* OrderedCollections */,
 				C0E95231295A02E500945ABC /* AsyncAlgorithms */,
+				C00BE3E32AB22269003B84BB /* SheetStack */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -649,6 +652,7 @@
 				C09EB4562934765F00CCE01B /* HTTPStatus */,
 				C09EB46A293A9A1F00CCE01B /* OrderedCollections */,
 				C0E95235295A034500945ABC /* AsyncAlgorithms */,
+				C00BE3EA2AB2BD50003B84BB /* SheetStack */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -690,6 +694,7 @@
 				C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */,
 				C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */,
 				C0E95230295A02E400945ABC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
+				C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */,
 			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
@@ -766,8 +771,7 @@
 				C09EB466293A718000CCE01B /* MailComposeViewDelegate.swift in Sources */,
 				C0BF4F8B29B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
-				C059832627D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
-				C03B1D382741E18B007B318E /* SheetStack.swift in Sources */,
+				C03B1D382741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */,
 				C0BC276C2974BA63008A4BD0 /* InfoSheet.swift in Sources */,
 				C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */,
 				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
@@ -799,7 +803,7 @@
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
 				C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */,
 				C03F15872A95A480008DC1B2 /* MapContainer.swift in Sources */,
-				C03B1D372741E18B007B318E /* SheetStack.swift in Sources */,
+				C03B1D372741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */,
 				C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */,
 				C0730C1827F103D200EF7550 /* AppStorageManager.swift in Sources */,
 				C0C9D3CD270F802A00AE58BE /* SettingsSheet.swift in Sources */,
@@ -845,7 +849,6 @@
 				C01F6D7A26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C0E9525C295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C0BF4F8A29B3D3D70094FD3E /* Analytics.swift in Sources */,
-				C059832427D1840700299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
@@ -895,9 +898,8 @@
 				C0E9525B295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C032A8FD29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */,
 				C095480B250C3A380025EA96 /* LocationManagerDelegate.swift in Sources */,
-				C03B1D362741E18B007B318E /* SheetStack.swift in Sources */,
+				C03B1D362741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */,
 				C0019DD625191EBB0020574D /* CustomAnnotation.swift in Sources */,
-				C059832527D1841400299D27 /* SheetPresentationWrapper.swift in Sources */,
 				C01527F82517DCAF0069092C /* Utilities.swift in Sources */,
 				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
@@ -1258,6 +1260,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Gerzer/Sheet-Stack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Gerzer/HTTP-Status/";
@@ -1301,6 +1311,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C00BE3E32AB22269003B84BB /* SheetStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheetStack;
+		};
+		C00BE3EA2AB2BD50003B84BB /* SheetStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */;
+			productName = SheetStack;
+		};
+		C00BE3EC2AB2BD5E003B84BB /* SheetStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */;
+			productName = SheetStack;
+		};
 		C09EB4562934765F00CCE01B /* HTTPStatus */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
