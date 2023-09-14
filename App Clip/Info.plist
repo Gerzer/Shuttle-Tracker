@@ -32,14 +32,14 @@
 	<key>NSAppTransportSecurity</key>
 	<dict/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Shuttle Tracker requires location access to improve data accuracy for everyone.</string>
+	<string>Shuttle Tracker crowd-sources bus-location data and shows where you are on the map.</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
 	<dict>
 		<key>BoardBus</key>
 		<string>Shuttle Tracker requires precise location access to improve data accuracy for everyone.</string>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Shuttle Tracker requires location access to improve data accuracy for everyone.</string>
+	<string>Shuttle Tracker crowd-sources bus-location data and shows where you are on the map.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
