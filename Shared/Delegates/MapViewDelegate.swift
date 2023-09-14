@@ -20,7 +20,7 @@ final class MapViewDelegate: NSObject, MKMapViewDelegate {
 				markerAnnotationView.displayPriority = .required
 				markerAnnotationView.markerTintColor = .systemBlue
 				markerAnnotationView.animatesWhenAdded = true
-				markerAnnotationView.glyphImage = UIImage(systemName: "person.crop.circle")
+                markerAnnotationView.glyphImage = UIImage(systemName: SFSymbols.userIcon.rawValue)
 				return markerAnnotationView
 			case .notOnBus:
 				return nil

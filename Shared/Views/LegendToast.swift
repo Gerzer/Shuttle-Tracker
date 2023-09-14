@@ -38,7 +38,7 @@ struct LegendToast: View {
 		get {
 			var attributedString = AttributedString(self.highQualityString)
 			if self.appStorageManager.colorBlindMode {
-				let scopeRange = attributedString.range(of: "scope")!
+				let scopeRange = attributedString.range(of: SFSymbols.scopeIcon.rawValue)!
 				attributedString[scopeRange].inlinePresentationIntent = .stronglyEmphasized
 			} else {
 				let greenRange = attributedString.range(of: "Green")!
@@ -74,7 +74,7 @@ struct LegendToast: View {
 				ZStack {
 					Circle()
 						.fill(.green)
-					Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
+                    Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbols.scopeIcon.rawValue : SFSymbols.busIcon.rawValue)
 						.resizable()
 						.frame(width: 30, height: 30)
 						.foregroundColor(.white)
@@ -90,7 +90,7 @@ struct LegendToast: View {
 				ZStack {
 					Circle()
 						.fill(self.appStorageManager.colorBlindMode ? .purple : .red)
-					Image(systemName: self.appStorageManager.colorBlindMode ? "circle.dotted" : "bus")
+                    Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbols.colorblindScopeIcon.rawValue : SFSymbols.busIcon.rawValue)
 						.resizable()
 						.frame(width: 30, height: 30)
 						.foregroundColor(.white)
