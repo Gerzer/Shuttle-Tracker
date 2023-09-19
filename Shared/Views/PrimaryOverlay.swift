@@ -84,7 +84,7 @@ struct PrimaryOverlay: View {
 									NotificationCenter.default.post(name: .refreshBuses, object: nil)
 								}
 							} label: {
-                                Image(systemName: SFSymbols.refreshIcon.rawValue)
+								Image(systemName: SFSymbols.refreshIcon.rawValue)
 									.resizable()
 									.aspectRatio(1, contentMode: .fit)
 									.symbolVariant(.circle)

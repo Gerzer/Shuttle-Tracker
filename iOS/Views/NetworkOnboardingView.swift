@@ -60,7 +60,7 @@ struct NetworkOnboardingView: View {
 			}
 				.padding(.horizontal)
 			HStack {
-                Image(systemName: SFSymbols.busIcon.rawValue)
+				Image(systemName: SFSymbols.busIcon.rawValue)
 					.resizable()
 					.scaledToFit()
 					.frame(width: 50 * self.busScale, height: 50)
@@ -70,7 +70,7 @@ struct NetworkOnboardingView: View {
 							Circle()
 								.stroke(.gray, lineWidth: 4)
 								.frame(width: 21 * self.antennaScale, height: 20)
-                            Image(systemName: SFSymbols.onboardingShuttleNode.rawValue)
+							Image(systemName: SFSymbols.onboardingShuttleNode.rawValue)
 								.resizable()
 								.frame(width: 20 * self.antennaScale, height: 20)
 								.scaleEffect(self.antennaScale)
@@ -84,12 +84,12 @@ struct NetworkOnboardingView: View {
 						}
 					}
 				if self.tabViewSelection != 0 {
-                    Image(systemName: SFSymbols.onboardingShuttleNetworkWave.rawValue)
+					Image(systemName: SFSymbols.onboardingShuttleNetworkWave.rawValue)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 50 * self.busScale, height: 50)
 						.scaleEffect(self.waveLeftScale)
-                    Image(systemName: SFSymbols.onboardingIPhone.rawValue)
+					Image(systemName: SFSymbols.onboardingIPhone.rawValue)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 50, height: 50)
@@ -99,7 +99,7 @@ struct NetworkOnboardingView: View {
 						.scaledToFit()
 						.frame(width: 50 * self.cloudScale, height: 50)
 						.scaleEffect(self.waveRightScale)
-                    Image(systemName: SFSymbols.onboardingCloud.rawValue)
+					Image(systemName: SFSymbols.onboardingCloud.rawValue)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 70 * self.cloudScale, height: 40)
@@ -131,7 +131,7 @@ struct NetworkOnboardingView: View {
 					if #available(iOS 16.1, *), !firstTabDidDisappear {
 						HStack(spacing: -5) {
 							Spacer()
-                            Image(systemName: SFSymbols.onboardingSwipeLeft.rawValue)
+							Image(systemName: SFSymbols.onboardingSwipeLeft.rawValue)
 								.opacity(self.chevron1Opacity)
 								.offset(x: -10)
 							Image(systemName: SFSymbols.onboardingSwipeLeft.rawValue)

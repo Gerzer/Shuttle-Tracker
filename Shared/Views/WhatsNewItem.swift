@@ -53,7 +53,7 @@ struct WhatsNewPreviews: PreviewProvider {
 		WhatsNewItem(
 			title: "Shuttle Tracker Network",
 			description: "The Shuttle Tracker app uses the Shuttle Tracker Network to connect to Shuttle Tracker Node, our custom bus-tracking device, to unlock Automatic Board Bus. Shuttle Tracker never collects your location when you’re not physically riding a bus.",
-            iconSystemName: SFSymbols.onboardingShuttleNetwork.rawValue,
+			iconSystemName: SFSymbols.onboardingShuttleNetwork.rawValue,
 			symbolRenderingMode: .hierarchical
 		)
 	}

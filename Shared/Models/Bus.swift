@@ -85,9 +85,9 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 			case .system:
 				colorBlindSytemImage = "circle.dotted"
 			case .user:
-                colorBlindSytemImage = SFSymbols.scopeIcon.rawValue
+				colorBlindSytemImage = SFSymbols.scopeIcon.rawValue
 			}
-            return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : SFSymbols.busIcon.rawValue
+			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : SFSymbols.busIcon.rawValue
 		}
 	}
 	

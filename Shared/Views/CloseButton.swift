@@ -18,7 +18,7 @@ struct CloseButton: View {
 		Button {
 			self.sheetStack.pop()
 		} label: {
-            Image(systemName: SFSymbols.closeXMark.rawValue)
+			Image(systemName: SFSymbols.closeXMark.rawValue)
 				.symbolRenderingMode(.hierarchical)
 				.resizable()
 				.opacity(0.5)

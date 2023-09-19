@@ -74,7 +74,7 @@ struct LegendToast: View {
 				ZStack {
 					Circle()
 						.fill(.green)
-                    Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbols.scopeIcon.rawValue : SFSymbols.busIcon.rawValue)
+					Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbols.scopeIcon.rawValue : SFSymbols.busIcon.rawValue)
 						.resizable()
 						.frame(width: 30, height: 30)
 						.foregroundColor(.white)
@@ -90,7 +90,7 @@ struct LegendToast: View {
 				ZStack {
 					Circle()
 						.fill(self.appStorageManager.colorBlindMode ? .purple : .red)
-                    Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbols.colorblindScopeIcon.rawValue : SFSymbols.busIcon.rawValue)
+					Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbols.colorblindScopeIcon.rawValue : SFSymbols.busIcon.rawValue)
 						.resizable()
 						.frame(width: 30, height: 30)
 						.foregroundColor(.white)

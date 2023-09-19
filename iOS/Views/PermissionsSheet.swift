@@ -42,7 +42,7 @@ struct PermissionsSheet: View {
 					Group {
 						if case (.authorizedAlways, .fullAccuracy) = (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 							HStack(alignment: .top) {
-                                Image(systemName: SFSymbols.userSharedLocationIcon.rawValue)
+								Image(systemName: SFSymbols.userSharedLocationIcon.rawValue)
 									.resizable()
 									.scaledToFit()
 									.frame(width: 40, height: 40)
@@ -55,7 +55,7 @@ struct PermissionsSheet: View {
 							}
 						} else {
 							HStack(alignment: .top) {
-                                Image(systemName: SFSymbols.userHasNotSharedLocationIcon.rawValue)
+								Image(systemName: SFSymbols.userHasNotSharedLocationIcon.rawValue)
 									.resizable()
 									.scaledToFit()
 									.frame(width: 40, height: 40)
@@ -82,7 +82,7 @@ struct PermissionsSheet: View {
 							switch notificationAuthorizationStatus {
 							case .authorized, .ephemeral, .provisional:
 								HStack(alignment: .top) {
-                                    Image(systemName: SFSymbols.userSharedLocationIcon.rawValue)
+									Image(systemName: SFSymbols.userSharedLocationIcon.rawValue)
 										.resizable()
 										.scaledToFit()
 										.frame(width: 40, height: 40)
@@ -95,7 +95,7 @@ struct PermissionsSheet: View {
 								}
 							case .denied:
 								HStack(alignment: .top) {
-                                    Image(systemName: SFSymbols.userHasNotSharedLocationIcon.rawValue)
+									Image(systemName: SFSymbols.userHasNotSharedLocationIcon.rawValue)
 										.resizable()
 										.scaledToFit()
 										.frame(width: 40, height: 40)
@@ -113,7 +113,7 @@ struct PermissionsSheet: View {
 								}
 							case .notDetermined:
 								HStack(alignment: .top) {
-                                    Image(systemName: SFSymbols.userHasNotDeterminedLocationIcon.rawValue)
+									Image(systemName: SFSymbols.userHasNotDeterminedLocationIcon.rawValue)
 										.resizable()
 										.scaledToFit()
 										.frame(width: 40, height: 40)
