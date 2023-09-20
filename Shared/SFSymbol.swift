@@ -1,13 +1,11 @@
 //
-//  SFSymbols.swift
+//  SFSymbol.swift
 //  Shuttle Tracker
 //
 //  Created by Tommy Truong on 9/14/23.
 //
 
-import Foundation
-
-public enum SFSymbols: String {
+enum SFSymbol: String {
 	
 	case announcements = "exclamationmark.bubble.fill"
 	

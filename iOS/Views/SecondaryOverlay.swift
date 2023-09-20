@@ -25,19 +25,19 @@ struct SecondaryOverlay: View {
 		VStack {
 			VStack(spacing: 0) {
 				SecondaryOverlayButton(
-					iconSystemName: SFSymbols.settings.rawValue,
+					iconSystemName: SFSymbol.settings.rawValue,
 					sheetType: .settings
 				)
 				Divider()
 					.frame(width: 45, height: 0)
 				SecondaryOverlayButton(
-					iconSystemName: SFSymbols.info.rawValue,
+					iconSystemName: SFSymbol.info.rawValue,
 					sheetType: .info
 				)
 				Divider()
 					.frame(width: 45, height: 0)
 				SecondaryOverlayButton(
-					iconSystemName: SFSymbols.announcements.rawValue,
+					iconSystemName: SFSymbol.announcements.rawValue,
 					sheetType: .announcements,
 					badgeNumber: self.viewState.badgeNumber
 				)
@@ -57,7 +57,7 @@ struct SecondaryOverlay: View {
 						.shadow(radius: 5)
 				)
 			VStack(spacing: 0) {
-				SecondaryOverlayButton(iconSystemName: SFSymbols.recenter.rawValue) {
+				SecondaryOverlayButton(iconSystemName: SFSymbol.recenter.rawValue) {
 					Task {
 						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}

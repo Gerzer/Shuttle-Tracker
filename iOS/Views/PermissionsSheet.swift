@@ -42,7 +42,7 @@ struct PermissionsSheet: View {
 					Group {
 						if case (.authorizedAlways, .fullAccuracy) = (CLLocationManager.default.authorizationStatus, CLLocationManager.default.accuracyAuthorization) {
 							HStack(alignment: .top) {
-								Image(systemName: SFSymbols.permissionGranted.rawValue)
+								Image(systemName: SFSymbol.permissionGranted.rawValue)
 									.resizable()
 									.scaledToFit()
 									.frame(width: 40, height: 40)
@@ -55,7 +55,7 @@ struct PermissionsSheet: View {
 							}
 						} else {
 							HStack(alignment: .top) {
-								Image(systemName: SFSymbols.permissionDenied.rawValue)
+								Image(systemName: SFSymbol.permissionDenied.rawValue)
 									.resizable()
 									.scaledToFit()
 									.frame(width: 40, height: 40)
@@ -82,7 +82,7 @@ struct PermissionsSheet: View {
 							switch notificationAuthorizationStatus {
 							case .authorized, .ephemeral, .provisional:
 								HStack(alignment: .top) {
-									Image(systemName: SFSymbols.permissionGranted.rawValue)
+									Image(systemName: SFSymbol.permissionGranted.rawValue)
 										.resizable()
 										.scaledToFit()
 										.frame(width: 40, height: 40)
@@ -95,7 +95,7 @@ struct PermissionsSheet: View {
 								}
 							case .denied:
 								HStack(alignment: .top) {
-									Image(systemName: SFSymbols.permissionDenied.rawValue)
+									Image(systemName: SFSymbol.permissionDenied.rawValue)
 										.resizable()
 										.scaledToFit()
 										.frame(width: 40, height: 40)
@@ -113,7 +113,7 @@ struct PermissionsSheet: View {
 								}
 							case .notDetermined:
 								HStack(alignment: .top) {
-									Image(systemName: SFSymbols.permissionNotDetermined.rawValue)
+									Image(systemName: SFSymbol.permissionNotDetermined.rawValue)
 										.resizable()
 										.scaledToFit()
 										.frame(width: 40, height: 40)

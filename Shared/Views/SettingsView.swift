@@ -31,7 +31,7 @@ struct SettingsView: View {
 					ZStack {
 						Circle()
 							.fill(.green)
-						Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbols.colorBlindHighQualityLocation.rawValue : SFSymbols.bus.rawValue)
+						Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbol.colorBlindHighQualityLocation.rawValue : SFSymbol.bus.rawValue)
 							.resizable()
 							.frame(width: 15, height: 15)
 							.foregroundColor(.white)
