@@ -54,28 +54,28 @@ struct WhatsNewView: View {
 						WhatsNewItem(
 							title: "Automatic Board Bus",
 							description: "Use Board Bus without taking your phone out.",
-							iconSystemName: SFSymbols.onboardingLocation.rawValue
+							iconSystemName: SFSymbols.whatsNewAutomaticBoardBus.rawValue
 						)
 						WhatsNewItem(
 							title: "Shuttle Tracker Network",
 							description: "Connect to our custom tracking devices on the buses.",
-							iconSystemName: SFSymbols.onboardingShuttleNetwork.rawValue
+							iconSystemName: SFSymbols.whatsNewNetwork.rawValue
 						)
 						#endif // os(iOS)
 						WhatsNewItem(
 							title: "Notifications",
 							description: "Receive push notification for new announcements.",
-							iconSystemName: SFSymbols.onboardingBell.rawValue
+							iconSystemName: SFSymbols.whatsNewNotifications.rawValue
 						)
 						WhatsNewItem(
 							title: "Design",
 							description: "See a new logo, app icon, and color scheme.",
-							iconSystemName: SFSymbols.onboardingStar.rawValue
+							iconSystemName: SFSymbols.whatsNewDesign.rawValue
 						)
 						WhatsNewItem(
 							title: "Analytics",
 							description: "Opt in to analytics sharing to help improve the app.",
-							iconSystemName: SFSymbols.onboardingAnalytics.rawValue
+							iconSystemName: SFSymbols.whatsNewAnalytics.rawValue
 						)
 					}
 				}

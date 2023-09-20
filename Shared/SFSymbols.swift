@@ -9,52 +9,52 @@ import Foundation
 
 public enum SFSymbols: String {
 	
-	case busIcon = "bus"
+	case announcements = "exclamationmark.bubble.fill"
 	
-	case userIcon = "person.crop.circle"
+	case bus = "bus"
 	
-	case settingsIcon = "gearshape.fill"
+	case close = "xmark.circle.fill"
 	
-	case informationsIcon = "info.circle.fill"
+	case colorBlindHighQualityLocation = "scope"
 	
-	case announcementsIcon = "exclamationmark.bubble.fill"
+	case colorBlindLowQualityLocation = "circle.dotted"
 	
-	case colorblindScopeIcon = "circle.dotted"
+	case info = "info.circle.fill"
 	
-	case busStop = "circle.fill"
+	case onboardingNode = "antenna.radiowaves.left.and.right.circle.fill"
 	
-	case scopeIcon = "scope"
+	case onboardingPhone = "iphone"
 	
-	case refreshIcon = "arrow.clockwise"
+	case onboardingServer = "cloud"
 	
-	case recenterIcon = "location.fill.viewfinder"
-	
-	case closeXMark = "xmark.circle.fill"
-	
-	case userSharedLocationIcon = "gear.badge.checkmark"
-	
-	case userHasNotSharedLocationIcon = "gear.badge.xmark"
-	
-	case userHasNotDeterminedLocationIcon = "gear.badge.questionmark"
+	case onboardingSignal = "wave.3.forward"
 	
 	case onboardingSwipeLeft = "chevron.compact.left"
 	
-	case onboardingLocation = "location.square"
+	case permissionDenied = "gear.badge.xmark"
 	
-	case onboardingShuttleNetwork = "point.3.filled.connected.trianglepath.dotted"
+	case permissionGranted = "gear.badge.checkmark"
 	
-	case onboardingBell = "bell.badge"
+	case permissionNotDetermined = "gear.badge.questionmark"
 	
-	case onboardingStar = "star.square"
+	case recenter = "location.fill.viewfinder"
 	
-	case onboardingAnalytics = "stethoscope"
+	case refresh = "arrow.clockwise"
 	
-	case onboardingShuttleNetworkWave = "wave.3.forward"
+	case settings = "gearshape.fill"
 	
-	case onboardingIPhone = "iphone"
+	case stop = "circle.fill"
 	
-	case onboardingCloud = "cloud"
+	case user = "person.crop.circle"
 	
-	case onboardingShuttleNode = "antenna.radiowaves.left.and.right.circle.fill"
+	case whatsNewAnalytics = "stethoscope"
+	
+	case whatsNewAutomaticBoardBus = "location.square"
+	
+	case whatsNewDesign = "star.square"
+	
+	case whatsNewNetwork = "point.3.filled.connected.trianglepath.dotted"
+	
+	case whatsNewNotifications = "bell.badge"
 	
 }

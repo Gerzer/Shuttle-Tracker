@@ -35,7 +35,7 @@ struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, 
 							self.item = nil
 						}
 					} label: {
-						Image(systemName: SFSymbols.closeXMark.rawValue)
+						Image(systemName: SFSymbols.close.rawValue)
 							.resizable()
 							.frame(width: ViewConstants.toastCloseButtonDimension, height: ViewConstants.toastCloseButtonDimension)
 					}
@@ -46,7 +46,7 @@ struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, 
 							self.item = nil
 						}
 					} label: {
-						Image(systemName: SFSymbols.closeXMark.rawValue)
+						Image(systemName: SFSymbols.close.rawValue)
 							.resizable()
 							.frame(width: ViewConstants.toastCloseButtonDimension, height: ViewConstants.toastCloseButtonDimension)
 					}
