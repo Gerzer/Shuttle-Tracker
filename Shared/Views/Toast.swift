@@ -35,7 +35,7 @@ struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, 
 							self.item = nil
 						}
 					} label: {
-						Image(systemName: SFSymbol.close.rawValue)
+						Image(systemName: SFSymbol.close.systemName)
 							.resizable()
 							.frame(width: ViewConstants.toastCloseButtonDimension, height: ViewConstants.toastCloseButtonDimension)
 					}

@@ -32,7 +32,7 @@ struct SecondaryOverlayButton: View {
 			}
 		} label: {
 			Group {
-				Image(systemName: self.icon.rawValue)
+				Image(systemName: self.icon.systemName)
 					.resizable()
 					.aspectRatio(1, contentMode: .fit)
 					.opacity(0.5)

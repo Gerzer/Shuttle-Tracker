@@ -19,7 +19,7 @@ struct WhatsNewItem: View {
 	
 	var body: some View {
 		HStack(alignment: .top) {
-			Image(systemName: self.icon.rawValue)
+			Image(systemName: self.icon.systemName)
 				.symbolRenderingMode(self.symbolRenderingMode)
 				.resizable()
 				.scaledToFit()

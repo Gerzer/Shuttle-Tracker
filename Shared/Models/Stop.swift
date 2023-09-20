@@ -43,7 +43,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		annotationView.layer?.borderWidth = 2
 		annotationView.layer?.cornerRadius = annotationView.frame.width / 2
 		#elseif canImport(UIKit) // canImport(AppKit)
-		let image = UIImage(systemName: SFSymbol.stop.rawValue)!
+		let image = UIImage(systemName: SFSymbol.stop.systemName)!
 		let imageView = UIImageView(image: image)
 		imageView.tintColor = .white
 		imageView.layer.borderColor = UIColor.black.cgColor

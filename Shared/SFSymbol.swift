@@ -5,54 +5,109 @@
 //  Created by Tommy Truong on 9/14/23.
 //
 
-enum SFSymbol: String {
+enum SFSymbol {
 	
-	case announcements = "exclamationmark.bubble.fill"
+	case announcements
 	
-	case bus = "bus"
+	case bus
 	
-	case close = "xmark.circle.fill"
+	case close
 	
-	case colorBlindHighQualityLocation = "scope"
+	case colorBlindHighQualityLocation
 	
-	case colorBlindLowQualityLocation = "circle.dotted"
+	case colorBlindLowQualityLocation
 	
-	case info = "info.circle.fill"
+	case info
 	
-	case onboardingNode = "antenna.radiowaves.left.and.right.circle.fill"
+	case onboardingNode
 	
-	case onboardingPhone = "iphone"
+	case onboardingPhone
 	
-	case onboardingServer = "cloud"
+	case onboardingServer
 	
-	case onboardingSignal = "wave.3.forward"
+	case onboardingSignal
 	
-	case onboardingSwipeLeft = "chevron.compact.left"
+	case onboardingSwipeLeft
 	
-	case permissionDenied = "gear.badge.xmark"
+	case permissionDenied
 	
-	case permissionGranted = "gear.badge.checkmark"
+	case permissionGranted
 	
-	case permissionNotDetermined = "gear.badge.questionmark"
+	case permissionNotDetermined
 	
-	case recenter = "location.fill.viewfinder"
+	case recenter
 	
-	case refresh = "arrow.clockwise"
+	case refresh
 	
-	case settings = "gearshape.fill"
+	case settings
 	
-	case stop = "circle.fill"
+	case stop
 	
-	case user = "person.crop.circle"
+	case user
 	
-	case whatsNewAnalytics = "stethoscope"
+	case whatsNewAnalytics
 	
-	case whatsNewAutomaticBoardBus = "location.square"
+	case whatsNewAutomaticBoardBus
 	
-	case whatsNewDesign = "star.square"
+	case whatsNewDesign
 	
-	case whatsNewNetwork = "point.3.filled.connected.trianglepath.dotted"
+	case whatsNewNetwork
 	
-	case whatsNewNotifications = "bell.badge"
+	case whatsNewNotifications
+	
+	var systemName: String {
+		get {
+			switch self {
+			case .announcements:
+				"exclamationmark.bubble.fill"
+			case .bus:
+				"bus"
+			case .close:
+				"xmark.circle.fill"
+			case .colorBlindHighQualityLocation:
+				"scope"
+			case .colorBlindLowQualityLocation:
+				"circle.dotted"
+			case .info:
+				"info.circle.fill"
+			case .onboardingNode:
+				"antenna.radiowaves.left.and.right.circle.fill"
+			case .onboardingPhone:
+				"iphone"
+			case .onboardingServer:
+				"cloud"
+			case .onboardingSignal:
+				"wave.3.forward"
+			case .onboardingSwipeLeft:
+				"chevron.compact.left"
+			case .permissionDenied:
+				"gear.badge.xmark"
+			case .permissionGranted:
+				"gear.badge.checkmark"
+			case .permissionNotDetermined:
+				"gear.badge.questionmark"
+			case .recenter:
+				"location.fill.viewfinder"
+			case .refresh:
+				"arrow.clockwise"
+			case .settings:
+				"gearshape.fill"
+			case .stop:
+				"circle.fill"
+			case .user:
+				"person.crop.circle"
+			case .whatsNewAnalytics:
+				"stethoscope"
+			case .whatsNewAutomaticBoardBus:
+				"location.square"
+			case .whatsNewDesign:
+				"star.square"
+			case .whatsNewNetwork:
+				"point.3.filled.connected.trianglepath.dotted"
+			case .whatsNewNotifications:
+				"bell.badge"
+			}
+		}
+	}
 	
 }
