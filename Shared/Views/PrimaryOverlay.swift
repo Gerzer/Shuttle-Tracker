@@ -84,7 +84,7 @@ struct PrimaryOverlay: View {
 									NotificationCenter.default.post(name: .refreshBuses, object: nil)
 								}
 							} label: {
-								Image(systemName: "arrow.clockwise")
+								Image(systemName: SFSymbol.refresh.systemName)
 									.resizable()
 									.aspectRatio(1, contentMode: .fit)
 									.symbolVariant(.circle)

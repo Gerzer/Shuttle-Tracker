@@ -16,19 +16,19 @@ struct NetworkOnboardingView: View {
 	private var busScale: CGFloat = 0
 	
 	@State
-	private var antennaScale: CGFloat = 0
+	private var nodeScale: CGFloat = 0
 	
 	@State
-	private var waveLeftScale: CGFloat = 0
+	private var signalLeftScale: CGFloat = 0
 	
 	@State
 	private var phoneScale: CGFloat = 0
 	
 	@State
-	private var waveRightScale: CGFloat = 0
+	private var signalRightScale: CGFloat = 0
 	
 	@State
-	private var cloudScale: CGFloat = 0
+	private var serverScale: CGFloat = 0
 	
 	@State
 	private var chevron1Opacity: Double = 0
@@ -60,7 +60,7 @@ struct NetworkOnboardingView: View {
 			}
 				.padding(.horizontal)
 			HStack {
-				Image(systemName: "bus")
+				Image(systemName: SFSymbol.bus.systemName)
 					.resizable()
 					.scaledToFit()
 					.frame(width: 50 * self.busScale, height: 50)
@@ -69,11 +69,11 @@ struct NetworkOnboardingView: View {
 						ZStack {
 							Circle()
 								.stroke(.gray, lineWidth: 4)
-								.frame(width: 21 * self.antennaScale, height: 20)
-							Image(systemName: "antenna.radiowaves.left.and.right.circle.fill")
+								.frame(width: 21 * self.nodeScale, height: 20)
+							Image(systemName: SFSymbol.onboardingNode.systemName)
 								.resizable()
-								.frame(width: 20 * self.antennaScale, height: 20)
-								.scaleEffect(self.antennaScale)
+								.frame(width: 20 * self.nodeScale, height: 20)
+								.scaleEffect(self.nodeScale)
 								.background(.gray, in: Circle())
 						},
 						alignment: .topTrailing
@@ -84,26 +84,26 @@ struct NetworkOnboardingView: View {
 						}
 					}
 				if self.tabViewSelection != 0 {
-					Image(systemName: "wave.3.forward")
+					Image(systemName: SFSymbol.onboardingSignal.systemName)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 50 * self.busScale, height: 50)
-						.scaleEffect(self.waveLeftScale)
-					Image(systemName: "iphone")
+						.scaleEffect(self.signalLeftScale)
+					Image(systemName: SFSymbol.onboardingPhone.systemName)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 50, height: 50)
 						.scaleEffect(self.phoneScale)
-					Image(systemName: "wave.3.forward")
+					Image(systemName: SFSymbol.onboardingSignal.systemName)
 						.resizable()
 						.scaledToFit()
-						.frame(width: 50 * self.cloudScale, height: 50)
-						.scaleEffect(self.waveRightScale)
-					Image(systemName: "cloud")
+						.frame(width: 50 * self.serverScale, height: 50)
+						.scaleEffect(self.signalRightScale)
+					Image(systemName: SFSymbol.onboardingServer.systemName)
 						.resizable()
 						.scaledToFit()
-						.frame(width: 70 * self.cloudScale, height: 40)
-						.scaleEffect(self.cloudScale)
+						.frame(width: 70 * self.serverScale, height: 40)
+						.scaleEffect(self.serverScale)
 				}
 			}
 				.symbolRenderingMode(.monochrome)
@@ -131,13 +131,13 @@ struct NetworkOnboardingView: View {
 					if #available(iOS 16.1, *), !firstTabDidDisappear {
 						HStack(spacing: -5) {
 							Spacer()
-							Image(systemName: "chevron.compact.left")
+							Image(systemName: SFSymbol.onboardingSwipeLeft.systemName)
 								.opacity(self.chevron1Opacity)
 								.offset(x: -10)
-							Image(systemName: "chevron.compact.left")
+							Image(systemName: SFSymbol.onboardingSwipeLeft.systemName)
 								.opacity(self.chevron2Opacity)
 								.offset(x: -10)
-							Image(systemName: "chevron.compact.left")
+							Image(systemName: SFSymbol.onboardingSwipeLeft.systemName)
 								.opacity(self.chevron3Opacity)
 								.offset(x: -10)
 							Text("Swipe")
@@ -248,46 +248,46 @@ struct NetworkOnboardingView: View {
 						switch newValue {
 						case 0:
 							self.busScale = 1
-							self.antennaScale = 0
-							self.waveLeftScale = 0
+							self.nodeScale = 0
+							self.signalLeftScale = 0
 							self.phoneScale = 0
-							self.waveRightScale = 0
-							self.cloudScale = 0
+							self.signalRightScale = 0
+							self.serverScale = 0
 						case 1:
 							self.busScale = 1
-							self.antennaScale = 0
-							self.waveLeftScale = 0
+							self.nodeScale = 0
+							self.signalLeftScale = 0
 							self.phoneScale = 1
-							self.waveRightScale = 0
-							self.cloudScale = 0
+							self.signalRightScale = 0
+							self.serverScale = 0
 						case 2:
 							self.busScale = 1
-							self.antennaScale = 1
-							self.waveLeftScale = 0
+							self.nodeScale = 1
+							self.signalLeftScale = 0
 							self.phoneScale = 1
-							self.waveRightScale = 0
-							self.cloudScale = 0
+							self.signalRightScale = 0
+							self.serverScale = 0
 						case 3:
 							self.busScale = 1
-							self.antennaScale = 1
-							self.waveLeftScale = 1
+							self.nodeScale = 1
+							self.signalLeftScale = 1
 							self.phoneScale = 1
-							self.waveRightScale = 0
-							self.cloudScale = 0
+							self.signalRightScale = 0
+							self.serverScale = 0
 						case 4:
 							self.busScale = 1
-							self.antennaScale = 1
-							self.waveLeftScale = 1
+							self.nodeScale = 1
+							self.signalLeftScale = 1
 							self.phoneScale = 1
-							self.waveRightScale = 1
-							self.cloudScale = 1
+							self.signalRightScale = 1
+							self.serverScale = 1
 						case 5:
 							self.busScale = 1
-							self.antennaScale = 1
-							self.waveLeftScale = 1
+							self.nodeScale = 1
+							self.signalLeftScale = 1
 							self.phoneScale = 1
-							self.waveRightScale = 1
-							self.cloudScale = 1
+							self.signalRightScale = 1
+							self.serverScale = 1
 						default:
 							Logging.withLogger(doUpload: true) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Invalid tab item")

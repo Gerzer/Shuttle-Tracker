@@ -31,7 +31,7 @@ struct SettingsView: View {
 					ZStack {
 						Circle()
 							.fill(.green)
-						Image(systemName: self.appStorageManager.colorBlindMode ? "scope" : "bus")
+						Image(systemName: self.appStorageManager.colorBlindMode ? SFSymbol.colorBlindHighQualityLocation.systemName : SFSymbol.bus.systemName)
 							.resizable()
 							.frame(width: 15, height: 15)
 							.foregroundColor(.white)
@@ -136,11 +136,11 @@ struct SettingsView: View {
 				Spacer()
 			}
 				.tabItem {
-					Label("General", systemImage: "gear")
+					Label("General", systemImage: SFSymbol.settings.systemName)
 				}
 			LoggingAnalyticsSettingsView()
 				.tabItem {
-					Label("Logging & Analytics", systemImage: "text.redaction")
+					Label("Logging & Analytics", systemImage: SFSymbol.loggingAnalytics.systemName)
 				}
 		}
 			.padding()

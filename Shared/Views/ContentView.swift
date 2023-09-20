@@ -171,7 +171,7 @@ struct ContentView: View {
 					self.sheetStack.push(.announcements)
 				} label: {
 					ZStack {
-						Label("Show Announcements", systemImage: "exclamationmark.bubble")
+						Label("Show Announcements", systemImage: SFSymbol.announcements.systemName)
 						if self.viewState.badgeNumber > 0 {
 							Circle()
 								.foregroundColor(.red)
@@ -198,7 +198,7 @@ struct ContentView: View {
 						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}
 				} label: {
-					Label("Re-Center Map", systemImage: "location.fill.viewfinder")
+					Label("Re-Center Map", systemImage: SFSymbol.recenter.systemName)
 				}
 				if self.isRefreshing {
 					ProgressView()
@@ -212,7 +212,7 @@ struct ContentView: View {
 							NotificationCenter.default.post(name: .refreshBuses, object: nil)
 						}
 					} label: {
-						Label("Refresh", systemImage: "arrow.clockwise")
+						Label("Refresh", systemImage: SFSymbol.refresh.systemName)
 					}
 				}
 			}

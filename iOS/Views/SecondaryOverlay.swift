@@ -24,23 +24,13 @@ struct SecondaryOverlay: View {
 	var body: some View {
 		VStack {
 			VStack(spacing: 0) {
-				SecondaryOverlayButton(
-					iconSystemName: "gearshape.fill",
-					sheetType: .settings
-				)
+				SecondaryOverlayButton(icon: .settings, sheetType: .settings)
 				Divider()
 					.frame(width: 45, height: 0)
-				SecondaryOverlayButton(
-					iconSystemName: "info.circle.fill",
-					sheetType: .info
-				)
+				SecondaryOverlayButton(icon: .info, sheetType: .info)
 				Divider()
 					.frame(width: 45, height: 0)
-				SecondaryOverlayButton(
-					iconSystemName: "exclamationmark.bubble.fill",
-					sheetType: .announcements,
-					badgeNumber: self.viewState.badgeNumber
-				)
+				SecondaryOverlayButton(icon: .announcements, sheetType: .announcements, badgeNumber: self.viewState.badgeNumber)
 					.task {
 						do {
 							try await UNUserNotificationCenter.updateBadge()
@@ -57,7 +47,7 @@ struct SecondaryOverlay: View {
 						.shadow(radius: 5)
 				)
 			VStack(spacing: 0) {
-				SecondaryOverlayButton(iconSystemName: "location.fill.viewfinder") {
+				SecondaryOverlayButton(icon: .recenter) {
 					Task {
 						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}

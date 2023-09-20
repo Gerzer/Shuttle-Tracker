@@ -45,7 +45,7 @@ struct MapContainer: View {
 			ForEach(self.buses) { (bus) in
 				Marker(
 					bus.title!, // MKAnnotation requires that the title property be optional, but our implementation always returns a non-nil value.
-					systemImage: bus.systemImage,
+					systemImage: bus.iconSystemName,
 					coordinate: bus.coordinate
 				)
 					.tint(bus.tintColor)
@@ -68,7 +68,7 @@ struct MapContainer: View {
 			}
 			#if os(iOS)
 			if case .some(.onBus) = self.travelState, let busID = self.busID, let coordinate = CLLocationManager.default.location?.coordinate {
-				Marker("Bus \(busID)", systemImage: "person.crop.circle", coordinate: coordinate)
+				Marker("Bus \(busID)", systemImage: SFSymbol.user.systemName, coordinate: coordinate)
 			} else {
 				UserAnnotation()
 			}

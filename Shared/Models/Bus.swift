@@ -78,16 +78,16 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 	}
 	
 	@MainActor
-	var systemImage: String {
+	var iconSystemName: String {
 		get {
 			let colorBlindSytemImage: String
 			switch self.location.type {
 			case .system:
 				colorBlindSytemImage = "circle.dotted"
 			case .user:
-				colorBlindSytemImage = "scope"
+				colorBlindSytemImage = SFSymbol.colorBlindHighQualityLocation.systemName
 			}
-			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : "bus"
+			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : SFSymbol.bus.systemName
 		}
 	}
 	
@@ -99,10 +99,10 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 			markerAnnotationView.canShowCallout = true
 			#if canImport(AppKit)
 			markerAnnotationView.markerTintColor = NSColor(self.tintColor)
-			markerAnnotationView.glyphImage = NSImage(systemSymbolName: self.systemImage, accessibilityDescription: nil)
+			markerAnnotationView.glyphImage = NSImage(systemSymbolName: self.iconSystemName, accessibilityDescription: nil)
 			#elseif canImport(UIKit) // canImport(AppKit)
 			markerAnnotationView.markerTintColor = UIColor(self.tintColor)
-			markerAnnotationView.glyphImage = UIImage(systemName: self.systemImage)
+			markerAnnotationView.glyphImage = UIImage(systemName: self.iconSystemName)
 			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
