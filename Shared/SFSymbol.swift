@@ -19,6 +19,8 @@ enum SFSymbol {
 	
 	case info
 	
+	case loggingAnalytics
+	
 	case onboardingNode
 	
 	case onboardingPhone
@@ -59,53 +61,55 @@ enum SFSymbol {
 		get {
 			switch self {
 			case .announcements:
-				"exclamationmark.bubble.fill"
+				return "exclamationmark.bubble"
 			case .bus:
-				"bus"
+				return "bus"
 			case .close:
-				"xmark.circle.fill"
+				return "xmark.circle.fill"
 			case .colorBlindHighQualityLocation:
-				"scope"
+				return "scope"
 			case .colorBlindLowQualityLocation:
-				"circle.dotted"
+				return "circle.dotted"
 			case .info:
-				"info.circle.fill"
+				return "info.circle"
+			case .loggingAnalytics:
+				return "text.redaction"
 			case .onboardingNode:
-				"antenna.radiowaves.left.and.right.circle.fill"
+				return "antenna.radiowaves.left.and.right.circle.fill"
 			case .onboardingPhone:
-				"iphone"
+				return "iphone"
 			case .onboardingServer:
-				"cloud"
+				return "cloud"
 			case .onboardingSignal:
-				"wave.3.forward"
+				return "wave.3.forward"
 			case .onboardingSwipeLeft:
-				"chevron.compact.left"
+				return "chevron.compact.left"
 			case .permissionDenied:
-				"gear.badge.xmark"
+				return "gear.badge.xmark"
 			case .permissionGranted:
-				"gear.badge.checkmark"
+				return "gear.badge.checkmark"
 			case .permissionNotDetermined:
-				"gear.badge.questionmark"
+				return "gear.badge.questionmark"
 			case .recenter:
-				"location.fill.viewfinder"
+				return "location.viewfinder"
 			case .refresh:
-				"arrow.clockwise"
+				return "arrow.clockwise"
 			case .settings:
-				"gearshape.fill"
+				return "gearshape"
 			case .stop:
-				"circle.fill"
+				return "circle.fill"
 			case .user:
-				"person.crop.circle"
+				return "person.crop.circle"
 			case .whatsNewAnalytics:
-				"stethoscope"
+				return "stethoscope"
 			case .whatsNewAutomaticBoardBus:
-				"location.square"
+				return "location.square"
 			case .whatsNewDesign:
-				"star.square"
+				return "star.square"
 			case .whatsNewNetwork:
-				"point.3.filled.connected.trianglepath.dotted"
+				return "point.3.filled.connected.trianglepath.dotted"
 			case .whatsNewNotifications:
-				"bell.badge"
+				return "bell.badge"
 			}
 		}
 	}

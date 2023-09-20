@@ -136,11 +136,11 @@ struct SettingsView: View {
 				Spacer()
 			}
 				.tabItem {
-					Label("General", systemImage: "gear")
+					Label("General", systemImage: SFSymbol.settings.systemName)
 				}
 			LoggingAnalyticsSettingsView()
 				.tabItem {
-					Label("Logging & Analytics", systemImage: "text.redaction")
+					Label("Logging & Analytics", systemImage: SFSymbol.loggingAnalytics.systemName)
 				}
 		}
 			.padding()

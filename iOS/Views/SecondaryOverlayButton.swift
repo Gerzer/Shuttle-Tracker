@@ -37,6 +37,7 @@ struct SecondaryOverlayButton: View {
 					.aspectRatio(1, contentMode: .fit)
 					.opacity(0.5)
 					.frame(width: 20)
+					.symbolVariant(.fill)
 			}
 				.frame(width: 45, height: 45)
 				.overlay {

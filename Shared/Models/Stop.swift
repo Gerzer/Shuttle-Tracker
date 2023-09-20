@@ -37,7 +37,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		annotationView.displayPriority = .defaultHigh
 		annotationView.canShowCallout = true
 		#if canImport(AppKit)
-		annotationView.image = NSImage(systemSymbolName: SFSymbol.stop.rawValue, accessibilityDescription: nil)?
+		annotationView.image = NSImage(systemSymbolName: SFSymbol.stop.systemName, accessibilityDescription: nil)?
 			.withTintColor(.white)
 		annotationView.layer?.borderColor = .black
 		annotationView.layer?.borderWidth = 2

@@ -45,7 +45,7 @@ struct MapContainer: View {
 			ForEach(self.buses) { (bus) in
 				Marker(
 					bus.title!, // MKAnnotation requires that the title property be optional, but our implementation always returns a non-nil value.
-					systemImage: bus.systemImage,
+					systemImage: bus.iconSystemName,
 					coordinate: bus.coordinate
 				)
 					.tint(bus.tintColor)
