@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SecondaryOverlayButton: View {
 	
-	let iconSystemName: String
+	let icon: SFSymbol
 	
 	let sheetType: ShuttleTrackerSheetPresentationProvider.SheetType?
 	
@@ -32,7 +32,7 @@ struct SecondaryOverlayButton: View {
 			}
 		} label: {
 			Group {
-				Image(systemName: self.iconSystemName)
+				Image(systemName: self.icon.rawValue)
 					.resizable()
 					.aspectRatio(1, contentMode: .fit)
 					.opacity(0.5)
@@ -57,15 +57,15 @@ struct SecondaryOverlayButton: View {
 			.tint(.primary)
 	}
 	
-	init(iconSystemName: String, sheetType: ShuttleTrackerSheetPresentationProvider.SheetType, badgeNumber: Int = 0) {
-		self.iconSystemName = iconSystemName
+	init(icon: SFSymbol, sheetType: ShuttleTrackerSheetPresentationProvider.SheetType, badgeNumber: Int = 0) {
+		self.icon = icon
 		self.sheetType = sheetType
 		self.action = nil
 		self.badgeNumber = badgeNumber
 	}
 	
-	init(iconSystemName: String, badgeNumber: Int = 0, _ action: @escaping () -> Void) {
-		self.iconSystemName = iconSystemName
+	init(icon: SFSymbol, badgeNumber: Int = 0, _ action: @escaping () -> Void) {
+		self.icon = icon
 		self.sheetType = nil
 		self.action = action
 		self.badgeNumber = badgeNumber

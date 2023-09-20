@@ -13,13 +13,13 @@ struct WhatsNewItem: View {
 	
 	let description: String
 	
-	let iconSystemName: String
+	let icon: SFSymbol
 	
 	let symbolRenderingMode: SymbolRenderingMode
 	
 	var body: some View {
 		HStack(alignment: .top) {
-			Image(systemName: self.iconSystemName)
+			Image(systemName: self.icon.rawValue)
 				.symbolRenderingMode(self.symbolRenderingMode)
 				.resizable()
 				.scaledToFit()
@@ -36,12 +36,12 @@ struct WhatsNewItem: View {
 	init(
 		title: String,
 		description: String,
-		iconSystemName: String,
+		icon: SFSymbol,
 		symbolRenderingMode: SymbolRenderingMode = .multicolor
 	) {
 		self.title = title
 		self.description = description
-		self.iconSystemName = iconSystemName
+		self.icon = icon
 		self.symbolRenderingMode = symbolRenderingMode
 	}
 	
@@ -53,7 +53,7 @@ struct WhatsNewPreviews: PreviewProvider {
 		WhatsNewItem(
 			title: "Shuttle Tracker Network",
 			description: "The Shuttle Tracker app uses the Shuttle Tracker Network to connect to Shuttle Tracker Node, our custom bus-tracking device, to unlock Automatic Board Bus. Shuttle Tracker never collects your location when you’re not physically riding a bus.",
-			iconSystemName: SFSymbol.whatsNewNetwork.rawValue,
+			icon: .whatsNewNetwork,
 			symbolRenderingMode: .hierarchical
 		)
 	}
