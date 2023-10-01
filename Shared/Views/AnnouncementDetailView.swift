@@ -18,6 +18,9 @@ struct AnnouncementDetailView: View {
 	@EnvironmentObject
 	private var appStorageManager: AppStorageManager
 	
+	@EnvironmentObject
+	private var sheetStack: ShuttleTrackerSheetStack
+	
 	var body: some View {
 		ScrollView {
 			#if os(macOS)
@@ -57,7 +60,17 @@ struct AnnouncementDetailView: View {
 				ToolbarItem {
 					CloseButton()
 				}
-				#endif // os(iOS)
+				#elseif os(macOS) // os(iOS)
+				// TODO: Move conditional outside the ToolbarItem’s closure when we drop support for macOS 12
+				// macOS 13 doesn’t support conditional toolbar builders, so we need to put the conditional inside the ToolbarItem’s closure for now, even though it’s not quite semantically correct to do so.
+				ToolbarItem(placement: .confirmationAction) {
+					if case .some(.announcement) = self.sheetStack.top {
+						Button("Close") {
+							self.sheetStack.pop()
+						}
+					}
+				}
+				#endif // os(macOS)
 			}
 			.task {
 				self.didResetViewedAnnouncements = false
