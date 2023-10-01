@@ -61,9 +61,13 @@ struct AnnouncementDetailView: View {
 					CloseButton()
 				}
 				#elseif os(macOS) // os(iOS)
+				// TODO: Move conditional outside the ToolbarItem’s closure when we drop support for macOS 12
+				// macOS 13 doesn’t support conditional toolbar builders, so we need to put the conditional inside the ToolbarItem’s closure for now, even though it’s not quite semantically correct to do so.
 				ToolbarItem(placement: .confirmationAction) {
-					Button("Close") {
-						self.sheetStack.pop()
+					if case .some(.announcement) = self.sheetStack.top {
+						Button("Close") {
+							self.sheetStack.pop()
+						}
 					}
 				}
 				#endif // os(macOS)
