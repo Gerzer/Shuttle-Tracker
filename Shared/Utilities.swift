@@ -223,9 +223,9 @@ extension UNUserNotificationCenter {
 		}
 	}
 	
-	/// Processes a new remote notification.
+	/// Processes a new notification.
 	/// - Parameter userInfo: The notification’s payload.
-	static func handleRemoteNotification(userInfo: [AnyHashable: Any]? = nil) async {
+	static func handleNotification(userInfo: [AnyHashable: Any]? = nil) async {
 		Task { // Dispatch a new task because we don’t need to await the result
 			do {
 				try await self.updateBadge()
@@ -242,7 +242,7 @@ extension UNUserNotificationCenter {
 		#endif // os(macOS)
 		if await sheetStack.top == nil {
 			Logging.withLogger(for: .apns) { (logger) in
-				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Attempting to push a sheet in response to remote notification")
+				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Attempting to push a sheet in response to a notification")
 			}
 			if let userInfo {
 				if JSONSerialization.isValidJSONObject(userInfo) {
@@ -252,18 +252,18 @@ extension UNUserNotificationCenter {
 						await sheetStack.push(.announcement(announcement))
 					} catch let error {
 						Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to decode the APNS payload as an announcement: \(error, privacy: .public)")
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
 						}
 					}
 				} else {
 					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] APNS payload can’t be converted to JSON")
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification payload can’t be converted to JSON")
 					}
 				}
 			}
 		} else {
 			Logging.withLogger(for: .apns) { (logger) in
-				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to remote notification because the sheet stack is nonempty")
+				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
 			}
 		}
 	}
