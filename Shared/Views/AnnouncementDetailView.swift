@@ -17,10 +17,9 @@ struct AnnouncementDetailView: View {
 	
 	@EnvironmentObject
 	private var appStorageManager: AppStorageManager
-    
-    @EnvironmentObject
-    private var sheetStack: ShuttleTrackerSheetStack
-
+	
+	@EnvironmentObject
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		ScrollView {
@@ -61,17 +60,13 @@ struct AnnouncementDetailView: View {
 				ToolbarItem {
 					CloseButton()
 				}
-				#endif // os(iOS)
-                
-                #if os(macOS)
-                
-                
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Close") {
-                        self.sheetStack.pop()
-                    }
-                }
-                #endif // os(macOS)
+				#elseif os(macOS)
+				ToolbarItem(placement: .confirmationAction) {
+					Button("Close") {
+						self.sheetStack.pop()
+					}
+				}
+				#endif // os(macOS)
 			}
 			.task {
 				self.didResetViewedAnnouncements = false
