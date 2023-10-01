@@ -250,7 +250,6 @@ extension UNUserNotificationCenter {
 						let data = try JSONSerialization.data(withJSONObject: userInfo)
 						let announcement = try JSONDecoder().decode(Announcement.self, from: data)
 						await sheetStack.push(.announcement(announcement))
-						return // Exit early so that we don’t try to push the general announcements sheet on top of the announcement detail sheet
 					} catch let error {
 						Logging.withLogger(for: .apns, doUpload: true) { (logger) in
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to decode the APNS payload as an announcement: \(error, privacy: .public)")
@@ -262,7 +261,6 @@ extension UNUserNotificationCenter {
 					}
 				}
 			}
-			await sheetStack.push(.announcements) // Push the general announcements sheet as a fallback
 		} else {
 			Logging.withLogger(for: .apns) { (logger) in
 				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to remote notification because the sheet stack is nonempty")
