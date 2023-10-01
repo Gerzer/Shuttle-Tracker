@@ -60,7 +60,7 @@ struct AnnouncementDetailView: View {
 				ToolbarItem {
 					CloseButton()
 				}
-				#elseif os(macOS)
+				#elseif os(macOS) // os(iOS)
 				ToolbarItem(placement: .confirmationAction) {
 					Button("Close") {
 						self.sheetStack.pop()
