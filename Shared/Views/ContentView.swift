@@ -193,6 +193,11 @@ struct ContentView: View {
 							}
 						}
 				}
+                Button{
+                    self.sheetStack.push(.info)
+                } label:{
+                    Label("Shuttle Schedule", systemImage: "info.circle.fill")
+                }
 				Button {
 					Task {
 						await self.mapState.recenter(position: self.$mapCameraPosition)
@@ -200,6 +205,7 @@ struct ContentView: View {
 				} label: {
 					Label("Re-Center Map", systemImage: SFSymbol.recenter.systemName)
 				}
+                
 				if self.isRefreshing {
 					ProgressView()
 				} else {
