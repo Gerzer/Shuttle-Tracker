@@ -200,8 +200,6 @@ struct BusSelectionSheet: View {
 		await self.boardBusManager.boardBus(id: id, manually: true)
 		self.sheetStack.pop()
 		CLLocationManager.default.startUpdatingLocation()
-		
-
 	}
 	
 }
