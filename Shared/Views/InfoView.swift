@@ -36,7 +36,7 @@ struct InfoView: View {
 	var body: some View {
 		ScrollView {
 			VStack(alignment: .leading, spacing: 0) {
-				Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
+				Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowdsourced location data.")
 					.padding(.bottom)
 				if let schedule = self.schedule {
 					Section {
