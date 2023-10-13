@@ -200,37 +200,6 @@ struct BusSelectionSheet: View {
 		await self.boardBusManager.boardBus(id: id, manually: true)
 		self.sheetStack.pop()
 		CLLocationManager.default.startUpdatingLocation()
-		
-		// Schedule leave-bus notification
-		let content = UNMutableNotificationContent()
-		content.title = "Leave Bus"
-		content.body = "Did you leave the bus? Remember to tap “Leave Bus” next time."
-		content.sound = .default
-		#if !APPCLIP
-		content.interruptionLevel = .timeSensitive
-		#endif // !APPCLIP
-		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
-		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
-		Task {
-			do {
-				try await UNUserNotificationCenter.requestDefaultAuthorization()
-			} catch {
-				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-				}
-				throw error
-			}
-			do {
-				try await UNUserNotificationCenter
-					.current()
-					.add(request)
-			} catch {
-				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule local notification: \(error, privacy: .public)")
-				}
-				throw error
-			}
-		}
 	}
 	
 }
