@@ -7,7 +7,6 @@
 
 import AsyncAlgorithms
 import CoreLocation
-import StoreKit
 import SwiftUI
 
 struct PrimaryOverlay: View {
@@ -303,35 +302,6 @@ struct PrimaryOverlay: View {
 		}
 		
 		await self.boardBusManager.leaveBus()
-		self.viewState.statusText = .thanks
-		CLLocationManager.default.stopUpdatingLocation()
-		
-		// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for iOS 15
-		// Request a review on the App Store
-		// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires iOS 16 or newer, and stored properties can’t be gated on OS version.
-		let windowScenes = UIApplication.shared.connectedScenes
-			.filter { (scene) in
-				return scene.activationState == .foregroundActive
-			}
-			.compactMap { (scene) in
-				return scene as? UIWindowScene
-			}
-		if let windowScene = windowScenes.first {
-			SKStoreReviewController.requestReview(in: windowScene)
-		}
-		
-		do {
-			if #available(iOS 16, *) {
-				try await Task.sleep(for: .seconds(5))
-			} else {
-				try await Task.sleep(nanoseconds: 5_000_000_000)
-			}
-		} catch {
-			Logging.withLogger(doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-			}
-		}
-		self.viewState.statusText = .mapRefresh
 	}
 	
 }

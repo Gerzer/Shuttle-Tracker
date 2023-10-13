@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import StoreKit
 import UIKit
 
 @preconcurrency
@@ -36,8 +37,7 @@ actor BoardBusManager: ObservableObject {
 	static let beaconID = "com.gerzer.shuttletracker.node"
 	
 	/// The most recent ``travelState`` value for the ``shared`` instance.
-	///
-	/// This property is provided so that the travel state can be read in synchronous contexts. Where possible, it’s safer to access ``travelState`` directly in an asynchronous manner.
+	/// - Important: This property is provided so that the travel state can be read in synchronous contexts. Where possible, it’s safer to access ``travelState`` directly in an asynchronous manner.
 	private(set) static var globalTravelState: TravelState = .notOnBus
 	
 	private(set) var busID: Int?
@@ -61,7 +61,7 @@ actor BoardBusManager: ObservableObject {
 		
 		Task { // Dispatch a child task because we don’t need to await the result
 			do {
-				try await Analytics.upload(eventType: .boardBusActivated(manual: true)) // TODO: Set manual payload value properly once we merge Automatic Board Bus functionality
+				try await Analytics.upload(eventType: .boardBusActivated(manual: manual))
 			} catch {
 				Logging.withLogger(for: .api, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
@@ -129,10 +129,42 @@ actor BoardBusManager: ObservableObject {
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Deactivated Board Bus")
 		}
 		await MainActor.run {
+			ViewState.shared.statusText = manual ? .thanks : .mapRefresh // Don’t bother showing the “thanks” text if Automatic Board Bus was used since the timer to switch to back to “map refresh” might not reliably fire in the background
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
 			self.oldUserLocationTitle = nil
 			self.objectWillChange.send()
 			MapState.mapView?.showsUserLocation.toggle()
+		}
+		
+		if manual {
+			Task { @MainActor in // Dispatch a child task because we don’t need to await the result
+				// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for iOS 15
+				// Request a review on the App Store
+				// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires iOS 16 or newer, and stored properties can’t be gated on OS version.
+				let windowScenes = UIApplication.shared.connectedScenes
+					.filter { (scene) in
+						return scene.activationState == .foregroundActive
+					}
+					.compactMap { (scene) in
+						return scene as? UIWindowScene
+					}
+				if let windowScene = windowScenes.first {
+					SKStoreReviewController.requestReview(in: windowScene)
+				}
+				
+				do {
+					if #available(iOS 16, *) {
+						try await Task.sleep(for: .seconds(5))
+					} else {
+						try await Task.sleep(nanoseconds: 5_000_000_000)
+					}
+				} catch {
+					Logging.withLogger(doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
+					}
+				}
+				ViewState.shared.statusText = .mapRefresh
+			}
 		}
 	}
 	
