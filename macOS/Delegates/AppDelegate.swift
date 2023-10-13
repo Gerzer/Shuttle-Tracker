@@ -60,7 +60,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive remote notification \(userInfo, privacy: .public)")
 		}
 		Task {
-			await UNUserNotificationCenter.handleRemoteNotification(userInfo: userInfo)
+			await UNUserNotificationCenter.handleNotification(userInfo: userInfo)
 		}
 	}
 	

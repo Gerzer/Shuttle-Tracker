@@ -20,7 +20,7 @@ final class UserNotificationCenterDelegate: NSObject, UNUserNotificationCenterDe
 		Logging.withLogger(for: .userNotificationCenterDelegate) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive \(response, privacy: .public)")
 		}
-		await UNUserNotificationCenter.handleRemoteNotification(userInfo: response.notification.request.content.userInfo)
+		await UNUserNotificationCenter.handleNotification(userInfo: response.notification.request.content.userInfo)
 	}
 	
 }
