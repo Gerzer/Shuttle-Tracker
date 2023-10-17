@@ -10,6 +10,8 @@
 		6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF382AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF392AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
+		199C8B0E2AD5F54C008D873B /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833C27D2C82E00299D27 /* InfoSheet.swift */; };
+		199C8B0F2AD5F551008D873B /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
