@@ -96,14 +96,17 @@ struct InfoView: View {
 				ToolbarItem {
 					CloseButton()
 				}
-                #endif // os(iOS)
-                
-                #if os(macOS)
-
-
+                #elseif os(macOS) // os(iOS)
+//                ToolbarItem(placement: .confirmationAction) {
+//                    Button("Close") {
+//                        self.sheetStack.pop()
+//                    }
+//                }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Close") {
-                        self.sheetStack.pop()
+                    if case .some(.info) = self.sheetStack.top {
+                        Button("Close") {
+                            self.sheetStack.pop()
+                        }
                     }
                 }
                 #endif // os(macOS)
