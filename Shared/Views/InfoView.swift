@@ -46,24 +46,39 @@ struct InfoView: View {
 					.padding(.bottom)
 				if let schedule = self.schedule {
 					Section {
+                        let weekday = Calendar.current.component(.weekday, from: Date())
 						HStack {
-							VStack(alignment: .leading, spacing: 0) {
-								Text("Monday")
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Monday")
+                                    .fontWeight(weekday == 2 ? .bold:.regular)
 								Text("Tuesday")
+                                    .fontWeight(weekday == 3 ? .bold:.regular)
 								Text("Wednesday")
+                                    .fontWeight(weekday == 4 ? .bold:.regular)
 								Text("Thursday")
+                                    .fontWeight(weekday == 5 ? .bold:.regular)
 								Text("Friday")
+                                    .fontWeight(weekday == 6 ? .bold:.regular)
 								Text("Saturday")
+                                    .fontWeight(weekday == 7 ? .bold:.regular)
 								Text("Sunday")
+                                    .fontWeight(weekday == 1 ? .bold:.regular)
 							}
 							VStack(alignment: .leading, spacing: 0) {
 								Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
+                                    .fontWeight(weekday == 2 ? .bold:.regular)
 								Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
+                                    .fontWeight(weekday == 3 ? .bold:.regular)
 								Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
+                                    .fontWeight(weekday == 4 ? .bold:.regular)
 								Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
+                                    .fontWeight(weekday == 5 ? .bold:.regular)
 								Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
+                                    .fontWeight(weekday == 6 ? .bold:.regular)
 								Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
+                                    .fontWeight(weekday == 7 ? .bold:.regular)
 								Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
+                                    .fontWeight(weekday == 1 ? .bold:.regular)
 							}
 							Spacer()
 						}
