@@ -22,6 +22,9 @@ struct SettingsView: View {
 	
 	@EnvironmentObject
 	private var sheetStack: ShuttleTrackerSheetStack
+    
+    @Environment(\.openURL)
+    private var openURL
 	
 	var body: some View {
 		#if os(iOS)

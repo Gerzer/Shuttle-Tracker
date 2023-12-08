@@ -31,6 +31,8 @@ final class AppStorageManager: ObservableObject {
 		static let uploadedLogs: [Logging.Log] = []
 		
 		static let uploadedAnalyticsEntries: [Analytics.Entry] = []
+        
+        static let automaticBoardNotification = false
 		
 	}
 	
@@ -66,6 +68,8 @@ final class AppStorageManager: ObservableObject {
 	@AppStorage("UploadedAnalyticsEntries")
 	var uploadedAnalyticsEntries = Defaults.uploadedAnalyticsEntries
 	
+    @AppStorage("AutomaticBoardNotification")
+    var automaticBoardNotification = Defaults.automaticBoardNotification
 	private init() { }
 	
 }
