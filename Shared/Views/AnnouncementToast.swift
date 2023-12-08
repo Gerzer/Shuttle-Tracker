@@ -21,7 +21,7 @@ struct AnnouncementToast : View{
     
     private var HeadlineText: String{
         get{
-            return "📢" + self.announcement.subject
+            return "📢 " + self.announcement.subject
         }
     }
     var body: some View{
