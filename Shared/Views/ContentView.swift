@@ -70,6 +70,9 @@ struct ContentView: View {
 					case .network:
 						NetworkToast()
 							.padding()
+                    case .announcement(let announcment_):
+                        AnnouncementToast(announcement: announcment_)
+                            .padding()
 					default:
 						HStack {
 							SecondaryOverlay(mapCameraPosition: self.$mapCameraPosition)
