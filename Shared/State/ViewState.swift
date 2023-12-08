@@ -32,9 +32,11 @@ final class ViewState: OnboardingFlags {
 		
 	}
 	
-	enum ToastType: Identifiable {
+	enum ToastType: Hashable, Identifiable {
 		
 		case legend, boardBus, network
+        
+        case announcement(_ annoucement: Announcement)
 		
 		var id: Self {
 			get {

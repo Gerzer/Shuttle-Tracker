@@ -47,6 +47,11 @@ struct ContentView: View {
 								.frame(maxWidth: 250, maxHeight: 100)
 								.padding(.top, 50)
 								.padding(.leading, 10)
+                        case .announcement(let announcment_):
+                            AnnouncementToast(announcement: announcment_)
+                                .frame(maxWidth: 350, maxHeight: 200)
+                                .padding(.top, 20)
+                                .padding(.leading, 10)
 						default:
 							EmptyView()
 						}
@@ -70,6 +75,9 @@ struct ContentView: View {
 					case .network:
 						NetworkToast()
 							.padding()
+                    case .announcement(let announcment_):
+                        AnnouncementToast(announcement: announcment_)
+                            .padding()
 					default:
 						HStack {
 							SecondaryOverlay(mapCameraPosition: self.$mapCameraPosition)
