@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		199F66CB2B23DF4A00B548E3 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 199F66CA2B23DF4A00B548E3 /* WidgetKit.framework */; };
+		199F66CD2B23DF4A00B548E3 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 199F66CC2B23DF4A00B548E3 /* SwiftUI.framework */; };
+		199F66D02B23DF4A00B548E3 /* ScheduleWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F66CF2B23DF4A00B548E3 /* ScheduleWidgetsBundle.swift */; };
+		199F66D22B23DF4A00B548E3 /* ScheduleWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F66D12B23DF4A00B548E3 /* ScheduleWidgets.swift */; };
+		199F66D42B23DF4D00B548E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 199F66D32B23DF4D00B548E3 /* Assets.xcassets */; };
+		199F66D82B23DF4D00B548E3 /* ScheduleWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 199F66C92B23DF4A00B548E3 /* ScheduleWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		199F66E02B23EEAA00B548E3 /* WeekConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F66DD2B23EA3800B548E3 /* WeekConfig.swift */; };
 		6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF382AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF392AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
@@ -195,15 +202,29 @@
 
 /* Begin PBXContainerItemProxy section */
 		C0A232A12525080600FAAD50 /* PBXContainerItemProxy */ = {
+		199F66D62B23DF4D00B548E3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C0A232932525080500FAAD50;
 			remoteInfo = "Rensselaer Shuttle";
+			remoteGlobalIDString = 199F66C82B23DF4A00B548E3;
+			remoteInfo = ScheduleWidgetsExtension;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		199F66D92B23DF4D00B548E3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				199F66D82B23DF4D00B548E3 /* ScheduleWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232A72525080600FAAD50 /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +239,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		199F66C92B23DF4A00B548E3 /* ScheduleWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScheduleWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		199F66CA2B23DF4A00B548E3 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		199F66CC2B23DF4A00B548E3 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		199F66CF2B23DF4A00B548E3 /* ScheduleWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetsBundle.swift; sourceTree = "<group>"; };
+		199F66D12B23DF4A00B548E3 /* ScheduleWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgets.swift; sourceTree = "<group>"; };
+		199F66D32B23DF4D00B548E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		199F66D52B23DF4D00B548E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		199F66DD2B23EA3800B548E3 /* WeekConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekConfig.swift; sourceTree = "<group>"; };
 		6519DF362AB3633B00B149FD /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -311,6 +340,7 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		C0A232912525080500FAAD50 /* Frameworks */ = {
+		199F66C62B23DF4A00B548E3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,6 +350,8 @@
 				C00BE3ED2AB2BD5E003B84BB /* SheetStack in Frameworks */,
 				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
 				C0E95234295A033400945ABC /* AsyncAlgorithms in Frameworks */,
+				199F66CD2B23DF4A00B548E3 /* SwiftUI.framework in Frameworks */,
+				199F66CB2B23DF4A00B548E3 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +384,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		199F66CE2B23DF4A00B548E3 /* ScheduleWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				199F66CF2B23DF4A00B548E3 /* ScheduleWidgetsBundle.swift */,
+				199F66D12B23DF4A00B548E3 /* ScheduleWidgets.swift */,
+				199F66DD2B23EA3800B548E3 /* WeekConfig.swift */,
+				199F66D32B23DF4D00B548E3 /* Assets.xcassets */,
+				199F66D52B23DF4D00B548E3 /* Info.plist */,
+			);
+			path = ScheduleWidgets;
+			sourceTree = "<group>";
+		};
 		C01528102517E1160069092C /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +531,8 @@
 			children = (
 				C08FC25E252515C8008589C1 /* AppClip.framework */,
 				C08FC24C2525157D008589C1 /* StoreKit.framework */,
+				199F66CA2B23DF4A00B548E3 /* WidgetKit.framework */,
+				199F66CC2B23DF4A00B548E3 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -518,6 +564,7 @@
 				C0FFD6DE250C33C900945F01 /* iOS */,
 				C0FFD6E5250C33C900945F01 /* macOS */,
 				C08FC1D3252509E6008589C1 /* App Clip */,
+				199F66CE2B23DF4A00B548E3 /* ScheduleWidgets */,
 				C0FFD6DD250C33C900945F01 /* Products */,
 				C08FC24B2525157D008589C1 /* Frameworks */,
 			);
@@ -555,6 +602,7 @@
 				C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */,
 				C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */,
 				C0A232942525080500FAAD50 /* App Clip.app */,
+				199F66C92B23DF4A00B548E3 /* ScheduleWidgetsExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -587,12 +635,17 @@
 
 /* Begin PBXNativeTarget section */
 		C0A232932525080500FAAD50 /* App Clip */ = {
+		199F66C82B23DF4A00B548E3 /* ScheduleWidgetsExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */;
+			buildConfigurationList = 199F66DC2B23DF4D00B548E3 /* Build configuration list for PBXNativeTarget "ScheduleWidgetsExtension" */;
 			buildPhases = (
 				C0A232902525080500FAAD50 /* Sources */,
 				C0A232912525080500FAAD50 /* Frameworks */,
 				C0A232922525080500FAAD50 /* Resources */,
+				199F66C52B23DF4A00B548E3 /* Sources */,
+				199F66C62B23DF4A00B548E3 /* Frameworks */,
+				199F66C72B23DF4A00B548E3 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -610,6 +663,10 @@
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
 			productType = "com.apple.product-type.application.on-demand-install-capable";
+			name = ScheduleWidgetsExtension;
+			productName = ScheduleWidgetsExtension;
+			productReference = 199F66C92B23DF4A00B548E3 /* ScheduleWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		C0FFD6DB250C33C900945F01 /* iOS */ = {
 			isa = PBXNativeTarget;
@@ -619,11 +676,13 @@
 				C0FFD6D9250C33C900945F01 /* Frameworks */,
 				C0FFD6DA250C33C900945F01 /* Resources */,
 				C0A232A72525080600FAAD50 /* Embed App Clips */,
+				199F66D92B23DF4D00B548E3 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C0A232A22525080600FAAD50 /* PBXTargetDependency */,
+				199F66D72B23DF4D00B548E3 /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -671,10 +730,13 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					C0A232932525080500FAAD50 = {
 						CreatedOnToolsVersion = 12.2;
+					199F66C82B23DF4A00B548E3 = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 					C0FFD6DB250C33C900945F01 = {
 						CreatedOnToolsVersion = 12.0;
@@ -708,17 +770,20 @@
 				C0FFD6E3250C33C900945F01 /* macOS */,
 				C0FFD6DB250C33C900945F01 /* iOS */,
 				C0A232932525080500FAAD50 /* App Clip */,
+				199F66C82B23DF4A00B548E3 /* ScheduleWidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C0A232922525080500FAAD50 /* Resources */ = {
+		199F66C72B23DF4A00B548E3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C08FC21425250BEE008589C1 /* Assets.xcassets in Resources */,
 				C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */,
+				199F66D42B23DF4D00B548E3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,6 +807,7 @@
 
 /* Begin PBXSourcesBuildPhase section */
 		C0A232902525080500FAAD50 /* Sources */ = {
+		199F66C52B23DF4A00B548E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -793,6 +859,9 @@
 				C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C09EB45E293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
 				C08FC1F025250A73008589C1 /* LocationManagerDelegate.swift in Sources */,
+				199F66D22B23DF4A00B548E3 /* ScheduleWidgets.swift in Sources */,
+				199F66D02B23DF4A00B548E3 /* ScheduleWidgetsBundle.swift in Sources */,
+				199F66E02B23EEAA00B548E3 /* WeekConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,14 +996,18 @@
 
 /* Begin PBXTargetDependency section */
 		C0A232A22525080600FAAD50 /* PBXTargetDependency */ = {
+		199F66D72B23DF4D00B548E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C0A232932525080500FAAD50 /* App Clip */;
 			targetProxy = C0A232A12525080600FAAD50 /* PBXContainerItemProxy */;
+			target = 199F66C82B23DF4A00B548E3 /* ScheduleWidgetsExtension */;
+			targetProxy = 199F66D62B23DF4D00B548E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C0A232A52525080600FAAD50 /* Debug */ = {
+		199F66DA2B23DF4D00B548E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */;
 			buildSettings = {
@@ -948,9 +1021,21 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9Y6DT7J2QV;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ScheduleWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ScheduleWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 2.0.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1230,10 +1315,13 @@
 
 /* Begin XCConfigurationList section */
 		C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */ = {
+		199F66DC2B23DF4D00B548E3 /* Build configuration list for PBXNativeTarget "ScheduleWidgetsExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C0A232A52525080600FAAD50 /* Debug */,
 				C0A232A62525080600FAAD50 /* Release */,
+				199F66DA2B23DF4D00B548E3 /* Debug */,
+				199F66DB2B23DF4D00B548E3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
