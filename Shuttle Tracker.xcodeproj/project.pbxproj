@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1905AB4E2B241F6200767B8B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1905AB4D2B241F6200767B8B /* WidgetKit.framework */; };
+		1905AB502B241F6200767B8B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1905AB4F2B241F6200767B8B /* SwiftUI.framework */; };
+		1905AB532B241F6200767B8B /* Stops_WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1905AB522B241F6200767B8B /* Stops_WidgetBundle.swift */; };
+		1905AB552B241F6200767B8B /* Stops_WidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1905AB542B241F6200767B8B /* Stops_WidgetLiveActivity.swift */; };
+		1905AB572B241F6200767B8B /* Stops_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1905AB562B241F6200767B8B /* Stops_Widget.swift */; };
+		1905AB592B241F6200767B8B /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1905AB582B241F6200767B8B /* AppIntent.swift */; };
+		1905AB5B2B241F6400767B8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1905AB5A2B241F6400767B8B /* Assets.xcassets */; };
+		1905AB5F2B241F6400767B8B /* Stops-WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1905AB4C2B241F6200767B8B /* Stops-WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF382AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF392AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
@@ -195,15 +203,29 @@
 
 /* Begin PBXContainerItemProxy section */
 		C0A232A12525080600FAAD50 /* PBXContainerItemProxy */ = {
+		1905AB5D2B241F6400767B8B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C0A232932525080500FAAD50;
 			remoteInfo = "Rensselaer Shuttle";
+			remoteGlobalIDString = 1905AB4B2B241F6200767B8B;
+			remoteInfo = "Stops-WidgetExtension";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1905AB632B241F6400767B8B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1905AB5F2B241F6400767B8B /* Stops-WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232A72525080600FAAD50 /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +240,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1905AB4C2B241F6200767B8B /* Stops-WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Stops-WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1905AB4D2B241F6200767B8B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		1905AB4F2B241F6200767B8B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		1905AB522B241F6200767B8B /* Stops_WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stops_WidgetBundle.swift; sourceTree = "<group>"; };
+		1905AB542B241F6200767B8B /* Stops_WidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stops_WidgetLiveActivity.swift; sourceTree = "<group>"; };
+		1905AB562B241F6200767B8B /* Stops_Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stops_Widget.swift; sourceTree = "<group>"; };
+		1905AB582B241F6200767B8B /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		1905AB5A2B241F6400767B8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1905AB5C2B241F6400767B8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6519DF362AB3633B00B149FD /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -311,6 +342,7 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		C0A232912525080500FAAD50 /* Frameworks */ = {
+		1905AB492B241F6200767B8B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,6 +352,8 @@
 				C00BE3ED2AB2BD5E003B84BB /* SheetStack in Frameworks */,
 				C0ACA02627A4ABEF007FF08A /* Moya in Frameworks */,
 				C0E95234295A033400945ABC /* AsyncAlgorithms in Frameworks */,
+				1905AB502B241F6200767B8B /* SwiftUI.framework in Frameworks */,
+				1905AB4E2B241F6200767B8B /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +386,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1905AB512B241F6200767B8B /* Stops-Widget */ = {
+			isa = PBXGroup;
+			children = (
+				1905AB522B241F6200767B8B /* Stops_WidgetBundle.swift */,
+				1905AB542B241F6200767B8B /* Stops_WidgetLiveActivity.swift */,
+				1905AB562B241F6200767B8B /* Stops_Widget.swift */,
+				1905AB582B241F6200767B8B /* AppIntent.swift */,
+				1905AB5A2B241F6400767B8B /* Assets.xcassets */,
+				1905AB5C2B241F6400767B8B /* Info.plist */,
+			);
+			path = "Stops-Widget";
+			sourceTree = "<group>";
+		};
 		C01528102517E1160069092C /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +534,8 @@
 			children = (
 				C08FC25E252515C8008589C1 /* AppClip.framework */,
 				C08FC24C2525157D008589C1 /* StoreKit.framework */,
+				1905AB4D2B241F6200767B8B /* WidgetKit.framework */,
+				1905AB4F2B241F6200767B8B /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -518,6 +567,7 @@
 				C0FFD6DE250C33C900945F01 /* iOS */,
 				C0FFD6E5250C33C900945F01 /* macOS */,
 				C08FC1D3252509E6008589C1 /* App Clip */,
+				1905AB512B241F6200767B8B /* Stops-Widget */,
 				C0FFD6DD250C33C900945F01 /* Products */,
 				C08FC24B2525157D008589C1 /* Frameworks */,
 			);
@@ -555,6 +605,7 @@
 				C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */,
 				C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */,
 				C0A232942525080500FAAD50 /* App Clip.app */,
+				1905AB4C2B241F6200767B8B /* Stops-WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -587,12 +638,17 @@
 
 /* Begin PBXNativeTarget section */
 		C0A232932525080500FAAD50 /* App Clip */ = {
+		1905AB4B2B241F6200767B8B /* Stops-WidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */;
+			buildConfigurationList = 1905AB602B241F6400767B8B /* Build configuration list for PBXNativeTarget "Stops-WidgetExtension" */;
 			buildPhases = (
 				C0A232902525080500FAAD50 /* Sources */,
 				C0A232912525080500FAAD50 /* Frameworks */,
 				C0A232922525080500FAAD50 /* Resources */,
+				1905AB482B241F6200767B8B /* Sources */,
+				1905AB492B241F6200767B8B /* Frameworks */,
+				1905AB4A2B241F6200767B8B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -610,6 +666,10 @@
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
 			productType = "com.apple.product-type.application.on-demand-install-capable";
+			name = "Stops-WidgetExtension";
+			productName = "Stops-WidgetExtension";
+			productReference = 1905AB4C2B241F6200767B8B /* Stops-WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		C0FFD6DB250C33C900945F01 /* iOS */ = {
 			isa = PBXNativeTarget;
@@ -619,11 +679,13 @@
 				C0FFD6D9250C33C900945F01 /* Frameworks */,
 				C0FFD6DA250C33C900945F01 /* Resources */,
 				C0A232A72525080600FAAD50 /* Embed App Clips */,
+				1905AB632B241F6400767B8B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C0A232A22525080600FAAD50 /* PBXTargetDependency */,
+				1905AB5E2B241F6400767B8B /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -671,10 +733,13 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					C0A232932525080500FAAD50 = {
 						CreatedOnToolsVersion = 12.2;
+					1905AB4B2B241F6200767B8B = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 					C0FFD6DB250C33C900945F01 = {
 						CreatedOnToolsVersion = 12.0;
@@ -708,17 +773,20 @@
 				C0FFD6E3250C33C900945F01 /* macOS */,
 				C0FFD6DB250C33C900945F01 /* iOS */,
 				C0A232932525080500FAAD50 /* App Clip */,
+				1905AB4B2B241F6200767B8B /* Stops-WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C0A232922525080500FAAD50 /* Resources */ = {
+		1905AB4A2B241F6200767B8B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C08FC21425250BEE008589C1 /* Assets.xcassets in Resources */,
 				C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */,
+				1905AB5B2B241F6400767B8B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,6 +861,10 @@
 				C01F6D7B26E44BE400D33656 /* Coordinate.swift in Sources */,
 				C09EB45E293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
 				C08FC1F025250A73008589C1 /* LocationManagerDelegate.swift in Sources */,
+				1905AB572B241F6200767B8B /* Stops_Widget.swift in Sources */,
+				1905AB592B241F6200767B8B /* AppIntent.swift in Sources */,
+				1905AB552B241F6200767B8B /* Stops_WidgetLiveActivity.swift in Sources */,
+				1905AB532B241F6200767B8B /* Stops_WidgetBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,14 +999,18 @@
 
 /* Begin PBXTargetDependency section */
 		C0A232A22525080600FAAD50 /* PBXTargetDependency */ = {
+		1905AB5E2B241F6400767B8B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C0A232932525080500FAAD50 /* App Clip */;
 			targetProxy = C0A232A12525080600FAAD50 /* PBXContainerItemProxy */;
+			target = 1905AB4B2B241F6200767B8B /* Stops-WidgetExtension */;
+			targetProxy = 1905AB5D2B241F6400767B8B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C0A232A52525080600FAAD50 /* Debug */ = {
+		1905AB612B241F6400767B8B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */;
 			buildSettings = {
@@ -948,6 +1024,18 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Shuttle Tracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9Y6DT7J2QV;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Stops-Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Stops-Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1175,9 +1263,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 41;
 				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 9Y6DT7J2QV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -1189,7 +1280,9 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 2.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = yi.chen.shuttletracker;
 				PRODUCT_NAME = "Shuttle Tracker";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
