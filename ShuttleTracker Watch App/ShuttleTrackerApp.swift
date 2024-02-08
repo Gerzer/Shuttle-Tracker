@@ -2,13 +2,13 @@
 //  ShuttleTrackerApp.swift
 //  ShuttleTracker Watch App
 //
-//  Created by Tommy Truong on 1/30/24.
+//  Created by Tommy Truong on 2/3/24.
 //
 
 import SwiftUI
 
 @main
-struct ShuttleTracker_Watch_AppApp: App {
+struct ShuttleTrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "65EC6BA72B69A851007C6540"
+               BlueprintIdentifier = "651BE5362B6EAC2F00375B2C"
                BuildableName = "ShuttleTracker Watch App.app"
                BlueprintName = "ShuttleTracker Watch App"
                ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
@@ -57,7 +57,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "65EC6BA72B69A851007C6540"
+            BlueprintIdentifier = "651BE5362B6EAC2F00375B2C"
             BuildableName = "ShuttleTracker Watch App.app"
             BlueprintName = "ShuttleTracker Watch App"
             ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "65EC6BA72B69A851007C6540"
+            BlueprintIdentifier = "651BE5362B6EAC2F00375B2C"
             BuildableName = "ShuttleTracker Watch App.app"
             BlueprintName = "ShuttleTracker Watch App"
             ReferencedContainer = "container:Shuttle Tracker.xcodeproj">

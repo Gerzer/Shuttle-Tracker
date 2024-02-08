@@ -8,6 +8,7 @@
 import MapKit
 import SwiftUI
 
+#if !os(watchOS)
 class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	enum CodingKeys: String, CodingKey {
@@ -119,3 +120,4 @@ extension Array where Element == Route {
 	}
 	
 }
+#endif

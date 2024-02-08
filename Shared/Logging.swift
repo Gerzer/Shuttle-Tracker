@@ -41,7 +41,7 @@ enum Logging {
 		
 		enum ClientPlatform: String, Codable {
 			
-			case ios, macos
+			case ios, macos, watchOS
 			
 		}
 		
@@ -60,6 +60,8 @@ enum Logging {
 			self.clientPlatform = .ios
 			#elseif os(macOS) // os(iOS)
 			self.clientPlatform = .macos
+            #elseif os(watchOS)
+            self.clientPlatform = .watchOS
 			#endif // os(macOS)
 			self.date = .now
 		}

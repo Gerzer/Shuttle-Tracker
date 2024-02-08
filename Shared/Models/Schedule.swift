@@ -54,6 +54,7 @@ final class Schedule: Decodable, Identifiable {
 		do {
 			return try await API.readSchedule.perform(as: [Schedule].self)
 				.first { (schedule) in
+                    print(schedule)
 					return schedule.start <= Date.now && schedule.end >= Date.now
 				}
 		} catch {

@@ -64,7 +64,7 @@ public enum Analytics {
 		
 		enum ClientPlatform: String, Codable, Hashable, Equatable {
 			
-			case ios, macos
+			case ios, macos, watchOS
 			
 		}
 		
@@ -98,15 +98,22 @@ public enum Analytics {
 		
 		init(_ eventType: EventType) async {
 			self.id = UUID()
+            #if !os(watchOS)
 			self.userID = await AppStorageManager.shared.userID
+            #else
+            self.userID = UUID()
+            #endif
 			self.eventType = eventType
 			#if os(iOS)
 			self.clientPlatform = .ios
 			#elseif os(macOS) // os(iOS)
 			self.clientPlatform = .macos
+            #elseif os(watchOS)
+            self.clientPlatform = .watchOS
 			#endif // os(macOS)
 			self.date = .now
 			self.clientPlatformVersion = ProcessInfo.processInfo.operatingSystemVersionString
+            #if !os(watchOS)
 			if let version = Bundle.main.version {
 				if let build = Bundle.main.build {
 					self.appVersion = "\(version) (\(build))"
@@ -116,12 +123,16 @@ public enum Analytics {
 			} else {
 				self.appVersion = ""
 			}
+            #else
+            self.appVersion = Bundle.version().description
+            #endif
 			#if os(iOS)
 			self.boardBusCount = await AppStorageManager.shared.boardBusCount
 			#else // os(iOS)
 			self.boardBusCount = 0
 			#endif
 			let colorScheme: String?
+            #if !os(watchOS)
 			switch await ViewState.shared.colorScheme {
 			case .light:
 				colorScheme = "light"
@@ -132,6 +143,10 @@ public enum Analytics {
 			@unknown default:
 				fatalError()
 			}
+            #endif
+            #if os(watchOS)
+            colorScheme = "light"
+            #endif
 			var debugMode: Bool?
 			var maximumStopDistance: Int?
 			#if os(iOS)

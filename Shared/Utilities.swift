@@ -28,7 +28,7 @@ enum ViewConstants {
 	#endif
 	
 }
-
+#if !os(watchOS)
 extension VisualEffectView {
 	
 	/// The standard visual-effect view, which is optimized for the current context.
@@ -84,7 +84,7 @@ enum DefaultsKeys {
 	static let coldLaunchCount = "ColdLaunchCount"
 	
 }
-
+#endif
 enum MapConstants {
 	
 	static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)
@@ -108,6 +108,7 @@ enum MapConstants {
 	
 }
 
+#if !os(watchOS)
 enum UserLocationError: LocalizedError {
 	
 	case unavailable
@@ -139,7 +140,9 @@ extension CLLocationManager {
 			return self.defaultStorage
 		}
 		set {
+            #if !os(watchOS)
 			newValue.delegate = .default
+            #endif
 			for handler in self.handlers {
 				handler(newValue)
 			}
@@ -206,10 +209,14 @@ extension UNUserNotificationCenter {
 			}
 			.count
 		await MainActor.run {
+            #if !os(watchOS)
 			ViewState.shared.badgeNumber = announcementsCount
+            #endif
 		}
 		if #available(iOS 16, macOS 13, *) {
+            #if !os(watchOS)
 			try await UNUserNotificationCenter.current().setBadgeCount(announcementsCount)
+            #endif
 		} else {
 			#if canImport(AppKit)
 			await MainActor.run {
@@ -217,7 +224,9 @@ extension UNUserNotificationCenter {
 			}
 			#elseif canImport(UIKit) // canImport(AppKit)
 			await MainActor.run {
+                #if !os(watchOS)
 				UIApplication.shared.applicationIconBadgeNumber = announcementsCount
+                #endif
 			}
 			#endif // canImport(UIKit)
 		}
@@ -240,6 +249,7 @@ extension UNUserNotificationCenter {
 		#elseif os(macOS) // os(iOS)
 		let sheetStack = ShuttleTrackerApp.contentViewSheetStack
 		#endif // os(macOS)
+        #if !os(watchOS)
 		if await sheetStack.top == nil {
 			Logging.withLogger(for: .apns) { (logger) in
 				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Attempting to push a sheet in response to a notification")
@@ -266,6 +276,7 @@ extension UNUserNotificationCenter {
 				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
 			}
 		}
+        #endif
 	}
 	
 }
@@ -276,6 +287,7 @@ extension Notification.Name {
 	
 }
 
+#endif
 extension JSONEncoder {
 	
 	convenience init(
@@ -308,6 +320,7 @@ extension JSONDecoder {
 	
 }
 
+#if !os(watchOS)
 extension Bundle {
 	
 	var version: String? {
@@ -467,7 +480,8 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
+
 extension UIKeyboardType {
 	
 	/// A keyboard type that’s optimized for URL entry.
@@ -493,3 +507,6 @@ extension NSImage {
 	
 }
 #endif // canImport(AppKit)
+
+
+#endif

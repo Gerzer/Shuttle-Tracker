@@ -91,6 +91,7 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 		}
 	}
 	
+    #if !os(watchOS)
 	@MainActor
 	var annotationView: MKAnnotationView {
 		get {
@@ -107,6 +108,7 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 			return markerAnnotationView
 		}
 	}
+    #endif
 	
 	init(id: Int, location: Location) {
 		self.id = id

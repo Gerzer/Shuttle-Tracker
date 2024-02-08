@@ -4,7 +4,7 @@
 //
 //  Created by Gabriel Jacoby-Cooper on 9/18/22.
 //
-
+#if !os(watchOS)
 import CoreLocation
 import StoreKit
 import UIKit
@@ -202,3 +202,4 @@ actor BoardBusManager: ObservableObject {
 	}
 	
 }
+#endif

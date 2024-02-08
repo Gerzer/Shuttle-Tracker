@@ -10,6 +10,34 @@
 		6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF382AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF392AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
+		651BE53C2B6EAC2F00375B2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BE53B2B6EAC2F00375B2C /* ContentView.swift */; };
+		651BE53E2B6EAC3100375B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 651BE53D2B6EAC3100375B2C /* Assets.xcassets */; };
+		651BE5412B6EAC3100375B2C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */; };
+		651BE5442B6EAC3100375B2C /* ShuttleTracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		651BE5522B6EEE0400375B2C /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5512B6EEE0400375B2C /* HTTPStatus */; };
+		651BE5542B6EEE1700375B2C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5532B6EEE1700375B2C /* Moya */; };
+		651BE5662B6EEEC000375B2C /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5652B6EEEC000375B2C /* OrderedCollections */; };
+		656CE4012B72DC34002C3326 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */; };
+		656CE4022B72DE9A002C3326 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
+		656CE4032B72DEC9002C3326 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		656CE4042B72DECE002C3326 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420C52926EDA100CC0F91 /* Logging.swift */; };
+		656CE4052B72DEF8002C3326 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF4F8529B3D3D70094FD3E /* Analytics.swift */; };
+		656CE4062B72DF05002C3326 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
+		656CE4072B72DF2F002C3326 /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7272749EE3D00DBF248 /* Announcement.swift */; };
+		656CE4082B72DF2F002C3326 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01528132517E1E00069092C /* Bus.swift */; };
+		656CE4092B72DF2F002C3326 /* ColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B5E72628BAA81A00603D22 /* ColorName.swift */; };
+		656CE40A2B72DF2F002C3326 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01F6D7826E44BE400D33656 /* Coordinate.swift */; };
+		656CE40B2B72DF2F002C3326 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
+		656CE40C2B72DF2F002C3326 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DCD251910E80020574D /* Stop.swift */; };
+		656CE40D2B72DF3C002C3326 /* BoardBusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A7A89028D7E65D00A2ACAA /* BoardBusManager.swift */; };
+		656CE40E2B72DF3C002C3326 /* BusID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCF6277FB38A005D0209 /* BusID.swift */; };
+		656CE40F2B72DF3C002C3326 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0019DD425191EBB0020574D /* CustomAnnotation.swift */; };
+		656CE4102B72DF3C002C3326 /* MapCameraPositionWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15892A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift */; };
+		656CE4112B72DF3C002C3326 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
+		656CE4122B72DF3C002C3326 /* RefreshSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E9525A295B616900945ABC /* RefreshSequence.swift */; };
+		656CE4132B72DF3C002C3326 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
+		656CE4152B72DF3C002C3326 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
+		656CE4162B72DF3C002C3326 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -194,6 +222,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		651BE5422B6EAC3100375B2C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 651BE5362B6EAC2F00375B2C;
+			remoteInfo = "ShuttleTracker Watch App";
+		};
 		C0A232A12525080600FAAD50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
@@ -204,6 +239,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		651BE5452B6EAC3100375B2C /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				651BE5442B6EAC3100375B2C /* ShuttleTracker Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232A72525080600FAAD50 /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -219,6 +265,11 @@
 
 /* Begin PBXFileReference section */
 		6519DF362AB3633B00B149FD /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
+		651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ShuttleTracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
+		651BE53B2B6EAC2F00375B2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		651BE53D2B6EAC3100375B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOnboardingView.swift; sourceTree = "<group>"; };
@@ -310,6 +361,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		651BE5342B6EAC2F00375B2C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				651BE5542B6EEE1700375B2C /* Moya in Frameworks */,
+				651BE5522B6EEE0400375B2C /* HTTPStatus in Frameworks */,
+				651BE5662B6EEEC000375B2C /* OrderedCollections in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232912525080500FAAD50 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -352,6 +413,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		651BE5382B6EAC2F00375B2C /* ShuttleTracker Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */,
+				651BE53B2B6EAC2F00375B2C /* ContentView.swift */,
+				651BE53D2B6EAC3100375B2C /* Assets.xcassets */,
+				651BE53F2B6EAC3100375B2C /* Preview Content */,
+			);
+			path = "ShuttleTracker Watch App";
+			sourceTree = "<group>";
+		};
+		651BE53F2B6EAC3100375B2C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		C01528102517E1160069092C /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,6 +598,7 @@
 				C0FFD6DE250C33C900945F01 /* iOS */,
 				C0FFD6E5250C33C900945F01 /* macOS */,
 				C08FC1D3252509E6008589C1 /* App Clip */,
+				651BE5382B6EAC2F00375B2C /* ShuttleTracker Watch App */,
 				C0FFD6DD250C33C900945F01 /* Products */,
 				C08FC24B2525157D008589C1 /* Frameworks */,
 			);
@@ -555,6 +636,7 @@
 				C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */,
 				C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */,
 				C0A232942525080500FAAD50 /* App Clip.app */,
+				651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -586,6 +668,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		651BE5362B6EAC2F00375B2C /* ShuttleTracker Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 651BE5482B6EAC3100375B2C /* Build configuration list for PBXNativeTarget "ShuttleTracker Watch App" */;
+			buildPhases = (
+				651BE5332B6EAC2F00375B2C /* Sources */,
+				651BE5342B6EAC2F00375B2C /* Frameworks */,
+				651BE5352B6EAC2F00375B2C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ShuttleTracker Watch App";
+			packageProductDependencies = (
+				651BE5512B6EEE0400375B2C /* HTTPStatus */,
+				651BE5532B6EEE1700375B2C /* Moya */,
+				651BE5652B6EEEC000375B2C /* OrderedCollections */,
+			);
+			productName = "ShuttleTracker Watch App";
+			productReference = 651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		C0A232932525080500FAAD50 /* App Clip */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */;
@@ -645,10 +749,12 @@
 				C0FFD6E0250C33C900945F01 /* Sources */,
 				C0FFD6E1250C33C900945F01 /* Frameworks */,
 				C0FFD6E2250C33C900945F01 /* Resources */,
+				651BE5452B6EAC3100375B2C /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				651BE5432B6EAC3100375B2C /* PBXTargetDependency */,
 			);
 			name = macOS;
 			packageProductDependencies = (
@@ -670,9 +776,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					651BE5362B6EAC2F00375B2C = {
+						CreatedOnToolsVersion = 15.2;
+					};
 					C0A232932525080500FAAD50 = {
 						CreatedOnToolsVersion = 12.2;
 					};
@@ -708,11 +817,21 @@
 				C0FFD6E3250C33C900945F01 /* macOS */,
 				C0FFD6DB250C33C900945F01 /* iOS */,
 				C0A232932525080500FAAD50 /* App Clip */,
+				651BE5362B6EAC2F00375B2C /* ShuttleTracker Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		651BE5352B6EAC2F00375B2C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				651BE5412B6EAC3100375B2C /* Preview Assets.xcassets in Resources */,
+				651BE53E2B6EAC3100375B2C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232922525080500FAAD50 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -741,6 +860,35 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		651BE5332B6EAC2F00375B2C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				656CE40D2B72DF3C002C3326 /* BoardBusManager.swift in Sources */,
+				656CE40E2B72DF3C002C3326 /* BusID.swift in Sources */,
+				656CE40F2B72DF3C002C3326 /* CustomAnnotation.swift in Sources */,
+				656CE4102B72DF3C002C3326 /* MapCameraPositionWrapper.swift in Sources */,
+				656CE4112B72DF3C002C3326 /* RawRepresentableInJSONArray.swift in Sources */,
+				656CE4122B72DF3C002C3326 /* RefreshSequence.swift in Sources */,
+				656CE4132B72DF3C002C3326 /* SFSymbol.swift in Sources */,
+				656CE4152B72DF3C002C3326 /* Utilities.swift in Sources */,
+				656CE4162B72DF3C002C3326 /* WrappedError.swift in Sources */,
+				656CE4072B72DF2F002C3326 /* Announcement.swift in Sources */,
+				656CE4082B72DF2F002C3326 /* Bus.swift in Sources */,
+				656CE4092B72DF2F002C3326 /* ColorName.swift in Sources */,
+				656CE40A2B72DF2F002C3326 /* Coordinate.swift in Sources */,
+				656CE40B2B72DF2F002C3326 /* Route.swift in Sources */,
+				656CE40C2B72DF2F002C3326 /* Stop.swift in Sources */,
+				656CE4062B72DF05002C3326 /* AppStorageManager.swift in Sources */,
+				656CE4052B72DEF8002C3326 /* Analytics.swift in Sources */,
+				656CE4042B72DECE002C3326 /* Logging.swift in Sources */,
+				656CE4032B72DEC9002C3326 /* API.swift in Sources */,
+				656CE4022B72DE9A002C3326 /* Schedule.swift in Sources */,
+				656CE4012B72DC34002C3326 /* ShuttleTrackerApp.swift in Sources */,
+				651BE53C2B6EAC2F00375B2C /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C0A232902525080500FAAD50 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -926,6 +1074,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		651BE5432B6EAC3100375B2C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 651BE5362B6EAC2F00375B2C /* ShuttleTracker Watch App */;
+			targetProxy = 651BE5422B6EAC3100375B2C /* PBXContainerItemProxy */;
+		};
 		C0A232A22525080600FAAD50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C0A232932525080500FAAD50 /* App Clip */;
@@ -934,6 +1087,75 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		651BE5462B6EAC3100375B2C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ShuttleTracker Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 44N856UZ6R;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ShuttleTracker;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.gerzer.shuttletracker;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		651BE5472B6EAC3100375B2C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ShuttleTracker Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 44N856UZ6R;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ShuttleTracker;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.gerzer.shuttletracker;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gerzer.shuttletracker.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
 		C0A232A52525080600FAAD50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03EC6BD270CF7F10004F9F8 /* Shared (App Clip).xcconfig */;
@@ -1172,12 +1394,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03EC6BE270CF7F10004F9F8 /* Shared.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 41;
 				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -1190,6 +1416,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 2.0.1;
 				PRODUCT_NAME = "Shuttle Tracker";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1198,6 +1425,7 @@
 		C0FFD6F5250C33C900945F01 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
@@ -1206,7 +1434,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 41;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = SYBLH277NF;
+				DEVELOPMENT_TEAM = 44N856UZ6R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -1229,6 +1457,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		651BE5482B6EAC3100375B2C /* Build configuration list for PBXNativeTarget "ShuttleTracker Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				651BE5462B6EAC3100375B2C /* Debug */,
+				651BE5472B6EAC3100375B2C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C0A232A42525080600FAAD50 /* Build configuration list for PBXNativeTarget "App Clip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1319,6 +1556,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		651BE5512B6EEE0400375B2C /* HTTPStatus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB4552934765F00CCE01B /* XCRemoteSwiftPackageReference "HTTP-Status" */;
+			productName = HTTPStatus;
+		};
+		651BE5532B6EEE1700375B2C /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0ACA02227A4ABDD007FF08A /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		651BE5652B6EEEC000375B2C /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
 		C00BE3E32AB22269003B84BB /* SheetStack */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SheetStack;

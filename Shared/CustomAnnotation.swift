@@ -9,6 +9,7 @@ import MapKit
 
 protocol CustomAnnotation: MKAnnotation {
 	
+    #if os(iOS) || os(macOS)
 	var annotationView: MKAnnotationView { get }
-	
+    #endif
 }

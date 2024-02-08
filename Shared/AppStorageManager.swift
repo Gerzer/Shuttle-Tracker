@@ -33,11 +33,13 @@ final class AppStorageManager: ObservableObject {
 		static let uploadedAnalyticsEntries: [Analytics.Entry] = []
 		
 	}
-	
+
 	static let shared = AppStorageManager()
-	
+    
+    #if !os(watchOS)
 	@AppStorage("UserID")
 	var userID = Defaults.userID
+    #endif
 	
 	@AppStorage("ColorBlindMode")
 	var colorBlindMode = Defaults.colorBlindMode
@@ -51,8 +53,10 @@ final class AppStorageManager: ObservableObject {
 	@AppStorage("BaseURL")
 	var baseURL = Defaults.baseURL
 	
+    #if !os(watchOS)
 	@AppStorage("ViewedAnnouncementIDs")
 	var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
+    #endif
 	
 	@AppStorage("DoUploadLogs")
 	var doUploadLogs = Defaults.doUploadLogs
@@ -67,5 +71,6 @@ final class AppStorageManager: ObservableObject {
 	var uploadedAnalyticsEntries = Defaults.uploadedAnalyticsEntries
 	
 	private init() { }
-	
+    	
 }
+
