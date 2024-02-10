@@ -63,6 +63,10 @@
             ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <LocationScenarioReference
+         identifier = "../../Locations.gpx"
+         referenceType = "0">
+      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

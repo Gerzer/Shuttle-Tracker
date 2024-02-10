@@ -8,52 +8,51 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var schedule : Schedule?
+    
+    @State var stack = [Int]()
+    
+    @EnvironmentObject
+    private var mapState: MapState
+    
+    @Binding
+    private var mapCameraPosition: MapCameraPositionWrapper
+    
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowdsourced location data.")
-                    .padding(.bottom)
-                if let schedule = self.schedule {
-                    Section {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("Monday")
-                                Text("Tuesday")
-                                Text("Wednesday")
-                                Text("Thursday")
-                                Text("Friday")
-                                Text("Saturday")
-                                Text("Sunday")
-                            }
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
-                                Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
-                                Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
-                                Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
-                                Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
-                                Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
-                                Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
-                            }
-                            Spacer()
+        NavigationStack(path: $stack) {
+            MapContainer(position: self.$mapCameraPosition)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        NavigationLink(value: 1) {
+                            Text("Info")
                         }
-                        .padding(.bottom)
-                    } header: {
-                        Text("Schedule")
-                            .font(.headline)
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(value: 2) {
+                            Text("Schedule")
+                        }
                     }
                 }
+                .task {
+                    await self.mapState.refreshAll()
+                }
+                .navigationDestination(for: Int.self) { value in
+                    if value == 1 {
+                        InfoView()
+                    }
+                    else if value == 2 {
+                        ScheduleView()
+                    }
+                    else {
+                        Text("Nothing to see here...")
+                    }
             }
         }
-            .onAppear {
-                Task {
-                    self.schedule = await Schedule.download()
-                    print(self.schedule?.name ?? "nothing")
-                }
-            }
+    }
+    init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
+        self._mapCameraPosition = mapCameraPosition
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(mapCameraPosition: .constant(MapCameraPositionWrapper(MapConstants.defaultCameraPosition)))
 }

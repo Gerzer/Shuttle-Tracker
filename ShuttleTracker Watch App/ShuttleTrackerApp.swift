@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct ShuttleTrackerApp: App {
+    
+    @State
+    private var mapCameraPosition: MapCameraPositionWrapper = .default
+    
+    @ObservedObject
+    private var mapState = MapState.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(mapCameraPosition: self.$mapCameraPosition)
+                .environmentObject(self.mapState)
         }
     }
 }

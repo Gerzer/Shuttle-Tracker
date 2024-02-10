@@ -17,6 +17,11 @@
 		651BE5522B6EEE0400375B2C /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5512B6EEE0400375B2C /* HTTPStatus */; };
 		651BE5542B6EEE1700375B2C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5532B6EEE1700375B2C /* Moya */; };
 		651BE5662B6EEEC000375B2C /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5652B6EEEC000375B2C /* OrderedCollections */; };
+		6538CB4D2B76D2A8003EB08E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */; };
+		6538CB4F2B76D487003EB08E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB4E2B76D487003EB08E /* InfoView.swift */; };
+		6538CB512B76D5B2003EB08E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB502B76D5B2003EB08E /* MapView.swift */; };
+		6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15852A95A480008DC1B2 /* MapContainer.swift */; };
+		6538CB532B76DB0E003EB08E /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		656CE4012B72DC34002C3326 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */; };
 		656CE4022B72DE9A002C3326 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		656CE4032B72DEC9002C3326 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
@@ -270,6 +275,9 @@
 		651BE53B2B6EAC2F00375B2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		651BE53D2B6EAC3100375B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		6538CB4E2B76D487003EB08E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		6538CB502B76D5B2003EB08E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOnboardingView.swift; sourceTree = "<group>"; };
@@ -420,6 +428,9 @@
 				651BE53B2B6EAC2F00375B2C /* ContentView.swift */,
 				651BE53D2B6EAC3100375B2C /* Assets.xcassets */,
 				651BE53F2B6EAC3100375B2C /* Preview Content */,
+				6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */,
+				6538CB4E2B76D487003EB08E /* InfoView.swift */,
+				6538CB502B76D5B2003EB08E /* MapView.swift */,
 			);
 			path = "ShuttleTracker Watch App";
 			sourceTree = "<group>";
@@ -864,6 +875,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6538CB532B76DB0E003EB08E /* MapState.swift in Sources */,
+				6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */,
 				656CE40D2B72DF3C002C3326 /* BoardBusManager.swift in Sources */,
 				656CE40E2B72DF3C002C3326 /* BusID.swift in Sources */,
 				656CE40F2B72DF3C002C3326 /* CustomAnnotation.swift in Sources */,
@@ -872,13 +885,16 @@
 				656CE4122B72DF3C002C3326 /* RefreshSequence.swift in Sources */,
 				656CE4132B72DF3C002C3326 /* SFSymbol.swift in Sources */,
 				656CE4152B72DF3C002C3326 /* Utilities.swift in Sources */,
+				6538CB4D2B76D2A8003EB08E /* ScheduleView.swift in Sources */,
 				656CE4162B72DF3C002C3326 /* WrappedError.swift in Sources */,
 				656CE4072B72DF2F002C3326 /* Announcement.swift in Sources */,
 				656CE4082B72DF2F002C3326 /* Bus.swift in Sources */,
+				6538CB512B76D5B2003EB08E /* MapView.swift in Sources */,
 				656CE4092B72DF2F002C3326 /* ColorName.swift in Sources */,
 				656CE40A2B72DF2F002C3326 /* Coordinate.swift in Sources */,
 				656CE40B2B72DF2F002C3326 /* Route.swift in Sources */,
 				656CE40C2B72DF2F002C3326 /* Stop.swift in Sources */,
+				6538CB4F2B76D487003EB08E /* InfoView.swift in Sources */,
 				656CE4062B72DF05002C3326 /* AppStorageManager.swift in Sources */,
 				656CE4052B72DEF8002C3326 /* Analytics.swift in Sources */,
 				656CE4042B72DECE002C3326 /* Logging.swift in Sources */,

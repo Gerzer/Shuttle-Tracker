@@ -161,7 +161,7 @@ extension CLLocationManager {
 	}
 	
 }
-
+#endif
 extension CLLocationCoordinate2D: Equatable {
 	
 	public static func == (_ left: CLLocationCoordinate2D, _ right: CLLocationCoordinate2D) -> Bool {
@@ -174,6 +174,7 @@ extension CLLocationCoordinate2D: Equatable {
 	
 }
 
+#if !os(watchOS)
 extension MKMapPoint: Equatable {
 	
 	init(_ coordinate: Coordinate) {
@@ -185,7 +186,9 @@ extension MKMapPoint: Equatable {
 	}
 	
 }
+#endif
 
+#if !os(watchOS)
 extension UNUserNotificationCenter {
 	
 	/// Requests notification authorization with default options.
