@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import STLogging
 import SwiftUI
 
 public enum Analytics {
@@ -154,9 +155,7 @@ public enum Analytics {
 			do {
 				try self.jsonString.write(to: url, atomically: false, encoding: .utf8)
 			} catch {
-				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save analytics entry file to temporary directory: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, level: .error, doUpload: true, "Failed to save analytics entry file to temporary directory: \(error, privacy: .public)")
 			}
 			return url
 		}
@@ -180,9 +179,7 @@ public enum Analytics {
 				#endif // os(macOS)
 			}
 		} catch {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 		}
 	}
 	

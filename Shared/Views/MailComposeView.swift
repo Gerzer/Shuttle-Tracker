@@ -7,6 +7,7 @@
 
 import MessageUI
 import OrderedCollections
+import STLogging
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -79,9 +80,7 @@ struct MailComposeView: UIViewControllerRepresentable {
 		uiViewController.setMessageBody(self.messageBody, isHTML: self.isHTMLMessageBody)
 		for attachment in self.attachments {
 			guard let mimeType = attachment.type.preferredMIMEType else {
-				Logging.withLogger(for: .mailCompose, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t add attachment without a MIME type: \(attachment.type, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .mailCompose, level: .error, doUpload: true, "Can’t add attachment without a MIME type: \(attachment.type, privacy: .public)")
 				continue
 			}
 			uiViewController.addAttachmentData(attachment.data, mimeType: mimeType, fileName: attachment.filename)
@@ -93,8 +92,8 @@ struct MailComposeView: UIViewControllerRepresentable {
 		uiViewController.mailComposeDelegate = context.coordinator
 	}
 	
-	func makeCoordinator() -> MailComposeViewDelegate {
-		return MailComposeViewDelegate(dismissalHandler: self.dismissalHandler)
+	func makeCoordinator() -> MailComposeViewControllerDelegate {
+		return MailComposeViewControllerDelegate(dismissalHandler: self.dismissalHandler)
 	}
 	
 }

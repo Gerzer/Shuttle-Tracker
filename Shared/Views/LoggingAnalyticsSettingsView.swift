@@ -1,10 +1,11 @@
 //
 //  LoggingAnalyticsSettingsView.swift
-//  Shuttle Tracker (iOS)
+//  Shuttle Tracker
 //
 //  Created by Gabriel Jacoby-Cooper on 11/18/22.
 //
 
+import STLogging
 import SwiftUI
 
 struct LoggingAnalyticsSettingsView: View {
@@ -403,7 +404,7 @@ struct LoggingAnalyticsSettingsView: View {
 		#endif // os(macOS)
 		Task {
 			do {
-				try await Logging.uploadLog()
+				try await Logging.system.uploadLog()
 				#if os(iOS)
 				withAnimation {
 					self.logUploadState = .uploaded
@@ -413,9 +414,7 @@ struct LoggingAnalyticsSettingsView: View {
 				#endif // os(macOS)
 			} catch {
 				self.logUploadError = WrappedError(error)
-				Logging.withLogger { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, level: .error, "Failed to upload log: \(error, privacy: .public)")
 			}
 		}
 	}

@@ -47,6 +47,9 @@
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		C02EF0982B7B1D0100B6E1D7 /* STLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C02EF0972B7B1D0100B6E1D7 /* STLogging */; };
+		C02EF09A2B7B1D0800B6E1D7 /* STLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C02EF0992B7B1D0800B6E1D7 /* STLogging */; };
+		C02EF09C2B7B1D0F00B6E1D7 /* STLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C02EF09B2B7B1D0F00B6E1D7 /* STLogging */; };
 		C032A8FB29C77DB30047579C /* WhatsNewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FA29C77DB30047579C /* WhatsNewSheet.swift */; };
 		C032A8FD29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FC29C7808A0047579C /* AnalyticsOnboardingView.swift */; };
 		C032A8FE29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FC29C7808A0047579C /* AnalyticsOnboardingView.swift */; };
@@ -315,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
+				C02EF09C2B7B1D0F00B6E1D7 /* STLogging in Frameworks */,
 				C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */,
 				C09EB463293A70DE00CCE01B /* OrderedCollections in Frameworks */,
 				C00BE3ED2AB2BD5E003B84BB /* SheetStack in Frameworks */,
@@ -328,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
+				C02EF09A2B7B1D0800B6E1D7 /* STLogging in Frameworks */,
 				C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */,
 				C09EB461293A70CF00CCE01B /* OrderedCollections in Frameworks */,
 				C00BE3E42AB22269003B84BB /* SheetStack in Frameworks */,
@@ -341,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */,
+				C02EF0982B7B1D0100B6E1D7 /* STLogging in Frameworks */,
 				C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */,
 				C09EB46B293A9A1F00CCE01B /* OrderedCollections in Frameworks */,
 				C00BE3EB2AB2BD50003B84BB /* SheetStack in Frameworks */,
@@ -606,6 +612,7 @@
 				C09EB462293A70DE00CCE01B /* OrderedCollections */,
 				C0E95233295A033400945ABC /* AsyncAlgorithms */,
 				C00BE3EC2AB2BD5E003B84BB /* SheetStack */,
+				C02EF09B2B7B1D0F00B6E1D7 /* STLogging */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -633,6 +640,7 @@
 				C09EB460293A70CF00CCE01B /* OrderedCollections */,
 				C0E95231295A02E500945ABC /* AsyncAlgorithms */,
 				C00BE3E32AB22269003B84BB /* SheetStack */,
+				C02EF0992B7B1D0800B6E1D7 /* STLogging */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -658,6 +666,7 @@
 				C09EB46A293A9A1F00CCE01B /* OrderedCollections */,
 				C0E95235295A034500945ABC /* AsyncAlgorithms */,
 				C00BE3EA2AB2BD50003B84BB /* SheetStack */,
+				C02EF0972B7B1D0100B6E1D7 /* STLogging */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -1332,6 +1341,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */;
 			productName = SheetStack;
+		};
+		C02EF0972B7B1D0100B6E1D7 /* STLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STLogging;
+		};
+		C02EF0992B7B1D0800B6E1D7 /* STLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STLogging;
+		};
+		C02EF09B2B7B1D0F00B6E1D7 /* STLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STLogging;
 		};
 		C09EB4562934765F00CCE01B /* HTTPStatus */ = {
 			isa = XCSwiftPackageProductDependency;

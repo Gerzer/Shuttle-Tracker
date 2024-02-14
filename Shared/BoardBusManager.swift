@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import STLogging
 import StoreKit
 import UIKit
 
@@ -63,9 +64,7 @@ actor BoardBusManager: ObservableObject {
 			do {
 				try await Analytics.upload(eventType: .boardBusActivated(manual: manual))
 			} catch {
-				Logging.withLogger(for: .api, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 			}
 		}
 		
@@ -77,9 +76,7 @@ actor BoardBusManager: ObservableObject {
 		self.locationID = UUID()
 		self.travelState = .onBus(manual: manual)
 		CLLocationManager.default.startUpdatingLocation()
-		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
-		}
+		#log(system: Logging.system, category: .boardBus, "Activated Board Bus")
 		if !manual {
 			Task { // Dispatch a child task because we don’t need to await the result
 				await self.sendBoardBusNotification(type: .boardBus)
@@ -111,9 +108,7 @@ actor BoardBusManager: ObservableObject {
 			do {
 				try await Analytics.upload(eventType: .boardBusDeactivated(manual: manual))
 			} catch {
-				Logging.withLogger(for: .api, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 			}
 		}
 		
@@ -125,9 +120,7 @@ actor BoardBusManager: ObservableObject {
 		self.locationID = nil
 		self.travelState = .notOnBus
 		CLLocationManager.default.stopUpdatingLocation()
-		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Deactivated Board Bus")
-		}
+		#log(system: Logging.system, category: .boardBus, "Deactivated Board Bus")
 		await MainActor.run {
 			ViewState.shared.statusText = manual ? .thanks : .mapRefresh // Don’t bother showing the “thanks” text if Automatic Board Bus was used since the timer to switch to back to “map refresh” might not reliably fire in the background
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
@@ -159,9 +152,7 @@ actor BoardBusManager: ObservableObject {
 						try await Task.sleep(nanoseconds: 5_000_000_000)
 					}
 				} catch {
-					Logging.withLogger(doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-					}
+					#log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
 				}
 				ViewState.shared.statusText = .mapRefresh
 			}
@@ -186,18 +177,14 @@ actor BoardBusManager: ObservableObject {
 		do {
 			try await UNUserNotificationCenter.requestDefaultAuthorization()
 		} catch {
-			Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .permissions, level: .error, doUpload: true, "Failed to request notification authorization: \(error, privacy: .public)")
 		}
 		do {
 			try await UNUserNotificationCenter
 				.current()
 				.add(request)
 		} catch {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .boardBus, level: .error, doUpload: true, "Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
 		}
 	}
 	

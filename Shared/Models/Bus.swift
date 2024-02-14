@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import STLogging
 import SwiftUI
 
 class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
@@ -142,9 +143,7 @@ extension Array where Element == Bus {
 				}
 				#endif // os(iOS)
 		} catch {
-			Logging.withLogger(for: .api) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .api, level: .error, "Failed to download buses: \(error, privacy: .public)")
 			return []
 		}
 	}

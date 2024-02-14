@@ -5,16 +5,14 @@
 //  Created by Gabriel Jacoby-Cooper on 11/17/22.
 //
 
-import OSLog
-import SwiftUI
+import Foundation
+import STLogging
 
-/// A namespace for the Shuttle Tracker unified logging system.
 enum Logging {
 	
-	enum Category: String {
-		
-		/// The default category.
-		case `default` = "Default"
+	typealias Log = LoggingSystem<Category>.Log
+	
+	enum Category: String, LoggingCategory {
 		
 		case api = "API"
 		
@@ -26,128 +24,40 @@ enum Logging {
 		
 		case boardBus = "BoardBus"
 		
+		/// The default category.
+		case general = "General"
+		
 		case location = "Location"
 		
+		/// The category for logging method invocations in ``LocationManagerDelegate``.
+		case locationManagerDelegate = "LocationManagerDelegate"
+		
 		case mailCompose = "MailCompose"
+		
+		/// The category for logging method invocations in ``MailComposeViewControllerDelegate``.
+		case mailComposeViewControllerDelegate = "MailComposeViewControllerDelegate"
 		
 		case permissions = "Permissions"
 		
 		/// The category for logging method invocations in ``UserNotificationCenterDelegate``.
 		case userNotificationCenterDelegate = "UserNotificationCenterDelegate"
 		
-	}
-	
-	struct Log: Hashable, Identifiable, Sendable, RawRepresentableInJSONArray {
-		
-		enum ClientPlatform: String, Codable {
-			
-			case ios, macos
-			
-		}
-		
-		fileprivate(set) var id: UUID
-		
-		let content: String
-		
-		let clientPlatform: ClientPlatform
-		
-		let date: Date
-		
-		init(content: some StringProtocol) {
-			self.id = UUID()
-			self.content = String(content)
-			#if os(iOS)
-			self.clientPlatform = .ios
-			#elseif os(macOS) // os(iOS)
-			self.clientPlatform = .macos
-			#endif // os(macOS)
-			self.date = .now
-		}
-		
-		@available(iOS 16, macOS 13, *)
-		func writeToDisk() throws -> URL {
-			let url = FileManager.default.temporaryDirectory.appending(component: "\(self.id.uuidString).log")
-			do {
-				try self.content.write(to: url, atomically: false, encoding: .utf8)
-			} catch {
-				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save log file to temporary directory: \(error, privacy: .public)")
-				}
-				throw error
-			}
-			return url
-		}
+		static var `default`: Self = .general
 		
 	}
 	
-	private static let subsystem = "com.gerzer.shuttletracker"
+	static let system = LoggingSystem(configurationProvider: AppStorageManager.shared, uploader: API.self)
 	
-	private static var loggers: [Category: Logger] = [:]
+}
+
+extension Logging.Log: RawRepresentableInJSONArray { }
+
+extension API: LogUploader {
 	
-	/// Provides a customized logger to a given closure and optionally uploads the current log store after invoking the closure.
-	///
-	/// The user-facing log-upload opt-out is honored even when `doUpload` is set to `true`.
-	/// - Warning: Don’t save or pass the provided logger outside the scope of the closure.
-	/// - Important: The closure is synchronous, so don’t dispatch any asynchronous tasks in it because log items that are written in such a task might not be saved in time for the automatic upload operation.
-	/// - Parameters:
-	///   - category: The subsystem category to use to customize the logger.
-	///   - doUpload: Whether to upload the current log store after invoking the closure.
-	///   - body: The closure to which the logger is provided.
-	static func withLogger(for category: Category = .default, doUpload: Bool = false, _ body: (Logger) throws -> Void) rethrows {
-		let logger = self.loggers[category] ?? { // Lazily create and cache category-specific loggers
-			let logger = Logger(subsystem: self.subsystem, category: category.rawValue)
-			self.loggers[category] = logger
-			return logger
-		}()
-		try body(logger)
-		Task {
-			let optIn = await MainActor.run {
-				return AppStorageManager.shared.doUploadLogs
-			}
-			if doUpload && optIn {
-				do {
-					try await self.uploadLog()
-				} catch {
-					self.withLogger { (logger) in // Leave doUpload set to false (the default) to avoid the potential for infinite recursion
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
-					}
-				}
-			}
-		}
-	}
+	typealias CategoryType = Logging.Category
 	
-	/// Uploads the current log store to the API server.
-	/// - Important: This method does _not_ check the user-facing opt-out.
-	/// - Throws: When retrieving the current log store or performing the API request fails.
-	static func uploadLog() async throws {
-		let predicate = NSPredicate(format: "subsystem == %@", argumentArray: [self.subsystem])
-		let formatter = DateFormatter()
-		formatter.dateStyle = .short
-		formatter.timeStyle = .medium
-		let content = try OSLogStore(scope: .currentProcessIdentifier)
-			.getEntries(matching: predicate)
-			.reduce(into: "") { (partialResult, entry) in
-				let message: String
-				if let logEntry = entry as? OSLogEntryLog, logEntry.category != Category.default.rawValue {
-					message = "[\(logEntry.category)] \(logEntry.composedMessage)"
-				} else {
-					message = entry.composedMessage
-				}
-				partialResult += "[\(formatter.string(from: entry.date))] \(message)\n"
-			}
-			.dropLast() // Drop the trailing newline character
-		var log = Log(content: content)
-		log.id = try await API.uploadLog(log: log).perform(as: UUID.self) // The API server is the authoritative source for log IDs, so we overwrite the local default ID with the one that the server returns.
-		let immutableLog = log // A mutable log can’t be captured in a concurrent closure, so we need to make an immutable copy before hopping to the main actor.
-		await MainActor.run {
-			#if os(iOS)
-			withAnimation {
-				AppStorageManager.shared.uploadedLogs.append(immutableLog)
-			}
-			#elseif os(macOS) // os(iOS)
-			AppStorageManager.shared.uploadedLogs.append(immutableLog)
-			#endif // os(macOS)
-		}
+	static func upload(log: Logging.Log) async throws -> UUID {
+		return try await self.uploadLog(log: log).perform(as: UUID.self)
 	}
 	
 }

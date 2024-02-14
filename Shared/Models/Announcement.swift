@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import STLogging
 
 final class Announcement: Decodable, Hashable, Identifiable, Sendable {
 	
@@ -77,9 +78,7 @@ extension Array where Element == Announcement {
 					}
 				}
 		} catch {
-			Logging.withLogger(for: .api) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download announcements: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .api, level: .error, "Failed to download announcements: \(error, privacy: .public)")
 			return []
 		}
 	}

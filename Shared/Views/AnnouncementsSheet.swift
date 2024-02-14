@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 11/20/21.
 //
 
+import STLogging
 import SwiftUI
 import UserNotifications
 
@@ -94,10 +95,8 @@ struct AnnouncementsSheet: View {
 				self.announcements = await [Announcement].download()
 				do {
 					try await UNUserNotificationCenter.updateBadge()
-				} catch let error {
-					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-					}
+				} catch {
+					#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 				}
 			}
 			.toolbar {
@@ -107,10 +106,8 @@ struct AnnouncementsSheet: View {
 						Task {
 							do {
 								try await UNUserNotificationCenter.updateBadge()
-							} catch let error {
-								Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-								}
+							} catch {
+								#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 							}
 						}
 						self.appStorageManager.viewedAnnouncementIDs.removeAll()
@@ -142,9 +139,7 @@ struct AnnouncementsSheet: View {
 				do {
 					try await Analytics.upload(eventType: .announcementsListOpened)
 				} catch {
-					Logging.withLogger(for: .api) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
-					}
+					#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics entry: \(error, privacy: .public)")
 				}
 			}
 	}

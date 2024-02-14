@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
+import STLogging
 import SwiftUI
 
 struct SecondaryOverlay: View {
@@ -34,10 +35,8 @@ struct SecondaryOverlay: View {
 					.task {
 						do {
 							try await UNUserNotificationCenter.updateBadge()
-						} catch let error {
-							Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-							}
+						} catch {
+							#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 						}
 					}
 			}
