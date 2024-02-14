@@ -9,10 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var stack = [Int]()
-    
     @EnvironmentObject
     private var mapState: MapState
+    
+    @State var stack = [Int]()
+    
+    @State
+    private var announcements: [Announcement] = []
     
     @Binding
     private var mapCameraPosition: MapCameraPositionWrapper

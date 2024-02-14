@@ -17,9 +17,15 @@
 		651BE5522B6EEE0400375B2C /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5512B6EEE0400375B2C /* HTTPStatus */; };
 		651BE5542B6EEE1700375B2C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5532B6EEE1700375B2C /* Moya */; };
 		651BE5662B6EEEC000375B2C /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5652B6EEEC000375B2C /* OrderedCollections */; };
+		651C347D2B7C217D00134D82 /* ShuttleTrackerSheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* ShuttleTrackerSheetStack.swift */; };
+		651C347F2B7C219800134D82 /* SheetStack in Frameworks */ = {isa = PBXBuildFile; productRef = 651C347E2B7C219800134D82 /* SheetStack */; };
+		651C34812B7C21C700134D82 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 651C34802B7C21C700134D82 /* Collections */; };
+		651C34822B7C21E700134D82 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
+		651C34832B7C21EE00134D82 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */; };
+		651C34842B7C226600134D82 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
+		651C34862B7C227800134D82 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 651C34852B7C227800134D82 /* OnboardingKit */; };
 		6538CB4D2B76D2A8003EB08E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */; };
 		6538CB4F2B76D487003EB08E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB4E2B76D487003EB08E /* InfoView.swift */; };
-		6538CB512B76D5B2003EB08E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB502B76D5B2003EB08E /* MapView.swift */; };
 		6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15852A95A480008DC1B2 /* MapContainer.swift */; };
 		6538CB532B76DB0E003EB08E /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
 		656CE4012B72DC34002C3326 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */; };
@@ -277,7 +283,6 @@
 		651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		6538CB4E2B76D487003EB08E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
-		6538CB502B76D5B2003EB08E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOnboardingView.swift; sourceTree = "<group>"; };
@@ -373,7 +378,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				651C34862B7C227800134D82 /* OnboardingKit in Frameworks */,
 				651BE5542B6EEE1700375B2C /* Moya in Frameworks */,
+				651C347F2B7C219800134D82 /* SheetStack in Frameworks */,
+				651C34812B7C21C700134D82 /* Collections in Frameworks */,
 				651BE5522B6EEE0400375B2C /* HTTPStatus in Frameworks */,
 				651BE5662B6EEEC000375B2C /* OrderedCollections in Frameworks */,
 			);
@@ -430,7 +438,6 @@
 				651BE53F2B6EAC3100375B2C /* Preview Content */,
 				6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */,
 				6538CB4E2B76D487003EB08E /* InfoView.swift */,
-				6538CB502B76D5B2003EB08E /* MapView.swift */,
 			);
 			path = "ShuttleTracker Watch App";
 			sourceTree = "<group>";
@@ -696,6 +703,9 @@
 				651BE5512B6EEE0400375B2C /* HTTPStatus */,
 				651BE5532B6EEE1700375B2C /* Moya */,
 				651BE5652B6EEEC000375B2C /* OrderedCollections */,
+				651C347E2B7C219800134D82 /* SheetStack */,
+				651C34802B7C21C700134D82 /* Collections */,
+				651C34852B7C227800134D82 /* OnboardingKit */,
 			);
 			productName = "ShuttleTracker Watch App";
 			productReference = 651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */;
@@ -875,6 +885,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				651C34842B7C226600134D82 /* ViewState.swift in Sources */,
+				651C34832B7C21EE00134D82 /* AnnouncementDetailView.swift in Sources */,
+				651C34822B7C21E700134D82 /* AnnouncementsSheet.swift in Sources */,
+				651C347D2B7C217D00134D82 /* ShuttleTrackerSheetStack.swift in Sources */,
 				6538CB532B76DB0E003EB08E /* MapState.swift in Sources */,
 				6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */,
 				656CE40D2B72DF3C002C3326 /* BoardBusManager.swift in Sources */,
@@ -889,7 +903,6 @@
 				656CE4162B72DF3C002C3326 /* WrappedError.swift in Sources */,
 				656CE4072B72DF2F002C3326 /* Announcement.swift in Sources */,
 				656CE4082B72DF2F002C3326 /* Bus.swift in Sources */,
-				6538CB512B76D5B2003EB08E /* MapView.swift in Sources */,
 				656CE4092B72DF2F002C3326 /* ColorName.swift in Sources */,
 				656CE40A2B72DF2F002C3326 /* Coordinate.swift in Sources */,
 				656CE40B2B72DF2F002C3326 /* Route.swift in Sources */,
@@ -1586,6 +1599,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
 			productName = OrderedCollections;
+		};
+		651C347E2B7C219800134D82 /* SheetStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */;
+			productName = SheetStack;
+		};
+		651C34802B7C21C700134D82 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		651C34852B7C227800134D82 /* OnboardingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			productName = OnboardingKit;
 		};
 		C00BE3E32AB22269003B84BB /* SheetStack */ = {
 			isa = XCSwiftPackageProductDependency;

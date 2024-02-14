@@ -74,8 +74,10 @@ final class ViewState: OnboardingFlags {
 	@Published
 	var statusText = StatusText.mapRefresh
 	
+    #if !os(watchOS)
 	@Published
 	var legendToastHeadlineText: LegendToast.HeadlineText?
+    #endif
 	
 	/// The number that should be displayed in notification badges.
 	///

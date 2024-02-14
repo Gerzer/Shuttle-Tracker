@@ -188,7 +188,7 @@ extension MKMapPoint: Equatable {
 }
 #endif
 
-#if !os(watchOS)
+
 extension UNUserNotificationCenter {
 	
 	/// Requests notification authorization with default options.
@@ -200,6 +200,7 @@ extension UNUserNotificationCenter {
 			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
 	}
 	
+    #if !os(watchOS)
 	/// Updates the app’s badge on the Home Screen or in the Dock.
 	///
 	/// This method downloads the latest announcements from the server. The count of active announcements that the user has not yet viewed is set as the badge number and published to the rest of the app via ``ViewState/badgeNumber``.
@@ -281,7 +282,8 @@ extension UNUserNotificationCenter {
 		}
         #endif
 	}
-	
+    
+    #endif
 }
 
 extension Notification.Name {
@@ -290,7 +292,6 @@ extension Notification.Name {
 	
 }
 
-#endif
 extension JSONEncoder {
 	
 	convenience init(
