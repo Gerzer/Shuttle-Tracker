@@ -138,12 +138,8 @@ struct WhatsNewView: View {
 	
 }
 
-struct WhatsNewViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		WhatsNewView(onboarding: false)
-			.environmentObject(ViewState.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	WhatsNewView(onboarding: false)
+		.environmentObject(ViewState.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

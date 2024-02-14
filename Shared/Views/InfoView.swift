@@ -102,13 +102,9 @@ struct InfoView: View {
 	
 }
 
-struct InfoViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		InfoView()
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	InfoView()
+		.environmentObject(ViewState.shared)
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

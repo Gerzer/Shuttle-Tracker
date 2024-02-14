@@ -25,12 +25,8 @@ struct WhatsNewSheet: View {
 	
 }
 
-struct WhatsNewSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		WhatsNewSheet(onboarding: false)
-			.environmentObject(ViewState.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	WhatsNewSheet(onboarding: false)
+		.environmentObject(ViewState.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

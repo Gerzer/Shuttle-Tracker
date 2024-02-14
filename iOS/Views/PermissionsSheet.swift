@@ -217,11 +217,7 @@ struct PermissionsSheet: View {
 	
 }
 
-struct PermissionsSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PermissionsSheet()
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	PermissionsSheet()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

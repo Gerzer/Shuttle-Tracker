@@ -204,14 +204,10 @@ struct BusSelectionSheet: View {
 	
 }
 
-struct BusSelectionSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		BusSelectionSheet()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
-			.environmentObject(BoardBusManager.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	BusSelectionSheet()
+		.environmentObject(MapState.shared)
+		.environmentObject(ViewState.shared)
+		.environmentObject(BoardBusManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

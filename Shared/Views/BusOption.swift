@@ -54,10 +54,6 @@ struct BusOption: View {
 	
 }
 
-struct BusOptionPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		BusOption(BusID(42), selection: .constant(nil))
-	}
-	
+#Preview {
+	BusOption(BusID(42), selection: .constant(nil))
 }

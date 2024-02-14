@@ -165,13 +165,9 @@ struct SettingsView: View {
 	
 }
 
-struct SettingsViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		SettingsView()
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	SettingsView()
+		.environmentObject(ViewState.shared)
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

@@ -59,11 +59,7 @@ struct PlusSheet: View {
 	
 }
 
-struct PlusSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PlusSheet(featureText: "Refreshing the map")
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	PlusSheet(featureText: "Refreshing the map")
+		.environmentObject(ShuttleTrackerSheetStack())
 }

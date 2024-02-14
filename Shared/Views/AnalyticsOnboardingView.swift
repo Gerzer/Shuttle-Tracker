@@ -70,12 +70,8 @@ struct AnalyticsOnboardingView: View {
 	
 }
 
-struct AnalyticsOnboardingViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		AnalyticsOnboardingView()
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	AnalyticsOnboardingView()
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

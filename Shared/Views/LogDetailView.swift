@@ -67,12 +67,8 @@ struct LogDetailView: View {
 	
 }
 
-struct LogDetailViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		NavigationView {
-			LogDetailView(log: Logging.Log(content: "This is a test."))
-		}
+#Preview {
+	NavigationView {
+		LogDetailView(log: Logging.Log(content: "This is a test."))
 	}
-	
 }

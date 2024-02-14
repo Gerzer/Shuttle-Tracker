@@ -42,21 +42,6 @@ struct BlockButtonStyle: ButtonStyle {
 	
 }
 
-struct BlockButtonPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		Button {
-			print("Tapped!")
-		} label: {
-			Text("Do Something")
-				.fontWeight(.semibold)
-		}
-			.buttonStyle(BlockButtonStyle())
-			.padding()
-	}
-	
-}
-
 extension ButtonStyle where Self == BlockButtonStyle {
 	
 	static var block: BlockButtonStyle {
@@ -65,4 +50,15 @@ extension ButtonStyle where Self == BlockButtonStyle {
 		}
 	}
 	
+}
+
+#Preview {
+	Button {
+		print("Tapped!")
+	} label: {
+		Text("Do Something")
+			.fontWeight(.semibold)
+	}
+		.buttonStyle(BlockButtonStyle())
+		.padding()
 }
