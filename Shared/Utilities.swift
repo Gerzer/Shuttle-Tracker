@@ -200,7 +200,6 @@ extension UNUserNotificationCenter {
 			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
 	}
 	
-    #if !os(watchOS)
 	/// Updates the app’s badge on the Home Screen or in the Dock.
 	///
 	/// This method downloads the latest announcements from the server. The count of active announcements that the user has not yet viewed is set as the badge number and published to the rest of the app via ``ViewState/badgeNumber``.
@@ -235,7 +234,8 @@ extension UNUserNotificationCenter {
 			#endif // canImport(UIKit)
 		}
 	}
-	
+    
+    #if !os(watchOS)
 	/// Processes a new notification.
 	/// - Parameter userInfo: The notification’s payload.
 	static func handleNotification(userInfo: [AnyHashable: Any]? = nil) async {
@@ -324,7 +324,7 @@ extension JSONDecoder {
 	
 }
 
-#if !os(watchOS)
+
 extension Bundle {
 	
 	var version: String? {
@@ -340,7 +340,6 @@ extension Bundle {
 	}
 	
 }
-
 extension View {
 	
 	func innerShadow<S: Shape>(using shape: S, color: Color = .black, width: CGFloat = 5) -> some View {
@@ -377,7 +376,6 @@ extension View {
 	}
 	
 }
-
 @available(iOS, introduced: 15, deprecated: 16)
 @available(macOS, introduced: 12, deprecated: 13)
 extension URL {
@@ -511,6 +509,3 @@ extension NSImage {
 	
 }
 #endif // canImport(AppKit)
-
-
-#endif

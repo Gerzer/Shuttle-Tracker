@@ -8,54 +8,45 @@
 import SwiftUI
 
 struct ScheduleView: View {
+    
     @State private var schedule : Schedule?
+    
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 8) {
-                if let schedule = self.schedule {
-                    Section {
+            if let schedule = self.schedule {
+                Section {
+                    HStack {
                         VStack(alignment: .leading, spacing: 0) {
-                            HStack {
-                                Text("M").bold()
-                                Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
-                            }
-                            HStack {
-                                Text("T").bold()
-                                Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
-                            }
-                            HStack {
-                                Text("W").bold()
-                                Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
-                            }
-                            HStack {
-                                Text("T").bold()
-                                Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
-                            }
-                            HStack {
-                                Text("F").bold()
-                                Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
-                            }
-                            HStack {
-                                Text("S").bold()
-                                Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
-                            }
-                            HStack {
-                                Text("S").bold()
-                                Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
-                            }
+                            Text("M").bold()
+                            Text("T").bold()
+                            Text("W").bold()
+                            Text("T").bold()
+                            Text("F").bold()
+                            Text("S").bold()
+                            Text("S").bold()
                         }
-                    } header: {
-                        Text("Schedule")
-                            .font(.headline)
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
+                            Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
+                            Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
+                            Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
+                            Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
+                            Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
+                            Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
+                        }
+                        Spacer()
                     }
+                } header: {
+                    Text("Schedule")
+                        .font(.headline)
                 }
             }
         }
-            .onAppear {
-                Task {
-                    self.schedule = await Schedule.download()
-                }
+        .onAppear {
+            Task {
+                self.schedule = await Schedule.download()
             }
+        }
     }
 }
 

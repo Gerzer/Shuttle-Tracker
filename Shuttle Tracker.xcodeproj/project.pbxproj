@@ -24,6 +24,8 @@
 		651C34832B7C21EE00134D82 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */; };
 		651C34842B7C226600134D82 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
 		651C34862B7C227800134D82 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 651C34852B7C227800134D82 /* OnboardingKit */; };
+		65210C0A2B7FFDFE0051E9CF /* PlusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D762827E6CC60009EC92B /* PlusSheet.swift */; };
+		65210C0C2B80036E0051E9CF /* InformationTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65210C0B2B80036E0051E9CF /* InformationTypeView.swift */; };
 		6538CB4D2B76D2A8003EB08E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */; };
 		6538CB4F2B76D487003EB08E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB4E2B76D487003EB08E /* InfoView.swift */; };
 		6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15852A95A480008DC1B2 /* MapContainer.swift */; };
@@ -281,6 +283,7 @@
 		651BE53B2B6EAC2F00375B2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		651BE53D2B6EAC3100375B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		65210C0B2B80036E0051E9CF /* InformationTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationTypeView.swift; sourceTree = "<group>"; };
 		6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		6538CB4E2B76D487003EB08E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
@@ -438,6 +441,7 @@
 				651BE53F2B6EAC3100375B2C /* Preview Content */,
 				6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */,
 				6538CB4E2B76D487003EB08E /* InfoView.swift */,
+				65210C0B2B80036E0051E9CF /* InformationTypeView.swift */,
 			);
 			path = "ShuttleTracker Watch App";
 			sourceTree = "<group>";
@@ -885,6 +889,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65210C0A2B7FFDFE0051E9CF /* PlusSheet.swift in Sources */,
 				651C34842B7C226600134D82 /* ViewState.swift in Sources */,
 				651C34832B7C21EE00134D82 /* AnnouncementDetailView.swift in Sources */,
 				651C34822B7C21E700134D82 /* AnnouncementsSheet.swift in Sources */,
@@ -907,6 +912,7 @@
 				656CE40A2B72DF2F002C3326 /* Coordinate.swift in Sources */,
 				656CE40B2B72DF2F002C3326 /* Route.swift in Sources */,
 				656CE40C2B72DF2F002C3326 /* Stop.swift in Sources */,
+				65210C0C2B80036E0051E9CF /* InformationTypeView.swift in Sources */,
 				6538CB4F2B76D487003EB08E /* InfoView.swift in Sources */,
 				656CE4062B72DF05002C3326 /* AppStorageManager.swift in Sources */,
 				656CE4052B72DEF8002C3326 /* Analytics.swift in Sources */,

@@ -78,20 +78,31 @@ class Route: NSObject, Collection, Decodable, Identifiable {
 			return MapConstants.originCoordinate
 		}
 	}
-    #if !os(watchOS)
 	var boundingMapRect: MKMapRect {
 		get {
+            #if os(watchOS)
+            let minX = self.min { return $0.latitude.magnitude < $1.latitude.magnitude }?.latitude
+            let maxX = self.max { return $0.latitude.magnitude < $1.latitude.magnitude }?.latitude
+            let minY = self.min { return $0.longitude.magnitude < $1.longitude.magnitude }?.longitude
+            let maxY = self.max { return $0.longitude.magnitude < $1.longitude.magnitude }?.longitude
+            #else
 			let minX = self.min { return $0.x < $1.x }?.x
 			let maxX = self.max { return $0.x < $1.x }?.x
 			let minY = self.min { return $0.y < $1.y }?.y
 			let maxY = self.max { return $0.y < $1.y }?.y
+            #endif
 			guard let minX, let maxX, let minY, let maxY else {
 				return MKMapRect.null
 			}
+            #if os(watchOS)
+            let minPoint = MKMapRect(origin: MKMapPoint.init(CLLocationCoordinate2D.init(latitude: minX, longitude: minY)), size: .init())
+            let maxPoint = MKMapRect(origin: MKMapPoint.init(CLLocationCoordinate2D.init(latitude: maxX, longitude: maxY)), size: .init())
+            return MKMapRect(x: minPoint.origin.x, y: minPoint.origin.y, width: maxPoint.maxX - minPoint.minX, height: maxPoint.maxY - maxPoint.minY)
+            #else
 			return MKMapRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+            #endif
 		}
 	}
-    #endif
 	
 	required init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -135,7 +146,6 @@ class Route: NSObject, Collection, Decodable, Identifiable {
 }
 
 extension Array where Element == Route {
-    #if !os(watchOS)
 	var boundingMapRect: MKMapRect {
 		get {
 			return self.reduce(into: .null) { (partialResult, route) in
@@ -143,7 +153,6 @@ extension Array where Element == Route {
 			}
 		}
 	}
-    #endif
 	
 	static func download() async -> [Route] {
 		do {

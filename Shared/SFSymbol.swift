@@ -40,10 +40,14 @@ enum SFSymbol {
 	case recenter
 	
 	case refresh
+    
+    case schedule
 	
 	case settings
 	
 	case stop
+    
+    case shuttleTrackerPlus
 	
 	case user
 	
@@ -71,7 +75,7 @@ enum SFSymbol {
 			case .colorBlindLowQualityLocation:
 				return "circle.dotted"
 			case .info:
-				return "info.circle"
+				return "info"
 			case .loggingAnalytics:
 				return "text.redaction"
 			case .onboardingNode:
@@ -91,13 +95,21 @@ enum SFSymbol {
 			case .permissionNotDetermined:
 				return "gear.badge.questionmark"
 			case .recenter:
-				return "location.viewfinder"
+                #if os(watchOS)
+				return "location.fill"
+                #else
+                return "location.viewfinder"
+                #endif
 			case .refresh:
 				return "arrow.clockwise"
+            case .schedule:
+                return "calendar.badge.clock"
 			case .settings:
 				return "gearshape"
 			case .stop:
 				return "circle.fill"
+            case .shuttleTrackerPlus:
+                return "plus.circle.fill"
 			case .user:
 				return "person.crop.circle"
 			case .whatsNewAnalytics:
@@ -110,7 +122,7 @@ enum SFSymbol {
 				return "point.3.filled.connected.trianglepath.dotted"
 			case .whatsNewNotifications:
 				return "bell.badge"
-			}
+            }
 		}
 	}
 	

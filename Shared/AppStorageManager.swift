@@ -53,12 +53,8 @@ final class AppStorageManager: ObservableObject {
 	@AppStorage("BaseURL")
 	var baseURL = Defaults.baseURL
 	
-    #if !os(watchOS)
 	@AppStorage("ViewedAnnouncementIDs")
 	var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
-    #else
-    @AppStorage("viewedAnnouncementIDs") var viewedAnnouncementIDs = Defaults.viewedAnnouncementIDs
-    #endif
 	
 	@AppStorage("DoUploadLogs")
 	var doUploadLogs = Defaults.doUploadLogs

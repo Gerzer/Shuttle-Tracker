@@ -12,45 +12,48 @@ struct ContentView: View {
     @EnvironmentObject
     private var mapState: MapState
     
-    @State var stack = [Int]()
-    
     @State
     private var announcements: [Announcement] = []
+    
+    @State
+    private var didResetViewedAnnouncements = false
+    
+    @State 
+    private var showInfoSheet = false
     
     @Binding
     private var mapCameraPosition: MapCameraPositionWrapper
     
     var body: some View {
-        NavigationStack(path: $stack) {
+        NavigationView {
             MapContainer(position: self.$mapCameraPosition)
                 .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        NavigationLink(value: 1) {
-                            Text("Info")
+                    ToolbarItem(placement: .bottomBar) {
+                        Button {
+                            Task {
+                                await self.mapState.recenter(position: self.$mapCameraPosition)
+                            }
+                        } label: {
+                            Label("Re-Center Map", systemImage: SFSymbol.recenter.systemName)
                         }
                     }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink(value: 2) {
-                            Text("Schedule")
-                        }
+                    ToolbarItem(placement: .bottomBar) {
+                        Button(action: {
+                            self.showInfoSheet.toggle()
+                        }, label: {
+                            Label("Informations Tab", systemImage: SFSymbol.info.systemName)
+                        })
                     }
                 }
-                .task {
-                    await self.mapState.refreshAll()
-                }
-                .navigationDestination(for: Int.self) { value in
-                    if value == 1 {
-                        InfoView()
-                    }
-                    else if value == 2 {
-                        ScheduleView()
-                    }
-                    else {
-                        Text("Nothing to see here...")
-                    }
             }
-        }
+            .task {
+                await self.mapState.refreshAll()
+            }
+            .sheet(isPresented: self.$showInfoSheet, content: {
+                InfoView()
+            })
     }
+    
     init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
         self._mapCameraPosition = mapCameraPosition
     }

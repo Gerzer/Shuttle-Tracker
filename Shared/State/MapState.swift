@@ -32,7 +32,6 @@ actor MapState: ObservableObject {
 		}
 	}
 	func refreshAll() async {
-        #if !os(watchOS)
 		Task { // Dispatch a new task because we don’t need to await the result
 			do {
 				try await UNUserNotificationCenter.updateBadge()
@@ -42,7 +41,6 @@ actor MapState: ObservableObject {
 				}
 			}
 		}
-        #endif
 		async let buses = [Bus].download()
 		async let stops = [Stop].download()
 		async let routes = [Route].download()
@@ -56,15 +54,13 @@ actor MapState: ObservableObject {
 	
 	@MainActor
 	func recenter(position: Binding<MapCameraPositionWrapper>) async {
-		if #available(iOS 17, macOS 14, *) {
+		if #available(iOS 17, macOS 14, watchOS 10, *) {
 			let dx = (MapConstants.mapRectInsets.left + MapConstants.mapRectInsets.right) * -15
 			let dy = (MapConstants.mapRectInsets.top + MapConstants.mapRectInsets.bottom) * -15
-            #if !os(watchOS)
 			let mapRect = await self.routes.boundingMapRect.insetBy(dx: dx, dy: dy)
 			withAnimation {
 				position.mapCameraPosition.wrappedValue = .rect(mapRect)
 			}
-            #endif
 		} else {
             #if !os(watchOS)
 			Self.mapView?.setVisibleMapRect(
