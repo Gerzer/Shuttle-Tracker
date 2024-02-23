@@ -124,6 +124,8 @@ enum UserLocationError: LocalizedError {
 	
 }
 
+#endif
+
 extension CLLocationManager {
 	
 	private static var handlers: [(CLLocationManager) -> Void] = []
@@ -161,7 +163,7 @@ extension CLLocationManager {
 	}
 	
 }
-#endif
+
 extension CLLocationCoordinate2D: Equatable {
 	
 	public static func == (_ left: CLLocationCoordinate2D, _ right: CLLocationCoordinate2D) -> Bool {

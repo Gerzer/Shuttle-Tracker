@@ -36,6 +36,8 @@ enum SFSymbol {
 	case permissionGranted
 	
 	case permissionNotDetermined
+    
+    case privacy
 	
 	case recenter
 	
@@ -65,7 +67,11 @@ enum SFSymbol {
 		get {
 			switch self {
 			case .announcements:
-				return "exclamationmark.bubble"
+                #if os(watchOS)
+                return "bell.badge.circle.fill"
+                #else
+				return "exclamationmark.bubble.fill"
+                #endif
 			case .bus:
 				return "bus"
 			case .close:
@@ -94,6 +100,8 @@ enum SFSymbol {
 				return "gear.badge.checkmark"
 			case .permissionNotDetermined:
 				return "gear.badge.questionmark"
+            case .privacy:
+                return "hand.raised.circle.fill"
 			case .recenter:
                 #if os(watchOS)
 				return "location.fill"
@@ -103,9 +111,17 @@ enum SFSymbol {
 			case .refresh:
 				return "arrow.clockwise"
             case .schedule:
+                #if os(watchOS)
+                return "calendar.circle.fill"
+                #else
                 return "calendar.badge.clock"
+                #endif
 			case .settings:
+                #if os(watchOS)
+                return "gear.circle.fill"
+                #else
 				return "gearshape"
+                #endif
 			case .stop:
 				return "circle.fill"
             case .shuttleTrackerPlus:

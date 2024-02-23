@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 import UserNotifications
 
 @main
@@ -17,14 +18,20 @@ struct ShuttleTrackerApp: App {
     @ObservedObject
     private var mapState = MapState.shared
     
+    @ObservedObject
+    private var appStorageManager = AppStorageManager.shared
+    
     var body: some Scene {
         WindowGroup {
             ContentView(mapCameraPosition: self.$mapCameraPosition)
                 .environmentObject(self.mapState)
+                .environmentObject(self.appStorageManager)
         }
     }
     
     init() {
+        CLLocationManager.default = CLLocationManager()
+        CLLocationManager.default.activityType = .automotiveNavigation
         Task {
             do {
                 try await UNUserNotificationCenter.requestDefaultAuthorization()

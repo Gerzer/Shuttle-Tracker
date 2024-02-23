@@ -30,6 +30,7 @@
 		6538CB4F2B76D487003EB08E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6538CB4E2B76D487003EB08E /* InfoView.swift */; };
 		6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03F15852A95A480008DC1B2 /* MapContainer.swift */; };
 		6538CB532B76DB0E003EB08E /* MapState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C015281C2517F68F0069092C /* MapState.swift */; };
+		654D45C82B83239A00EAB27F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654D45C72B83239A00EAB27F /* SettingsView.swift */; };
 		656CE4012B72DC34002C3326 /* ShuttleTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */; };
 		656CE4022B72DE9A002C3326 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		656CE4032B72DEC9002C3326 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
@@ -51,6 +52,7 @@
 		656CE4132B72DF3C002C3326 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		656CE4152B72DF3C002C3326 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
 		656CE4162B72DF3C002C3326 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
+		6583215D2B88F83400232E81 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6583215C2B88F83400232E81 /* PrivacyView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -284,8 +286,11 @@
 		651BE53D2B6EAC3100375B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		65210C0B2B80036E0051E9CF /* InformationTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationTypeView.swift; sourceTree = "<group>"; };
+		653210E52B88FDA2007DD74D /* ShuttleTracker-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShuttleTracker-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		6538CB4E2B76D487003EB08E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		654D45C72B83239A00EAB27F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		6583215C2B88F83400232E81 /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOnboardingView.swift; sourceTree = "<group>"; };
@@ -435,6 +440,7 @@
 		651BE5382B6EAC2F00375B2C /* ShuttleTracker Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				653210E52B88FDA2007DD74D /* ShuttleTracker-Watch-App-Info.plist */,
 				651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */,
 				651BE53B2B6EAC2F00375B2C /* ContentView.swift */,
 				651BE53D2B6EAC3100375B2C /* Assets.xcassets */,
@@ -442,6 +448,8 @@
 				6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */,
 				6538CB4E2B76D487003EB08E /* InfoView.swift */,
 				65210C0B2B80036E0051E9CF /* InformationTypeView.swift */,
+				654D45C72B83239A00EAB27F /* SettingsView.swift */,
+				6583215C2B88F83400232E81 /* PrivacyView.swift */,
 			);
 			path = "ShuttleTracker Watch App";
 			sourceTree = "<group>";
@@ -896,6 +904,7 @@
 				651C347D2B7C217D00134D82 /* ShuttleTrackerSheetStack.swift in Sources */,
 				6538CB532B76DB0E003EB08E /* MapState.swift in Sources */,
 				6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */,
+				6583215D2B88F83400232E81 /* PrivacyView.swift in Sources */,
 				656CE40D2B72DF3C002C3326 /* BoardBusManager.swift in Sources */,
 				656CE40E2B72DF3C002C3326 /* BusID.swift in Sources */,
 				656CE40F2B72DF3C002C3326 /* CustomAnnotation.swift in Sources */,
@@ -910,6 +919,7 @@
 				656CE4082B72DF2F002C3326 /* Bus.swift in Sources */,
 				656CE4092B72DF2F002C3326 /* ColorName.swift in Sources */,
 				656CE40A2B72DF2F002C3326 /* Coordinate.swift in Sources */,
+				654D45C82B83239A00EAB27F /* SettingsView.swift in Sources */,
 				656CE40B2B72DF2F002C3326 /* Route.swift in Sources */,
 				656CE40C2B72DF2F002C3326 /* Stop.swift in Sources */,
 				65210C0C2B80036E0051E9CF /* InformationTypeView.swift in Sources */,
@@ -1135,7 +1145,10 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ShuttleTracker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ShuttleTracker;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Shuttle Tracker requires precise location access to improve data accuracy for everyone.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.gerzer.shuttletracker;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1170,7 +1183,10 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ShuttleTracker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ShuttleTracker;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Shuttle Tracker requires precise location access to improve data accuracy for everyone.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.gerzer.shuttletracker;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -9,10 +9,11 @@ import SwiftUI
 
 struct InfoView: View {
     
-    @State var stack = [Int]()
+    @EnvironmentObject
+    private var appStorageManager : AppStorageManager
     
     var body: some View {
-        NavigationStack(path: $stack) {
+        NavigationStack {
             ScrollView {
                 Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles.")
                     .font(.footnote)
@@ -20,25 +21,48 @@ struct InfoView: View {
                     AnnouncementsSheet()
                 } label: {
                     InformationTypeView(SFSymbol: .announcements,
-                                        iconColor: .blue,
+                                        primaryColor: .white,
+                                        secondaryColor: .red,
                                         name: "Announcements")
                 }
                 NavigationLink {
                     ScheduleView()
                 } label: {
                     InformationTypeView(SFSymbol: .schedule,
-                                        iconColor: .orange,
+                                        primaryColor: .white,
+                                        secondaryColor: .orange,
                                         name: "Schedule")
+                }
+                NavigationLink {
+                    SettingsView()
+                        .environmentObject(self.appStorageManager)
+
+                } label: {
+                    InformationTypeView(SFSymbol: .settings,
+                                        primaryColor: .white,
+                                        secondaryColor: .gray,
+                                        name: "Settings")
+                }
+                NavigationLink {
+                    PrivacyView()
+                } label: {
+                    InformationTypeView(SFSymbol: .privacy,
+                                        primaryColor: .white,
+                                        secondaryColor: .blue,
+                                        name: "Privacy")
                 }
                 NavigationLink {
                     PlusSheet(featureText: "Refreshing the map")
                 } label: {
-                    InformationTypeView(SFSymbol: .shuttleTrackerPlus ,
-                                        iconColor: .white,
+                    InformationTypeView(SFSymbol: .shuttleTrackerPlus,
+                                        primaryColor: .white,
+                                        secondaryColor: .clear,
                                         name: "Shuttle Tracker +")
                     .rainbow()
                 }
             }
+            .navigationTitle("Shuttle Tracker 🚐")
+            .navigationBarTitleDisplayMode(.inline)
             .buttonStyle(.borderless)
         }
     }

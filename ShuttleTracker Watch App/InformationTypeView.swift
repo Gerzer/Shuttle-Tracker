@@ -9,13 +9,18 @@ import SwiftUI
 
 struct InformationTypeView: View {
     var SFSymbol : SFSymbol
-    var iconColor : Color
+    let primaryColor: Color
+    let secondaryColor: Color
     var name : String
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(alignment:.center, spacing: 8) {
             Image(systemName: SFSymbol.systemName)
-                .symbolVariant(.circle.fill)
-                .foregroundStyle(self.iconColor)
+                .resizable()
+                .clipShape(Circle())
+                .scaledToFit()
+                .frame(height: 18)
+                .foregroundStyle(primaryColor, secondaryColor)
+                .font(.title3)
             Text(self.name)
                 .fontWeight(.semibold)
                 .lineLimit(1)
@@ -28,5 +33,9 @@ struct InformationTypeView: View {
 }
 
 #Preview {
-    InformationTypeView(SFSymbol: .info, iconColor: .green, name: "Information")
+    InformationTypeView(SFSymbol: .shuttleTrackerPlus,
+                        primaryColor: .white,
+                        secondaryColor: .clear,
+                        name: "Shuttle Tracker Plus")
+    .rainbow()
 }
