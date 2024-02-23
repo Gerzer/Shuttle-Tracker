@@ -114,10 +114,9 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 						return
 					}
 					var id = Int(truncating: beacon.major)
-                    if(Int(truncating: beacon.major) == 0 && Int(truncating: beacon.minor) > 0){
-                        id =  Int(truncating: beacon.minor)
-                        id = -id
-                    }
+					if Int(truncating: beacon.major) == 0 && Int(truncating: beacon.minor) > 0 {
+						id = -Int(truncating: beacon.minor)
+					}
 					await BoardBusManager.shared.boardBus(id: id, manually: false)
 					manager.stopRangingBeacons(satisfying: beaconConstraint)
 				}

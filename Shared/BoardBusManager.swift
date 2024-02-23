@@ -80,6 +80,9 @@ actor BoardBusManager: ObservableObject {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
 		}
+		Task { // Dispatch a child task because we don’t need to await the result
+			await MapState.shared.refreshBuses()
+		}
 		if !manual {
 			Task { // Dispatch a child task because we don’t need to await the result
 				await self.sendBoardBusNotification(type: .boardBus)
@@ -128,6 +131,9 @@ actor BoardBusManager: ObservableObject {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Deactivated Board Bus")
 		}
+		Task { // Dispatch a child task because we don’t need to await the result
+			await MapState.shared.refreshBuses()
+		}
 		await MainActor.run {
 			ViewState.shared.statusText = manual ? .thanks : .mapRefresh // Don’t bother showing the “thanks” text if Automatic Board Bus was used since the timer to switch to back to “map refresh” might not reliably fire in the background
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
@@ -165,6 +171,12 @@ actor BoardBusManager: ObservableObject {
 				}
 				ViewState.shared.statusText = .mapRefresh
 			}
+		}
+	}
+	
+	func updateBusID(with bus: Bus) {
+		if let busID = self.busID, busID < 0 {
+			self.busID = bus.id
 		}
 	}
 	

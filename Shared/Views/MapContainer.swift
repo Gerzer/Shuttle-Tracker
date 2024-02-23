@@ -68,7 +68,8 @@ struct MapContainer: View {
 			}
 			#if os(iOS)
 			if case .some(.onBus) = self.travelState, let busID = self.busID, let coordinate = CLLocationManager.default.location?.coordinate {
-				Marker("Bus \(busID)", systemImage: SFSymbol.user.systemName, coordinate: coordinate)
+				let title = if busID > 0 { "Bus \(busID)" } else { "Bus" }
+				Marker(title, systemImage: SFSymbol.user.systemName, coordinate: coordinate)
 			} else {
 				UserAnnotation()
 			}
