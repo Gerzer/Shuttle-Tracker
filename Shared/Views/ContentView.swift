@@ -194,6 +194,11 @@ struct ContentView: View {
 						}
 				}
 				Button {
+					self.sheetStack.push(.info)
+				} label: {
+					Label("Schedule", systemImage: "info.circle")
+				}
+				Button {
 					Task {
 						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}
