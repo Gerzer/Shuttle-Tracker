@@ -10,8 +10,6 @@
 		6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF382AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF392AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
-		199C8B0E2AD5F54C008D873B /* InfoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C059833C27D2C82E00299D27 /* InfoSheet.swift */; };
-		199C8B0F2AD5F551008D873B /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
 		A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -187,6 +185,7 @@
 		C0F420D22927570900CC0F91 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
 		C0F420D32927570900CC0F91 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
 		C0F420D42927570900CC0F91 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
+		C0FB424B2B927B32003BFB96 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FB5D4F2929B2430019E266 /* LogDetailView.swift */; };
 		C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420CD29274C1400CC0F91 /* LoggingAnalyticsSettingsView.swift */; };
 		C0FB5D542929CC3F0019E266 /* LogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FB5D4F2929B2430019E266 /* LogDetailView.swift */; };
@@ -891,6 +890,7 @@
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
+				C0FB424B2B927B32003BFB96 /* InfoView.swift in Sources */,
 				C03F158E2A9EF6CC008DC1B2 /* WhatsNewItem.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,

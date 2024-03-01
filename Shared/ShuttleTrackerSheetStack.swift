@@ -92,13 +92,13 @@ struct ShuttleTrackerSheetPresentationProvider: SheetPresentationProvider {
 			BusSelectionSheet()
 				.interactiveDismissDisabled()
 		#endif // os(iOS)
-        case .info:
-            #if os(iOS)
+		case .info:
+			#if os(iOS)
 			InfoSheet()
-            #else
-            InfoView()
-                .frame(idealWidth: 500, idealHeight: 200)
-            #endif //os(iOS)
+			#elseif os(macOS) // os(iOS)
+			InfoView()
+				.frame(minWidth: 300, idealWidth: 500, minHeight: 300, idealHeight: 500)
+			#endif // os(macOS)
 		#if os(iOS)
 		case .mailCompose(
 			let subject,

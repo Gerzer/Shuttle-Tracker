@@ -205,7 +205,6 @@ struct ContentView: View {
 				} label: {
 					Label("Re-Center Map", systemImage: SFSymbol.recenter.systemName)
 				}
-                
 				if self.isRefreshing {
 					ProgressView()
 				} else {
