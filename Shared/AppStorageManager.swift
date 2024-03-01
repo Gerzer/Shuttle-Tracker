@@ -32,6 +32,8 @@ final class AppStorageManager: ObservableObject {
 		
 		static let uploadedAnalyticsEntries: [Analytics.Entry] = []
 		
+		static let routeTolerance = 10
+		
 	}
 	
 	static let shared = AppStorageManager()
@@ -65,6 +67,9 @@ final class AppStorageManager: ObservableObject {
 	
 	@AppStorage("UploadedAnalyticsEntries")
 	var uploadedAnalyticsEntries = Defaults.uploadedAnalyticsEntries
+	
+	@AppStorage("RouteTolerance")
+	var routeTolerance = Defaults.routeTolerance
 	
 	private init() { }
 	

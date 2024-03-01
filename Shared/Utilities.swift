@@ -60,19 +60,57 @@ enum LocationUtilities {
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
-		do {
-			let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
-			await BoardBusManager.shared.updateBusID(with: resolvedBus)
-		} catch let error as any HTTPStatusCode {
-			if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
-				return
+		
+		let tolerance = await AppStorageManager.shared.routeTolerance
+		if await MapState.shared.distance(to: coordinate) > Double(tolerance) {
+			switch BoardBusManager.globalTravelState {
+			case .onBus:
+				await BoardBusManager.shared.leaveBus(manual: false)
+				let content = UNMutableNotificationContent()
+				content.title = "Board Bus"
+				content.body = "Shuttle Tracker detected that you got off the bus and deactivated Board Bus."
+				content.sound = .default
+				#if !APPCLIP
+				content.interruptionLevel = .active
+				#endif // !APPCLIP
+				let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+				let request = UNNotificationRequest(identifier: "BoardBus", content: content, trigger: trigger)
+				do {
+					try await UNUserNotificationCenter.requestDefaultAuthorization()
+				} catch let error {
+					Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+					}
+				}
+				do {
+					try await UNUserNotificationCenter
+						.current()
+						.add(request)
+				} catch let error {
+					Logging.withLogger(doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Board Bus notification: \(error, privacy: .public)")
+					}
+				}
+			default:
+				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+					logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Board Bus is unexpectedly inactive while checking route tolerance.")
+				}
 			}
-			Logging.withLogger(for: .boardBus) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
-			}
-		} catch {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
+		} else {
+			do {
+				let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
+				await BoardBusManager.shared.updateBusID(with: resolvedBus)
+			} catch let error as any HTTPStatusCode {
+				if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
+					return
+				}
+				Logging.withLogger(for: .boardBus) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
+				}
+			} catch {
+				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
+				}
 			}
 		}
 	}
@@ -97,6 +135,8 @@ enum MapConstants {
 			height: 10000
 		)
 	)
+	
+	static let earthRadius = 6378.137;
 	
 	@available(iOS 17, macOS 14, *)
 	static let defaultCameraPosition: MapCameraPosition = .rect(MapConstants.mapRect)
@@ -168,6 +208,14 @@ extension CLLocationCoordinate2D: Equatable {
 	
 	func convertedToCoordinate() -> Coordinate {
 		return Coordinate(latitude: self.latitude, longitude: self.longitude)
+	}
+	
+	func asCartesian() -> (x: Double, y: Double, z: Double) {
+		return (
+			x: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * cos(self.longitude * .pi / 180),
+			y: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * sin(self.longitude * .pi / 180),
+			z: MapConstants.earthRadius * sin(self.latitude * .pi / 180)
+		)
 	}
 	
 }
@@ -466,6 +514,17 @@ extension Set: RawRepresentable where Element == UUID {
 		}
 	}
 	
+}
+
+func * (
+	lhs: (x: Double, y: Double, z: Double),
+	rhs: (x: Double, y: Double, z: Double)
+) -> (x: Double, y: Double, z: Double) {
+	return (
+		x: lhs.y * rhs.z - lhs.z * rhs.y,
+		y: lhs.z * rhs.x - lhs.x * rhs.z,
+		z: lhs.x * rhs.y - lhs.y * rhs.x
+	)
 }
 
 #if canImport(UIKit)
