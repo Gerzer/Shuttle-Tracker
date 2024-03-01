@@ -57,6 +57,15 @@ struct AdvancedSettingsView: View {
 			}
 			Section {
 				Button(role: .destructive) {
+					Task {
+						do {
+							try await UNUserNotificationCenter.updateBadge()
+						} catch let error {
+							Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+							}
+						}
+					}
 					withAnimation {
 						self.appStorageManager.viewedAnnouncementIDs.removeAll()
 						self.didResetViewedAnnouncements = true
@@ -116,11 +125,7 @@ struct AdvancedSettingsView: View {
 }
 
 @available(iOS 17, *)
-struct AdvancedSettingsViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		AdvancedSettingsView()
-			.environmentObject(AppStorageManager.shared)
-	}
-	
+#Preview {
+	AdvancedSettingsView()
+		.environmentObject(AppStorageManager.shared)
 }

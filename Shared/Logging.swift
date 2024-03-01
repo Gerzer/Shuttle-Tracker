@@ -8,16 +8,21 @@
 import OSLog
 import SwiftUI
 
-// Logging, Logging.Log, and Logging.Log’s id instance property are all declared to be public to work around an issue with Swift’s access-control model, even though “public” access control doesn’t make much sense in the context of a self-contained app, which is a sink in the dependency graph.
-
 /// A namespace for the Shuttle Tracker unified logging system.
 enum Logging {
 	
 	enum Category: String {
 		
+		/// The default category.
 		case `default` = "Default"
 		
 		case api = "API"
+		
+		/// The category for logging interactions with the Apple Push Notification Service.
+		case apns = "APNS"
+		
+		/// The category for logging method invocations in ``AppDelegate``.
+		case appDelegate = "AppDelegate"
 		
 		case boardBus = "BoardBus"
 		
@@ -27,9 +32,12 @@ enum Logging {
 		
 		case permissions = "Permissions"
 		
+		/// The category for logging method invocations in ``UserNotificationCenterDelegate``.
+		case userNotificationCenterDelegate = "UserNotificationCenterDelegate"
+		
 	}
 	
-	struct Log: Hashable, Identifiable, RawRepresentableInJSONArray {
+	struct Log: Hashable, Identifiable, Sendable, RawRepresentableInJSONArray {
 		
 		enum ClientPlatform: String, Codable {
 			
@@ -48,11 +56,11 @@ enum Logging {
 		init(content: some StringProtocol) {
 			self.id = UUID()
 			self.content = String(content)
-			#if os(macOS)
-			self.clientPlatform = .macos
-			#elseif os(iOS) // os(macOS)
+			#if os(iOS)
 			self.clientPlatform = .ios
-			#endif // os(iOS)
+			#elseif os(macOS) // os(iOS)
+			self.clientPlatform = .macos
+			#endif // os(macOS)
 			self.date = .now
 		}
 		
@@ -61,7 +69,7 @@ enum Logging {
 			let url = FileManager.default.temporaryDirectory.appending(component: "\(self.id.uuidString).log")
 			do {
 				try self.content.write(to: url, atomically: false, encoding: .utf8)
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to save log file to temporary directory: \(error, privacy: .public)")
 				}
@@ -99,11 +107,10 @@ enum Logging {
 			if doUpload && optIn {
 				do {
 					try await self.uploadLog()
-				} catch let error {
+				} catch {
 					self.withLogger { (logger) in // Leave doUpload set to false (the default) to avoid the potential for infinite recursion
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 					}
-					throw error
 				}
 			}
 		}
@@ -131,7 +138,7 @@ enum Logging {
 			.dropLast() // Drop the trailing newline character
 		var log = Log(content: content)
 		log.id = try await API.uploadLog(log: log).perform(as: UUID.self) // The API server is the authoritative source for log IDs, so we overwrite the local default ID with the one that the server returns.
-		let immutableLog = log
+		let immutableLog = log // A mutable log can’t be captured in a concurrent closure, so we need to make an immutable copy before hopping to the main actor.
 		await MainActor.run {
 			#if os(iOS)
 			withAnimation {

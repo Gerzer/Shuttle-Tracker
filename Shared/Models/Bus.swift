@@ -8,7 +8,7 @@
 import MapKit
 import SwiftUI
 
-class Bus: NSObject, Codable, CustomAnnotation {
+class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 	
 	struct Location: Codable {
 		
@@ -52,7 +52,7 @@ class Bus: NSObject, Codable, CustomAnnotation {
 	
 	var title: String? {
 		get {
-			return "Bus \(self.id)"
+			return self.id > 0 ? "Bus \(self.id)" : "Bus"
 		}
 	}
 	
@@ -66,26 +66,47 @@ class Bus: NSObject, Codable, CustomAnnotation {
 	}
 	
 	@MainActor
+	var tintColor: Color {
+		get {
+			switch self.location.type {
+			case .system:
+				return AppStorageManager.shared.colorBlindMode ? .purple : .red
+			case .user:
+				return self.id > 0 ? .green : (AppStorageManager.shared.colorBlindMode ? .purple : .red)
+			}
+		}
+	}
+	
+	@MainActor
+	var iconSystemName: String {
+		get {
+			let colorBlindSytemImage: String
+			switch self.location.type {
+			case .system:
+				colorBlindSytemImage = SFSymbol.colorBlindLowQualityLocation.systemName
+			case .user:
+				if self.id > 0 {
+					colorBlindSytemImage = SFSymbol.colorBlindHighQualityLocation.systemName
+				} else {
+					colorBlindSytemImage = SFSymbol.colorBlindLowQualityLocation.systemName
+				}
+			}
+			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : SFSymbol.bus.systemName
+		}
+	}
+	
+	@MainActor
 	var annotationView: MKAnnotationView {
 		get {
 			let markerAnnotationView = MKMarkerAnnotationView()
 			markerAnnotationView.displayPriority = .required
 			markerAnnotationView.canShowCallout = true
-			let colorBlindMode = UserDefaults.standard.bool(forKey: "ColorBlindMode")
-			let colorBlindSymbolName: String
-			switch self.location.type {
-			case .system:
-				markerAnnotationView.markerTintColor = colorBlindMode ? .systemPurple : .systemRed
-				colorBlindSymbolName = "circle.dotted"
-			case .user:
-				markerAnnotationView.markerTintColor = .systemGreen
-				colorBlindSymbolName = "scope"
-			}
-			let symbolName = colorBlindMode ? colorBlindSymbolName : "bus"
 			#if canImport(AppKit)
-			markerAnnotationView.glyphImage = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
+			markerAnnotationView.markerTintColor = NSColor(self.tintColor)
+			markerAnnotationView.glyphImage = NSImage(systemSymbolName: self.iconSystemName, accessibilityDescription: nil)
 			#elseif canImport(UIKit) // canImport(AppKit)
-			markerAnnotationView.glyphImage = UIImage(systemName: symbolName)
+			markerAnnotationView.markerTintColor = UIColor(self.tintColor)
+			markerAnnotationView.glyphImage = UIImage(systemName: self.iconSystemName)
 			#endif // canImport(UIKit)
 			return markerAnnotationView
 		}
@@ -124,8 +145,8 @@ extension Array where Element == Bus {
 					}
 				}
 				#endif // os(iOS)
-		} catch let error {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+		} catch {
+			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
 			}
 			return []

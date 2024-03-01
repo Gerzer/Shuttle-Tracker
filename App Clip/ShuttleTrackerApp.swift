@@ -12,6 +12,9 @@ import SwiftUI
 @main
 struct ShuttleTrackerApp: App {
 	
+	@State
+	private var mapCameraPosition: MapCameraPositionWrapper = .default
+	
 	@ObservedObject
 	private var mapState = MapState.shared
 	
@@ -24,11 +27,14 @@ struct ShuttleTrackerApp: App {
 	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
-	private static let sheetStack = SheetStack()
+	static let sheetStack = ShuttleTrackerSheetStack()
+	
+	@UIApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
 	
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+			ContentView(mapCameraPosition: self.$mapCameraPosition)
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
 				.environmentObject(self.boardBusManager)

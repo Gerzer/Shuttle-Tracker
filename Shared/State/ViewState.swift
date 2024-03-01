@@ -77,6 +77,13 @@ final class ViewState: OnboardingFlags {
 	@Published
 	var legendToastHeadlineText: LegendToast.HeadlineText?
 	
+	/// The number that should be displayed in notification badges.
+	///
+	/// Generally, the value of this property should be the count of announcements that the user has not yet viewed.
+	/// - Warning: Don’t set this property directly; instead, use `updateBadge()` on `UNUserNotificationCenter`.
+	@Published
+	var badgeNumber = 0
+	
 	let handles = Handles()
 	
 	// TODO: Simplify to a single stored property when we drop support for iOS 15 and macOS 12

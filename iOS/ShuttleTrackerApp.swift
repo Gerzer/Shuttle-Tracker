@@ -12,6 +12,9 @@ import SwiftUI
 @main
 struct ShuttleTrackerApp: App {
 	
+	@State
+	private var mapCameraPosition: MapCameraPositionWrapper = .default
+	
 	@ObservedObject
 	private var mapState = MapState.shared
 	
@@ -24,7 +27,10 @@ struct ShuttleTrackerApp: App {
 	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
-	private static let sheetStack = SheetStack()
+	static let sheetStack = ShuttleTrackerSheetStack()
+	
+	@UIApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
@@ -44,21 +50,16 @@ struct ShuttleTrackerApp: App {
 				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
-			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
+		OnboardingEvent(flags: flags, value: ShuttleTrackerSheetPresentationProvider.SheetType.whatsNew(onboarding: true), handler: Self.pushSheet(_:)) {
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
 		OnboardingEvent(flags: flags) { (_) in
 			CLLocationManager.registerHandler { (locationManager) in
 				switch (locationManager.authorizationStatus, locationManager.accuracyAuthorization) {
 				case (.authorizedAlways, .fullAccuracy):
 					break
-				case (.authorizedWhenInUse, .fullAccuracy):
+				default:
 					ViewState.shared.toastType = .network
-				case (.notDetermined, _), (.restricted, _), (.denied, _), (_, .reducedAccuracy):
-					Self.pushSheet(.permissions)
-				@unknown default:
-					fatalError()
 				}
 			}
 		} conditions: {
@@ -71,11 +72,18 @@ struct ShuttleTrackerApp: App {
 		} conditions: {
 			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
+		OnboardingEvent(flags: flags) { (_) in
+			if AppStorageManager.shared.baseURL == URL(string: "https://staging.shuttletracker.app")! {
+				AppStorageManager.shared.baseURL = URL(string: "https://shuttletracker.app")!
+			}
+		} conditions: {
+			OnboardingConditions.Once(defaultsKey: "2.0")
+		}
 	}
 	
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+			ContentView(mapCameraPosition: self.$mapCameraPosition)
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
 				.environmentObject(self.boardBusManager)
@@ -101,15 +109,24 @@ struct ShuttleTrackerApp: App {
 			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
 		CLLocationManager.default = CLLocationManager()
-		CLLocationManager.default.requestWhenInUseAuthorization()
-		CLLocationManager.default.requestAlwaysAuthorization()
 		CLLocationManager.default.activityType = .automotiveNavigation
 		CLLocationManager.default.showsBackgroundLocationIndicator = true
 		CLLocationManager.default.allowsBackgroundLocationUpdates = true
+		CLLocationManager.default.pausesLocationUpdatesAutomatically = false
+		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+			let beaconRegion = CLBeaconRegion(uuid: BoardBusManager.networkUUID, identifier: BoardBusManager.beaconID)
+			beaconRegion.notifyEntryStateOnDisplay = true
+			CLLocationManager.default.startMonitoring(for: beaconRegion)
+			if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+				// It’s unclear why, but activating the significant-change location service on app launch and never deactivating is necessary to be able to activate the standard location service upon beacon detection in the background. Otherwise, the user would need to open the app in the foreground to start sending location data to the server, which defeats the purpose of Automatic Board Bus.
+				// https://stackoverflow.com/questions/20187700/startupdatelocations-in-background-didupdatingtolocation-only-called-10-20-time
+				CLLocationManager.default.startMonitoringSignificantLocationChanges()
+			}
+		}
 		Task {
 			do {
 				try await UNUserNotificationCenter.requestDefaultAuthorization()
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
 				}
@@ -118,7 +135,7 @@ struct ShuttleTrackerApp: App {
 		}
 	}
 	
-	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
+	private static func pushSheet(_ sheetType: ShuttleTrackerSheetPresentationProvider.SheetType) {
 		Task {
 			do {
 				if #available(iOS 16, *) {
@@ -126,7 +143,7 @@ struct ShuttleTrackerApp: App {
 				} else {
 					try await Task.sleep(nanoseconds: 1_000_000_000)
 				}
-			} catch let error {
+			} catch {
 				Logging.withLogger(doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 				}

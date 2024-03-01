@@ -106,9 +106,9 @@ struct LoggingAnalyticsSettingsView: View {
 			}
 			Section {
 				#if os(iOS)
-				Toggle("Collect Analytics", isOn: self.appStorageManager.$doCollectAnalytics)
+				Toggle("Share Analytics", isOn: self.appStorageManager.$doShareAnalytics)
 				#elseif os(macOS) // os(iOS)
-				Toggle("Collect analytics", isOn: self.appStorageManager.$doCollectAnalytics)
+				Toggle("Share analytics", isOn: self.appStorageManager.$doShareAnalytics)
 				#endif // os(macOS)
 			}
 			#if os(macOS)
@@ -411,28 +411,23 @@ struct LoggingAnalyticsSettingsView: View {
 				#elseif os(macOS) // os(iOS)
 				self.logUploadState = .uploaded
 				#endif // os(macOS)
-			} catch let error {
+			} catch {
 				self.logUploadError = WrappedError(error)
 				Logging.withLogger { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload log: \(error, privacy: .public)")
 				}
-				throw error
 			}
 		}
 	}
 	
 }
 
-struct LoggingAnalyticsSettingsViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		LoggingAnalyticsSettingsView()
-			.environmentObject(AppStorageManager.shared)
-			.task {
-				AppStorageManager.shared.uploadedLogs = [
-					Logging.Log(content: "Hello, world!")
-				]
-			}
-	}
-	
+#Preview {
+	LoggingAnalyticsSettingsView()
+		.environmentObject(AppStorageManager.shared)
+		.task {
+			AppStorageManager.shared.uploadedLogs = [
+				Logging.Log(content: "Hello, world!")
+			]
+		}
 }

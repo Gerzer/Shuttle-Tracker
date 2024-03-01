@@ -7,6 +7,7 @@
 
 import CoreLocation
 import SwiftUI
+import UserNotifications
 
 struct BusSelectionSheet: View {
 	
@@ -32,7 +33,7 @@ struct BusSelectionSheet: View {
 	private var boardBusManager: BoardBusManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		NavigationView {
@@ -83,9 +84,13 @@ struct BusSelectionSheet: View {
 									BusOption(busID, selection: self.$selectedBusID)
 								}
 							}
+							Divider()
+								.background(.secondary)
+								.padding(.vertical, 10)
+							BusOption(.unknown, selection: self.$selectedBusID)
 							Spacer(minLength: 20)
 						}
-						.padding(.horizontal)
+							.padding(.horizontal)
 					}
 				} else {
 					ProgressView("Loading")
@@ -108,7 +113,7 @@ struct BusSelectionSheet: View {
 								case .reducedAccuracy:
 									do {
 										try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-									} catch let error {
+									} catch {
 										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 										}
@@ -139,10 +144,10 @@ struct BusSelectionSheet: View {
 			.task {
 				do {
 					self.busIDs = try await API.readAllBuses.perform(as: [Int].self)
-						.map { (id) in
+						.compactMap { (id) in
 							return BusID(id)
 						}
-				} catch let error {
+				} catch {
 					Logging.withLogger(for: .api, doUpload: true) { (logger) in
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
 					}
@@ -162,7 +167,7 @@ struct BusSelectionSheet: View {
 						.distance(from: location)
 					return firstBusDistance < secondBusDistance
 				}
-				self.suggestedBusID = closestBus.map { (bus) in
+				self.suggestedBusID = closestBus.flatMap { (bus) in
 					return BusID(bus.id)
 				}
 			}
@@ -171,7 +176,7 @@ struct BusSelectionSheet: View {
 					Task {
 						do {
 							try await Analytics.upload(eventType: .busSelectionCanceled)
-						} catch let error {
+						} catch {
 							Logging.withLogger(for: .api) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
 							}
@@ -188,60 +193,23 @@ struct BusSelectionSheet: View {
 		Logging.withLogger(for: .boardBus) { (logger) in
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Activating Board Bus manually…")
 		}
-		guard let busID = self.selectedBusID?.rawValue else {
+		guard let id = self.selectedBusID?.rawValue else {
 			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] No selected bus ID while trying to activate manual Board Bus")
 			}
 			return
 		}
-		await self.boardBusManager.boardBus(id: busID)
-		self.viewState.statusText = .locationData
-		self.viewState.handles.tripCount?.increment()
+		await self.boardBusManager.boardBus(id: id, manually: true)
 		self.sheetStack.pop()
 		CLLocationManager.default.startUpdatingLocation()
-		
-		// Schedule leave-bus notification
-		let content = UNMutableNotificationContent()
-		content.title = "Leave Bus"
-		content.body = "Did you leave the bus? Remember to tap “Leave Bus” next time."
-		content.sound = .default
-		#if !APPCLIP
-		content.interruptionLevel = .timeSensitive
-		#endif // !APPCLIP
-		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1080, repeats: false)
-		let request = UNNotificationRequest(identifier: "LeaveBus", content: content, trigger: trigger)
-		Task {
-			do {
-				try await UNUserNotificationCenter.requestDefaultAuthorization()
-			} catch let error {
-				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-				}
-				throw error
-			}
-			do {
-				try await UNUserNotificationCenter
-					.current()
-					.add(request)
-			} catch let error {
-				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule local notification: \(error, privacy: .public)")
-				}
-				throw error
-			}
-		}
 	}
 	
 }
 
-struct BusSelectionSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		BusSelectionSheet()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
-			.environmentObject(BoardBusManager.shared)
-			.environmentObject(SheetStack())
-	}
-	
+#Preview {
+	BusSelectionSheet()
+		.environmentObject(MapState.shared)
+		.environmentObject(ViewState.shared)
+		.environmentObject(BoardBusManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

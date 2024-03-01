@@ -7,7 +7,6 @@
 
 import AsyncAlgorithms
 import CoreLocation
-import StoreKit
 import SwiftUI
 
 struct PrimaryOverlay: View {
@@ -16,7 +15,10 @@ struct PrimaryOverlay: View {
 	private var isRefreshing = false
 	
 	@State
-	private var doShowLocationsPermissionsAlert = false
+	private var doShowLocationPermissionsAlert = false
+	
+	@Binding
+	private var mapCameraPosition: MapCameraPositionWrapper
 	
 	@EnvironmentObject
 	private var mapState: MapState
@@ -31,7 +33,7 @@ struct PrimaryOverlay: View {
 	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	private var buttonText: String {
 		get {
@@ -81,7 +83,7 @@ struct PrimaryOverlay: View {
 									NotificationCenter.default.post(name: .refreshBuses, object: nil)
 								}
 							} label: {
-								Image(systemName: "arrow.clockwise")
+								Image(systemName: SFSymbol.refresh.systemName)
 									.resizable()
 									.aspectRatio(1, contentMode: .fit)
 									.symbolVariant(.circle)
@@ -102,27 +104,33 @@ struct PrimaryOverlay: View {
 			Spacer()
 		}
 			.padding()
-			.alert("Location Access", isPresented: self.$doShowLocationsPermissionsAlert) {
+			.alert("Location Access", isPresented: self.$doShowLocationPermissionsAlert) {
 				Link("Continue", destination: URL(string: UIApplication.openSettingsURLString)!)
 			} message: {
 				Text("Shuttle Tracker requires access to your location. Enable precise location access in Settings.")
 			}
 			.task {
 				if #available(iOS 16, *) {
-					for await refreshType in self.viewState.refreshSequence {
+					await self.mapState.refreshAll()
+					await self.mapState.recenter(position: self.$mapCameraPosition)
+					for await refreshType in self.viewState.refreshSequence { // Wait for the next refresh event to be emitted
 						switch refreshType {
 						case .manual:
 							withAnimation {
 								self.isRefreshing = true
 							}
 							do {
+								// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 								try await Task.sleep(for: .milliseconds(500))
-							} catch let error {
+							} catch {
 								Logging.withLogger(doUpload: true) { (logger) in
 									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
 								}
 							}
+							
+							// For automatic refresh operations, we refresh everything.
 							await self.mapState.refreshAll()
+							
 							withAnimation {
 								self.isRefreshing = false
 							}
@@ -151,20 +159,27 @@ struct PrimaryOverlay: View {
 					}
 					Task {
 						do {
+							// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 							try await Task.sleep(nanoseconds: 500_000_000)
-						} catch let error {
+						} catch {
 							Logging.withLogger(doUpload: true) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 							}
-							throw error
 						}
+						
+						// For automatic refresh operations, we refresh everything.
 						await self.mapState.refreshAll()
+						
 						withAnimation {
 							self.isRefreshing = false
 						}
 					}
 				}
 			}
+	}
+	
+	init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
+		self._mapCameraPosition = mapCameraPosition
 	}
 	
 	/// Gets the user’s current location.
@@ -177,7 +192,7 @@ struct PrimaryOverlay: View {
 			return userLocation
 		} else {
 			#if APPCLIP
-			self.doShowLocationsPermissionsAlert = true
+			self.doShowLocationPermissionsAlert = true
 			#else // APPCLIP
 			self.sheetStack.push(.permissions)
 			#endif
@@ -207,11 +222,13 @@ struct PrimaryOverlay: View {
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
 		}
 		
-		do {
-			try await Analytics.upload(eventType: .boardBusTapped)
-		} catch {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+		Task { // Dispatch a child task because we don’t need to await the result
+			do {
+				try await Analytics.upload(eventType: .boardBusTapped)
+			} catch {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
 			}
 		}
 		
@@ -220,7 +237,7 @@ struct PrimaryOverlay: View {
 			break
 		default:
 			#if APPCLIP
-			self.doShowLocationsPermissionsAlert = true
+			self.doShowLocationPermissionsAlert = true
 			#else // APPCLIP
 			self.sheetStack.push(.permissions)
 			#endif
@@ -231,7 +248,7 @@ struct PrimaryOverlay: View {
 		case .fullAccuracy:
 			do {
 				userLocation = try self.userLocation()
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .location) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get user location: \(error, privacy: .public)")
 				}
@@ -240,7 +257,7 @@ struct PrimaryOverlay: View {
 		case .reducedAccuracy:
 			do {
 				try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 				}
@@ -256,7 +273,7 @@ struct PrimaryOverlay: View {
 			
 			do {
 				userLocation = try self.userLocation()
-			} catch let error {
+			} catch {
 				Logging.withLogger(for: .location) { (logger) in
 					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get user location: \(error, privacy: .public)")
 				}
@@ -274,55 +291,25 @@ struct PrimaryOverlay: View {
 			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Leave Bus” button tapped")
 		}
 		
-		do {
-			try await Analytics.upload(eventType: .leaveBusTapped)
-		} catch {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+		Task { // Dispatch a child task because we don’t need to await the result
+			do {
+				try await Analytics.upload(eventType: .leaveBusTapped)
+			} catch {
+				Logging.withLogger(for: .api, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
+				}
 			}
 		}
 		
 		await self.boardBusManager.leaveBus()
-		self.viewState.statusText = .thanks
-		CLLocationManager.default.stopUpdatingLocation()
-		
-		// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for iOS 15
-		// Request a review on the App Store
-		// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires iOS 16 or newer, and stored properties can’t be gated on OS version.
-		let windowScenes = UIApplication.shared.connectedScenes
-			.filter { (scene) in
-				return scene.activationState == .foregroundActive
-			}
-			.compactMap { (scene) in
-				return scene as? UIWindowScene
-			}
-		if let windowScene = windowScenes.first {
-			SKStoreReviewController.requestReview(in: windowScene)
-		}
-		
-		do {
-			if #available(iOS 16, *) {
-				try await Task.sleep(for: .seconds(5))
-			} else {
-				try await Task.sleep(nanoseconds: 5_000_000_000)
-			}
-		} catch let error {
-			Logging.withLogger(doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-			}
-		}
-		self.viewState.statusText = .mapRefresh
 	}
 	
 }
 
-struct PrimaryOverlayPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PrimaryOverlay()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
-			.environmentObject(BoardBusManager.shared)
-	}
-	
+@available(iOS 17, *)
+#Preview {
+	PrimaryOverlay(mapCameraPosition: .constant(MapCameraPositionWrapper(MapConstants.defaultCameraPosition)))
+		.environmentObject(MapState.shared)
+		.environmentObject(ViewState.shared)
+		.environmentObject(BoardBusManager.shared)
 }

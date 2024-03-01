@@ -8,11 +8,15 @@
 import AsyncAlgorithms
 import MapKit
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
 	
 	@State
 	private var announcements: [Announcement] = []
+	
+	@Binding
+	private var mapCameraPosition: MapCameraPositionWrapper
 	
 	@EnvironmentObject
 	private var mapState: MapState
@@ -24,25 +28,15 @@ struct ContentView: View {
 	private var appStorageManager: AppStorageManager
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	@Environment(\.colorScheme)
 	private var colorScheme
 	
-	private var unviewedAnnouncementsCount: Int {
-		get {
-			return self.announcements
-				.filter { (announcement) in
-					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
-				}
-				.count
-		}
-	}
-	
 	var body: some View {
-		SheetPresentationWrapper {
 			ZStack {
 				self.mapView
+					.tint(.blue)
 					.ignoresSafeArea()
 				#if os(macOS)
 				VStack {
@@ -78,7 +72,7 @@ struct ContentView: View {
 							.padding()
 					default:
 						HStack {
-							SecondaryOverlay()
+							SecondaryOverlay(mapCameraPosition: self.$mapCameraPosition)
 								.padding(.top, 5)
 								.padding(.leading, 10)
 							Spacer()
@@ -86,7 +80,7 @@ struct ContentView: View {
 					}
 					Spacer()
 					#endif // !APPCLIP
-					PrimaryOverlay()
+					PrimaryOverlay(mapCameraPosition: self.$mapCameraPosition)
 						.padding(.bottom)
 					#if APPCLIP
 					Spacer()
@@ -125,23 +119,23 @@ struct ContentView: View {
 					}
 				}
 				.task {
+					ViewState.shared.colorScheme = self.colorScheme
+					
 					do {
 						let version = try await API.readVersion.perform(as: Int.self)
 						if version > API.lastVersion {
 							self.viewState.alertType = .updateAvailable
 						}
-					} catch let error {
+					} catch {
 						self.viewState.alertType = .serverUnavailable
 						Logging.withLogger(for: .api, doUpload: true) { (logger) in
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
 						}
 					}
-				}
-				.task {
-					ViewState.shared.colorScheme = self.colorScheme
+					
 					do {
 						try await Analytics.upload(eventType: .coldLaunch)
-					} catch let error {
+					} catch {
 						Logging.withLogger(for: .api, doUpload: true) { (logger) in
 							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
 						}
@@ -150,7 +144,10 @@ struct ContentView: View {
 				.onChange(of: self.colorScheme) { (newValue) in
 					ViewState.shared.colorScheme = newValue
 				}
-		}
+				.sheetPresentation(
+					provider: ShuttleTrackerSheetPresentationProvider(sheetStack: self.sheetStack),
+					sheetStack: self.sheetStack
+				)
 	}
 	
 	#if os(macOS)
@@ -162,34 +159,51 @@ struct ContentView: View {
 		.autoconnect()
 	
 	private var mapView: some View {
-		MapView()
+		Group {
+			if #available(macOS 14, *) {
+				MapContainer(position: self.$mapCameraPosition)
+			} else {
+				LegacyMapView(position: self.$mapCameraPosition)
+			}
+		}
 			.toolbar {
 				Button {
 					self.sheetStack.push(.announcements)
 				} label: {
 					ZStack {
-						Label("Show Announcements", systemImage: "exclamationmark.bubble")
-						if self.unviewedAnnouncementsCount > 0 {
+						Label("Show Announcements", systemImage: SFSymbol.announcements.systemName)
+						if self.viewState.badgeNumber > 0 {
 							Circle()
 								.foregroundColor(.red)
 								.frame(width: 15, height: 15)
 								.offset(x: 10, y: -10)
-							Text("\(self.unviewedAnnouncementsCount)")
+							Text("\(self.viewState.badgeNumber)")
 								.foregroundColor(.white)
 								.font(.caption)
 								.offset(x: 10, y: -10)
 						}
 					}
 						.task {
-							self.announcements = await [Announcement].download()
+							do {
+								try await UNUserNotificationCenter.updateBadge()
+							} catch let error {
+								Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+								}
+							}
 						}
 				}
 				Button {
+					self.sheetStack.push(.info)
+				} label: {
+					Label("Schedule", systemImage: "info.circle")
+				}
+				Button {
 					Task {
-						await self.mapState.resetVisibleMapRect()
+						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}
 				} label: {
-					Label("Re-Center Map", systemImage: "location.fill.viewfinder")
+					Label("Re-Center Map", systemImage: SFSymbol.recenter.systemName)
 				}
 				if self.isRefreshing {
 					ProgressView()
@@ -203,19 +217,21 @@ struct ContentView: View {
 							NotificationCenter.default.post(name: .refreshBuses, object: nil)
 						}
 					} label: {
-						Label("Refresh", systemImage: "arrow.clockwise")
+						Label("Refresh", systemImage: SFSymbol.refresh.systemName)
 					}
 				}
 			}
 			.task {
 				if #available(macOS 13, *) {
+					await self.mapState.refreshAll()
+					await self.mapState.recenter(position: self.$mapCameraPosition)
 					for await refreshType in self.viewState.refreshSequence {
 						switch refreshType {
 						case .manual:
 							self.isRefreshing = true
 							do {
 								try await Task.sleep(for: .milliseconds(500))
-							} catch let error {
+							} catch {
 								Logging.withLogger(doUpload: true) { (logger) in
 									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
 								}
@@ -251,7 +267,7 @@ struct ContentView: View {
 					Task {
 						do {
 							try await Task.sleep(nanoseconds: 500_000_000)
-						} catch let error {
+						} catch {
 							Logging.withLogger(doUpload: true) { (logger) in
 								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
 							}
@@ -267,20 +283,27 @@ struct ContentView: View {
 	}
 	#else // os(macOS)
 	private var mapView: some View {
-		MapView()
+		Group {
+			if #available(iOS 17, *) {
+				MapContainer(position: self.$mapCameraPosition)
+			} else {
+				LegacyMapView(position: self.$mapCameraPosition)
+			}
+		}
 	}
 	#endif
 	
-}
-
-struct ContentViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		ContentView()
-			.environmentObject(MapState.shared)
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(SheetStack())
+	init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
+		self._mapCameraPosition = mapCameraPosition
 	}
 	
+}
+
+@available(iOS 17, macOS 14, *)
+#Preview {
+	ContentView(mapCameraPosition: .constant(MapCameraPositionWrapper(MapConstants.defaultCameraPosition)))
+		.environmentObject(MapState.shared)
+		.environmentObject(ViewState.shared)
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

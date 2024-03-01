@@ -37,13 +37,13 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		annotationView.displayPriority = .defaultHigh
 		annotationView.canShowCallout = true
 		#if canImport(AppKit)
-		annotationView.image = NSImage(systemSymbolName: "circle.fill", accessibilityDescription: nil)?
+		annotationView.image = NSImage(systemSymbolName: SFSymbol.stop.systemName, accessibilityDescription: nil)?
 			.withTintColor(.white)
 		annotationView.layer?.borderColor = .black
 		annotationView.layer?.borderWidth = 2
 		annotationView.layer?.cornerRadius = annotationView.frame.width / 2
 		#elseif canImport(UIKit) // canImport(AppKit)
-		let image = UIImage(systemName: "circle.fill")!
+		let image = UIImage(systemName: SFSymbol.stop.systemName)!
 		let imageView = UIImageView(image: image)
 		imageView.tintColor = .white
 		imageView.layer.borderColor = UIColor.black.cgColor
@@ -69,8 +69,8 @@ extension Array where Element == Stop {
 	static func download() async -> [Stop] {
 		do {
 			return try await API.readStops.perform(as: [Stop].self, onMainActor: true) // Stops must be decoded on the main thread because initializing the annotationView property indirectly invokes UIView’s main-thread-isolated init() initializer.
-		} catch let error {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+		} catch {
+			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download stops: \(error, privacy: .public)")
 			}
 			return []

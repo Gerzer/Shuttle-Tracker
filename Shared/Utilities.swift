@@ -56,14 +56,15 @@ enum LocationUtilities {
 		}
 		let location = Bus.Location(
 			id: locationID,
-			date: Date(),
+			date: .now,
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
 		
 		let tolerance = await AppStorageManager.shared.routeTolerance
 		if await MapState.shared.distance(to: coordinate) > Double(tolerance) {
-			if .onBus ~= BoardBusManager.globalTravelState {
+			switch BoardBusManager.globalTravelState {
+			case .onBus:
 				await BoardBusManager.shared.leaveBus(manual: false)
 				let content = UNMutableNotificationContent()
 				content.title = "Board Bus"
@@ -90,15 +91,26 @@ enum LocationUtilities {
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Board Bus notification: \(error, privacy: .public)")
 					}
 				}
+			default:
+				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+					logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Board Bus is unexpectedly inactive while checking route tolerance.")
+				}
 			}
-			return
-		}
-		
-		do {
-			try await API.updateBus(id: busID, location: location).perform()
-		} catch let error {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
+		} else {
+			do {
+				let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
+				await BoardBusManager.shared.updateBusID(with: resolvedBus)
+			} catch let error as any HTTPStatusCode {
+				if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
+					return
+				}
+				Logging.withLogger(for: .boardBus) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
+				}
+			} catch {
+				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
+				}
 			}
 		}
 	}
@@ -126,6 +138,9 @@ enum MapConstants {
 	
 	static let earthRadius = 6378.137;
 	
+	@available(iOS 17, macOS 14, *)
+	static let defaultCameraPosition: MapCameraPosition = .rect(MapConstants.mapRect)
+	
 	#if canImport(AppKit)
 	static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
 	#elseif canImport(UIKit) // canImport(AppKit)
@@ -134,19 +149,11 @@ enum MapConstants {
 	
 }
 
-enum TravelState {
-	
-	case onBus
-	
-	case notOnBus
-	
-}
-
-enum UserLocationError: Error {
+enum UserLocationError: LocalizedError {
 	
 	case unavailable
 	
-	var localizedDescription: String {
+	var errorDescription: String? {
 		get {
 			switch self {
 			case .unavailable:
@@ -234,6 +241,80 @@ extension UNUserNotificationCenter {
 		try await UNUserNotificationCenter
 			.current()
 			.requestAuthorization(options: [.alert, .sound, .badge, .provisional])
+	}
+	
+	/// Updates the app’s badge on the Home Screen or in the Dock.
+	///
+	/// This method downloads the latest announcements from the server. The count of active announcements that the user has not yet viewed is set as the badge number and published to the rest of the app via ``ViewState/badgeNumber``.
+	static func updateBadge() async throws {
+		let viewedAnnouncementIDs = await AppStorageManager.shared.viewedAnnouncementIDs
+		let announcementsCount = await [Announcement]
+			.download()
+			.filter { (announcement) in
+				return !viewedAnnouncementIDs.contains(announcement.id)
+			}
+			.count
+		await MainActor.run {
+			ViewState.shared.badgeNumber = announcementsCount
+		}
+		if #available(iOS 16, macOS 13, *) {
+			try await UNUserNotificationCenter.current().setBadgeCount(announcementsCount)
+		} else {
+			#if canImport(AppKit)
+			await MainActor.run {
+				NSApplication.shared.dockTile.badgeLabel = announcementsCount > 0 ? "\(announcementsCount)" : nil
+			}
+			#elseif canImport(UIKit) // canImport(AppKit)
+			await MainActor.run {
+				UIApplication.shared.applicationIconBadgeNumber = announcementsCount
+			}
+			#endif // canImport(UIKit)
+		}
+	}
+	
+	/// Processes a new notification.
+	/// - Parameter userInfo: The notification’s payload.
+	static func handleNotification(userInfo: [AnyHashable: Any]? = nil) async {
+		Task { // Dispatch a new task because we don’t need to await the result
+			do {
+				try await self.updateBadge()
+			} catch let error {
+				Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
+				}
+			}
+		}
+		#if os(iOS)
+		let sheetStack = ShuttleTrackerApp.sheetStack
+		#elseif os(macOS) // os(iOS)
+		let sheetStack = ShuttleTrackerApp.contentViewSheetStack
+		#endif // os(macOS)
+		if await sheetStack.top == nil {
+			Logging.withLogger(for: .apns) { (logger) in
+				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Attempting to push a sheet in response to a notification")
+			}
+			if let userInfo {
+				if JSONSerialization.isValidJSONObject(userInfo) {
+					do {
+						let data = try JSONSerialization.data(withJSONObject: userInfo)
+						let announcement = try JSONDecoder().decode(Announcement.self, from: data)
+						await sheetStack.push(.announcement(announcement))
+					} catch let error {
+						Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
+						}
+					}
+				} else {
+					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification payload can’t be converted to JSON")
+					}
+				}
+			}
+		} else {
+			Logging.withLogger(for: .apns) { (logger) in
+				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
+			}
+		}
 	}
 	
 }
@@ -338,9 +419,18 @@ extension URL {
 		
 		struct ParseStrategy: Foundation.ParseStrategy {
 			
-			enum ParseError: Error {
+			enum ParseError: LocalizedError {
 				
 				case parseFailed
+				
+				var errorDescription: String? {
+					get {
+						switch self {
+						case .parseFailed:
+							return "URL parsing failed."
+						}
+					}
+				}
 				
 			}
 			

@@ -30,6 +30,13 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	let color: Color
 	
+	var mapColor: Color {
+		get {
+			return self.color
+				.opacity(0.7)
+		}
+	}
+	
 	var polylineRenderer: MKPolylineRenderer {
 		get {
 			let polyline = self.mapPoints.withUnsafeBufferPointer { (mapPointsPointer) -> MKPolyline in
@@ -56,25 +63,12 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 	
 	var boundingMapRect: MKMapRect {
 		get {
-			let minX = self.reduce(into: self.first!.x) { (x, mapPoint) in
-				if mapPoint.x < x {
-					x = mapPoint.x
-				}
-			}
-			let maxX = self.reduce(into: self.first!.x) { (x, mapPoint) in
-				if mapPoint.x > x {
-					x = mapPoint.x
-				}
-			}
-			let minY = self.reduce(into: self.first!.y) { (y, mapPoint) in
-				if mapPoint.y < y {
-					y = mapPoint.y
-				}
-			}
-			let maxY = self.reduce(into: self.first!.x) { (y, mapPoint) in
-				if mapPoint.y > y {
-					y = mapPoint.y
-				}
+			let minX = self.min { return $0.x < $1.x }?.x
+			let maxX = self.max { return $0.x < $1.x }?.x
+			let minY = self.min { return $0.y < $1.y }?.y
+			let maxY = self.max { return $0.y < $1.y }?.y
+			guard let minX, let maxX, let minY, let maxY else {
+				return MKMapRect.null
 			}
 			return MKMapRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
 		}
@@ -147,8 +141,8 @@ extension Array where Element == Route {
 	static func download() async -> [Route] {
 		do {
 			return try await API.readRoutes.perform(as: [Route].self)
-		} catch let error {
-			Logging.withLogger(for: .api, doUpload: true) { (logger) in
+		} catch {
+			Logging.withLogger(for: .api) { (logger) in
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
 			}
 			return []

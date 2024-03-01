@@ -26,7 +26,7 @@ final class AppStorageManager: ObservableObject {
 		
 		static let doUploadLogs = true
 		
-		static let doCollectAnalytics = false
+		static let doShareAnalytics = false
 		
 		static let uploadedLogs: [Logging.Log] = []
 		
@@ -59,8 +59,8 @@ final class AppStorageManager: ObservableObject {
 	@AppStorage("DoUploadLogs")
 	var doUploadLogs = Defaults.doUploadLogs
 	
-	@AppStorage("DoCollectAnalytics")
-	var doCollectAnalytics = Defaults.doCollectAnalytics
+	@AppStorage("DoShareAnalytics")
+	var doShareAnalytics = Defaults.doShareAnalytics
 	
 	@AppStorage("UploadedLogs")
 	var uploadedLogs = Defaults.uploadedLogs
