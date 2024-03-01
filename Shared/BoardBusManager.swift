@@ -199,6 +199,38 @@ actor BoardBusManager: ObservableObject {
 				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
 			}
 		}
+        if await (!AppStorageManager.shared.automaticBoardNotification) {
+            let content = UNMutableNotificationContent()
+            content.title = "Automatic Board Bus"
+            switch type {
+            case .boardBus:
+                content.body = "Shuttle Tracker detected that you’re on a bus and activated Automatic Board Bus."
+            case .leaveBus:
+                content.body = "Shuttle Tracker detected that you got off the bus and deactivated Automatic Board Bus."
+            }
+            content.sound = .default
+#if !APPCLIP
+            content.interruptionLevel = .timeSensitive
+#endif // !APPCLIP
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications
+            let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
+            do {
+                try await UNUserNotificationCenter.requestDefaultAuthorization()
+            } catch {
+                Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+                    logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+                }
+            }
+            do {
+                try await UNUserNotificationCenter
+                    .current()
+                    .add(request)
+            } catch {
+                Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
+                    logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
+                }
+            }
+        }
 	}
 	
 }

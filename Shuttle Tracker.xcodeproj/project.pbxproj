@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		199F66492B22E15600B548E3 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F66482B22E15600B548E3 /* CustomScrollView.swift */; };
+		199F664A2B22E15600B548E3 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F66482B22E15600B548E3 /* CustomScrollView.swift */; };
+		199F66502B2347E700B548E3 /* NotificationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F664E2B2347E700B548E3 /* NotificationsSettingsView.swift */; };
 		6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF382AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF392AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
@@ -218,6 +221,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		199F66482B22E15600B548E3 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
+		199F664E2B2347E700B548E3 /* NotificationsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettingsView.swift; sourceTree = "<group>"; };
 		6519DF362AB3633B00B149FD /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -390,6 +395,7 @@
 				BC91B4C32989B35400711AE8 /* NetworkOnboardingView.swift */,
 				C032A8FF29CA86B20047579C /* NetworkTextView.swift */,
 				C0BC27692974648E008A4BD0 /* NetworkToast.swift */,
+				199F664E2B2347E700B548E3 /* NotificationsSettingsView.swift */,
 				C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */,
 				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
@@ -424,6 +430,7 @@
 				C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */,
 				C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */,
 				C039B0622796201200416725 /* CloseButton.swift */,
+				199F66482B22E15600B548E3 /* CustomScrollView.swift */,
 				C08FC22125251196008589C1 /* ContentView.swift */,
 				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C082CCEE277FB33C005D0209 /* BusOption.swift */,
@@ -439,6 +446,7 @@
 				C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */,
 				C059833E27D2CEFA00299D27 /* PrivacySheet.swift */,
 				C059831D27D14C8C00299D27 /* PrivacyView.swift */,
+				199F66482B22E15600B548E3 /* CustomScrollView.swift */,
 				C038BEC4270FC91100A23A2B /* SettingsView.swift */,
 				C0BE7D1426E944D8004F0F97 /* Toast.swift */,
 				C0019DDF25192AA50020574D /* VisualEffectView.swift */,
@@ -828,6 +836,7 @@
 				C00DF74D29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */,
 				C0C9D3D1270FA70C00AE58BE /* ViewState.swift in Sources */,
 				C09EB45D293A6D8C00CCE01B /* MailComposeView.swift in Sources */,
+				199F66502B2347E700B548E3 /* NotificationsSettingsView.swift in Sources */,
 				C0BE7D1626E944D8004F0F97 /* Toast.swift in Sources */,
 				C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */,
 				C059833F27D2CEFA00299D27 /* PrivacySheet.swift in Sources */,
@@ -857,6 +866,7 @@
 				C0E9525C295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C0BF4F8A29B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
+				199F664A2B22E15600B548E3 /* CustomScrollView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
@@ -911,6 +921,7 @@
 				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */,
+				199F66492B22E15600B548E3 /* CustomScrollView.swift in Sources */,
 				C03F158A2A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift in Sources */,
 				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C03B3CC829D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */,
