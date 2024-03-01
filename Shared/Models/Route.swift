@@ -93,64 +93,45 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 		return self.mapPoints[position]
 	}
 	
-	static func == (_ left: Route, _ right: Route) -> Bool {
-		return left.mapPoints == right.mapPoints
-	}
-	
 	func index(after oldIndex: Int) -> Int {
 		return oldIndex + 1
 	}
 	
-    func toCartesian(coordinate: CLLocationCoordinate2D) -> (Double, Double, Double) {
-        let earthRadius = 6378.137;
-        let pi = 3.1415926535897;
-        
-        return (earthRadius * cos(coordinate.latitude * pi / 180) * cos(coordinate.longitude * pi / 180), earthRadius * cos(coordinate.latitude * pi / 180) * sin(coordinate.longitude * pi / 180), earthRadius * sin(coordinate.latitude * pi / 180));
-    }
-    
-    func crossProduct(_ vecA: (Double, Double, Double), _ vecB: (Double, Double, Double)) -> (Double, Double, Double) {
-        return (vecA.1 * vecB.2 - vecA.2 * vecB.1, vecA.2 * vecB.0 - vecA.0 * vecB.2, vecA.0 * vecB.1 - vecA.1 * vecB.0);
-    }
-    
-    func distance(coordinate: CLLocationCoordinate2D) -> Double {
-        var minDist: Double = -1
-        
-        for i in mapPoints.indices.dropLast() {
-            let earthRadius = 6378.137;
-            let pi = 3.1415926535897;
-            
-            let vecA = toCartesian(coordinate: mapPoints[i].coordinate)
-            let vecB = toCartesian(coordinate: mapPoints[i + 1].coordinate)
-            let vecC = toCartesian(coordinate: coordinate)
-            
-            let epsilon = 0.01
-            let vecG = crossProduct(vecA, vecB)
-            let vecF = crossProduct(vecC, vecG)
-            var vecT = crossProduct(vecG, vecF)
-            let mag = sqrt(vecT.0 * vecT.0 + vecT.1 * vecT.1 + vecT.2 * vecT.2) + epsilon
-            vecT.0 *= earthRadius / mag
-            vecT.1 *= earthRadius / mag
-            vecT.2 *= earthRadius / mag
-            
-            let coord = CLLocationCoordinate2D(latitude: 180 / pi *  asin(vecT.2 / earthRadius), longitude: 180 / pi * atan2(vecT.1, vecT.0))
-            
-            let closest: MKMapPoint
-            
-            if abs(mapPoints[i].distance(to: mapPoints[i + 1]) - mapPoints[i].distance(to: MKMapPoint(coord)) - mapPoints[i + 1].distance(to: MKMapPoint(coord))) < epsilon {
-                closest = MKMapPoint(coord)
-            } else {
-                closest = (mapPoints[i].distance(to: MKMapPoint(coordinate)) < mapPoints[i + 1].distance(to: MKMapPoint(coordinate))) ? mapPoints[i] : mapPoints[i + 1]
-            }
-            
-            let dist = closest.distance(to: MKMapPoint(coordinate))
-            
-            if minDist < 0 || dist < minDist {
-                minDist = dist
-            }
-        }
-        
-        return minDist;
-    }
+	func distance(to coordinate: CLLocationCoordinate2D) -> Double {
+		var minDistance: Double = -1
+		for index in self.mapPoints.indices.dropLast() {
+			let vecA = self.mapPoints[index].coordinate.asCartesian()
+			let vecB = self.mapPoints[index + 1].coordinate.asCartesian()
+			let vecC = coordinate.asCartesian()
+			let vecG = vecA * vecB
+			let vecF = vecC * vecG
+			var vecT = vecG * vecF
+			let epsilon = 0.01
+			let magnitude = sqrt(vecT.x * vecT.x + vecT.y * vecT.y + vecT.z * vecT.z) + epsilon
+			vecT.x *= MapConstants.earthRadius / magnitude
+			vecT.y *= MapConstants.earthRadius / magnitude
+			vecT.z *= MapConstants.earthRadius / magnitude
+			let coordinate = CLLocationCoordinate2D(
+				latitude: 180 / .pi * asin(vecT.z / MapConstants.earthRadius),
+				longitude: 180 / .pi * atan2(vecT.y, vecT.x)
+			)
+			let closestPoint = if abs(self.mapPoints[index].distance(to: self.mapPoints[index + 1]) - self.mapPoints[index].distance(to: MKMapPoint(coordinate)) - self.mapPoints[index + 1].distance(to: MKMapPoint(coordinate))) < epsilon {
+				MKMapPoint(coordinate)
+			} else {
+				(self.mapPoints[index].distance(to: MKMapPoint(coordinate)) < self.mapPoints[index + 1].distance(to: MKMapPoint(coordinate))) ? self.mapPoints[index] : self.mapPoints[index + 1]
+			}
+			let distance = closestPoint.distance(to: MKMapPoint(coordinate))
+			if minDistance < 0 || distance < minDistance {
+				minDistance = distance
+			}
+		}
+		return minDistance
+	}
+	
+	static func == (_ left: Route, _ right: Route) -> Bool {
+		return left.mapPoints == right.mapPoints
+	}
+	
 }
 
 extension Array where Element == Route {

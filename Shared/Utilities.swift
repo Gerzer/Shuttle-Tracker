@@ -60,44 +60,40 @@ enum LocationUtilities {
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
-        
-        let tolerance = await AppStorageManager.shared.routeTolerance
-        if await MapState.shared.distance(coordinate: coordinate) > Double(tolerance) {
-            if .onBus ~= BoardBusManager.globalTravelState {
-                await BoardBusManager.shared.leaveBus(manual: false)
-                
-                let content = UNMutableNotificationContent()
-                content.title = "Automatically Left Bus"
-                content.body = "You have automatically left the bus by deviating more than \(tolerance) meters from the route."
-                content.sound = .default
-                #if !APPCLIP
-                content.interruptionLevel = .active
-                #endif // !APPCLIP
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                let request = UNNotificationRequest(identifier: "AutoLeftBus", content: content, trigger: trigger)
-                
-                do {
-                    try await UNUserNotificationCenter.requestDefaultAuthorization()
-                } catch let error {
-                    Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-                        logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-                    }
-                }
-                
-                do {
-                    try await UNUserNotificationCenter
-                        .current()
-                        .add(request)
-                } catch let error {
-                    Logging.withLogger(doUpload: true) { (logger) in
-                        logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule local notification: \(error, privacy: .public)")
-                    }
-                }
-            }
-            
-            return
-        }
-        
+		
+		let tolerance = await AppStorageManager.shared.routeTolerance
+		if await MapState.shared.distance(to: coordinate) > Double(tolerance) {
+			if .onBus ~= BoardBusManager.globalTravelState {
+				await BoardBusManager.shared.leaveBus(manual: false)
+				let content = UNMutableNotificationContent()
+				content.title = "Board Bus"
+				content.body = "Shuttle Tracker detected that you got off the bus and deactivated Board Bus."
+				content.sound = .default
+				#if !APPCLIP
+				content.interruptionLevel = .active
+				#endif // !APPCLIP
+				let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+				let request = UNNotificationRequest(identifier: "BoardBus", content: content, trigger: trigger)
+				do {
+					try await UNUserNotificationCenter.requestDefaultAuthorization()
+				} catch let error {
+					Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
+					}
+				}
+				do {
+					try await UNUserNotificationCenter
+						.current()
+						.add(request)
+				} catch let error {
+					Logging.withLogger(doUpload: true) { (logger) in
+						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Board Bus notification: \(error, privacy: .public)")
+					}
+				}
+			}
+			return
+		}
+		
 		do {
 			try await API.updateBus(id: busID, location: location).perform()
 		} catch let error {
@@ -127,6 +123,8 @@ enum MapConstants {
 			height: 10000
 		)
 	)
+	
+	static let earthRadius = 6378.137;
 	
 	#if canImport(AppKit)
 	static let mapRectInsets = NSEdgeInsets(top: 100, left: 20, bottom: 20, right: 20)
@@ -203,6 +201,14 @@ extension CLLocationCoordinate2D: Equatable {
 	
 	func convertedToCoordinate() -> Coordinate {
 		return Coordinate(latitude: self.latitude, longitude: self.longitude)
+	}
+	
+	func asCartesian() -> (x: Double, y: Double, z: Double) {
+		return (
+			x: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * cos(self.longitude * .pi / 180),
+			y: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * sin(self.longitude * .pi / 180),
+			z: MapConstants.earthRadius * sin(self.latitude * .pi / 180)
+		)
 	}
 	
 }
@@ -418,6 +424,17 @@ extension Set: RawRepresentable where Element == UUID {
 		}
 	}
 	
+}
+
+func * (
+	lhs: (x: Double, y: Double, z: Double),
+	rhs: (x: Double, y: Double, z: Double)
+) -> (x: Double, y: Double, z: Double) {
+	return (
+		x: lhs.y * rhs.z - lhs.z * rhs.y,
+		y: lhs.z * rhs.x - lhs.x * rhs.z,
+		z: lhs.x * rhs.y - lhs.y * rhs.x
+	)
 }
 
 #if canImport(UIKit)

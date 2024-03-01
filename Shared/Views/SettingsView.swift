@@ -57,8 +57,10 @@ struct SettingsView: View {
 					NavigationLink("Logging & Analytics") {
 						LoggingAnalyticsSettingsView()
 					}
-					NavigationLink("Advanced") {
-						AdvancedSettingsView()
+					if #available(iOS 17, *) {
+						NavigationLink("Advanced") {
+							AdvancedSettingsView()
+						}
 					}
 				}
 				Section {
