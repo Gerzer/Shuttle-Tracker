@@ -52,11 +52,7 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 	
 	var title: String? {
 		get {
-			if self.id > 0 {
-				return "Bus \(self.id)"
-			} else {
-				return "Bus"
-			}
+			return self.id > 0 ? "Bus \(self.id)" : "Bus"
 		}
 	}
 	
