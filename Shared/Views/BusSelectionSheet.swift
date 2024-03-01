@@ -7,8 +7,6 @@
 
 import CoreLocation
 import SwiftUI
-
-@preconcurrency
 import UserNotifications
 
 struct BusSelectionSheet: View {
@@ -86,9 +84,13 @@ struct BusSelectionSheet: View {
 									BusOption(busID, selection: self.$selectedBusID)
 								}
 							}
+							Divider()
+								.background(.secondary)
+								.padding(.vertical, 10)
+							BusOption(.unknown, selection: self.$selectedBusID)
 							Spacer(minLength: 20)
 						}
-						.padding(.horizontal)
+							.padding(.horizontal)
 					}
 				} else {
 					ProgressView("Loading")
@@ -142,7 +144,7 @@ struct BusSelectionSheet: View {
 			.task {
 				do {
 					self.busIDs = try await API.readAllBuses.perform(as: [Int].self)
-						.map { (id) in
+						.compactMap { (id) in
 							return BusID(id)
 						}
 				} catch {
@@ -165,7 +167,7 @@ struct BusSelectionSheet: View {
 						.distance(from: location)
 					return firstBusDistance < secondBusDistance
 				}
-				self.suggestedBusID = closestBus.map { (bus) in
+				self.suggestedBusID = closestBus.flatMap { (bus) in
 					return BusID(bus.id)
 				}
 			}

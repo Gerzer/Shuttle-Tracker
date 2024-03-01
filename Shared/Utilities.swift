@@ -56,12 +56,13 @@ enum LocationUtilities {
 		}
 		let location = Bus.Location(
 			id: locationID,
-			date: Date(),
+			date: .now,
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
 		do {
-			try await API.updateBus(id: busID, location: location).perform()
+			let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
+			await BoardBusManager.shared.updateBusID(with: resolvedBus)
 		} catch let error as any HTTPStatusCode {
 			if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
 				return
