@@ -33,11 +33,7 @@ struct CloseButton: View {
 	
 }
 
-struct CloseButtonPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		CloseButton()
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	CloseButton()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

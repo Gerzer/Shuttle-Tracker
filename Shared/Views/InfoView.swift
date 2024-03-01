@@ -42,7 +42,7 @@ struct InfoView: View {
 					.bold()
 					.padding(.top)
 				#endif //os(macOS)
-				Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowd-sourced location data.")
+				Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttle buses, powered by crowdsourced location data.")
 					.padding(.bottom)
 				if let schedule = self.schedule {
 					Section {
@@ -133,13 +133,9 @@ struct InfoView: View {
 	
 }
 
-struct InfoViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		InfoView()
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	InfoView()
+		.environmentObject(ViewState.shared)
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

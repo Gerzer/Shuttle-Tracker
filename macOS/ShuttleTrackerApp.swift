@@ -75,7 +75,7 @@ struct ShuttleTrackerApp: App {
 							await self.mapState.recenter(position: self.$mapCameraPosition)
 						}
 					}
-						.keyboardShortcut(KeyEquivalent("c"), modifiers: [.command, .shift])
+						.keyboardShortcut(KeyEquivalent("C"), modifiers: [.command, .shift])
 					Button("Refresh") {
 						if #available(macOS 13, *) {
 							Task {
@@ -85,7 +85,7 @@ struct ShuttleTrackerApp: App {
 							NotificationCenter.default.post(name: .refreshBuses, object: nil)
 						}
 					}
-						.keyboardShortcut(KeyEquivalent("r"), modifiers: [.command])
+						.keyboardShortcut(KeyEquivalent("R"), modifiers: .command)
 					Divider()
 				}
 				CommandGroup(replacing: .newItem) { }

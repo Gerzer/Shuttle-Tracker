@@ -113,7 +113,11 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] No beacons remain after filtering")
 						return
 					}
-					let id = Int(truncating: beacon.major)
+					var id = Int(truncating: beacon.major)
+                    if(Int(truncating: beacon.major) == 0 && Int(truncating: beacon.minor) > 0){
+                        id =  Int(truncating: beacon.minor)
+                        id = -id
+                    }
 					await BoardBusManager.shared.boardBus(id: id, manually: false)
 					manager.stopRangingBeacons(satisfying: beaconConstraint)
 				}
