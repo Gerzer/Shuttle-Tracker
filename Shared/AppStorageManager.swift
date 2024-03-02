@@ -36,10 +36,8 @@ final class AppStorageManager: ObservableObject {
 
 	static let shared = AppStorageManager()
     
-    #if !os(watchOS)
 	@AppStorage("UserID")
 	var userID = Defaults.userID
-    #endif
 	
 	@AppStorage("ColorBlindMode")
 	var colorBlindMode = Defaults.colorBlindMode
