@@ -21,7 +21,9 @@ struct PlusSheet: View {
         ScrollView {
             VStack(alignment: .leading) {
                 HStack {
+                    #if !os(watchOS)
                     Spacer()
+                    #endif
                     Text("Shuttle Tracker+")
                         .font(.largeTitle)
                         .bold()
@@ -30,7 +32,6 @@ struct PlusSheet: View {
                 }
                 #if !os(watchOS)
                 .padding(.top, 40)
-                #else
                 #endif
                 .padding(.bottom)
                 Text("\(self.featureText) is a Plus feature.")

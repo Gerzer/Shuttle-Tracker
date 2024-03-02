@@ -20,8 +20,6 @@
 		651C347D2B7C217D00134D82 /* ShuttleTrackerSheetStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03B1D352741E18B007B318E /* ShuttleTrackerSheetStack.swift */; };
 		651C347F2B7C219800134D82 /* SheetStack in Frameworks */ = {isa = PBXBuildFile; productRef = 651C347E2B7C219800134D82 /* SheetStack */; };
 		651C34812B7C21C700134D82 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 651C34802B7C21C700134D82 /* Collections */; };
-		651C34822B7C21E700134D82 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E7252749EDFD00DBF248 /* AnnouncementsSheet.swift */; };
-		651C34832B7C21EE00134D82 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A1E72A2749F8EC00DBF248 /* AnnouncementDetailView.swift */; };
 		651C34842B7C226600134D82 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C9D3CF270FA70C00AE58BE /* ViewState.swift */; };
 		651C34862B7C227800134D82 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 651C34852B7C227800134D82 /* OnboardingKit */; };
 		65210C0A2B7FFDFE0051E9CF /* PlusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D762827E6CC60009EC92B /* PlusSheet.swift */; };
@@ -52,6 +50,8 @@
 		656CE4132B72DF3C002C3326 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		656CE4152B72DF3C002C3326 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527F62517DCAF0069092C /* Utilities.swift */; };
 		656CE4162B72DF3C002C3326 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
+		656E68B82B92823800F6B537 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656E68B72B92823800F6B537 /* AnnouncementsSheet.swift */; };
+		656E68BA2B92826600F6B537 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656E68B92B92826600F6B537 /* AnnouncementDetailView.swift */; };
 		6583215D2B88F83400232E81 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6583215C2B88F83400232E81 /* PrivacyView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -290,6 +290,8 @@
 		6538CB4C2B76D2A8003EB08E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		6538CB4E2B76D487003EB08E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		654D45C72B83239A00EAB27F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		656E68B72B92823800F6B537 /* AnnouncementsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementsSheet.swift; sourceTree = "<group>"; };
+		656E68B92B92826600F6B537 /* AnnouncementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailView.swift; sourceTree = "<group>"; };
 		6583215C2B88F83400232E81 /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		6B3B2B432710E5BB001D6C8E /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		A1ED8B8727BC558A000A26E5 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -450,6 +452,8 @@
 				65210C0B2B80036E0051E9CF /* InformationTypeView.swift */,
 				654D45C72B83239A00EAB27F /* SettingsView.swift */,
 				6583215C2B88F83400232E81 /* PrivacyView.swift */,
+				656E68B72B92823800F6B537 /* AnnouncementsSheet.swift */,
+				656E68B92B92826600F6B537 /* AnnouncementDetailView.swift */,
 			);
 			path = "ShuttleTracker Watch App";
 			sourceTree = "<group>";
@@ -899,18 +903,18 @@
 			files = (
 				65210C0A2B7FFDFE0051E9CF /* PlusSheet.swift in Sources */,
 				651C34842B7C226600134D82 /* ViewState.swift in Sources */,
-				651C34832B7C21EE00134D82 /* AnnouncementDetailView.swift in Sources */,
-				651C34822B7C21E700134D82 /* AnnouncementsSheet.swift in Sources */,
 				651C347D2B7C217D00134D82 /* ShuttleTrackerSheetStack.swift in Sources */,
 				6538CB532B76DB0E003EB08E /* MapState.swift in Sources */,
 				6538CB522B76DAE2003EB08E /* MapContainer.swift in Sources */,
 				6583215D2B88F83400232E81 /* PrivacyView.swift in Sources */,
 				656CE40D2B72DF3C002C3326 /* BoardBusManager.swift in Sources */,
 				656CE40E2B72DF3C002C3326 /* BusID.swift in Sources */,
+				656E68BA2B92826600F6B537 /* AnnouncementDetailView.swift in Sources */,
 				656CE40F2B72DF3C002C3326 /* CustomAnnotation.swift in Sources */,
 				656CE4102B72DF3C002C3326 /* MapCameraPositionWrapper.swift in Sources */,
 				656CE4112B72DF3C002C3326 /* RawRepresentableInJSONArray.swift in Sources */,
 				656CE4122B72DF3C002C3326 /* RefreshSequence.swift in Sources */,
+				656E68B82B92823800F6B537 /* AnnouncementsSheet.swift in Sources */,
 				656CE4132B72DF3C002C3326 /* SFSymbol.swift in Sources */,
 				656CE4152B72DF3C002C3326 /* Utilities.swift in Sources */,
 				6538CB4D2B76D2A8003EB08E /* ScheduleView.swift in Sources */,

@@ -14,7 +14,7 @@ struct ScheduleView: View {
     var body: some View {
         ScrollView {
             if let schedule = self.schedule {
-                Section {
+                Group {
                     HStack {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("M").bold()
@@ -36,10 +36,8 @@ struct ScheduleView: View {
                         }
                         Spacer()
                     }
-                } header: {
-                    Text("Schedule")
-                        .font(.headline)
                 }
+                .navigationTitle("Schedule")
             }
         }
         .onAppear {

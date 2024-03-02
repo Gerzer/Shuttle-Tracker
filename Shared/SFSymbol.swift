@@ -103,11 +103,7 @@ enum SFSymbol {
             case .privacy:
                 return "hand.raised.circle.fill"
 			case .recenter:
-                #if os(watchOS)
-				return "location.fill"
-                #else
-                return "location.viewfinder"
-                #endif
+				return "location.viewfinder"
 			case .refresh:
 				return "arrow.clockwise"
             case .schedule:
