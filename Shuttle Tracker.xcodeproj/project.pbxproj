@@ -54,6 +54,7 @@
 		656CE4162B72DF3C002C3326 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
 		656E68B82B92823800F6B537 /* AnnouncementsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656E68B72B92823800F6B537 /* AnnouncementsSheet.swift */; };
 		656E68BA2B92826600F6B537 /* AnnouncementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656E68B92B92826600F6B537 /* AnnouncementDetailView.swift */; };
+		656E68C32B93E75C00F6B537 /* STLogging in Frameworks */ = {isa = PBXBuildFile; productRef = 656E68C22B93E75C00F6B537 /* STLogging */; };
 		6583215D2B88F83400232E81 /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6583215C2B88F83400232E81 /* PrivacyView.swift */; };
 		6B3B2B442710E5BB001D6C8E /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		A1ED8B8827BC558A000A26E5 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ED8B8727BC558A000A26E5 /* Schedule.swift */; };
@@ -396,6 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				651C34862B7C227800134D82 /* OnboardingKit in Frameworks */,
+				656E68C32B93E75C00F6B537 /* STLogging in Frameworks */,
 				651BE5542B6EEE1700375B2C /* Moya in Frameworks */,
 				651C347F2B7C219800134D82 /* SheetStack in Frameworks */,
 				651C34812B7C21C700134D82 /* Collections in Frameworks */,
@@ -733,6 +735,7 @@
 				651C347E2B7C219800134D82 /* SheetStack */,
 				651C34802B7C21C700134D82 /* Collections */,
 				651C34852B7C227800134D82 /* OnboardingKit */,
+				656E68C22B93E75C00F6B537 /* STLogging */,
 			);
 			productName = "ShuttleTracker Watch App";
 			productReference = 651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */;
@@ -860,6 +863,7 @@
 				C09EB45F293A70CF00CCE01B /* XCRemoteSwiftPackageReference "swift-collections" */,
 				C0E95230295A02E400945ABC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */,
+				656E68C12B93E07100F6B537 /* XCRemoteSwiftPackageReference "Shuttle-Tracker-Logging" */,
 			);
 			productRefGroup = C0FFD6DD250C33C900945F01 /* Products */;
 			projectDirPath = "";
@@ -1577,6 +1581,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		656E68C12B93E07100F6B537 /* XCRemoteSwiftPackageReference "Shuttle-Tracker-Logging" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wtg/Shuttle-Tracker-Logging";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Gerzer/Sheet-Stack";
@@ -1657,6 +1669,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C0ACA02927A4AC12007FF08A /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
+		};
+		656E68C22B93E75C00F6B537 /* STLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 656E68C12B93E07100F6B537 /* XCRemoteSwiftPackageReference "Shuttle-Tracker-Logging" */;
+			productName = STLogging;
 		};
 		C00BE3E32AB22269003B84BB /* SheetStack */ = {
 			isa = XCSwiftPackageProductDependency;

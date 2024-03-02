@@ -71,6 +71,7 @@ actor MapState: ObservableObject {
 		}
 	}
 	
+    #if !os(watchOS)
 	func distance(to coordinate: CLLocationCoordinate2D) -> Double {
 		return self.routes
 			.map { (route) in
@@ -78,5 +79,6 @@ actor MapState: ObservableObject {
 			}
 			.min() ?? .infinity
 	}
+    #endif
 	
 }

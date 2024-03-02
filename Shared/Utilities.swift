@@ -488,7 +488,7 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
-#if canImport(UIKit) && !os(watchOS)
+#if canImport(UIKit)
 func * (
 	lhs: (x: Double, y: Double, z: Double),
 	rhs: (x: Double, y: Double, z: Double)
@@ -499,8 +499,9 @@ func * (
 		z: lhs.x * rhs.y - lhs.y * rhs.x
 	)
 }
+#endif // canImport(UIKit)
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
 extension UIKeyboardType {
 	
 	/// A keyboard type that’s optimized for URL entry.

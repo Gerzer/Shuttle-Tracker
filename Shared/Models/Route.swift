@@ -137,6 +137,7 @@ class Route: NSObject, Collection, Decodable, Identifiable {
 		return oldIndex + 1
 	}
 	
+    #if !os(watchOS)
 	func distance(to coordinate: CLLocationCoordinate2D) -> Double {
 		var minDistance: Double = -1
 		for index in self.mapPoints.indices.dropLast() {
@@ -167,6 +168,7 @@ class Route: NSObject, Collection, Decodable, Identifiable {
 		}
 		return minDistance
 	}
+    #endif
 	
     static func == (_ left: Route, _ right: Route) -> Bool {
         #if !os(watchOS)

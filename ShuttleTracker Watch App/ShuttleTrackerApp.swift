@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreLocation
 import UserNotifications
+import STLogging
 
 @main
 struct ShuttleTrackerApp: App {
@@ -37,9 +38,7 @@ struct ShuttleTrackerApp: App {
             do {
                 try await UNUserNotificationCenter.requestDefaultAuthorization()
             } catch let error {
-                Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-                    logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-                }
+                #log(system: Logging.system , "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
                 throw error
             }
         }
