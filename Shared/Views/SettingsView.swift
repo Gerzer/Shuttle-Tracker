@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
+import STLogging
 import SwiftUI
 
 struct SettingsView: View {
@@ -56,8 +57,10 @@ struct SettingsView: View {
 				NavigationLink("Logging & Analytics") {
 					LoggingAnalyticsSettingsView()
 				}
-				NavigationLink("Advanced") {
-					AdvancedSettingsView()
+				if #available(iOS 17, *) {
+					NavigationLink("Advanced") {
+						AdvancedSettingsView()
+					}
 				}
 			}
 			Section {
@@ -76,9 +79,7 @@ struct SettingsView: View {
 					do {
 						try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
 					} catch {
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-						}
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 					}
 				}
 			}
@@ -120,9 +121,7 @@ struct SettingsView: View {
 									do {
 										try await Analytics.upload(eventType: .serverBaseURLChanged(url: url))
 									} catch {
-										Logging.withLogger(for: .api, doUpload: true) { (logger) in
-											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-										}
+										#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 									}
 								}
 							}
@@ -154,9 +153,7 @@ struct SettingsView: View {
 					do {
 						try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
 					} catch {
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-						}
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 					}
 				}
 			}
@@ -165,13 +162,9 @@ struct SettingsView: View {
 	
 }
 
-struct SettingsViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		SettingsView()
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	SettingsView()
+		.environmentObject(ViewState.shared)
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

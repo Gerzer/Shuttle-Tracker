@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import STLogging
 import SwiftUI
 
 struct NetworkToast: View {
@@ -32,9 +33,7 @@ struct NetworkToast: View {
 						do {
 							try await Analytics.upload(eventType: .networkToastPermissionsTapped)
 						} catch {
-							Logging.withLogger(for: .api, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-							}
+							#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 						}
 					}
 				} label: {
@@ -51,9 +50,7 @@ struct NetworkToast: View {
 						do {
 							try await Analytics.upload(eventType: .locationAuthorizationStatusDidChange(authorizationStatus: Int(authorizationStatus.rawValue)))
 						} catch {
-							Logging.withLogger(for: .api, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-							}
+							#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 						}
 					}
 				}
@@ -62,9 +59,7 @@ struct NetworkToast: View {
 						do {
 							try await Analytics.upload(eventType: .locationAccuracyAuthorizationDidChange(accuracyAuthorization: Int(accuracyAuthorization.rawValue)))
 						} catch {
-							Logging.withLogger(for: .api, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-							}
+							#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 						}
 					}
 				}

@@ -6,17 +6,16 @@
 //
 
 import MessageUI
+import STLogging
 
-final class MailComposeViewDelegate: NSObject, MFMailComposeViewControllerDelegate {
+final class MailComposeViewControllerDelegate: NSObject, MFMailComposeViewControllerDelegate {
 	
 	let dismissalHandler: (((any Error)?) -> Void)?
 	
 	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: (any Error)?) {
-		Logging.withLogger(for: .mailCompose, doUpload: error != nil) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did finish with \(result.rawValue) error \(error, privacy: .public)")
-			if let error {
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send email: \(error, privacy: .public)")
-			}
+		#log(system: Logging.system, category: .mailComposeViewControllerDelegate, level: .info, "Did finish with \(result.rawValue) error \(error, privacy: .public)")
+		if let error {
+			#log(system: Logging.system, category: .mailCompose, level: .error, doUpload: true, "Failed to send email: \(error, privacy: .public)")
 		}
 		self.dismissalHandler?(error)
 	}

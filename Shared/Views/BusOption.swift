@@ -25,7 +25,7 @@ struct BusOption: View {
 				}
 			}
 		} label: {
-			Text("\(self.busID.rawValue)")
+			Text(self.busID.isUnknown ? "I Don’t Know" : "\(self.busID.rawValue)")
 				.bold()
 				.foregroundColor(.primary)
 				.frame(maxWidth: .infinity, minHeight: 100)
@@ -54,10 +54,6 @@ struct BusOption: View {
 	
 }
 
-struct BusOptionPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		BusOption(BusID(42), selection: .constant(nil))
-	}
-	
+#Preview {
+	BusOption(BusID(42)!, selection: .constant(nil))
 }

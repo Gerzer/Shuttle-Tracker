@@ -5,8 +5,10 @@
 //  Created by Gabriel Jacoby-Cooper on 1/23/22.
 //
 
+import STLogging
 import SwiftUI
 
+@available(iOS 17, *)
 struct AdvancedSettingsView: View {
 	
 	@State
@@ -33,6 +35,18 @@ struct AdvancedSettingsView: View {
 				Text("The maximum distance in meters from the nearest stop at which you can board a bus.")
 			}
 			Section {
+				HStack {
+					Text("\(self.appStorageManager.routeTolerance) meters")
+					Spacer()
+					Stepper("Route Tolerance", value: self.appStorageManager.$routeTolerance, in: 1 ... 50)
+						.labelsHidden()
+				}
+			} header: {
+				Text("Route Tolerance")
+			} footer: {
+				Text("The distance in meters from a route at which Board Bus is automatically deactivated.")
+			}
+			Section {
 				// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
 				TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
 					.labelsHidden()
@@ -47,10 +61,8 @@ struct AdvancedSettingsView: View {
 					Task {
 						do {
 							try await UNUserNotificationCenter.updateBadge()
-						} catch let error {
-							Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-							}
+						} catch {
+							#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 						}
 					}
 					withAnimation {
@@ -70,6 +82,7 @@ struct AdvancedSettingsView: View {
 				Button(role: .destructive) {
 					self.appStorageManager.baseURL = AppStorageManager.Defaults.baseURL
 					self.appStorageManager.maximumStopDistance = AppStorageManager.Defaults.maximumStopDistance
+					self.appStorageManager.routeTolerance = AppStorageManager.Defaults.routeTolerance
 					withAnimation {
 						self.didResetAdvancedSettings = true
 					}
@@ -82,14 +95,19 @@ struct AdvancedSettingsView: View {
 						}
 					}
 				}
-					.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance)
-					.onChange(of: self.appStorageManager.baseURL) { (_) in
+					.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance && self.appStorageManager.routeTolerance == AppStorageManager.Defaults.routeTolerance)
+					.onChange(of: self.appStorageManager.baseURL) {
 						if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
 							self.didResetAdvancedSettings = false
 						}
 					}
-					.onChange(of: self.appStorageManager.maximumStopDistance) { (_) in
+					.onChange(of: self.appStorageManager.maximumStopDistance) {
 						if self.appStorageManager.maximumStopDistance != AppStorageManager.Defaults.maximumStopDistance {
+							self.didResetAdvancedSettings = false
+						}
+					}
+					.onChange(of: self.appStorageManager.routeTolerance) {
+						if self.appStorageManager.routeTolerance != AppStorageManager.Defaults.routeTolerance {
 							self.didResetAdvancedSettings = false
 						}
 					}
@@ -105,11 +123,8 @@ struct AdvancedSettingsView: View {
 	
 }
 
-struct AdvancedSettingsViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		AdvancedSettingsView()
-			.environmentObject(AppStorageManager.shared)
-	}
-	
+@available(iOS 17, *)
+#Preview {
+	AdvancedSettingsView()
+		.environmentObject(AppStorageManager.shared)
 }

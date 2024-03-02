@@ -6,9 +6,10 @@
 //
 
 
+import CoreLocation
+import STLogging
 import StoreKit
 import SwiftUI
-import CoreLocation
 
 struct NetworkOnboardingView: View {
 	
@@ -289,9 +290,7 @@ struct NetworkOnboardingView: View {
 							self.signalRightScale = 1
 							self.serverScale = 1
 						default:
-							Logging.withLogger(doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Invalid tab item")
-							}
+							#log(system: Logging.system, level: .error, doUpload: true, "Invalid tab item")
 						}
 					}
 				}
@@ -339,13 +338,9 @@ struct NetworkOnboardingView: View {
 	
 }
 
-struct NetworkOnboardingViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		NavigationView {
-			NetworkOnboardingView()
-				.environmentObject(ShuttleTrackerSheetStack())
-		}
+#Preview {
+	NavigationView {
+		NetworkOnboardingView()
+			.environmentObject(ShuttleTrackerSheetStack())
 	}
-	
 }

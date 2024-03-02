@@ -7,7 +7,7 @@
 
 import HTTPStatus
 import MapKit
-import OSLog
+import STLogging
 import SwiftUI
 import UserNotifications
 
@@ -49,29 +49,35 @@ enum LocationUtilities {
 	#if !os(macOS)
 	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
 		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Required bus and location IDs not found while attempting to send location to server")
-			}
+			#log(system: Logging.system, category: .boardBus, level: .error, doUpload: true, "Required bus and location IDs not found while attempting to send location to server")
 			return
 		}
 		let location = Bus.Location(
 			id: locationID,
-			date: Date(),
+			date: .now,
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
-		do {
-			try await API.updateBus(id: busID, location: location).perform()
-		} catch let error as any HTTPStatusCode {
-			if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
-				return
+		
+		let tolerance = await AppStorageManager.shared.routeTolerance
+		if await MapState.shared.distance(to: coordinate) > Double(tolerance) {
+			switch BoardBusManager.globalTravelState {
+			case .onBus:
+				await BoardBusManager.shared.leaveBus(manual: false)
+			default:
+				#log(system: Logging.system, category: .boardBus, doUpload: true, "Board Bus is unexpectedly inactive while checking route tolerance.")
 			}
-			Logging.withLogger(for: .boardBus) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
-			}
-		} catch {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
+		} else {
+			do {
+				let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
+				await BoardBusManager.shared.updateBusID(with: resolvedBus)
+			} catch let error as any HTTPStatusCode {
+				if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
+					return
+				}
+				#log(system: Logging.system, category: .api, level: .error, "Failed to send location to server: \(error.message, privacy: .public)")
+			} catch {
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to send location to server: \(error, privacy: .public)")
 			}
 		}
 	}
@@ -96,6 +102,8 @@ enum MapConstants {
 			height: 10000
 		)
 	)
+	
+	static let earthRadius = 6378.137;
 	
 	@available(iOS 17, macOS 14, *)
 	static let defaultCameraPosition: MapCameraPosition = .rect(MapConstants.mapRect)
@@ -135,9 +143,7 @@ extension CLLocationManager {
 	static var `default`: CLLocationManager! {
 		get {
 			if self.defaultStorage == nil {
-				Logging.withLogger(for: .location, doUpload: true) { (logger) in
-					logger.log(level: .error, "The default location manager was referenced, but no value is set. This is a fatal programmer error!")
-				}
+				#log(system: Logging.system, category: .location, level: .error, doUpload: true, "The default location manager was referenced, but no value is set. This is a fatal programmer error!")
 			}
 			return self.defaultStorage
 		}
@@ -172,6 +178,14 @@ extension CLLocationCoordinate2D: Equatable {
 	
 	func convertedToCoordinate() -> Coordinate {
 		return Coordinate(latitude: self.latitude, longitude: self.longitude)
+	}
+	
+	func asCartesian() -> (x: Double, y: Double, z: Double) {
+		return (
+			x: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * cos(self.longitude * .pi / 180),
+			y: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * sin(self.longitude * .pi / 180),
+			z: MapConstants.earthRadius * sin(self.latitude * .pi / 180)
+		)
 	}
 	
 }
@@ -244,10 +258,8 @@ extension UNUserNotificationCenter {
 		Task { // Dispatch a new task because we don’t need to await the result
 			do {
 				try await self.updateBadge()
-			} catch let error {
-				Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-				}
+			} catch {
+				#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 			}
 		}
 		#if os(iOS)
@@ -257,30 +269,22 @@ extension UNUserNotificationCenter {
 		#endif // os(macOS)
         #if !os(watchOS)
 		if await sheetStack.top == nil {
-			Logging.withLogger(for: .apns) { (logger) in
-				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Attempting to push a sheet in response to a notification")
-			}
+			#log(system: Logging.system, category: .apns, level: .debug, "Attempting to push a sheet in response to a notification")
 			if let userInfo {
 				if JSONSerialization.isValidJSONObject(userInfo) {
 					do {
 						let data = try JSONSerialization.data(withJSONObject: userInfo)
 						let announcement = try JSONDecoder().decode(Announcement.self, from: data)
 						await sheetStack.push(.announcement(announcement))
-					} catch let error {
-						Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
-						}
+					} catch {
+						#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
 					}
 				} else {
-					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification payload can’t be converted to JSON")
-					}
+					#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Notification payload can’t be converted to JSON")
 				}
 			}
 		} else {
-			Logging.withLogger(for: .apns) { (logger) in
-				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
-			}
+			#log(system: Logging.system, category: .apns, level: .debug, "Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
 		}
         #endif
 	}
@@ -485,7 +489,18 @@ extension Set: RawRepresentable where Element == UUID {
 }
 
 #if canImport(UIKit) && !os(watchOS)
+func * (
+	lhs: (x: Double, y: Double, z: Double),
+	rhs: (x: Double, y: Double, z: Double)
+) -> (x: Double, y: Double, z: Double) {
+	return (
+		x: lhs.y * rhs.z - lhs.z * rhs.y,
+		y: lhs.z * rhs.x - lhs.x * rhs.z,
+		z: lhs.x * rhs.y - lhs.y * rhs.x
+	)
+}
 
+#if canImport(UIKit)
 extension UIKeyboardType {
 	
 	/// A keyboard type that’s optimized for URL entry.

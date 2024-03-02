@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 11/14/21.
 //
 
+import STLogging
 import SwiftUI
 
 struct PrivacyView: View {
@@ -32,7 +33,7 @@ struct PrivacyView: View {
 					Text("Location")
 						.font(.headline)
 				}
-				#endif
+				#endif // os(iOS)
 				Section {
 					Text("Shuttle Tracker automatically detects errors and uploads diagnostic logs to our server when they occur. These logs aren’t associated with your name, Apple ID, RCS ID, RIN, or any other information that might identify you or your device. They contain information about, for example, failed network requests. We redact sensitive information like your location, replacing those data with irreversible hashes. These hashes let us correlate different logs without revealing any of the redacted information. Logs are retained indefinitely; contact us if you want to request that we delete a log from our server. Due to the privacy-preserving nature of how we identify logs, we might not be able to find and to verify the log that you want to delete. You can see a record of recently uploaded logs or disable automatic uploads entirely in Settings > Logging & Analytics.")
 						.padding(.bottom)
@@ -111,9 +112,7 @@ struct PrivacyView: View {
 		#if canImport(UIKit)
 		guard UIApplication.shared.canOpenURL(url) else {
 			self.doShowMailFailedAlert = true
-			Logging.withLogger(for: .mailCompose, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t open URL to send privacy mail")
-			}
+			#log(system: Logging.system, category: .mailCompose, level: .error, doUpload: true, "Can’t open URL to send privacy mail")
 			return
 		}
 		let success = await UIApplication.shared.open(url)
@@ -122,20 +121,14 @@ struct PrivacyView: View {
 		#endif // canImport(AppKit)
 		if !success {
 			self.doShowMailFailedAlert = true
-			Logging.withLogger(for: .mailCompose, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to open URL to send privacy mail")
-			}
+			#log(system: Logging.system, category: .mailCompose, level: .error, doUpload: true, "Failed to open URL to send privacy mail")
 			return
 		}
 	}
 	
 }
 
-struct PrivacyViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PrivacyView()
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	PrivacyView()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

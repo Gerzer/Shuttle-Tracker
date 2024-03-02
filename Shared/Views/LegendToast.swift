@@ -106,11 +106,7 @@ struct LegendToast: View {
 	
 }
 
-struct OnboardingToastPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		LegendToast()
-			.environmentObject(ViewState.shared)
-	}
-	
+#Preview {
+	LegendToast()
+		.environmentObject(ViewState.shared)
 }

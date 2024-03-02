@@ -7,6 +7,7 @@
 
 import AsyncAlgorithms
 import CoreLocation
+import STLogging
 import SwiftUI
 
 struct PrimaryOverlay: View {
@@ -123,9 +124,7 @@ struct PrimaryOverlay: View {
 								// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 								try await Task.sleep(for: .milliseconds(500))
 							} catch {
-								Logging.withLogger(doUpload: true) { (logger) in
-									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
-								}
+								#log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
 							}
 							
 							// For automatic refresh operations, we refresh everything.
@@ -150,9 +149,7 @@ struct PrimaryOverlay: View {
 			}
 			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in // TODO: Remove when we drop support for iOS 15
 				if #available(iOS 16, *) {
-					Logging.withLogger(doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Combine publisher for refreshing buses was used even though iOS 16 is available!")
-					}
+					#log(system: Logging.system, level: .error, doUpload: true, "Combine publisher for refreshing buses was used even though iOS 16 is available!")
 				} else {
 					withAnimation {
 						self.isRefreshing = true
@@ -162,9 +159,7 @@ struct PrimaryOverlay: View {
 							// This artificial half-second delay makes the user feel like the app is “thinking”, which improves user satisfaction, even when the actual network request would take less time to complete.
 							try await Task.sleep(nanoseconds: 500_000_000)
 						} catch {
-							Logging.withLogger(doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-							}
+							#log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
 						}
 						
 						// For automatic refresh operations, we refresh everything.
@@ -218,17 +213,13 @@ struct PrimaryOverlay: View {
 	}
 	
 	private func boardBus() async {
-		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Board Bus” button tapped")
-		}
+		#log(system: Logging.system, category: .boardBus, level: .info, "“Board Bus” button tapped")
 		
 		Task { // Dispatch a child task because we don’t need to await the result
 			do {
 				try await Analytics.upload(eventType: .boardBusTapped)
 			} catch {
-				Logging.withLogger(for: .api, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 			}
 		}
 		
@@ -249,34 +240,26 @@ struct PrimaryOverlay: View {
 			do {
 				userLocation = try self.userLocation()
 			} catch {
-				Logging.withLogger(for: .location) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get user location: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .location, level: .error, "Failed to get user location: \(error, privacy: .public)")
 				return
 			}
 		case .reducedAccuracy:
 			do {
 				try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 			} catch {
-				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .permissions, level: .error, doUpload: true, "Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 				return
 			}
 			
 			guard case .fullAccuracy = CLLocationManager.default.accuracyAuthorization else {
-				Logging.withLogger(for: .permissions) { (logger) in
-					logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
-				}
+				#log(system: Logging.system, category: .permissions, "User declined full location accuracy authorization")
 				return
 			}
 			
 			do {
 				userLocation = try self.userLocation()
 			} catch {
-				Logging.withLogger(for: .location) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get user location: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .location, level: .error, "Failed to get user location: \(error, privacy: .public)")
 				return
 			}
 		@unknown default:
@@ -287,17 +270,13 @@ struct PrimaryOverlay: View {
 	}
 	
 	private func leaveBus() async {
-		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] “Leave Bus” button tapped")
-		}
+		#log(system: Logging.system, category: .boardBus, level: .info, "“Leave Bus” button tapped")
 		
 		Task { // Dispatch a child task because we don’t need to await the result
 			do {
 				try await Analytics.upload(eventType: .leaveBusTapped)
 			} catch {
-				Logging.withLogger(for: .api, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 			}
 		}
 		

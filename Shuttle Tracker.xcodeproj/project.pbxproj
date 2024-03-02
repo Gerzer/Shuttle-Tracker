@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		199F66492B22E15600B548E3 /* FadeScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F66482B22E15600B548E3 /* FadeScrollView.swift */; };
+		199F664A2B22E15600B548E3 /* FadeScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F66482B22E15600B548E3 /* FadeScrollView.swift */; };
 		6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF382AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
 		6519DF392AB3633B00B149FD /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6519DF362AB3633B00B149FD /* SFSymbol.swift */; };
@@ -90,6 +92,9 @@
 		C025ED432527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED442527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
 		C025ED452527C1D500524144 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = C025ED422527C1D500524144 /* API.swift */; };
+		C02EF0982B7B1D0100B6E1D7 /* STLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C02EF0972B7B1D0100B6E1D7 /* STLogging */; };
+		C02EF09A2B7B1D0800B6E1D7 /* STLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C02EF0992B7B1D0800B6E1D7 /* STLogging */; };
+		C02EF09C2B7B1D0F00B6E1D7 /* STLogging in Frameworks */ = {isa = PBXBuildFile; productRef = C02EF09B2B7B1D0F00B6E1D7 /* STLogging */; };
 		C032A8FB29C77DB30047579C /* WhatsNewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FA29C77DB30047579C /* WhatsNewSheet.swift */; };
 		C032A8FD29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FC29C7808A0047579C /* AnalyticsOnboardingView.swift */; };
 		C032A8FE29C7808A0047579C /* AnalyticsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C032A8FC29C7808A0047579C /* AnalyticsOnboardingView.swift */; };
@@ -228,6 +233,7 @@
 		C0F420D22927570900CC0F91 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
 		C0F420D32927570900CC0F91 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
 		C0F420D42927570900CC0F91 /* WrappedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420D12927570900CC0F91 /* WrappedError.swift */; };
+		C0FB424B2B927B32003BFB96 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3B2B432710E5BB001D6C8E /* InfoView.swift */; };
 		C0FB5D502929B2430019E266 /* LogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FB5D4F2929B2430019E266 /* LogDetailView.swift */; };
 		C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F420CD29274C1400CC0F91 /* LoggingAnalyticsSettingsView.swift */; };
 		C0FB5D542929CC3F0019E266 /* LogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FB5D4F2929B2430019E266 /* LogDetailView.swift */; };
@@ -279,6 +285,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		199F66482B22E15600B548E3 /* FadeScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeScrollView.swift; sourceTree = "<group>"; };
 		6519DF362AB3633B00B149FD /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ShuttleTracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		651BE5392B6EAC2F00375B2C /* ShuttleTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShuttleTrackerApp.swift; sourceTree = "<group>"; };
@@ -402,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02F27A4AC1D007FF08A /* OnboardingKit in Frameworks */,
+				C02EF09C2B7B1D0F00B6E1D7 /* STLogging in Frameworks */,
 				C09EB45B2934766F00CCE01B /* HTTPStatus in Frameworks */,
 				C09EB463293A70DE00CCE01B /* OrderedCollections in Frameworks */,
 				C00BE3ED2AB2BD5E003B84BB /* SheetStack in Frameworks */,
@@ -415,6 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02D27A4AC18007FF08A /* OnboardingKit in Frameworks */,
+				C02EF09A2B7B1D0800B6E1D7 /* STLogging in Frameworks */,
 				C09EB4592934766900CCE01B /* HTTPStatus in Frameworks */,
 				C09EB461293A70CF00CCE01B /* OrderedCollections in Frameworks */,
 				C00BE3E42AB22269003B84BB /* SheetStack in Frameworks */,
@@ -428,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0ACA02B27A4AC12007FF08A /* OnboardingKit in Frameworks */,
+				C02EF0982B7B1D0100B6E1D7 /* STLogging in Frameworks */,
 				C09EB4572934765F00CCE01B /* HTTPStatus in Frameworks */,
 				C09EB46B293A9A1F00CCE01B /* OrderedCollections in Frameworks */,
 				C00BE3EB2AB2BD50003B84BB /* SheetStack in Frameworks */,
@@ -542,6 +552,7 @@
 				C0019DEB251A3EFC0020574D /* BlockButton.swift */,
 				C082CCEE277FB33C005D0209 /* BusOption.swift */,
 				C082CCED277FB33C005D0209 /* BusSelectionSheet.swift */,
+				199F66482B22E15600B548E3 /* FadeScrollView.swift */,
 				C059833C27D2C82E00299D27 /* InfoSheet.swift */,
 				6B3B2B432710E5BB001D6C8E /* InfoView.swift */,
 				C03EE72026DEAD1F00878D77 /* LegendToast.swift */,
@@ -747,6 +758,7 @@
 				C09EB462293A70DE00CCE01B /* OrderedCollections */,
 				C0E95233295A033400945ABC /* AsyncAlgorithms */,
 				C00BE3EC2AB2BD5E003B84BB /* SheetStack */,
+				C02EF09B2B7B1D0F00B6E1D7 /* STLogging */,
 			);
 			productName = "Rensselaer Shuttle";
 			productReference = C0A232942525080500FAAD50 /* App Clip.app */;
@@ -774,6 +786,7 @@
 				C09EB460293A70CF00CCE01B /* OrderedCollections */,
 				C0E95231295A02E500945ABC /* AsyncAlgorithms */,
 				C00BE3E32AB22269003B84BB /* SheetStack */,
+				C02EF0992B7B1D0800B6E1D7 /* STLogging */,
 			);
 			productName = "Rennselaer Shuttle (iOS)";
 			productReference = C0FFD6DC250C33C900945F01 /* Shuttle Tracker.app */;
@@ -801,6 +814,7 @@
 				C09EB46A293A9A1F00CCE01B /* OrderedCollections */,
 				C0E95235295A034500945ABC /* AsyncAlgorithms */,
 				C00BE3EA2AB2BD50003B84BB /* SheetStack */,
+				C02EF0972B7B1D0100B6E1D7 /* STLogging */,
 			);
 			productName = "Rennselaer Shuttle (macOS)";
 			productReference = C0FFD6E4250C33C900945F01 /* Shuttle Tracker.app */;
@@ -1054,6 +1068,7 @@
 				C0E9525C295B616900945ABC /* RefreshSequence.swift in Sources */,
 				C0BF4F8A29B3D3D70094FD3E /* Analytics.swift in Sources */,
 				C0A74601279E3411004F0E19 /* AdvancedSettingsView.swift in Sources */,
+				199F664A2B22E15600B548E3 /* FadeScrollView.swift in Sources */,
 				C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */,
 				A1ED8B8927BC558A000A26E5 /* Schedule.swift in Sources */,
 				C0019DEC251A3EFC0020574D /* BlockButton.swift in Sources */,
@@ -1086,6 +1101,7 @@
 				C0A1E7282749EE3D00DBF248 /* Announcement.swift in Sources */,
 				C0FB5D532929CC3D0019E266 /* LoggingAnalyticsSettingsView.swift in Sources */,
 				C039B0632796201200416725 /* CloseButton.swift in Sources */,
+				C0FB424B2B927B32003BFB96 /* InfoView.swift in Sources */,
 				C03F158E2A9EF6CC008DC1B2 /* WhatsNewItem.swift in Sources */,
 				C0019DCF251910E80020574D /* Stop.swift in Sources */,
 				C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */,
@@ -1108,6 +1124,7 @@
 				C0B5E72728BAA81A00603D22 /* ColorName.swift in Sources */,
 				C038BEC3270FC7E700A23A2B /* ShuttleTrackerApp.swift in Sources */,
 				6519DF372AB3633B00B149FD /* SFSymbol.swift in Sources */,
+				199F66492B22E15600B548E3 /* FadeScrollView.swift in Sources */,
 				C03F158A2A95BCD8008DC1B2 /* MapCameraPositionWrapper.swift in Sources */,
 				C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */,
 				C03B3CC829D79B4A0038EB8F /* UserNotificationCenterDelegate.swift in Sources */,
@@ -1654,6 +1671,18 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C00BE3E92AB2BD50003B84BB /* XCRemoteSwiftPackageReference "Sheet-Stack" */;
 			productName = SheetStack;
+		};
+		C02EF0972B7B1D0100B6E1D7 /* STLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STLogging;
+		};
+		C02EF0992B7B1D0800B6E1D7 /* STLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STLogging;
+		};
+		C02EF09B2B7B1D0F00B6E1D7 /* STLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = STLogging;
 		};
 		C09EB4562934765F00CCE01B /* HTTPStatus */ = {
 			isa = XCSwiftPackageProductDependency;

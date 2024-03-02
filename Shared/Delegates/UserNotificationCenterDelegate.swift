@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 3/31/23.
 //
 
+import STLogging
 import UserNotifications
 
 /// The standard `UNUserNotificationCenterDelegate` implementation.
@@ -17,9 +18,7 @@ final class UserNotificationCenterDelegate: NSObject, UNUserNotificationCenterDe
 	static let `default` = UserNotificationCenterDelegate()
 	
 	func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-		Logging.withLogger(for: .userNotificationCenterDelegate) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Did receive \(response, privacy: .public)")
-		}
+		#log(system: Logging.system, category: .userNotificationCenterDelegate, level: .info, "Did receive \(response, privacy: .public)")
 		await UNUserNotificationCenter.handleNotification(userInfo: response.notification.request.content.userInfo)
 	}
 	

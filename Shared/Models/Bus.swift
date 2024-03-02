@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import STLogging
 import SwiftUI
 
 class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
@@ -52,7 +53,7 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 	
 	var title: String? {
 		get {
-			return "Bus \(self.id)"
+			return self.id > 0 ? "Bus \(self.id)" : "Bus"
 		}
 	}
 	
@@ -72,7 +73,7 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 			case .system:
 				return AppStorageManager.shared.colorBlindMode ? .purple : .red
 			case .user:
-				return .green
+				return self.id > 0 ? .green : (AppStorageManager.shared.colorBlindMode ? .purple : .red)
 			}
 		}
 	}
@@ -83,9 +84,13 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 			let colorBlindSytemImage: String
 			switch self.location.type {
 			case .system:
-				colorBlindSytemImage = "circle.dotted"
+				colorBlindSytemImage = SFSymbol.colorBlindLowQualityLocation.systemName
 			case .user:
-				colorBlindSytemImage = SFSymbol.colorBlindHighQualityLocation.systemName
+				if self.id > 0 {
+					colorBlindSytemImage = SFSymbol.colorBlindHighQualityLocation.systemName
+				} else {
+					colorBlindSytemImage = SFSymbol.colorBlindLowQualityLocation.systemName
+				}
 			}
 			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : SFSymbol.bus.systemName
 		}
@@ -144,9 +149,7 @@ extension Array where Element == Bus {
 				}
 				#endif // os(iOS)
 		} catch {
-			Logging.withLogger(for: .api) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download buses: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .api, level: .error, "Failed to download buses: \(error, privacy: .public)")
 			return []
 		}
 	}

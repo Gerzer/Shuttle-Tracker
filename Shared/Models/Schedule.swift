@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import STLogging
 
 final class Schedule: Decodable, Identifiable {
 	
@@ -57,9 +58,7 @@ final class Schedule: Decodable, Identifiable {
 					return schedule.start <= Date.now && schedule.end >= Date.now
 				}
 		} catch {
-			Logging.withLogger(for: .api) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download schedule: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .api, level: .error, "Failed to download schedule: \(error, privacy: .public)")
 			return nil
 		}
 	}

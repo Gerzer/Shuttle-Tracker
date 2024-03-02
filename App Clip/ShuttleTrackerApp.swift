@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import STLogging
 import StoreKit
 import SwiftUI
 
@@ -59,21 +60,9 @@ struct ShuttleTrackerApp: App {
 	}
 	
 	init() {
-		Logging.withLogger { (logger) in
-			let formattedVersion: String
-			if let version = Bundle.main.version {
-				formattedVersion = " \(version)"
-			} else {
-				formattedVersion = ""
-			}
-			let formattedBuild: String
-			if let build = Bundle.main.build {
-				formattedBuild = " (\(build))"
-			} else {
-				formattedBuild = ""
-			}
-			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker App Clip\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
-		}
+		let formattedVersion = if let version = Bundle.main.version { " \(version)" } else { "" }
+		let formattedBuild = if let build = Bundle.main.build { " (\(build))" } else { "" }
+		#log(system: Logging.system, "Shuttle Tracker App Clip\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		CLLocationManager.default = CLLocationManager()
 		CLLocationManager.default.requestWhenInUseAuthorization()
 		CLLocationManager.default.activityType = .automotiveNavigation

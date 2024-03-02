@@ -5,10 +5,13 @@
 //  Created by Gabriel Jacoby-Cooper on 3/27/22.
 //
 
+import STLogging
 import SwiftUI
 
 @MainActor
-final class AppStorageManager: ObservableObject {
+final class AppStorageManager: ObservableObject, LoggingConfigurationProvider {
+	
+	typealias CategoryType = Logging.Category
 	
 	enum Defaults {
 		
@@ -31,6 +34,8 @@ final class AppStorageManager: ObservableObject {
 		static let uploadedLogs: [Logging.Log] = []
 		
 		static let uploadedAnalyticsEntries: [Analytics.Entry] = []
+		
+		static let routeTolerance = 10
 		
 	}
 
@@ -65,6 +70,9 @@ final class AppStorageManager: ObservableObject {
 	
 	@AppStorage("UploadedAnalyticsEntries")
 	var uploadedAnalyticsEntries = Defaults.uploadedAnalyticsEntries
+	
+	@AppStorage("RouteTolerance")
+	var routeTolerance = Defaults.routeTolerance
 	
 	private init() { }
     	

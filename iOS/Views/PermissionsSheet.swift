@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import STLogging
 import SwiftUI
 
 @preconcurrency
@@ -169,18 +170,14 @@ struct PermissionsSheet: View {
 									do {
 										try await UNUserNotificationCenter.requestDefaultAuthorization()
 									} catch {
-										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization request failed: \(error, privacy: .public)")
-										}
+										#log(system: Logging.system, category: .permissions, level: .error, doUpload: true, "Notification authorization request failed: \(error, privacy: .public)")
 									}
 								}
 							@unknown default:
 								fatalError()
 							}
 						} else {
-							Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification authorization status is not available")
-							}
+							#log(system: Logging.system, category: .permissions, level: .error, doUpload: true, "Notification authorization status is not available")
 						}
 					} else {
 						self.openURL(URL(string: UIApplication.openSettingsURLString)!)
@@ -204,9 +201,7 @@ struct PermissionsSheet: View {
 				do {
 					try await Analytics.upload(eventType: .permissionsSheetOpened)
 				} catch {
-					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-					}
+					#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 				}
 			}
 			.sheetPresentation(
@@ -217,11 +212,7 @@ struct PermissionsSheet: View {
 	
 }
 
-struct PermissionsSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PermissionsSheet()
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	PermissionsSheet()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

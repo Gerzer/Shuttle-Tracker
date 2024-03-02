@@ -47,15 +47,11 @@ struct WhatsNewItem: View {
 	
 }
 
-struct WhatsNewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		WhatsNewItem(
-			title: "Shuttle Tracker Network",
-			description: "The Shuttle Tracker app uses the Shuttle Tracker Network to connect to Shuttle Tracker Node, our custom bus-tracking device, to unlock Automatic Board Bus. Shuttle Tracker never collects your location when you’re not physically riding a bus.",
-			icon: .whatsNewNetwork,
-			symbolRenderingMode: .hierarchical
-		)
-	}
-	
+#Preview {
+	WhatsNewItem(
+		title: "Shuttle Tracker Network",
+		description: "The Shuttle Tracker app uses the Shuttle Tracker Network to connect to Shuttle Tracker Node, our custom bus-tracking device, to unlock Automatic Board Bus. Shuttle Tracker never collects your location when you’re not physically riding a bus.",
+		icon: .whatsNewNetwork,
+		symbolRenderingMode: .hierarchical
+	)
 }

@@ -6,6 +6,7 @@
 //
 #if !os(watchOS)
 import CoreLocation
+import STLogging
 import StoreKit
 import UIKit
 
@@ -63,9 +64,7 @@ actor BoardBusManager: ObservableObject {
 			do {
 				try await Analytics.upload(eventType: .boardBusActivated(manual: manual))
 			} catch {
-				Logging.withLogger(for: .api, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 			}
 		}
 		
@@ -77,8 +76,9 @@ actor BoardBusManager: ObservableObject {
 		self.locationID = UUID()
 		self.travelState = .onBus(manual: manual)
 		CLLocationManager.default.startUpdatingLocation()
-		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Activated Board Bus")
+		#log(system: Logging.system, category: .boardBus, "Activated Board Bus")
+		Task { // Dispatch a child task because we don’t need to await the result
+			await MapState.shared.refreshBuses()
 		}
 		if !manual {
 			Task { // Dispatch a child task because we don’t need to await the result
@@ -95,7 +95,7 @@ actor BoardBusManager: ObservableObject {
 		}
 	}
 	
-	func leaveBus() async {
+	func leaveBus(manual: Bool = true) async {
 		// Require that Board Bus be currently active
 		guard case .onBus(let manual) = self.travelState else {
 			preconditionFailure()
@@ -111,9 +111,7 @@ actor BoardBusManager: ObservableObject {
 			do {
 				try await Analytics.upload(eventType: .boardBusDeactivated(manual: manual))
 			} catch {
-				Logging.withLogger(for: .api, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 			}
 		}
 		
@@ -125,8 +123,9 @@ actor BoardBusManager: ObservableObject {
 		self.locationID = nil
 		self.travelState = .notOnBus
 		CLLocationManager.default.stopUpdatingLocation()
-		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Deactivated Board Bus")
+		#log(system: Logging.system, category: .boardBus, "Deactivated Board Bus")
+		Task { // Dispatch a child task because we don’t need to await the result
+			await MapState.shared.refreshBuses()
 		}
 		await MainActor.run {
 			ViewState.shared.statusText = manual ? .thanks : .mapRefresh // Don’t bother showing the “thanks” text if Automatic Board Bus was used since the timer to switch to back to “map refresh” might not reliably fire in the background
@@ -159,45 +158,46 @@ actor BoardBusManager: ObservableObject {
 						try await Task.sleep(nanoseconds: 5_000_000_000)
 					}
 				} catch {
-					Logging.withLogger(doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-					}
+					#log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
 				}
 				ViewState.shared.statusText = .mapRefresh
 			}
 		}
 	}
 	
+	func updateBusID(with bus: Bus) {
+		if let busID = self.busID, busID < 0 {
+			self.busID = bus.id
+		}
+	}
+	
 	private func sendBoardBusNotification(type: NotificationType) async {
+		let automaticText = .onBus(manual: false) ~= self.travelState ? "Automatic " : ""
 		let content = UNMutableNotificationContent()
-		content.title = "Automatic Board Bus"
+		content.title = "\(automaticText)Board Bus"
 		switch type {
 		case .boardBus:
-			content.body = "Shuttle Tracker detected that you’re on a bus and activated Automatic Board Bus."
+			content.body = "Shuttle Tracker detected that you’re on a bus and activated \(automaticText)Board Bus."
 		case .leaveBus:
-			content.body = "Shuttle Tracker detected that you got off the bus and deactivated Automatic Board Bus."
+			content.body = "Shuttle Tracker detected that you got off the bus and deactivated \(automaticText)Board Bus."
 		}
 		content.sound = .default
 		#if !APPCLIP
 		content.interruptionLevel = .timeSensitive
 		#endif // !APPCLIP
 		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications
-		let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
+		let request = UNNotificationRequest(identifier: "BoardBus", content: content, trigger: trigger)
 		do {
 			try await UNUserNotificationCenter.requestDefaultAuthorization()
 		} catch {
-			Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .permissions, level: .error, doUpload: true, "Failed to request notification authorization: \(error, privacy: .public)")
 		}
 		do {
 			try await UNUserNotificationCenter
 				.current()
 				.add(request)
 		} catch {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .boardBus, level: .error, doUpload: true, "Failed to schedule Board Bus notification: \(error, privacy: .public)")
 		}
 	}
 	
