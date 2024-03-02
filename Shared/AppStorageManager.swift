@@ -5,10 +5,13 @@
 //  Created by Gabriel Jacoby-Cooper on 3/27/22.
 //
 
+import STLogging
 import SwiftUI
 
 @MainActor
-final class AppStorageManager: ObservableObject {
+final class AppStorageManager: ObservableObject, LoggingConfigurationProvider {
+	
+	typealias CategoryType = Logging.Category
 	
 	enum Defaults {
 		

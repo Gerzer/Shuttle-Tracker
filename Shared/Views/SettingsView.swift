@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
+import STLogging
 import SwiftUI
 
 struct SettingsView: View {
@@ -78,9 +79,7 @@ struct SettingsView: View {
 					do {
 						try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
 					} catch {
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-						}
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 					}
 				}
 			}
@@ -122,9 +121,7 @@ struct SettingsView: View {
 									do {
 										try await Analytics.upload(eventType: .serverBaseURLChanged(url: url))
 									} catch {
-										Logging.withLogger(for: .api, doUpload: true) { (logger) in
-											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-										}
+										#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 									}
 								}
 							}
@@ -156,9 +153,7 @@ struct SettingsView: View {
 					do {
 						try await Analytics.upload(eventType: .colorBlindModeToggled(enabled: enabled))
 					} catch {
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-						}
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 					}
 				}
 			}

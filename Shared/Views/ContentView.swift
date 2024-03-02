@@ -7,6 +7,7 @@
 
 import AsyncAlgorithms
 import MapKit
+import STLogging
 import SwiftUI
 import UserNotifications
 
@@ -128,17 +129,13 @@ struct ContentView: View {
 						}
 					} catch {
 						self.viewState.alertType = .serverUnavailable
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get server version number: \(error, privacy: .public)")
-						}
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to get server version number: \(error, privacy: .public)")
 					}
 					
 					do {
 						try await Analytics.upload(eventType: .coldLaunch)
 					} catch {
-						Logging.withLogger(for: .api, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics: \(error, privacy: .public)")
-						}
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics: \(error, privacy: .public)")
 					}
 				}
 				.onChange(of: self.colorScheme) { (newValue) in
@@ -186,10 +183,8 @@ struct ContentView: View {
 						.task {
 							do {
 								try await UNUserNotificationCenter.updateBadge()
-							} catch let error {
-								Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-								}
+							} catch {
+								#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 							}
 						}
 				}
@@ -232,9 +227,7 @@ struct ContentView: View {
 							do {
 								try await Task.sleep(for: .milliseconds(500))
 							} catch {
-								Logging.withLogger(doUpload: true) { (logger) in
-									logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep failed: \(error, privacy: .public)")
-								}
+								#log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
 							}
 							await self.mapState.refreshAll()
 							self.isRefreshing = false
@@ -257,9 +250,7 @@ struct ContentView: View {
 			}
 			.onReceive(NotificationCenter.default.publisher(for: .refreshBuses)) { (_) in // TODO: Remove when we drop support for macOS 12
 				if #available(macOS 13, *) {
-					Logging.withLogger(doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Combine publisher for refreshing buses was used even though iOS 16 is available!")
-					}
+					#log(system: Logging.system, level: .error, doUpload: true, "Combine publisher for refreshing buses was used even though macOS 13 is available!")
 				} else {
 					withAnimation {
 						self.isRefreshing = true
@@ -268,9 +259,7 @@ struct ContentView: View {
 						do {
 							try await Task.sleep(nanoseconds: 500_000_000)
 						} catch {
-							Logging.withLogger(doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-							}
+							#log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
 							throw error
 						}
 						await self.mapState.refreshAll()

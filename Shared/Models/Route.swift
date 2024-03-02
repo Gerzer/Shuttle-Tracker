@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import STLogging
 import SwiftUI
 
 class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
@@ -142,9 +143,7 @@ extension Array where Element == Route {
 		do {
 			return try await API.readRoutes.perform(as: [Route].self)
 		} catch {
-			Logging.withLogger(for: .api) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download routes: \(error, privacy: .public)")
-			}
+			#log(system: Logging.system, category: .api, level: .error, "Failed to download routes: \(error, privacy: .public)")
 			return []
 		}
 	}

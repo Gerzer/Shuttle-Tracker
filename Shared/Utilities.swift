@@ -7,7 +7,7 @@
 
 import HTTPStatus
 import MapKit
-import OSLog
+import STLogging
 import SwiftUI
 import UserNotifications
 
@@ -49,9 +49,7 @@ enum LocationUtilities {
 	#if !os(macOS)
 	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
 		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Required bus and location IDs not found while attempting to send location to server")
-			}
+			#log(system: Logging.system, category: .boardBus, level: .error, doUpload: true, "Required bus and location IDs not found while attempting to send location to server")
 			return
 		}
 		let location = Bus.Location(
@@ -66,35 +64,8 @@ enum LocationUtilities {
 			switch BoardBusManager.globalTravelState {
 			case .onBus:
 				await BoardBusManager.shared.leaveBus(manual: false)
-				let content = UNMutableNotificationContent()
-				content.title = "Board Bus"
-				content.body = "Shuttle Tracker detected that you got off the bus and deactivated Board Bus."
-				content.sound = .default
-				#if !APPCLIP
-				content.interruptionLevel = .active
-				#endif // !APPCLIP
-				let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-				let request = UNNotificationRequest(identifier: "BoardBus", content: content, trigger: trigger)
-				do {
-					try await UNUserNotificationCenter.requestDefaultAuthorization()
-				} catch let error {
-					Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-					}
-				}
-				do {
-					try await UNUserNotificationCenter
-						.current()
-						.add(request)
-				} catch let error {
-					Logging.withLogger(doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to schedule Board Bus notification: \(error, privacy: .public)")
-					}
-				}
 			default:
-				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-					logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Board Bus is unexpectedly inactive while checking route tolerance.")
-				}
+				#log(system: Logging.system, category: .boardBus, doUpload: true, "Board Bus is unexpectedly inactive while checking route tolerance.")
 			}
 		} else {
 			do {
@@ -104,13 +75,9 @@ enum LocationUtilities {
 				if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
 					return
 				}
-				Logging.withLogger(for: .boardBus) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error.message, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, "Failed to send location to server: \(error.message, privacy: .public)")
 			} catch {
-				Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to send location to server: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to send location to server: \(error, privacy: .public)")
 			}
 		}
 	}
@@ -173,9 +140,7 @@ extension CLLocationManager {
 	static var `default`: CLLocationManager! {
 		get {
 			if self.defaultStorage == nil {
-				Logging.withLogger(for: .location, doUpload: true) { (logger) in
-					logger.log(level: .error, "The default location manager was referenced, but no value is set. This is a fatal programmer error!")
-				}
+				#log(system: Logging.system, category: .location, level: .error, doUpload: true, "The default location manager was referenced, but no value is set. This is a fatal programmer error!")
 			}
 			return self.defaultStorage
 		}
@@ -278,10 +243,8 @@ extension UNUserNotificationCenter {
 		Task { // Dispatch a new task because we don’t need to await the result
 			do {
 				try await self.updateBadge()
-			} catch let error {
-				Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-				}
+			} catch {
+				#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 			}
 		}
 		#if os(iOS)
@@ -290,30 +253,22 @@ extension UNUserNotificationCenter {
 		let sheetStack = ShuttleTrackerApp.contentViewSheetStack
 		#endif // os(macOS)
 		if await sheetStack.top == nil {
-			Logging.withLogger(for: .apns) { (logger) in
-				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Attempting to push a sheet in response to a notification")
-			}
+			#log(system: Logging.system, category: .apns, level: .debug, "Attempting to push a sheet in response to a notification")
 			if let userInfo {
 				if JSONSerialization.isValidJSONObject(userInfo) {
 					do {
 						let data = try JSONSerialization.data(withJSONObject: userInfo)
 						let announcement = try JSONDecoder().decode(Announcement.self, from: data)
 						await sheetStack.push(.announcement(announcement))
-					} catch let error {
-						Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-							logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
-						}
+					} catch {
+						#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
 					}
 				} else {
-					Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Notification payload can’t be converted to JSON")
-					}
+					#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Notification payload can’t be converted to JSON")
 				}
 			}
 		} else {
-			Logging.withLogger(for: .apns) { (logger) in
-				logger.log(level: .debug, "[\(#fileID):\(#line) \(#function, privacy: .public)] Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
-			}
+			#log(system: Logging.system, category: .apns, level: .debug, "Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
 		}
 	}
 	

@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import STLogging
 import SwiftUI
 import UserNotifications
 
@@ -114,16 +115,12 @@ struct BusSelectionSheet: View {
 									do {
 										try await CLLocationManager.default.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "BoardBus")
 									} catch {
-										Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-											logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
-										}
+										#log(system: Logging.system, category: .permissions, level: .error, doUpload: true, "Temporary full-accuracy location authorization request failed: \(error, privacy: .public)")
 										self.sheetStack.pop()
 										throw error
 									}
 									guard case .fullAccuracy = CLLocationManager.default.accuracyAuthorization else {
-										Logging.withLogger(for: .permissions) { (logger) in
-											logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] User declined full location accuracy authorization")
-										}
+										#log(system: Logging.system, category: .permissions, "User declined full location accuracy authorization")
 										return
 									}
 									await self.boardBus()
@@ -148,14 +145,10 @@ struct BusSelectionSheet: View {
 							return BusID(id)
 						}
 				} catch {
-					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
-					}
+					#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to get list of known bus IDs from the server: \(error, privacy: .public)")
 				}
 				guard let location = CLLocationManager.default.location else {
-					Logging.withLogger(for: .location, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Can’t suggest nearest bus because the user’s location is unavailable")
-					}
+					#log(system: Logging.system, category: .location, level: .error, doUpload: true, "Can’t suggest nearest bus because the user’s location is unavailable")
 					return
 				}
 				let closestBus = await self.mapState.buses.min { (first, second) in
@@ -177,9 +170,7 @@ struct BusSelectionSheet: View {
 						do {
 							try await Analytics.upload(eventType: .busSelectionCanceled)
 						} catch {
-							Logging.withLogger(for: .api) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to upload analytics entry: \(error, privacy: .public)")
-							}
+							#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics entry: \(error, privacy: .public)")
 						}
 					}
 				}
@@ -190,13 +181,9 @@ struct BusSelectionSheet: View {
 	/// - Precondition: The user has granted full location accuracy authorization.
 	private func boardBus() async {
 		precondition(CLLocationManager.default.accuracyAuthorization == .fullAccuracy)
-		Logging.withLogger(for: .boardBus) { (logger) in
-			logger.log(level: .info, "[\(#fileID):\(#line) \(#function, privacy: .public)] Activating Board Bus manually…")
-		}
+		#log(system: Logging.system, category: .boardBus, level: .info, "Activating Board Bus manually…")
 		guard let id = self.selectedBusID?.rawValue else {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] No selected bus ID while trying to activate manual Board Bus")
-			}
+			#log(system: Logging.system, category: .boardBus, level: .error, doUpload: true, "No selected bus ID while trying to activate manual Board Bus")
 			return
 		}
 		await self.boardBusManager.boardBus(id: id, manually: true)

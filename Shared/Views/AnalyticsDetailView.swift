@@ -5,6 +5,7 @@
 //  Created by Aidan Flaherty on 2/17/23.
 //
 
+import STLogging
 import SwiftUI
 
 struct AnalyticsDetailView: View {
@@ -24,9 +25,7 @@ struct AnalyticsDetailView: View {
 			do {
 				return try self.entry.jsonString
 			} catch {
-				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to encode analytics entry: \(error, privacy: .public)")
-				}
+				#log(system: Logging.system, level: .error, doUpload: true, "Failed to encode analytics entry: \(error, privacy: .public)")
 				return nil
 			}
 		}

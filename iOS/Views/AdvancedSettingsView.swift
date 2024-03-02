@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 1/23/22.
 //
 
+import STLogging
 import SwiftUI
 
 @available(iOS 17, *)
@@ -60,10 +61,8 @@ struct AdvancedSettingsView: View {
 					Task {
 						do {
 							try await UNUserNotificationCenter.updateBadge()
-						} catch let error {
-							Logging.withLogger(for: .apns, doUpload: true) { (logger) in
-								logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to update badge: \(error, privacy: .public)")
-							}
+						} catch {
+							#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 						}
 					}
 					withAnimation {
