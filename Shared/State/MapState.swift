@@ -68,4 +68,12 @@ actor MapState: ObservableObject {
 		}
 	}
 	
+	func distance(to coordinate: CLLocationCoordinate2D) -> Double {
+		return self.routes
+			.map { (route) in
+				return route.distance(to: coordinate)
+			}
+			.min() ?? .infinity
+	}
+	
 }

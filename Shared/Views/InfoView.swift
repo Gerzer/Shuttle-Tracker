@@ -36,28 +36,49 @@ struct InfoView: View {
 	var body: some View {
 		ScrollView {
 			VStack(alignment: .leading, spacing: 0) {
-				Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttles, powered by crowdsourced location data.")
+				#if os(macOS)
+				Text("Shuttle Tracker 🚐")
+					.font(.largeTitle)
+					.bold()
+					.padding(.top)
+				#endif //os(macOS)
+				Text("Shuttle Tracker shows you the real-time locations of the Rensselaer campus shuttle buses, powered by crowdsourced location data.")
 					.padding(.bottom)
 				if let schedule = self.schedule {
 					Section {
+						let weekday = Calendar.current.component(.weekday, from: .now)
 						HStack {
 							VStack(alignment: .leading, spacing: 0) {
 								Text("Monday")
+									.fontWeight(weekday == 2 ? .bold : .regular)
 								Text("Tuesday")
+									.fontWeight(weekday == 3 ? .bold : .regular)
 								Text("Wednesday")
+									.fontWeight(weekday == 4 ? .bold : .regular)
 								Text("Thursday")
+									.fontWeight(weekday == 5 ? .bold : .regular)
 								Text("Friday")
+									.fontWeight(weekday == 6 ? .bold : .regular)
 								Text("Saturday")
+									.fontWeight(weekday == 7 ? .bold : .regular)
 								Text("Sunday")
+									.fontWeight(weekday == 1 ? .bold : .regular)
 							}
 							VStack(alignment: .leading, spacing: 0) {
 								Text("\(schedule.content.monday.start) to \(schedule.content.monday.end)")
+									.fontWeight(weekday == 2 ? .bold : .regular)
 								Text("\(schedule.content.tuesday.start) to \(schedule.content.tuesday.end)")
+									.fontWeight(weekday == 3 ? .bold : .regular)
 								Text("\(schedule.content.wednesday.start) to \(schedule.content.wednesday.end)")
+									.fontWeight(weekday == 4 ? .bold : .regular)
 								Text("\(schedule.content.thursday.start) to \(schedule.content.thursday.end)")
+									.fontWeight(weekday == 5 ? .bold : .regular)
 								Text("\(schedule.content.friday.start) to \(schedule.content.friday.end)")
+									.fontWeight(weekday == 6 ? .bold : .regular)
 								Text("\(schedule.content.saturday.start) to \(schedule.content.saturday.end)")
+									.fontWeight(weekday == 7 ? .bold : .regular)
 								Text("\(schedule.content.sunday.start) to \(schedule.content.sunday.end)")
+									.fontWeight(weekday == 1 ? .bold : .regular)
 							}
 							Spacer()
 						}
@@ -85,9 +106,19 @@ struct InfoView: View {
 		}
 			.navigationTitle("Shuttle Tracker 🚐")
 			.toolbar {
+				#if os(iOS)
 				ToolbarItem {
 					CloseButton()
 				}
+				#elseif os(macOS) // os(iOS)
+				ToolbarItem(placement: .confirmationAction) {
+					if case .some(.info) = self.sheetStack.top {
+						Button("Close") {
+							self.sheetStack.pop()
+						}
+					}
+				}
+				#endif // os(macOS)
 			}
 			.onAppear {
 				Task {
@@ -102,13 +133,9 @@ struct InfoView: View {
 	
 }
 
-struct InfoViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		InfoView()
-			.environmentObject(ViewState.shared)
-			.environmentObject(AppStorageManager.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	InfoView()
+		.environmentObject(ViewState.shared)
+		.environmentObject(AppStorageManager.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

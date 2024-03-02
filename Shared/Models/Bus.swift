@@ -53,7 +53,7 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 	
 	var title: String? {
 		get {
-			return "Bus \(self.id)"
+			return self.id > 0 ? "Bus \(self.id)" : "Bus"
 		}
 	}
 	
@@ -73,7 +73,7 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 			case .system:
 				return AppStorageManager.shared.colorBlindMode ? .purple : .red
 			case .user:
-				return .green
+				return self.id > 0 ? .green : (AppStorageManager.shared.colorBlindMode ? .purple : .red)
 			}
 		}
 	}
@@ -84,9 +84,13 @@ class Bus: NSObject, Codable, Identifiable, CustomAnnotation {
 			let colorBlindSytemImage: String
 			switch self.location.type {
 			case .system:
-				colorBlindSytemImage = "circle.dotted"
+				colorBlindSytemImage = SFSymbol.colorBlindLowQualityLocation.systemName
 			case .user:
-				colorBlindSytemImage = SFSymbol.colorBlindHighQualityLocation.systemName
+				if self.id > 0 {
+					colorBlindSytemImage = SFSymbol.colorBlindHighQualityLocation.systemName
+				} else {
+					colorBlindSytemImage = SFSymbol.colorBlindLowQualityLocation.systemName
+				}
 			}
 			return AppStorageManager.shared.colorBlindMode ? colorBlindSytemImage : SFSymbol.bus.systemName
 		}

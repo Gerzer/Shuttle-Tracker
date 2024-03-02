@@ -36,11 +36,7 @@ struct AboutView: View {
 	
 }
 
-struct AboutViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		AboutView()
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	AboutView()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

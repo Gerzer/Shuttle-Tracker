@@ -23,10 +23,6 @@ struct SettingsSheet: View {
 	
 }
 
-struct SettingsSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		SettingsSheet()
-	}
-	
+#Preview {
+	SettingsSheet()
 }

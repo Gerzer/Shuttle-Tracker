@@ -82,23 +82,3 @@ struct AnalyticsDetailView: View {
 			#endif // os(iOS)
 	}
 }
-
-struct AnalyticsDetailViewPreviews: PreviewProvider {
-	
-	@State
-	static var entry: Analytics.Entry? = nil
-	
-	static var previews: some View {
-		NavigationView {
-			if let entry = self.entry {
-				AnalyticsDetailView(entry: entry)
-			}
-		}
-			.onAppear {
-				Task {
-					self.entry = await Analytics.Entry(.permissionsSheetOpened)
-				}
-			}
-	}
-	
-}

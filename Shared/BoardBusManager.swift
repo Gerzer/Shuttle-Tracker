@@ -77,6 +77,9 @@ actor BoardBusManager: ObservableObject {
 		self.travelState = .onBus(manual: manual)
 		CLLocationManager.default.startUpdatingLocation()
 		#log(system: Logging.system, category: .boardBus, "Activated Board Bus")
+		Task { // Dispatch a child task because we don’t need to await the result
+			await MapState.shared.refreshBuses()
+		}
 		if !manual {
 			Task { // Dispatch a child task because we don’t need to await the result
 				await self.sendBoardBusNotification(type: .boardBus)
@@ -92,7 +95,7 @@ actor BoardBusManager: ObservableObject {
 		}
 	}
 	
-	func leaveBus() async {
+	func leaveBus(manual: Bool = true) async {
 		// Require that Board Bus be currently active
 		guard case .onBus(let manual) = self.travelState else {
 			preconditionFailure()
@@ -121,6 +124,9 @@ actor BoardBusManager: ObservableObject {
 		self.travelState = .notOnBus
 		CLLocationManager.default.stopUpdatingLocation()
 		#log(system: Logging.system, category: .boardBus, "Deactivated Board Bus")
+		Task { // Dispatch a child task because we don’t need to await the result
+			await MapState.shared.refreshBuses()
+		}
 		await MainActor.run {
 			ViewState.shared.statusText = manual ? .thanks : .mapRefresh // Don’t bother showing the “thanks” text if Automatic Board Bus was used since the timer to switch to back to “map refresh” might not reliably fire in the background
 			MapState.mapView?.userLocation.title = self.oldUserLocationTitle
@@ -159,21 +165,28 @@ actor BoardBusManager: ObservableObject {
 		}
 	}
 	
+	func updateBusID(with bus: Bus) {
+		if let busID = self.busID, busID < 0 {
+			self.busID = bus.id
+		}
+	}
+	
 	private func sendBoardBusNotification(type: NotificationType) async {
+		let automaticText = .onBus(manual: false) ~= self.travelState ? "Automatic " : ""
 		let content = UNMutableNotificationContent()
-		content.title = "Automatic Board Bus"
+		content.title = "\(automaticText)Board Bus"
 		switch type {
 		case .boardBus:
-			content.body = "Shuttle Tracker detected that you’re on a bus and activated Automatic Board Bus."
+			content.body = "Shuttle Tracker detected that you’re on a bus and activated \(automaticText)Board Bus."
 		case .leaveBus:
-			content.body = "Shuttle Tracker detected that you got off the bus and deactivated Automatic Board Bus."
+			content.body = "Shuttle Tracker detected that you got off the bus and deactivated \(automaticText)Board Bus."
 		}
 		content.sound = .default
 		#if !APPCLIP
 		content.interruptionLevel = .timeSensitive
 		#endif // !APPCLIP
 		let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false) // The User Notifications framework doesn’t support immediate notifications
-		let request = UNNotificationRequest(identifier: "AutomaticBoardBus", content: content, trigger: trigger)
+		let request = UNNotificationRequest(identifier: "BoardBus", content: content, trigger: trigger)
 		do {
 			try await UNUserNotificationCenter.requestDefaultAuthorization()
 		} catch {
@@ -184,7 +197,7 @@ actor BoardBusManager: ObservableObject {
 				.current()
 				.add(request)
 		} catch {
-			#log(system: Logging.system, category: .boardBus, level: .error, doUpload: true, "Failed to schedule Automatic Board Bus notification: \(error, privacy: .public)")
+			#log(system: Logging.system, category: .boardBus, level: .error, doUpload: true, "Failed to schedule Board Bus notification: \(error, privacy: .public)")
 		}
 	}
 	

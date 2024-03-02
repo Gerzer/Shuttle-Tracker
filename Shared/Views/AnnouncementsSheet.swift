@@ -146,12 +146,8 @@ struct AnnouncementsSheet: View {
 	
 }
 
-struct AnnouncementsSheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		AnnouncementsSheet()
-			.environmentObject(ViewState.shared)
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	AnnouncementsSheet()
+		.environmentObject(ViewState.shared)
+		.environmentObject(ShuttleTrackerSheetStack())
 }

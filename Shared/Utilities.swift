@@ -54,19 +54,31 @@ enum LocationUtilities {
 		}
 		let location = Bus.Location(
 			id: locationID,
-			date: Date(),
+			date: .now,
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
-		do {
-			try await API.updateBus(id: busID, location: location).perform()
-		} catch let error as any HTTPStatusCode {
-			if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
-				return
+		
+		let tolerance = await AppStorageManager.shared.routeTolerance
+		if await MapState.shared.distance(to: coordinate) > Double(tolerance) {
+			switch BoardBusManager.globalTravelState {
+			case .onBus:
+				await BoardBusManager.shared.leaveBus(manual: false)
+			default:
+				#log(system: Logging.system, category: .boardBus, doUpload: true, "Board Bus is unexpectedly inactive while checking route tolerance.")
 			}
-			#log(system: Logging.system, category: .api, level: .error, "Failed to send location to server: \(error.message, privacy: .public)")
-		} catch {
-			#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to send location to server: \(error, privacy: .public)")
+		} else {
+			do {
+				let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
+				await BoardBusManager.shared.updateBusID(with: resolvedBus)
+			} catch let error as any HTTPStatusCode {
+				if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
+					return
+				}
+				#log(system: Logging.system, category: .api, level: .error, "Failed to send location to server: \(error.message, privacy: .public)")
+			} catch {
+				#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to send location to server: \(error, privacy: .public)")
+			}
 		}
 	}
 	#endif // !os(macOS)
@@ -90,6 +102,8 @@ enum MapConstants {
 			height: 10000
 		)
 	)
+	
+	static let earthRadius = 6378.137;
 	
 	@available(iOS 17, macOS 14, *)
 	static let defaultCameraPosition: MapCameraPosition = .rect(MapConstants.mapRect)
@@ -159,6 +173,14 @@ extension CLLocationCoordinate2D: Equatable {
 	
 	func convertedToCoordinate() -> Coordinate {
 		return Coordinate(latitude: self.latitude, longitude: self.longitude)
+	}
+	
+	func asCartesian() -> (x: Double, y: Double, z: Double) {
+		return (
+			x: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * cos(self.longitude * .pi / 180),
+			y: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * sin(self.longitude * .pi / 180),
+			z: MapConstants.earthRadius * sin(self.latitude * .pi / 180)
+		)
 	}
 	
 }
@@ -447,6 +469,17 @@ extension Set: RawRepresentable where Element == UUID {
 		}
 	}
 	
+}
+
+func * (
+	lhs: (x: Double, y: Double, z: Double),
+	rhs: (x: Double, y: Double, z: Double)
+) -> (x: Double, y: Double, z: Double) {
+	return (
+		x: lhs.y * rhs.z - lhs.z * rhs.y,
+		y: lhs.z * rhs.x - lhs.x * rhs.z,
+		z: lhs.x * rhs.y - lhs.y * rhs.x
+	)
 }
 
 #if canImport(UIKit)

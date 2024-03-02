@@ -88,12 +88,43 @@ class Route: NSObject, Collection, Decodable, Identifiable, MKOverlay {
 		return self.mapPoints[position]
 	}
 	
-	static func == (_ left: Route, _ right: Route) -> Bool {
-		return left.mapPoints == right.mapPoints
-	}
-	
 	func index(after oldIndex: Int) -> Int {
 		return oldIndex + 1
+	}
+	
+	func distance(to coordinate: CLLocationCoordinate2D) -> Double {
+		var minDistance: Double = -1
+		for index in self.mapPoints.indices.dropLast() {
+			let vecA = self.mapPoints[index].coordinate.asCartesian()
+			let vecB = self.mapPoints[index + 1].coordinate.asCartesian()
+			let vecC = coordinate.asCartesian()
+			let vecG = vecA * vecB
+			let vecF = vecC * vecG
+			var vecT = vecG * vecF
+			let epsilon = 0.01
+			let magnitude = sqrt(vecT.x * vecT.x + vecT.y * vecT.y + vecT.z * vecT.z) + epsilon
+			vecT.x *= MapConstants.earthRadius / magnitude
+			vecT.y *= MapConstants.earthRadius / magnitude
+			vecT.z *= MapConstants.earthRadius / magnitude
+			let coordinate = CLLocationCoordinate2D(
+				latitude: 180 / .pi * asin(vecT.z / MapConstants.earthRadius),
+				longitude: 180 / .pi * atan2(vecT.y, vecT.x)
+			)
+			let closestPoint = if abs(self.mapPoints[index].distance(to: self.mapPoints[index + 1]) - self.mapPoints[index].distance(to: MKMapPoint(coordinate)) - self.mapPoints[index + 1].distance(to: MKMapPoint(coordinate))) < epsilon {
+				MKMapPoint(coordinate)
+			} else {
+				(self.mapPoints[index].distance(to: MKMapPoint(coordinate)) < self.mapPoints[index + 1].distance(to: MKMapPoint(coordinate))) ? self.mapPoints[index] : self.mapPoints[index + 1]
+			}
+			let distance = closestPoint.distance(to: MKMapPoint(coordinate))
+			if minDistance < 0 || distance < minDistance {
+				minDistance = distance
+			}
+		}
+		return minDistance
+	}
+	
+	static func == (_ left: Route, _ right: Route) -> Bool {
+		return left.mapPoints == right.mapPoints
 	}
 	
 }

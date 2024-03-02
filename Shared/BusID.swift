@@ -8,7 +8,15 @@
 // TODO: Revisit choice to implement a non-interned wrapper class
 final class BusID: Equatable, Comparable, Identifiable, RawRepresentable {
 	
+	static let unknown = BusID()
+	
 	let id: Int
+	
+	var isUnknown: Bool {
+		get {
+			return self.id < 0
+		}
+	}
 	
 	var rawValue: Int {
 		get {
@@ -16,8 +24,15 @@ final class BusID: Equatable, Comparable, Identifiable, RawRepresentable {
 		}
 	}
 	
-	init(_ id: Int) {
+	init?(_ id: Int) {
+		guard id > 0 else {
+			return nil
+		}
 		self.id = id
+	}
+	
+	private init() {
+		self.id = .random(in: Int(Int8.min) ..< 0)
 	}
 	
 	required init(rawValue: Int) {

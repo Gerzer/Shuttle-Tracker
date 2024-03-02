@@ -128,11 +128,7 @@ struct PrivacyView: View {
 	
 }
 
-struct PrivacyViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PrivacyView()
-			.environmentObject(ShuttleTrackerSheetStack())
-	}
-	
+#Preview {
+	PrivacyView()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

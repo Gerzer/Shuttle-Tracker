@@ -421,16 +421,12 @@ struct LoggingAnalyticsSettingsView: View {
 	
 }
 
-struct LoggingAnalyticsSettingsViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		LoggingAnalyticsSettingsView()
-			.environmentObject(AppStorageManager.shared)
-			.task {
-				AppStorageManager.shared.uploadedLogs = [
-					Logging.Log(content: "Hello, world!")
-				]
-			}
-	}
-	
+#Preview {
+	LoggingAnalyticsSettingsView()
+		.environmentObject(AppStorageManager.shared)
+		.task {
+			AppStorageManager.shared.uploadedLogs = [
+				Logging.Log(content: "Hello, world!")
+			]
+		}
 }
