@@ -27,8 +27,6 @@ struct SettingsView: View {
                     .frame(width: 30)
                     .animation(.default, value: self.appStorageManager.colorBlindMode)
                     Toggle("Color-Blind Mode", isOn: self.appStorageManager.$colorBlindMode)
-                        .accessibilityShowsLargeContentViewer()
-                        .lineLimit(2)
                 }
                 .frame(height: 30)
             } footer: {

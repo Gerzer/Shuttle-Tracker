@@ -32,8 +32,8 @@ struct ShuttleTrackerApp: App {
     
     init() {
         CLLocationManager.default = CLLocationManager()
+        CLLocationManager.default.requestWhenInUseAuthorization()
         CLLocationManager.default.activityType = .automotiveNavigation
-        CLLocationManager.default.requestAlwaysAuthorization()
         Task {
             do {
                 try await UNUserNotificationCenter.requestDefaultAuthorization()

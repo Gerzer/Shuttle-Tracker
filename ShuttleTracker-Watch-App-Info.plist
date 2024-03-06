@@ -6,5 +6,7 @@
 	<string>Shuttle Tracker connects to the Shuttle Tracker Network to track bus locations in the background and shows where you are on the map.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Shuttle Tracker connects to the Shuttle Tracker Network to track bus locations in the background and shows where you are on the map.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Shuttle Tracker shows where you are on the map.</string>
 </dict>
 </plist>

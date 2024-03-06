@@ -13,14 +13,16 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 	
 	fileprivate static let privateDefault = LocationManagerDelegate()
 	
-	#if os(iOS)
+	#if os(iOS) || os(watchOS)
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		#log(system: Logging.system, category: .locationManagerDelegate, level: .info, "Did update locations \(locations, privacy: .private(mask: .hash))")
 		Task {
+            #if !os(watchOS)
 			if case .onBus = await BoardBusManager.shared.travelState {
 				// The Core Location documentation promises that the array of locations will contain at least one element.
 				await LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
 			}
+            #endif
 		}
 	}
 	
@@ -29,6 +31,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 		#log(system: Logging.system, category: .location, level: .error, doUpload: true, "Location update failed: \(error, privacy: .public)")
 	}
 	
+    #if !os(watchOS)
 	func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
 		#log(system: Logging.system, category: .locationManagerDelegate, level: .info, "Did determine state \(state.rawValue) for \(region, privacy: .private(mask: .hash))")
 		switch state {
@@ -66,6 +69,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 			}
 		}
 	}
+    
 	
 	func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: any Error) {
 		#log(system: Logging.system, category: .locationManagerDelegate, level: .info, "Monitoring did fail for region \(region, privacy: .private(mask: .hash)) with error \(error, privacy: .public)")
@@ -114,6 +118,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 		#log(system: Logging.system, category: .locationManagerDelegate, level: .info, "Did fail ranging for \(beaconConstraint, privacy: .public) error \(error, privacy: .public)")
 		#log(system: Logging.system, category: .location, level: .error, doUpload: true, "Ranging failed: \(error, privacy: .public)")
 	}
+    #endif
 	
 	func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
 		#log(system: Logging.system, category: .locationManagerDelegate, level: .info, "Did change authorization")

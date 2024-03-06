@@ -28,8 +28,15 @@ struct AnnouncementDetailView: View {
             Text(announcement.body)
         }
     }
+    
+    init(announcement: Announcement, didResetViewedAnnouncements: Binding<Bool> = .constant(false)) {
+        self.announcement = announcement
+        self._didResetViewedAnnouncements = didResetViewedAnnouncements
+    }
+    
 }
 
 //#Preview {
-//    AnnouncementDetailView(announcement: , didResetViewedAnnouncements: <#Binding<Bool>#>)
+//    AnnouncementDetailView(announcement: Anno,
+//                           didResetViewedAnnouncements: .constant(true))
 //}
