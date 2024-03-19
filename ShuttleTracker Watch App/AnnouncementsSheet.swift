@@ -31,19 +31,19 @@ struct AnnouncementsSheet: View {
                                 )
                             } label: {
                                 let isUnviewed = !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
-                                VStack {
+                                VStack(alignment: .leading) {
                                     HStack {
                                         if isUnviewed {
                                             Circle()
-                                                .foregroundStyle(.blue)
+                                                .fill(.blue)
+                                                .frame(width: 10, height: 10)
                                         }
                                         Text(announcement.subject)
-                                            .font(.title)
+                                            .font(.headline)
                                             .lineLimit(1)
                                     }
                                     Text(announcement.body)
                                         .lineLimit(2)
-                                    Text(announcement.startString)
                                 }
                                 .bold(isUnviewed)
                                 .padding()
