@@ -90,7 +90,19 @@ enum DefaultsKeys {
 	static let coldLaunchCount = "ColdLaunchCount"
 	
 }
-#endif
+#endif // !os(watchOS)
+
+enum CalendarUtilities {
+	
+	static var isAprilFools: Bool {
+		get {
+			let components = Calendar.autoupdatingCurrent.dateComponents([.month, .day], from: .now)
+			return components.month == 4 && components.day == 1
+		}
+	}
+	
+}
+
 enum MapConstants {
 	
 	static let originCoordinate = CLLocationCoordinate2D(latitude: 42.735, longitude: -73.688)

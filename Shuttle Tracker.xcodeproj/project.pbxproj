@@ -77,7 +77,6 @@
 		C00DF74C29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
 		C00DF74D29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
 		C00DF74E29BD4EFD00B48A63 /* RawRepresentableInJSONArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00DF74B29BD4EFC00B48A63 /* RawRepresentableInJSONArray.swift */; };
-		C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D762827E6CC60009EC92B /* PlusSheet.swift */; };
 		C01527E22517CFA60069092C /* LegacyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527E12517CFA60069092C /* LegacyMapView.swift */; };
 		C01527EC2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
 		C01527ED2517D5D40069092C /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C01527EB2517D5D40069092C /* MapViewDelegate.swift */; };
@@ -147,7 +146,6 @@
 		C082CCF5277FB36E005D0209 /* BusOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEE277FB33C005D0209 /* BusOption.swift */; };
 		C082CCF8277FB38A005D0209 /* BusID.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCF6277FB38A005D0209 /* BusID.swift */; };
 		C085A2DE27C5B36000AA01F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C085A2DD27C5B36000AA01F3 /* AppDelegate.swift */; };
-		C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D762827E6CC60009EC92B /* PlusSheet.swift */; };
 		C08E838D250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08E838E250D2BF000F0E2E9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08E838C250D2BF000F0E2E9 /* Route.swift */; };
 		C08FC1DC252509E7008589C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C08FC1D6252509E6008589C1 /* Preview Assets.xcassets */; };
@@ -464,6 +462,7 @@
 				6538CB4E2B76D487003EB08E /* InfoView.swift */,
 				65210C0B2B80036E0051E9CF /* InformationTypeView.swift */,
 				654D45C72B83239A00EAB27F /* SettingsView.swift */,
+				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
 				6583215C2B88F83400232E81 /* PrivacyView.swift */,
 				656E68B72B92823800F6B537 /* AnnouncementsSheet.swift */,
 				656E68B92B92826600F6B537 /* AnnouncementDetailView.swift */,
@@ -518,7 +517,6 @@
 				C032A8FF29CA86B20047579C /* NetworkTextView.swift */,
 				C0BC27692974648E008A4BD0 /* NetworkToast.swift */,
 				C0078EED2741B1240036FBC8 /* PermissionsSheet.swift */,
-				C08D762827E6CC60009EC92B /* PlusSheet.swift */,
 				C0C9D3C7270F797400AE58BE /* SecondaryOverlay.swift */,
 				C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */,
 				C0C9D3CB270F802A00AE58BE /* SettingsSheet.swift */,
@@ -995,7 +993,6 @@
 				C059834127D2CF0400299D27 /* PrivacySheet.swift in Sources */,
 				C03B1D382741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */,
 				C0BC276C2974BA63008A4BD0 /* InfoSheet.swift in Sources */,
-				C00ED35327E79DCA0075ABC4 /* PlusSheet.swift in Sources */,
 				C0A1E72D2749F8EC00DBF248 /* AnnouncementDetailView.swift in Sources */,
 				C0A232C6252508D400FAAD50 /* Utilities.swift in Sources */,
 				C0B5E72928BAA81A00603D22 /* ColorName.swift in Sources */,
@@ -1024,7 +1021,6 @@
 				C032A8FB29C77DB30047579C /* WhatsNewSheet.swift in Sources */,
 				C01528142517E1E00069092C /* Bus.swift in Sources */,
 				C0019DCE251910E80020574D /* Stop.swift in Sources */,
-				C08D762A27E6CC60009EC92B /* PlusSheet.swift in Sources */,
 				C03F15872A95A480008DC1B2 /* MapContainer.swift in Sources */,
 				C03B1D372741E18B007B318E /* ShuttleTrackerSheetStack.swift in Sources */,
 				C03EE72226DEAD1F00878D77 /* LegendToast.swift in Sources */,
