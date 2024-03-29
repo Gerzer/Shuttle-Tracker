@@ -36,14 +36,20 @@ enum SFSymbol {
 	case permissionGranted
 	
 	case permissionNotDetermined
+    
+    case privacy
 	
 	case recenter
 	
 	case refresh
+    
+    case schedule
 	
 	case settings
 	
 	case stop
+    
+    case shuttleTrackerPlus
 	
 	case user
 	
@@ -61,7 +67,11 @@ enum SFSymbol {
 		get {
 			switch self {
 			case .announcements:
-				return "exclamationmark.bubble"
+                #if os(watchOS)
+                return "bell.badge.circle.fill"
+                #else
+				return "exclamationmark.bubble.fill"
+                #endif
 			case .bus:
 				return "bus"
 			case .close:
@@ -71,7 +81,7 @@ enum SFSymbol {
 			case .colorBlindLowQualityLocation:
 				return "circle.dotted"
 			case .info:
-				return "info.circle"
+				return "info"
 			case .loggingAnalytics:
 				return "text.redaction"
 			case .onboardingNode:
@@ -90,14 +100,28 @@ enum SFSymbol {
 				return "gear.badge.checkmark"
 			case .permissionNotDetermined:
 				return "gear.badge.questionmark"
+            case .privacy:
+                return "hand.raised.circle.fill"
 			case .recenter:
 				return "location.viewfinder"
 			case .refresh:
 				return "arrow.clockwise"
+            case .schedule:
+                #if os(watchOS)
+                return "calendar.circle.fill"
+                #else
+                return "calendar.badge.clock"
+                #endif
 			case .settings:
+                #if os(watchOS)
+                return "gear.circle.fill"
+                #else
 				return "gearshape"
+                #endif
 			case .stop:
 				return "circle.fill"
+            case .shuttleTrackerPlus:
+                return "plus.circle.fill"
 			case .user:
 				return "person.crop.circle"
 			case .whatsNewAnalytics:
@@ -110,7 +134,7 @@ enum SFSymbol {
 				return "point.3.filled.connected.trianglepath.dotted"
 			case .whatsNewNotifications:
 				return "bell.badge"
-			}
+            }
 		}
 	}
 	

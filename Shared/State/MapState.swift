@@ -14,7 +14,9 @@ actor MapState: ObservableObject {
 	
 	static let shared = MapState()
 	
+    #if !os(watchOS)
 	static weak var mapView: MKMapView?
+    #endif
 	
 	private(set) var buses = [Bus]()
 	
@@ -30,7 +32,6 @@ actor MapState: ObservableObject {
 			self.objectWillChange.send()
 		}
 	}
-	
 	func refreshAll() async {
 		Task { // Dispatch a new task because we don’t need to await the result
 			do {
@@ -52,7 +53,7 @@ actor MapState: ObservableObject {
 	
 	@MainActor
 	func recenter(position: Binding<MapCameraPositionWrapper>) async {
-		if #available(iOS 17, macOS 14, *) {
+		if #available(iOS 17, macOS 14, watchOS 10, *) {
 			let dx = (MapConstants.mapRectInsets.left + MapConstants.mapRectInsets.right) * -15
 			let dy = (MapConstants.mapRectInsets.top + MapConstants.mapRectInsets.bottom) * -15
 			let mapRect = await self.routes.boundingMapRect.insetBy(dx: dx, dy: dy)
@@ -60,14 +61,17 @@ actor MapState: ObservableObject {
 				position.mapCameraPosition.wrappedValue = .rect(mapRect)
 			}
 		} else {
+            #if !os(watchOS)
 			Self.mapView?.setVisibleMapRect(
 				await self.routes.boundingMapRect,
 				edgePadding: MapConstants.mapRectInsets,
 				animated: true
 			)
+            #endif
 		}
 	}
 	
+    #if !os(watchOS)
 	func distance(to coordinate: CLLocationCoordinate2D) -> Double {
 		return self.routes
 			.map { (route) in
@@ -75,5 +79,6 @@ actor MapState: ObservableObject {
 			}
 			.min() ?? .infinity
 	}
+    #endif
 	
 }

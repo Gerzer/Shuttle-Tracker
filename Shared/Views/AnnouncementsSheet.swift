@@ -53,14 +53,13 @@ struct AnnouncementsSheet: View {
 							}
 						}
 					} else {
-						#if os(macOS)
+						#if os(macOS) // os(macOS)
 						Text("No Announcements")
 							.font(.callout)
 							.multilineTextAlignment(.center)
 							.foregroundColor(.secondary)
 							.frame(minWidth: 100)
 							.padding()
-						#else // os(macOS)
 						Text("No Announcements")
 							.font(.title2)
 							.multilineTextAlignment(.center)

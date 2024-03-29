@@ -63,8 +63,13 @@ struct MapContainer: View {
 				}
 			}
 			ForEach(self.routes) { (route) in
+                #if !os(watchOS)
 				MapPolyline(points: route.mapPoints, contourStyle: .geodesic)
 					.stroke(route.mapColor, lineWidth: 5)
+                #else
+                MapPolyline(coordinates: route.mapPoints,contourStyle: .geodesic)
+                    .stroke(route.mapColor, lineWidth: 5)
+                #endif
 			}
 			#if os(iOS)
 			if case .some(.onBus) = self.travelState, let busID = self.busID, let coordinate = CLLocationManager.default.location?.coordinate {

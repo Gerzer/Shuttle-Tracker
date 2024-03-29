@@ -28,7 +28,7 @@ enum ViewConstants {
 	#endif
 	
 }
-
+#if !os(watchOS)
 extension VisualEffectView {
 	
 	/// The standard visual-effect view, which is optimized for the current context.
@@ -90,6 +90,18 @@ enum DefaultsKeys {
 	static let coldLaunchCount = "ColdLaunchCount"
 	
 }
+#endif // !os(watchOS)
+
+enum CalendarUtilities {
+	
+	static var isAprilFools: Bool {
+		get {
+			let components = Calendar.autoupdatingCurrent.dateComponents([.month, .day], from: .now)
+			return components.month == 4 && components.day == 1
+		}
+	}
+	
+}
 
 enum MapConstants {
 	
@@ -116,6 +128,7 @@ enum MapConstants {
 	
 }
 
+#if !os(watchOS)
 enum UserLocationError: LocalizedError {
 	
 	case unavailable
@@ -131,6 +144,8 @@ enum UserLocationError: LocalizedError {
 	
 }
 
+#endif
+
 extension CLLocationManager {
 	
 	private static var handlers: [(CLLocationManager) -> Void] = []
@@ -145,7 +160,9 @@ extension CLLocationManager {
 			return self.defaultStorage
 		}
 		set {
+            #if !os(watchOS)
 			newValue.delegate = .default
+            #endif
 			for handler in self.handlers {
 				handler(newValue)
 			}
@@ -185,6 +202,7 @@ extension CLLocationCoordinate2D: Equatable {
 	
 }
 
+#if !os(watchOS)
 extension MKMapPoint: Equatable {
 	
 	init(_ coordinate: Coordinate) {
@@ -196,6 +214,8 @@ extension MKMapPoint: Equatable {
 	}
 	
 }
+#endif
+
 
 extension UNUserNotificationCenter {
 	
@@ -220,10 +240,14 @@ extension UNUserNotificationCenter {
 			}
 			.count
 		await MainActor.run {
+            #if !os(watchOS)
 			ViewState.shared.badgeNumber = announcementsCount
+            #endif
 		}
 		if #available(iOS 16, macOS 13, *) {
+            #if !os(watchOS)
 			try await UNUserNotificationCenter.current().setBadgeCount(announcementsCount)
+            #endif
 		} else {
 			#if canImport(AppKit)
 			await MainActor.run {
@@ -231,12 +255,15 @@ extension UNUserNotificationCenter {
 			}
 			#elseif canImport(UIKit) // canImport(AppKit)
 			await MainActor.run {
+                #if !os(watchOS)
 				UIApplication.shared.applicationIconBadgeNumber = announcementsCount
+                #endif
 			}
 			#endif // canImport(UIKit)
 		}
 	}
-	
+    
+    #if !os(watchOS)
 	/// Processes a new notification.
 	/// - Parameter userInfo: The notification’s payload.
 	static func handleNotification(userInfo: [AnyHashable: Any]? = nil) async {
@@ -252,6 +279,7 @@ extension UNUserNotificationCenter {
 		#elseif os(macOS) // os(iOS)
 		let sheetStack = ShuttleTrackerApp.contentViewSheetStack
 		#endif // os(macOS)
+        #if !os(watchOS)
 		if await sheetStack.top == nil {
 			#log(system: Logging.system, category: .apns, level: .debug, "Attempting to push a sheet in response to a notification")
 			if let userInfo {
@@ -270,8 +298,10 @@ extension UNUserNotificationCenter {
 		} else {
 			#log(system: Logging.system, category: .apns, level: .debug, "Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
 		}
+        #endif
 	}
-	
+    
+    #endif
 }
 
 extension Notification.Name {
@@ -312,6 +342,7 @@ extension JSONDecoder {
 	
 }
 
+
 extension Bundle {
 	
 	var version: String? {
@@ -327,7 +358,6 @@ extension Bundle {
 	}
 	
 }
-
 extension View {
 	
 	func innerShadow<S: Shape>(using shape: S, color: Color = .black, width: CGFloat = 5) -> some View {
@@ -364,7 +394,6 @@ extension View {
 	}
 	
 }
-
 @available(iOS, introduced: 15, deprecated: 16)
 @available(macOS, introduced: 12, deprecated: 13)
 extension URL {
@@ -471,6 +500,7 @@ extension Set: RawRepresentable where Element == UUID {
 	
 }
 
+#if canImport(UIKit)
 func * (
 	lhs: (x: Double, y: Double, z: Double),
 	rhs: (x: Double, y: Double, z: Double)
@@ -481,8 +511,9 @@ func * (
 		z: lhs.x * rhs.y - lhs.y * rhs.x
 	)
 }
+#endif // canImport(UIKit)
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
 extension UIKeyboardType {
 	
 	/// A keyboard type that’s optimized for URL entry.

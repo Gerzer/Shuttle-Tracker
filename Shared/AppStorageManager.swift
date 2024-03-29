@@ -38,9 +38,9 @@ final class AppStorageManager: ObservableObject, LoggingConfigurationProvider {
 		static let routeTolerance = 10
 		
 	}
-	
+
 	static let shared = AppStorageManager()
-	
+    
 	@AppStorage("UserID")
 	var userID = Defaults.userID
 	
@@ -75,5 +75,6 @@ final class AppStorageManager: ObservableObject, LoggingConfigurationProvider {
 	var routeTolerance = Defaults.routeTolerance
 	
 	private init() { }
-	
+    	
 }
+

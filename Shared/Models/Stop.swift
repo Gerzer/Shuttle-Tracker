@@ -31,7 +31,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 			return self.name
 		}
 	}
-	
+    #if !os(watchOS)
 	@MainActor
 	let annotationView: MKAnnotationView = {
 		let annotationView = MKAnnotationView()
@@ -55,6 +55,7 @@ class Stop: NSObject, Decodable, Identifiable, CustomAnnotation {
 		#endif // canImport(UIKit)
 		return annotationView
 	}()
+    #endif
 	
 	@MainActor
 	required init(from decoder: Decoder) throws {
