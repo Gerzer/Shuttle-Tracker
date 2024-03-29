@@ -24,7 +24,7 @@ struct AdvancedSettingsView: View {
 		Form {
 			Section {
 				HStack {
-					Text("\(self.appStorageManager.maximumStopDistance) meters")
+					Text("^[\(self.appStorageManager.maximumStopDistance) meter](inflect: true)")
 					Spacer()
 					Stepper("Maximum Stop Distance", value: self.appStorageManager.$maximumStopDistance, in: 1 ... 100)
 						.labelsHidden()
@@ -36,7 +36,7 @@ struct AdvancedSettingsView: View {
 			}
 			Section {
 				HStack {
-					Text("\(self.appStorageManager.routeTolerance) meters")
+					Text("^[\(self.appStorageManager.routeTolerance) meter](inflect: true)")
 					Spacer()
 					Stepper("Route Tolerance", value: self.appStorageManager.$routeTolerance, in: 1 ... 50)
 						.labelsHidden()
