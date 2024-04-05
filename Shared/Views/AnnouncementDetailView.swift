@@ -5,9 +5,13 @@
 //  Created by Gabriel Jacoby-Cooper on 11/20/21.
 //
 
+import STLogging
 import SwiftUI
+import UserNotifications
 
 struct AnnouncementDetailView: View {
+	
+	let announcement: Announcement
 	
 	@Binding
 	private(set) var didResetViewedAnnouncements: Bool
@@ -15,7 +19,8 @@ struct AnnouncementDetailView: View {
 	@EnvironmentObject
 	private var appStorageManager: AppStorageManager
 	
-	let announcement: Announcement
+	@EnvironmentObject
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		ScrollView {
@@ -56,12 +61,39 @@ struct AnnouncementDetailView: View {
 				ToolbarItem {
 					CloseButton()
 				}
-				#endif // os(iOS)
+				#elseif os(macOS) // os(iOS)
+				// TODO: Move conditional outside the ToolbarItem’s closure when we drop support for macOS 12
+				// macOS 13 doesn’t support conditional toolbar builders, so we need to put the conditional inside the ToolbarItem’s closure for now, even though it’s not quite semantically correct to do so.
+				ToolbarItem(placement: .confirmationAction) {
+					if case .some(.announcement) = self.sheetStack.top {
+						Button("Close") {
+							self.sheetStack.pop()
+						}
+					}
+				}
+				#endif // os(macOS)
 			}
-			.onAppear {
+			.task {
 				self.didResetViewedAnnouncements = false
 				self.appStorageManager.viewedAnnouncementIDs.insert(self.announcement.id)
+				
+				do {
+					try await UNUserNotificationCenter.updateBadge()
+				} catch {
+					#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
+				}
+				
+				do {
+					try await Analytics.upload(eventType: .announcementViewed(id: self.announcement.id))
+				} catch {
+					#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to upload analytics entry: \(error, privacy: .public)")
+				}
 			}
+	}
+	
+	init(announcement: Announcement, didResetViewedAnnouncements: Binding<Bool> = .constant(false)) {
+		self.announcement = announcement
+		self._didResetViewedAnnouncements = didResetViewedAnnouncements
 	}
 	
 }

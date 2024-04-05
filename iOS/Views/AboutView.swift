@@ -10,7 +10,7 @@ import SwiftUI
 struct AboutView: View {
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	var body: some View {
 		Form {
@@ -22,7 +22,7 @@ struct AboutView: View {
 					PrivacyView()
 				}
 				Button("Show What’s New") {
-					self.sheetStack.push(.whatsNew)
+					self.sheetStack.push(.whatsNew(onboarding: false))
 				}
 			}
 		}
@@ -36,10 +36,7 @@ struct AboutView: View {
 	
 }
 
-struct AboutViewPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		AboutView()
-	}
-	
+#Preview {
+	AboutView()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

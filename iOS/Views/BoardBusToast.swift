@@ -21,11 +21,7 @@ struct BoardBusToast: View {
 	
 }
 
-struct ReminderToastPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		BoardBusToast()
-			.environmentObject(ViewState.shared)
-	}
-	
+#Preview {
+	BoardBusToast()
+		.environmentObject(ViewState.shared)
 }

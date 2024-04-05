@@ -17,10 +17,6 @@ struct PrivacySheet: View {
 	
 }
 
-struct PrivacySheetPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		PrivacySheet()
-	}
-	
+#Preview {
+	PrivacySheet()
 }

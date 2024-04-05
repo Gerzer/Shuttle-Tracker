@@ -7,10 +7,14 @@
 
 import CoreLocation
 import OnboardingKit
+import STLogging
 import SwiftUI
 
 @main
 struct ShuttleTrackerApp: App {
+	
+	@State
+	private var mapCameraPosition: MapCameraPositionWrapper = .default
 	
 	@ObservedObject
 	private var mapState = MapState.shared
@@ -24,12 +28,12 @@ struct ShuttleTrackerApp: App {
 	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
-	private static let sheetStack = SheetStack()
+	static let sheetStack = ShuttleTrackerSheetStack()
+	
+	@UIApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
 	
 	private let onboardingManager = OnboardingManager(flags: ViewState.shared) { (flags) in
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.privacy, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ColdLaunch(threshold: 1)
-		}
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .legend) {
 			OnboardingConditions.ColdLaunch(threshold: 3)
 			OnboardingConditions.ColdLaunch(threshold: 5)
@@ -43,23 +47,20 @@ struct ShuttleTrackerApp: App {
 		OnboardingEvent(flags: flags, settingFlagAt: \.toastType, to: .boardBus) {
 			OnboardingConditions.ManualCounter(defaultsKey: "TripCount", threshold: 0, settingHandleAt: \.tripCount, in: flags.handles)
 			OnboardingConditions.Disjunction {
-				OnboardingConditions.ColdLaunch(threshold: 3, comparator: >)
+				OnboardingConditions.ColdLaunch(threshold: 5, comparator: >)
 				OnboardingConditions.TimeSinceFirstLaunch(threshold: 172800)
 			}
 		}
-		OnboardingEvent(flags: flags, value: SheetStack.SheetType.whatsNew, handler: Self.pushSheet(_:)) {
-			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew1.6", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
-			OnboardingConditions.ColdLaunch(threshold: 1, comparator: >)
+		OnboardingEvent(flags: flags, value: ShuttleTrackerSheetPresentationProvider.SheetType.whatsNew(onboarding: true), handler: Self.pushSheet(_:)) {
+			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
 		OnboardingEvent(flags: flags) { (_) in
-			LocationUtilities.registerLocationManagerHandler { (locationManager) in
-				switch locationManager.authorizationStatus {
-				case .notDetermined, .restricted, .denied:
-					Self.pushSheet(.permissions)
-				case .authorizedWhenInUse, .authorizedAlways:
+			CLLocationManager.registerHandler { (locationManager) in
+				switch (locationManager.authorizationStatus, locationManager.accuracyAuthorization) {
+				case (.authorizedAlways, .fullAccuracy):
 					break
-				@unknown default:
-					fatalError()
+				default:
+					ViewState.shared.toastType = .network
 				}
 			}
 		} conditions: {
@@ -72,11 +73,18 @@ struct ShuttleTrackerApp: App {
 		} conditions: {
 			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
+		OnboardingEvent(flags: flags) { (_) in
+			if AppStorageManager.shared.baseURL == URL(string: "https://staging.shuttletracker.app")! {
+				AppStorageManager.shared.baseURL = URL(string: "https://shuttletracker.app")!
+			}
+		} conditions: {
+			OnboardingConditions.Once(defaultsKey: "2.0")
+		}
 	}
 	
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+			ContentView(mapCameraPosition: self.$mapCameraPosition)
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
 				.environmentObject(self.boardBusManager)
@@ -86,39 +94,34 @@ struct ShuttleTrackerApp: App {
 	}
 	
 	init() {
-		Logging.withLogger { (logger) in
-			let formattedVersion: String
-			if let version = Bundle.main.version {
-				formattedVersion = " \(version)"
-			} else {
-				formattedVersion = ""
+		let formattedVersion = if let version = Bundle.main.version { " \(version)" } else { "" }
+		let formattedBuild = if let build = Bundle.main.build { " (\(build))" } else { "" }
+		#log(system: Logging.system, "Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
+		CLLocationManager.default = CLLocationManager()
+		CLLocationManager.default.activityType = .automotiveNavigation
+		CLLocationManager.default.showsBackgroundLocationIndicator = true
+		CLLocationManager.default.allowsBackgroundLocationUpdates = true
+		CLLocationManager.default.pausesLocationUpdatesAutomatically = false
+		if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+			let beaconRegion = CLBeaconRegion(uuid: BoardBusManager.networkUUID, identifier: BoardBusManager.beaconID)
+			beaconRegion.notifyEntryStateOnDisplay = true
+			CLLocationManager.default.startMonitoring(for: beaconRegion)
+			if CLLocationManager.significantLocationChangeMonitoringAvailable() {
+				// It’s unclear why, but activating the significant-change location service on app launch and never deactivating is necessary to be able to activate the standard location service upon beacon detection in the background. Otherwise, the user would need to open the app in the foreground to start sending location data to the server, which defeats the purpose of Automatic Board Bus.
+				// https://stackoverflow.com/questions/20187700/startupdatelocations-in-background-didupdatingtolocation-only-called-10-20-time
+				CLLocationManager.default.startMonitoringSignificantLocationChanges()
 			}
-			let formattedBuild: String
-			if let build = Bundle.main.build {
-				formattedBuild = " (\(build))"
-			} else {
-				formattedBuild = ""
-			}
-			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker for iOS\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
 		}
-		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestWhenInUseAuthorization()
-		LocationUtilities.locationManager.activityType = .automotiveNavigation
-		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
-		LocationUtilities.locationManager.allowsBackgroundLocationUpdates = true
 		Task {
 			do {
-				try await UserNotificationUtilities.requestAuthorization()
-			} catch let error {
-				Logging.withLogger(for: .permissions, doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to request notification authorization: \(error, privacy: .public)")
-				}
-				throw error
+				try await UNUserNotificationCenter.requestDefaultAuthorization()
+			} catch {
+				#log(system: Logging.system, category: .permissions, level: .error, doUpload: true, "Failed to request notification authorization: \(error, privacy: .public)")
 			}
 		}
 	}
 	
-	private static func pushSheet(_ sheetType: SheetStack.SheetType) {
+	private static func pushSheet(_ sheetType: ShuttleTrackerSheetPresentationProvider.SheetType) {
 		Task {
 			do {
 				if #available(iOS 16, *) {
@@ -126,10 +129,8 @@ struct ShuttleTrackerApp: App {
 				} else {
 					try await Task.sleep(nanoseconds: 1_000_000_000)
 				}
-			} catch let error {
-				Logging.withLogger(doUpload: true) { (logger) in
-					logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Task sleep error: \(error, privacy: .public)")
-				}
+			} catch {
+				#log(system: Logging.system, level: .error, doUpload: true, "Task sleep error: \(error, privacy: .public)")
 				throw error
 			}
 			self.sheetStack.push(sheetType)

@@ -6,11 +6,15 @@
 //
 
 import CoreLocation
+import STLogging
 import StoreKit
 import SwiftUI
 
 @main
 struct ShuttleTrackerApp: App {
+	
+	@State
+	private var mapCameraPosition: MapCameraPositionWrapper = .default
 	
 	@ObservedObject
 	private var mapState = MapState.shared
@@ -24,11 +28,14 @@ struct ShuttleTrackerApp: App {
 	@ObservedObject
 	private var appStorageManager = AppStorageManager.shared
 	
-	private static let sheetStack = SheetStack()
+	static let sheetStack = ShuttleTrackerSheetStack()
+	
+	@UIApplicationDelegateAdaptor(AppDelegate.self)
+	private var appDelegate
 	
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+			ContentView(mapCameraPosition: self.$mapCameraPosition)
 				.environmentObject(self.mapState)
 				.environmentObject(self.viewState)
 				.environmentObject(self.boardBusManager)
@@ -53,25 +60,13 @@ struct ShuttleTrackerApp: App {
 	}
 	
 	init() {
-		Logging.withLogger { (logger) in
-			let formattedVersion: String
-			if let version = Bundle.main.version {
-				formattedVersion = " \(version)"
-			} else {
-				formattedVersion = ""
-			}
-			let formattedBuild: String
-			if let build = Bundle.main.build {
-				formattedBuild = " (\(build))"
-			} else {
-				formattedBuild = ""
-			}
-			logger.log("[\(#fileID):\(#line) \(#function, privacy: .public)] Shuttle Tracker App Clip\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
-		}
-		LocationUtilities.locationManager = CLLocationManager()
-		LocationUtilities.locationManager.requestWhenInUseAuthorization()
-		LocationUtilities.locationManager.activityType = .automotiveNavigation
-		LocationUtilities.locationManager.showsBackgroundLocationIndicator = true
+		let formattedVersion = if let version = Bundle.main.version { " \(version)" } else { "" }
+		let formattedBuild = if let build = Bundle.main.build { " (\(build))" } else { "" }
+		#log(system: Logging.system, "Shuttle Tracker App Clip\(formattedVersion, privacy: .public)\(formattedBuild, privacy: .public)")
+		CLLocationManager.default = CLLocationManager()
+		CLLocationManager.default.requestWhenInUseAuthorization()
+		CLLocationManager.default.activityType = .automotiveNavigation
+		CLLocationManager.default.showsBackgroundLocationIndicator = true
 	}
 	
 }

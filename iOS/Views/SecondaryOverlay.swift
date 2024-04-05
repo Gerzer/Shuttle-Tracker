@@ -5,6 +5,7 @@
 //  Created by Gabriel Jacoby-Cooper on 10/7/21.
 //
 
+import STLogging
 import SwiftUI
 
 struct SecondaryOverlay: View {
@@ -12,60 +13,31 @@ struct SecondaryOverlay: View {
 	@State
 	private var announcements: [Announcement] = []
 	
+	@Binding
+	private var mapCameraPosition: MapCameraPositionWrapper
+	
 	@EnvironmentObject
 	private var mapState: MapState
 	
 	@EnvironmentObject
-	private var appStorageManager: AppStorageManager
-	
-	private var unviewedAnnouncementsCount: Int {
-		get {
-			return self.announcements
-				.filter { (announcement) in
-					return !self.appStorageManager.viewedAnnouncementIDs.contains(announcement.id)
-				}
-				.count
-		}
-	}
+	private var viewState: ViewState
 	
 	var body: some View {
 		VStack {
 			VStack(spacing: 0) {
-				if CalendarUtilities.isAprilFools {
-					SecondaryOverlayButton(
-						iconSystemName: "gearshape.fill",
-						sheetType: .plus(featureText: "Changing settings"),
-						badgeNumber: 1
-					)
-				} else {
-					SecondaryOverlayButton(
-						iconSystemName: "gearshape.fill",
-						sheetType: .settings
-					)
-				}
+				SecondaryOverlayButton(icon: .settings, sheetType: .settings)
 				Divider()
 					.frame(width: 45, height: 0)
-				if CalendarUtilities.isAprilFools {
-					SecondaryOverlayButton(
-						iconSystemName: "info.circle.fill",
-						sheetType: .plus(featureText: "Viewing app information"),
-						badgeNumber: 1
-					)
-				} else {
-					SecondaryOverlayButton(
-						iconSystemName: "info.circle.fill",
-						sheetType: .info
-					)
-				}
+				SecondaryOverlayButton(icon: .info, sheetType: .info)
 				Divider()
 					.frame(width: 45, height: 0)
-				SecondaryOverlayButton(
-					iconSystemName: "exclamationmark.bubble.fill",
-					sheetType: .announcements,
-					badgeNumber: self.unviewedAnnouncementsCount
-				)
+				SecondaryOverlayButton(icon: .announcements, sheetType: .announcements, badgeNumber: self.viewState.badgeNumber)
 					.task {
-						self.announcements = await [Announcement].download()
+						do {
+							try await UNUserNotificationCenter.updateBadge()
+						} catch {
+							#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
+						}
 					}
 			}
 				.background(
@@ -74,9 +46,9 @@ struct SecondaryOverlay: View {
 						.shadow(radius: 5)
 				)
 			VStack(spacing: 0) {
-				SecondaryOverlayButton(iconSystemName: "location.fill.viewfinder") {
+				SecondaryOverlayButton(icon: .recenter) {
 					Task {
-						await self.mapState.resetVisibleMapRect()
+						await self.mapState.recenter(position: self.$mapCameraPosition)
 					}
 				}
 			}
@@ -88,13 +60,15 @@ struct SecondaryOverlay: View {
 		}
 	}
 	
-}
-
-struct SecondaryOverlayPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		SecondaryOverlay()
-			.environmentObject(MapState.shared)
+	init(mapCameraPosition: Binding<MapCameraPositionWrapper>) {
+		self._mapCameraPosition = mapCameraPosition
 	}
 	
+}
+
+@available(iOS 17, *)
+#Preview {
+	SecondaryOverlay(mapCameraPosition: .constant(MapCameraPositionWrapper(MapConstants.defaultCameraPosition)))
+		.environmentObject(MapState.shared)
+		.environmentObject(ViewState.shared)
 }

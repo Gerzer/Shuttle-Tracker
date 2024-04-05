@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import STLogging
 
 final class Schedule: Decodable, Identifiable {
 	
@@ -51,26 +52,14 @@ final class Schedule: Decodable, Identifiable {
 	}
 	
 	static func download() async -> Schedule? {
-		return await withCheckedContinuation { (continuation) in
-			API.provider.request(.schedule) { (result) in
-				let decoder = JSONDecoder()
-				decoder.dateDecodingStrategy = .iso8601
-				let schedule: Schedule?
-				do {
-					schedule = try result
-						.get()
-						.map([Schedule].self, using: decoder)
-						.first { (schedule) in
-							return schedule.start <= Date.now && schedule.end >= Date.now
-						}
-				} catch let error {
-					schedule = nil
-					Logging.withLogger(for: .api, doUpload: true) { (logger) in
-						logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Failed to download schedule: \(error, privacy: .public)")
-					}
+		do {
+			return try await API.readSchedule.perform(as: [Schedule].self)
+				.first { (schedule) in
+					return schedule.start <= Date.now && schedule.end >= Date.now
 				}
-				continuation.resume(returning: schedule)
-			}
+		} catch {
+			#log(system: Logging.system, category: .api, level: .error, "Failed to download schedule: \(error, privacy: .public)")
+			return nil
 		}
 	}
 	

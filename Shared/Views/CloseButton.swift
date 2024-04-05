@@ -10,7 +10,7 @@ import SwiftUI
 struct CloseButton: View {
 	
 	@EnvironmentObject
-	private var sheetStack: SheetStack
+	private var sheetStack: ShuttleTrackerSheetStack
 	
 	private let dismissHandler: (() -> Void)?
 	
@@ -18,11 +18,11 @@ struct CloseButton: View {
 		Button {
 			self.sheetStack.pop()
 		} label: {
-			Image(systemName: "xmark.circle.fill")
+			Image(systemName: SFSymbol.close.systemName)
 				.symbolRenderingMode(.hierarchical)
 				.resizable()
 				.opacity(0.5)
-				.frame(width: ViewUtilities.Constants.sheetCloseButtonDimension, height: ViewUtilities.Constants.sheetCloseButtonDimension)
+				.frame(width: ViewConstants.sheetCloseButtonDimension, height: ViewConstants.sheetCloseButtonDimension)
 		}
 			.tint(.primary)
 	}
@@ -33,11 +33,7 @@ struct CloseButton: View {
 	
 }
 
-struct CloseButtonPreviews: PreviewProvider {
-	
-	static var previews: some View {
-		CloseButton()
-			.environmentObject(SheetStack())
-	}
-	
+#Preview {
+	CloseButton()
+		.environmentObject(ShuttleTrackerSheetStack())
 }

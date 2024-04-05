@@ -35,20 +35,20 @@ struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, 
 							self.item = nil
 						}
 					} label: {
-						Image(systemName: "xmark.circle.fill")
+						Image(systemName: SFSymbol.close.systemName)
 							.resizable()
-							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
+							.frame(width: ViewConstants.toastCloseButtonDimension, height: ViewConstants.toastCloseButtonDimension)
 					}
 						.tint(.primary)
 					#else // os(iOS)
 					Button {
 						withAnimation {
-							self.item = item
+							self.item = nil
 						}
 					} label: {
-						Image(systemName: "xmark.circle.fill")
+						Image(systemName: SFSymbol.close.systemName)
 							.resizable()
-							.frame(width: ViewUtilities.Constants.toastCloseButtonDimension, height: ViewUtilities.Constants.toastCloseButtonDimension)
+							.frame(width: ViewConstants.toastCloseButtonDimension, height: ViewConstants.toastCloseButtonDimension)
 					}
 						.buttonStyle(.plain)
 					#endif
@@ -57,8 +57,8 @@ struct Toast<StringType, Item, Content>: View where StringType: StringProtocol, 
 			}
 				.layoutPriority(0)
 				.padding()
-				.background(ViewUtilities.standardVisualEffectView)
-				.cornerRadius(ViewUtilities.Constants.toastCornerRadius)
+				.background(VisualEffectView.standard)
+				.cornerRadius(ViewConstants.toastCornerRadius)
 				.shadow(radius: 5)
 				.onChange(of: self.item) { (newValue) in
 					if newValue == nil {
