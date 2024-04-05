@@ -11,14 +11,11 @@ import WidgetKit
 
 @available(iOS 16.1, *)
 struct DebugModeActivityAttributes: ActivityAttributes {
-	
 	public struct ContentState: Codable, Hashable {
-		// Dynamic stateful properties about your activity go here!
         var submissionStatus : Bool
         var code : String
 		var status : String
 	}
-	// Fixed non-changing properties about your activity go here!
 	var busID: Int
 }
 
@@ -48,7 +45,7 @@ struct LiveActivity: Widget {
                     Text("Bus \(context.attributes.busID)")
                         .bold()
                 }
-                if context.state.submissionStatus == true {
+                if context.state.submissionStatus {
                     Text("The location submission succeeded.")
                         .foregroundColor(.green)
                 }
@@ -64,10 +61,8 @@ struct LiveActivity: Widget {
 			
 		} dynamicIsland: { (context) in
 			DynamicIsland {
-				// Expanded UI goes here.  Compose the expanded UI through
-				// various regions, like leading/trailing/center/bottom
 				DynamicIslandExpandedRegion(.leading) {
-                    if context.state.submissionStatus == true {
+                    if context.state.submissionStatus {
                         Text("Submission succeeded.")
                             .foregroundColor(.green)
                     }
@@ -90,29 +85,14 @@ struct LiveActivity: Widget {
                     .foregroundColor(.red)
                 
 			} compactTrailing: {
-                if context.state.submissionStatus {
-                    Image(systemName: "checkmark.circle")
-                        .symbolRenderingMode(.palette)
-                        .foregroundColor(.green)
-                }
-                else {
-                    Image(systemName: "xmark.circle")
-                        .symbolRenderingMode(.palette)
-                        .foregroundColor(.red)
-                }
+                Image(systemName: context.state.submissionStatus ? "checkmark.circle" : "xmark.circle")
+                    .symbolRenderingMode(.palette)
+                    .foregroundColor(context.state.submissionStatus ? .green : .red)
+                
 			} minimal: {
-                HStack {
-                    if context.state.submissionStatus {
-                        Image(systemName: "checkmark.circle")
-                            .symbolRenderingMode(.palette)
-                            .foregroundColor(.green)
-                    }
-                    else {
-                        Image(systemName: "xmark.circle")
-                            .symbolRenderingMode(.palette)
-                            .foregroundColor(.red)
-                    }
-                }
+                Image(systemName: context.state.submissionStatus ? "checkmark.circle" : "xmark.circle")
+                    .symbolRenderingMode(.palette)
+                    .foregroundColor(context.state.submissionStatus ? .green : .red)
 			}
             .keylineTint(Color.red)
 		}
