@@ -51,6 +51,24 @@ struct ShuttleTrackerApp: App {
 		} conditions: {
 			OnboardingConditions.ManualCounter(defaultsKey: "WhatsNew2.0", threshold: 0, settingHandleAt: \.whatsNew, in: flags.handles)
 		}
+		OnboardingEvent(flags: flags) { (_) in
+			if #available(macOS 13, *) {
+				if AppStorageManager.shared.baseURL.host() == "shuttletracker.app" {
+					guard var components = URLComponents(url: AppStorageManager.shared.baseURL, resolvingAgainstBaseURL: false) else {
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Can’t get components of current server base URL (“\(AppStorageManager.shared.baseURL, privacy: .public)”)")
+						return
+					}
+					components.host = "shuttles.rpi.edu"
+					do {
+						AppStorageManager.shared.baseURL = try components.asURL()
+					} catch {
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to construct new server base URL: \(error, privacy: .public)")
+					}
+				}
+			}
+		} conditions: {
+			OnboardingConditions.Once(defaultsKey: "UpdatedServerBaseURL")
+		}
 	}
 	
 	var body: some Scene {

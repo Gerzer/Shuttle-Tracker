@@ -23,7 +23,7 @@ final class AppStorageManager: ObservableObject, LoggingConfigurationProvider {
 		
 		static let boardBusCount = 0
 		
-		static let baseURL = URL(string: "https://shuttletracker.app")!
+		static let baseURL = URL(string: "https://shuttles.rpi.edu")!
 		
 		static let viewedAnnouncementIDs: Set<UUID> = []
 		
@@ -38,9 +38,9 @@ final class AppStorageManager: ObservableObject, LoggingConfigurationProvider {
 		static let routeTolerance = 10
 		
 	}
-
+	
 	static let shared = AppStorageManager()
-    
+	
 	@AppStorage("UserID")
 	var userID = Defaults.userID
 	
@@ -75,6 +75,5 @@ final class AppStorageManager: ObservableObject, LoggingConfigurationProvider {
 	var routeTolerance = Defaults.routeTolerance
 	
 	private init() { }
-    	
+	
 }
-

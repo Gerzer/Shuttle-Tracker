@@ -74,6 +74,24 @@ struct ShuttleTrackerApp: App {
 			OnboardingConditions.Once(defaultsKey: "UpdatedMaximumStopDistance")
 		}
 		OnboardingEvent(flags: flags) { (_) in
+			if #available(iOS 16, *) {
+				if AppStorageManager.shared.baseURL.host() == "shuttletracker.app" {
+					guard var components = URLComponents(url: AppStorageManager.shared.baseURL, resolvingAgainstBaseURL: false) else {
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Can’t get components of current server base URL (“\(AppStorageManager.shared.baseURL, privacy: .public)”)")
+						return
+					}
+					components.host = "shuttles.rpi.edu"
+					do {
+						AppStorageManager.shared.baseURL = try components.asURL()
+					} catch {
+						#log(system: Logging.system, category: .api, level: .error, doUpload: true, "Failed to construct new server base URL: \(error, privacy: .public)")
+					}
+				}
+			}
+		} conditions: {
+			OnboardingConditions.Once(defaultsKey: "UpdatedServerBaseURL")
+		}
+		OnboardingEvent(flags: flags) { (_) in
 			if AppStorageManager.shared.baseURL == URL(string: "https://staging.shuttletracker.app")! {
 				AppStorageManager.shared.baseURL = URL(string: "https://shuttletracker.app")!
 			}
