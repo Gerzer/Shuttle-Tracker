@@ -46,6 +46,7 @@ enum Logging {
 		
 	}
 	
+	@MainActor
 	static let system = LoggingSystem(configurationProvider: AppStorageManager.shared, uploader: API.self)
 	
 }

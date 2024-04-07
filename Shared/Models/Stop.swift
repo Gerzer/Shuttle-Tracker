@@ -72,7 +72,7 @@ extension Array where Element == Stop {
 		do {
 			return try await API.readStops.perform(as: [Stop].self, onMainActor: true) // Stops must be decoded on the main thread because initializing the annotationView property indirectly invokes UIView’s main-thread-isolated init() initializer.
 		} catch {
-			#log(system: Logging.system, category: .api, level: .error, "Failed to download stops: \(error, privacy: .public)")
+			await #log(system: Logging.system, category: .api, level: .error, "Failed to download stops: \(error, privacy: .public)")
 			return []
 		}
 	}

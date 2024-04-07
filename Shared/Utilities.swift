@@ -271,17 +271,17 @@ extension UNUserNotificationCenter {
 			do {
 				try await self.updateBadge()
 			} catch {
-				#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
+				await #log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to update badge: \(error, privacy: .public)")
 			}
 		}
 		#if os(iOS)
 		let sheetStack = ShuttleTrackerApp.sheetStack
 		#elseif os(macOS) // os(iOS)
-		let sheetStack = ShuttleTrackerApp.contentViewSheetStack
+		let sheetStack = await ShuttleTrackerApp.contentViewSheetStack
 		#endif // os(macOS)
         #if !os(watchOS)
 		if await sheetStack.top == nil {
-			#log(system: Logging.system, category: .apns, level: .debug, "Attempting to push a sheet in response to a notification")
+			await #log(system: Logging.system, category: .apns, level: .debug, "Attempting to push a sheet in response to a notification")
 			if let userInfo {
 				if JSONSerialization.isValidJSONObject(userInfo) {
 					do {
@@ -289,14 +289,14 @@ extension UNUserNotificationCenter {
 						let announcement = try JSONDecoder().decode(Announcement.self, from: data)
 						await sheetStack.push(.announcement(announcement))
 					} catch {
-						#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
+						await #log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Failed to decode the notification payload as an announcement: \(error, privacy: .public)")
 					}
 				} else {
-					#log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Notification payload can’t be converted to JSON")
+					await #log(system: Logging.system, category: .apns, level: .error, doUpload: true, "Notification payload can’t be converted to JSON")
 				}
 			}
 		} else {
-			#log(system: Logging.system, category: .apns, level: .debug, "Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
+			await #log(system: Logging.system, category: .apns, level: .debug, "Refusing to push a sheet in response to a notification because the sheet stack is nonempty")
 		}
         #endif
 	}

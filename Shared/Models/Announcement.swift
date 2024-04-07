@@ -78,7 +78,7 @@ extension Array where Element == Announcement {
 					}
 				}
 		} catch {
-			#log(system: Logging.system, category: .api, level: .error, "Failed to download announcements: \(error, privacy: .public)")
+			await #log(system: Logging.system, category: .api, level: .error, "Failed to download announcements: \(error, privacy: .public)")
 			return []
 		}
 	}
