@@ -16,7 +16,6 @@
 		651BE53C2B6EAC2F00375B2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651BE53B2B6EAC2F00375B2C /* ContentView.swift */; };
 		651BE53E2B6EAC3100375B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 651BE53D2B6EAC3100375B2C /* Assets.xcassets */; };
 		651BE5412B6EAC3100375B2C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 651BE5402B6EAC3100375B2C /* Preview Assets.xcassets */; };
-		651BE5442B6EAC3100375B2C /* ShuttleTracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		651BE5522B6EEE0400375B2C /* HTTPStatus in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5512B6EEE0400375B2C /* HTTPStatus */; };
 		651BE5542B6EEE1700375B2C /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5532B6EEE1700375B2C /* Moya */; };
 		651BE5662B6EEEC000375B2C /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 651BE5652B6EEEC000375B2C /* OrderedCollections */; };
@@ -136,6 +135,7 @@
 		C0730C1727F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
 		C0730C1827F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
 		C0730C1927F103D200EF7550 /* AppStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0730C1627F103D200EF7550 /* AppStorageManager.swift */; };
+		C07BB8B42BC244C200EADC8E /* ShuttleTracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 651BE5372B6EAC2F00375B2C /* ShuttleTracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C082CCE8277FB2AF005D0209 /* BoardBusToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE7277FB2AF005D0209 /* BoardBusToast.swift */; };
 		C082CCEA277FB314005D0209 /* SecondaryOverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCE9277FB314005D0209 /* SecondaryOverlayButton.swift */; };
 		C082CCEF277FB33C005D0209 /* PrimaryOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C082CCEB277FB33C005D0209 /* PrimaryOverlay.swift */; };
@@ -243,7 +243,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		651BE5422B6EAC3100375B2C /* PBXContainerItemProxy */ = {
+		C07BB8B52BC244C200EADC8E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C0FFD6D0250C33C800945F01 /* Project object */;
 			proxyType = 1;
@@ -260,13 +260,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		651BE5452B6EAC3100375B2C /* Embed Watch Content */ = {
+		C07BB8B72BC244C200EADC8E /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				651BE5442B6EAC3100375B2C /* ShuttleTracker Watch App.app in Embed Watch Content */,
+				C07BB8B42BC244C200EADC8E /* ShuttleTracker Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,11 +774,13 @@
 				C0FFD6D9250C33C900945F01 /* Frameworks */,
 				C0FFD6DA250C33C900945F01 /* Resources */,
 				C0A232A72525080600FAAD50 /* Embed App Clips */,
+				C07BB8B72BC244C200EADC8E /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C0A232A22525080600FAAD50 /* PBXTargetDependency */,
+				C07BB8B62BC244C200EADC8E /* PBXTargetDependency */,
 			);
 			name = iOS;
 			packageProductDependencies = (
@@ -801,12 +803,10 @@
 				C0FFD6E0250C33C900945F01 /* Sources */,
 				C0FFD6E1250C33C900945F01 /* Frameworks */,
 				C0FFD6E2250C33C900945F01 /* Resources */,
-				651BE5452B6EAC3100375B2C /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				651BE5432B6EAC3100375B2C /* PBXTargetDependency */,
 			);
 			name = macOS;
 			packageProductDependencies = (
@@ -1142,10 +1142,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		651BE5432B6EAC3100375B2C /* PBXTargetDependency */ = {
+		C07BB8B62BC244C200EADC8E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 651BE5362B6EAC2F00375B2C /* ShuttleTracker Watch App */;
-			targetProxy = 651BE5422B6EAC3100375B2C /* PBXContainerItemProxy */;
+			targetProxy = C07BB8B52BC244C200EADC8E /* PBXContainerItemProxy */;
 		};
 		C0A232A22525080600FAAD50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1164,7 +1164,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShuttleTracker Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 44N856UZ6R;
+				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1202,7 +1202,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ShuttleTracker Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 44N856UZ6R;
+				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1477,7 +1477,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 41;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 44N856UZ6R;
+				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
@@ -1508,7 +1508,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 41;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 44N856UZ6R;
+				DEVELOPMENT_TEAM = SYBLH277NF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
