@@ -192,11 +192,11 @@ extension CLLocationCoordinate2D: Equatable {
 		return Coordinate(latitude: self.latitude, longitude: self.longitude)
 	}
 	
-	func asCartesian() -> (x: Double, y: Double, z: Double) {
-		return (
-			x: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * cos(self.longitude * .pi / 180),
-			y: MapConstants.earthRadius * cos(self.latitude * .pi / 180) * sin(self.longitude * .pi / 180),
-			z: MapConstants.earthRadius * sin(self.latitude * .pi / 180)
+	func asCartesian() -> SIMD3<Double> {
+		return SIMD3(
+			MapConstants.earthRadius * cos(self.latitude * .pi / 180) * cos(self.longitude * .pi / 180),
+			MapConstants.earthRadius * cos(self.latitude * .pi / 180) * sin(self.longitude * .pi / 180),
+			MapConstants.earthRadius * sin(self.latitude * .pi / 180)
 		)
 	}
 	
