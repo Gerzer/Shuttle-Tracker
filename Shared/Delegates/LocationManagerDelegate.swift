@@ -22,7 +22,7 @@ final class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
 				// The Core Location documentation promises that the array of locations will contain at least one element.
 				await LocationUtilities.sendToServer(coordinate: locations.last!.coordinate)
 			}
-			await BoardBusManager.sendToServer(coordinate: locations.last!.coordinate)
+//			await BoardBusManager.sendToServer(coordinate: locations.last!.coordinate)
             #endif
 		}
 	}

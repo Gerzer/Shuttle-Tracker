@@ -35,7 +35,7 @@ final class ViewState: OnboardingFlags {
 	
 	enum ToastType: Equatable, Hashable, Identifiable {
 		
-		case legend, boardBus, network
+		case legend, boardBus, network, debugMode(statusCode: any HTTPStatusCode)
 		
 		var id: Self {
 			get {
@@ -52,7 +52,9 @@ final class ViewState: OnboardingFlags {
 			case .debugMode(let statusCode):
 				hasher.combine("debugMode")
 				hasher.combine(statusCode)
-			}
+            case .network:
+                hasher.combine("network")
+            }
 		}
 		
 		static func == (lhs: Self, rhs: Self) -> Bool {
@@ -79,6 +81,14 @@ final class ViewState: OnboardingFlags {
 				} else {
 					return false
 				}
+            case .network:
+                // Use an explicit switch statement to avoid infinite recursion
+                switch rhs {
+                case .network:
+                    return true
+                default:
+                    return false
+                }
 			}
 		}
 		

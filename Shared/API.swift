@@ -142,7 +142,7 @@ enum API: TargetType {
 		if let error = statusCode as? any Error {
 			throw error
 		} else {
-			return data
+			return (data, statusCode)
 		}
 	}
 	
@@ -151,13 +151,13 @@ enum API: TargetType {
 		as responseType: ResponseType.Type,
 		onMainActor: Bool = false
 	) async throws -> ResponseType where ResponseType: Sendable & Decodable {
-		let data = try await self.perform()
+        let data = try await self.perform().0
 		if onMainActor {
 			return try await MainActor.run {
-				return try decoder.decode(responseType, from: data)
+                return try decoder.decode(responseType.self, from: data)
 			}
 		} else {
-			return try decoder.decode(responseType, from: data)
+            return try decoder.decode(responseType.self, from: data)
 		}
 	}
 	

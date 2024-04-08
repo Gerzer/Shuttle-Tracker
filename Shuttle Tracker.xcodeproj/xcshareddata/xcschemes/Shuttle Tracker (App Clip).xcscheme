@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C0A232932525080500FAAD50"
-               BuildableName = "App Clip.app"
+               BuildableName = "App Clip"
                BlueprintName = "App Clip"
                ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C0A232932525080500FAAD50"
-            BuildableName = "App Clip.app"
+            BuildableName = "App Clip"
             BlueprintName = "App Clip"
             ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
          </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C0A232932525080500FAAD50"
-            BuildableName = "App Clip.app"
+            BuildableName = "App Clip"
             BlueprintName = "App Clip"
             ReferencedContainer = "container:Shuttle Tracker.xcodeproj">
          </BuildableReference>

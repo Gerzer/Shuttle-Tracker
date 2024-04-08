@@ -142,62 +142,36 @@ actor BoardBusManager: ObservableObject {
         if #available(iOS 16.2, *) {
             await DebugMode.shared.endSession()
         }
-	}
-	
-	static func sendToServer(coordinate: CLLocationCoordinate2D) async {
-		guard let busID = await BoardBusManager.shared.busID, let locationID = await BoardBusManager.shared.locationID else {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public)] Required bus and location IDs not found while attempting to send location to server")
-			}
-			return
-		}
-		let location = Bus.Location(
-			id: locationID,
-			date: Date(),
-			coordinate: coordinate.convertedToCoordinate(),
-			type: .user
-		)
-		do {
-			let (_, statusCode) = try await API.updateBus(id: busID, location: location).perform()
-            if #available(iOS 16.2, *) {
-                await DebugMode.shared.showToast(statusCode: statusCode)
-                await DebugMode.shared.updateSession(statusCode: statusCode, busID: busID)
+        if manual {
+            Task { @MainActor in // Dispatch a child task because we don’t need to await the result
+                // TODO: Switch to SwiftUI’s requestReview environment value when we drop support for iOS 15
+                // Request a review on the App Store
+                // This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires iOS 16 or newer, and stored properties can’t be gated on OS version.
+                let windowScenes = UIApplication.shared.connectedScenes
+                    .filter { (scene) in
+                        return scene.activationState == .foregroundActive
+                    }
+                    .compactMap { (scene) in
+                        return scene as? UIWindowScene
+                    }
+                if let windowScene = windowScenes.first {
+                    SKStoreReviewController.requestReview(in: windowScene)
+                }
+                
+                do {
+                    if #available(iOS 16, *) {
+                        try await Task.sleep(for: .seconds(5))
+                    } else {
+                        try await Task.sleep(nanoseconds: 5_000_000_000)
+                    }
+                } catch {
+                    #log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
+                }
+                ViewState.shared.statusText = .mapRefresh
             }
-		} catch let error {
-			Logging.withLogger(for: .boardBus, doUpload: true) { (logger) in
-				logger.log(level: .error, "[\(#fileID):\(#line) \(#function, privacy: .public) Failed to send location to server: \(error, privacy: .public)")
-			}
-		
-		if manual {
-			Task { @MainActor in // Dispatch a child task because we don’t need to await the result
-				// TODO: Switch to SwiftUI’s requestReview environment value when we drop support for iOS 15
-				// Request a review on the App Store
-				// This logic uses the legacy SKStoreReviewController class because the newer SwiftUI requestReview environment value requires iOS 16 or newer, and stored properties can’t be gated on OS version.
-				let windowScenes = UIApplication.shared.connectedScenes
-					.filter { (scene) in
-						return scene.activationState == .foregroundActive
-					}
-					.compactMap { (scene) in
-						return scene as? UIWindowScene
-					}
-				if let windowScene = windowScenes.first {
-					SKStoreReviewController.requestReview(in: windowScene)
-				}
-				
-				do {
-					if #available(iOS 16, *) {
-						try await Task.sleep(for: .seconds(5))
-					} else {
-						try await Task.sleep(nanoseconds: 5_000_000_000)
-					}
-				} catch {
-					#log(system: Logging.system, level: .error, doUpload: true, "Task sleep failed: \(error, privacy: .public)")
-				}
-				ViewState.shared.statusText = .mapRefresh
-			}
-		}
+        }
 	}
-	
+			
 	func updateBusID(with bus: Bus) {
 		if let busID = self.busID, busID < 0 {
 			self.busID = bus.id

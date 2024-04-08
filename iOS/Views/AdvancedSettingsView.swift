@@ -22,13 +22,6 @@ struct AdvancedSettingsView: View {
 	
 	var body: some View {
 		Form {
-			if #available(iOS 16, *) { // All Debug Mode functionality requires iOS 16, so we shouldn’t show the toggle on older OSes
-				Section {
-					Toggle("Debug Mode", isOn: self.appStorageManager.$debugMode)
-				} footer: {
-					Text("Shows information that’s useful for debugging Board Bus functionality.")
-				}
-			}
 			Section {
 				HStack {
 					Text("^[\(self.appStorageManager.maximumStopDistance) meter](inflect: true)")
@@ -54,6 +47,13 @@ struct AdvancedSettingsView: View {
 				Text("The distance in meters from a route at which Board Bus is automatically deactivated.")
 			}
 			Section {
+                if #available(iOS 16, *) { // All Debug Mode functionality requires iOS 16, so we shouldn’t show the toggle on older OSes
+                    Section {
+                        Toggle("Debug Mode", isOn: self.appStorageManager.$debugMode)
+                    } footer: {
+                        Text("Shows information that’s useful for debugging Board Bus functionality.")
+                    }
+                }
 				// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
 				TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
 					.labelsHidden()
@@ -104,9 +104,6 @@ struct AdvancedSettingsView: View {
 					}
 				}
 					.disabled(self.appStorageManager.debugMode == AppStorageManager.Defaults.debugMode && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance && self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL)
-					.onChange(of: self.appStorageManager.debugMode) { (_) in
-						if self.appStorageManager.debugMode != AppStorageManager.Defaults.debugMode {
-					.disabled(self.appStorageManager.baseURL == AppStorageManager.Defaults.baseURL && self.appStorageManager.maximumStopDistance == AppStorageManager.Defaults.maximumStopDistance && self.appStorageManager.routeTolerance == AppStorageManager.Defaults.routeTolerance)
 					.onChange(of: self.appStorageManager.baseURL) {
 						if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
 							self.didResetAdvancedSettings = false
@@ -117,8 +114,6 @@ struct AdvancedSettingsView: View {
 							self.didResetAdvancedSettings = false
 						}
 					}
-					.onChange(of: self.appStorageManager.baseURL) { (_) in
-						if self.appStorageManager.baseURL != AppStorageManager.Defaults.baseURL {
 					.onChange(of: self.appStorageManager.routeTolerance) {
 						if self.appStorageManager.routeTolerance != AppStorageManager.Defaults.routeTolerance {
 							self.didResetAdvancedSettings = false
