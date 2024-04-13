@@ -46,14 +46,14 @@ struct AdvancedSettingsView: View {
 			} footer: {
 				Text("The distance in meters from a route at which Board Bus is automatically deactivated.")
 			}
-			Section {
-                if #available(iOS 16, *) { // All Debug Mode functionality requires iOS 16, so we shouldn’t show the toggle on older OSes
-                    Section {
-                        Toggle("Debug Mode", isOn: self.appStorageManager.$debugMode)
-                    } footer: {
-                        Text("Shows information that’s useful for debugging Board Bus functionality.")
-                    }
+            if #available(iOS 16, *) { // All Debug Mode functionality requires iOS 16, so we shouldn’t show the toggle on older OSes
+                Section {
+                    Toggle("Debug Mode", isOn: self.appStorageManager.$debugMode)
+                } footer: {
+                    Text("Shows information that’s useful for debugging Board Bus functionality.")
                 }
+            }
+			Section {
 				// URL.FormatStyle’s integration with TextField seems to be broken currently, so we fall back on our custom URL format style
 				TextField("Server Base URL", value: self.appStorageManager.$baseURL, format: .compatibilityURL)
 					.labelsHidden()

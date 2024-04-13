@@ -20,7 +20,7 @@ actor DebugMode {
 	
 	private var toastActivationDate: Date?
     
-    /// Debug Mode Live Activity
+    /// Begin Debug Mode Live Activity
     func startLiveActivity(busID : Int){
         if ActivityAuthorizationInfo().areActivitiesEnabled {
             
@@ -33,7 +33,7 @@ actor DebugMode {
             do {
                 try currentLiveActivity = Activity.request(attributes: debugModeActivityAttributes ,
                                                                content: activityContent)
-                print("Started debug mode for live activity \(currentLiveActivity?.id ?? "no id")")
+                print("Started debug mode for live activity \(currentLiveActivity?.id ?? "No bus ID.")")
             } catch (let error) {
                 print("Error requesting Live Activity. Reason is: \(error.localizedDescription).")
                 }
@@ -65,9 +65,10 @@ actor DebugMode {
         let updatedDebugStatus = DebugModeActivityAttributes.ContentState(submissionStatus: newStatusCode is any Error ? false : true,
                                                                               code: "\(newStatusCode.rawValue)",
                                                                               status: newStatusCode.message)
-            let updatedContent = ActivityContent(state: updatedDebugStatus, staleDate: nil)
-            
-            await currentLiveActivity?.update(updatedContent)
+        
+        let updatedContent = ActivityContent(state: updatedDebugStatus, staleDate: nil)
+        print("we are updating! with \(updatedDebugStatus)")
+        await currentLiveActivity?.update(updatedContent)
     }
     
     /// End live activity session.

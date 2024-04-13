@@ -71,8 +71,14 @@ enum LocationUtilities {
 			do {
 				let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
 				await BoardBusManager.shared.updateBusID(with: resolvedBus)
+                if #available(iOS 16.2, *) {
+                    await DebugMode.shared.updateSession(statusCode: HTTPStatusCodes.Success.ok, busID: busID)
+                }
 			} catch let error as any HTTPStatusCode {
 				if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
+                    if #available(iOS 16.2, *) {
+                        await DebugMode.shared.updateSession(statusCode: clientError, busID: busID)
+                    }
 					return
 				}
 				#log(system: Logging.system, category: .api, level: .error, "Failed to send location to server: \(error.message, privacy: .public)")
