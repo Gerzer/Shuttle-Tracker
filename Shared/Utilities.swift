@@ -58,7 +58,6 @@ enum LocationUtilities {
 			coordinate: coordinate.convertedToCoordinate(),
 			type: .user
 		)
-		
 		let tolerance = await AppStorageManager.shared.routeTolerance
 		if await MapState.shared.distance(to: coordinate) > Double(tolerance) {
 			switch BoardBusManager.globalTravelState {
@@ -72,12 +71,13 @@ enum LocationUtilities {
 				let resolvedBus = try await API.updateBus(id: busID, location: location).perform(as: Bus.self)
 				await BoardBusManager.shared.updateBusID(with: resolvedBus)
                 if #available(iOS 16.2, *) {
-                    await DebugMode.shared.updateSession(statusCode: HTTPStatusCodes.Success.ok, busID: busID)
+                    await DebugMode.shared.updateSession(statusCode: HTTPStatusCodes.Success.ok)
                 }
+                print("8")
 			} catch let error as any HTTPStatusCode {
 				if let clientError = error as? HTTPStatusCodes.ClientError, clientError == HTTPStatusCodes.ClientError.conflict {
                     if #available(iOS 16.2, *) {
-                        await DebugMode.shared.updateSession(statusCode: clientError, busID: busID)
+                        await DebugMode.shared.updateSession(statusCode: clientError)
                     }
 					return
 				}

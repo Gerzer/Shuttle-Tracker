@@ -51,7 +51,6 @@ final class ViewState: OnboardingFlags {
 				hasher.combine("boardBus")
 			case .debugMode(let statusCode):
 				hasher.combine("debugMode")
-				hasher.combine(statusCode)
             case .network:
                 hasher.combine("network")
             }

@@ -41,7 +41,7 @@ actor DebugMode {
     }
     
     /// Update Live Activity session with latest status.
-    func updateSession(statusCode newStatusCode: any HTTPStatusCode, busID: Int) async {
+    func updateSession(statusCode newStatusCode: any HTTPStatusCode) async {
         // Make sure we are in debug mode
         guard await AppStorageManager.shared.debugMode else {
             return
@@ -59,6 +59,7 @@ actor DebugMode {
         await MainActor.run {
             withAnimation {
                 ViewState.shared.toastType = .debugMode(statusCode: newStatusCode)
+                print("NOW SHOWING THE TOAST DEBUG")
             }
         }
         /// LiveActivity update

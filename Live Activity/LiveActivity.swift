@@ -56,7 +56,6 @@ struct LiveActivity: Widget {
                 Text("HTTP \(context.state.code): \(context.state.status)")
                     .monospaced()
                 }
-				.activitySystemActionForegroundColor(Color.black)
                 .padding()
 			
 		} dynamicIsland: { (context) in
